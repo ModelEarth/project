@@ -363,7 +363,7 @@
             z-index: 4;
         }
 
-        .studio-controls {
+        #project-controls {
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -371,6 +371,7 @@
             position: relative;
             z-index: 5;
             flex-wrap: wrap;
+            font-size: 1rem;
         }
 
         #showConfig {
@@ -2754,7 +2755,7 @@
         }
 
         @container (max-width: 920px) {
-            .studio-controls {
+            #project-controls {
                 justify-content: flex-start;
             }
 
@@ -2966,7 +2967,7 @@
                 <div class="eyebrow">
                     <span class="eyebrow-main"><span class="material-icons">water_drop</span><span>Water + energy <span style="font-weight:350">sponsor studio</span></span></span>
                 </div>
-                <div class="studio-controls">
+                <div id="project-controls">
                     <button type="button" id="showConfig" aria-expanded="false" aria-controls="pageConfig">
                         <span class="material-icons">tune</span>
                     </button>
@@ -7410,6 +7411,17 @@
             document.addEventListener('DOMContentLoaded', initializeDashboard, { once: true });
         } else {
             initializeDashboard();
+        }
+
+        if (typeof waitForElm === 'function') {
+            Promise.all([
+                waitForElm('#rightIcons'),
+                waitForElm('#project-controls')
+            ]).then(function([rightIcons, projectControls]) {
+                rightIcons.appendChild(projectControls);
+                projectControls.style.marginTop = '4px';
+                projectControls.style.marginRight = '18px';
+            });
         }
     </script>
 </body>
