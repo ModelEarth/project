@@ -1127,17 +1127,58 @@
 
         .footer-attribution {
             margin-top: 26px;
-            padding: 18px 22px;
+            padding: 14px 22px;
             border-radius: 22px;
             background: rgba(255, 255, 255, 0.78);
             border: 1px solid rgba(19, 42, 43, 0.1);
             box-shadow: var(--soft-shadow);
             color: var(--ink-2);
             line-height: 1.7;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .footer-attribution strong {
             color: var(--ink-1);
+        }
+
+        .footer-nav-btns {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .footer-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border: 1px solid rgba(19, 42, 43, 0.15);
+            border-radius: 20px;
+            background: rgba(15, 113, 115, 0.07);
+            color: var(--accent-1);
+            font-size: 0.86rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .footer-nav-btn:hover {
+            background: rgba(15, 113, 115, 0.15);
+        }
+
+        .footer-nav-btn .material-icons {
+            font-size: 16px;
+        }
+
+        .footer-credit {
+            margin-left: auto;
+            font-size: 0.9rem;
         }
 
         .nav-target {
@@ -2496,6 +2537,16 @@
             color: #edf6f7;
         }
 
+        .dark .footer-nav-btn {
+            border-color: rgba(146, 177, 191, 0.2);
+            background: rgba(15, 113, 115, 0.12);
+            color: #62e3d8;
+        }
+
+        .dark .footer-nav-btn:hover {
+            background: rgba(15, 113, 115, 0.22);
+        }
+
         .dark .input-group input,
         .dark .input-group select,
         .dark .select-trigger,
@@ -2898,13 +2949,13 @@
             <div id="rail-shell">
                 <nav class="rail-nav" aria-label="Section navigation">
                     <a class="rail-link" href="#section=studio" data-nav-target="studio"><span class="material-icons">auto_awesome</span><span class="rail-label">Studio</span></a>
-                    <a class="rail-link" href="#section=products" data-nav-target="products"><span class="material-icons">view_in_ar</span><span class="rail-label">Products</span></a>
                     <a class="rail-link" href="#section=energyMix" data-nav-target="energyMix"><span class="material-icons">bolt</span><span class="rail-label">Energy Mix</span></a>
                     <a class="rail-link" href="#section=contributors" data-nav-target="contributors"><span class="material-icons">groups_3</span><span class="rail-label">Contributors</span></a>
+                    <a class="rail-link" href="#section=products" data-nav-target="products"><span class="material-icons">view_in_ar</span><span class="rail-label">Products &amp; Services</span></a>
                     <a class="rail-link" href="#section=benefits" data-nav-target="benefits"><span class="material-icons">business_center</span><span class="rail-label">Benefits</span></a>
-                    <a class="rail-link" href="#section=deployment" data-nav-target="deployment"><span class="material-icons">construction</span><span class="rail-label">Deployment</span></a>
                     <a class="rail-link" href="#section=engineering" data-nav-target="engineering"><span class="material-icons">engineering</span><span class="rail-label">Deep Nuclear</span></a>
                     <a class="rail-link" href="#section=water" data-nav-target="water"><span class="material-icons">water_drop</span><span class="rail-label">Water Output</span></a>
+                    <a class="rail-link" href="#section=deployment" data-nav-target="deployment"><span class="material-icons">construction</span><span class="rail-label">Deployment</span></a>
                     <a class="rail-link" href="#section=scorecard" data-nav-target="scorecard"><span class="material-icons">leaderboard</span><span class="rail-label">Scorecard</span></a>
                     <a class="rail-link" href="#section=reporting" data-nav-target="reporting"><span class="material-icons">description</span><span class="rail-label">Reporting</span></a>
                 </nav>
@@ -2957,14 +3008,15 @@
                             <div class="page-config-label">Sections</div>
                             <div id="pageConfigSections" class="page-config-list">
                                 <a class="page-config-link" href="#section=studio" data-nav-target="studio">Studio</a>
-                                <a class="page-config-link" href="#section=benefits" data-nav-target="benefits">Benefits</a>
-                                <a class="page-config-link" href="#section=products" data-nav-target="products">Products</a>
                                 <a class="page-config-link" href="#section=energyMix" data-nav-target="energyMix">Energy Mix</a>
                                 <a class="page-config-link" href="#section=contributors" data-nav-target="contributors">Contributors</a>
-                                <a class="page-config-link" href="#section=deployment" data-nav-target="deployment">Deployment</a>
-                                <a class="page-config-link" href="#section=scorecard" data-nav-target="scorecard">Scorecard</a>
+                                <a class="page-config-link" href="#section=products" data-nav-target="products">Products &amp; Services</a>
+                                <a class="page-config-link" href="#section=benefits" data-nav-target="benefits">Benefits</a>
                                 <a class="page-config-link" href="#section=engineering" data-nav-target="engineering">Deep Nuclear</a>
                                 <a class="page-config-link" href="#section=water" data-nav-target="water">Water Output</a>
+                                <a class="page-config-link" href="#section=deployment" data-nav-target="deployment">Deployment</a>
+                                <a class="page-config-link" href="#section=scorecard" data-nav-target="scorecard">Scorecard</a>
+                                <a class="page-config-link" href="#section=reporting" data-nav-target="reporting">Reporting</a>
                             </div>
                         </div>
                     </div>
@@ -3042,183 +3094,183 @@
         <div id="panelRestores" class="restore-bar"></div>
 
         <div class="dashboard-stack">
-            <section id="benefits" class="panel-shell expanded nav-target">
-                <div class="panel-head">
-                    <div class="panel-kicker"><span class="material-icons">business_center</span>Top calculator</div>
-                    <h2>Corporate Benefit Calculator</h2>
-                    <p>
-                        Estimate the business case for sponsors that help finance clean-water infrastructure and a blended community energy stack.
-                        Edit the community assumptions, selected product coefficients, energy-source coefficients, and model coefficients below before treating the outputs as sponsor-specific guidance.
-                    </p>
+        <section id="benefits" class="panel-shell expanded nav-target">
+            <div class="panel-head">
+                <div class="panel-kicker"><span class="material-icons">business_center</span>Top calculator</div>
+                <h2>Corporate Benefit Calculator</h2>
+                <p>
+                    Estimate the business case for sponsors that help finance clean-water infrastructure and a blended community energy stack.
+                    Edit the community assumptions, selected product coefficients, energy-source coefficients, and model coefficients below before treating the outputs as sponsor-specific guidance.
+                </p>
+            </div>
+
+            <div class="panel-summary-grid">
+                <div class="summary-card">
+                    <span class="label">Sponsor value / year</span>
+                    <span class="value" id="corpAnnualValue">$0</span>
+                    <span class="detail" id="corpAnnualValueDetail">Includes margin, retail uptime, process water, and brand effects.</span>
                 </div>
-
-                <div class="panel-summary-grid">
-                    <div class="summary-card">
-                        <span class="label">Sponsor value / year</span>
-                        <span class="value" id="corpAnnualValue">$0</span>
-                        <span class="detail" id="corpAnnualValueDetail">Includes margin, retail uptime, process water, and brand effects.</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">10-year sponsor NPV</span>
-                        <span class="value" id="corpNpv">$0</span>
-                        <span class="detail" id="corpRoiDetail">ROI multiple: 0.0x</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">Households upgraded</span>
-                        <span class="value" id="corpHouseholds">0</span>
-                        <span class="detail" id="corpWaterDetail">0 L/person/day delivered.</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">Energy platform</span>
-                        <span class="value" id="corpEnergy">0 MWh/yr</span>
-                        <span class="detail" id="corpEnergyDetail">Low-carbon share: 0%</span>
-                    </div>
+                <div class="summary-card">
+                    <span class="label">10-year sponsor NPV</span>
+                    <span class="value" id="corpNpv">$0</span>
+                    <span class="detail" id="corpRoiDetail">ROI multiple: 0.0x</span>
                 </div>
-
-                <div class="panel-note-row">
-                    <a class="panel-highlight" href="https://www.kjzz.org/business/2026-03-17/saving-water-in-arizona-is-expensive-can-big-companies-help-pay-for-it" target="kjzz">
-                        <span class="material-icons">highlight</span>
-                        <div class="panel-highlight-copy">
-                            <strong>Gila River Indian Community reservation in Arizona</strong>
-                            <span>P&amp;G and Google paid for about 60% of the project, increasing water for shampoo or laundry detergent production.</span>
-                        </div>
-                    </a>
-                    <div class="placeholder-pill"><span class="material-icons">science</span>Editable product, energy, and model coefficients are preloaded so results appear immediately.</div>
-                    <div id="benefitsMenuDock" class="panel-note-actions"></div>
+                <div class="summary-card">
+                    <span class="label">Households upgraded</span>
+                    <span class="value" id="corpHouseholds">0</span>
+                    <span class="detail" id="corpWaterDetail">0 L/person/day delivered.</span>
                 </div>
+                <div class="summary-card">
+                    <span class="label">Energy platform</span>
+                    <span class="value" id="corpEnergy">0 MWh/yr</span>
+                    <span class="detail" id="corpEnergyDetail">Low-carbon share: 0%</span>
+                </div>
+            </div>
 
-                <div class="panel-body stack">
-                    <div class="panel-grid">
-                        <div id="specs" class="subpanel nav-target">
-                            <h3>Community and sponsor assumptions</h3>
-                            <p class="section-copy">
-                                Start with community scale, water quality improvement, sponsor penetration, and internal operating exposure.
-                            </p>
-
-                            <div class="input-group">
-                                <label for="populationServed">Population served <span class="unit">(people)</span></label>
-                                <input type="number" id="populationServed" value="1200000" min="10000" step="10000">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="avgHouseholdSize">Average household size <span class="unit">(people/household)</span></label>
-                                <input type="number" id="avgHouseholdSize" value="4.1" min="1.5" step="0.1">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="pureWaterCoverage">Pure-water service coverage <span class="unit">(%)</span></label>
-                                <input type="number" id="pureWaterCoverage" value="82" min="10" max="100" step="1">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="dailyPureWaterOutput">Daily pure-water output <span class="unit">(m3/day)</span></label>
-                                <input type="number" id="dailyPureWaterOutput" value="180000" min="1000" step="1000">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="targetLitersPerPerson">Target service level <span class="unit">(L/person/day)</span></label>
-                                <input type="number" id="targetLitersPerPerson" value="110" min="20" step="5">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="hardnessReduction">Hardness / contamination reduction <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                <input type="number" id="hardnessReduction" value="58" min="0" max="100" step="1">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="retailReach">Retail reach in served households <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                <input type="number" id="retailReach" value="62" min="1" max="100" step="1">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="sponsorBrandShare">Sponsor category share <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                <input type="number" id="sponsorBrandShare" value="18" min="1" max="100" step="1">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="communityIncomeLift">Income / basket-growth uplift <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                <input type="number" id="communityIncomeLift" value="6" min="0" max="25" step="0.5">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="annualSponsorContribution">Annual sponsor financing contribution <span class="unit">($M/year)</span></label>
-                                <input type="number" id="annualSponsorContribution" value="90" min="1" step="1">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="corporateDiscountRate">Sponsor discount rate <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                <input type="number" id="corporateDiscountRate" value="10" min="1" max="30" step="0.5">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="corporateHorizon">Benefit horizon <span class="unit">(years)</span> <span class="meta-inline">Placeholder</span></label>
-                                <input type="number" id="corporateHorizon" value="10" min="3" max="30" step="1">
-                            </div>
-
-                            <div class="info-box">
-                                <strong>Why these fields matter:</strong> pure-water coverage changes product efficacy and willingness to buy more premium formulations;
-                                energy reliability stabilizes retail refrigeration, pumps, warehousing, and sponsor-owned process lines.
-                            </div>
-                        </div>
-
-                        <div class="stack">
-                            <div class="results-shell">
-                                <h3>Sponsor benefit stack</h3>
-                                <div class="metric-list">
-                                    <div class="metric-row">
-                                        <span class="label">Incremental category revenue</span>
-                                        <span class="value" id="corpRevenueLift">$0</span>
-                                    </div>
-                                    <div class="metric-row">
-                                        <span class="label">Operating profit uplift</span>
-                                        <span class="value" id="corpMarginLift">$0</span>
-                                    </div>
-                                    <div class="metric-row">
-                                        <span class="label">Process-water value</span>
-                                        <span class="value" id="corpProcessValue">$0</span>
-                                    </div>
-                                    <div class="metric-row">
-                                        <span class="label">Retail uptime / cold-chain value</span>
-                                        <span class="value" id="corpRetailValue">$0</span>
-                                    </div>
-                                    <div class="metric-row">
-                                        <span class="label">Brand-trust and market-development value</span>
-                                        <span class="value" id="corpBrandValue">$0</span>
-                                    </div>
-                                    <div class="metric-row">
-                                        <span class="label">Carbon / compliance value</span>
-                                        <span class="value" id="corpCarbonValue">$0</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="results-shell">
-                                <h3>Sponsor narrative</h3>
-                                <div id="corporateNarrative" class="metric-list"></div>
-                            </div>
-                        </div>
+            <div class="panel-note-row">
+                <a class="panel-highlight" href="https://www.kjzz.org/business/2026-03-17/saving-water-in-arizona-is-expensive-can-big-companies-help-pay-for-it" target="kjzz">
+                    <span class="material-icons">highlight</span>
+                    <div class="panel-highlight-copy">
+                        <strong>Gila River Indian Community reservation in Arizona</strong>
+                        <span>P&amp;G and Google paid for about 60% of the project, increasing water for shampoo or laundry detergent production.</span>
                     </div>
+                </a>
+                <div class="placeholder-pill"><span class="material-icons">science</span>Editable product, energy, and model coefficients are preloaded so results appear immediately.</div>
+                <div id="benefitsMenuDock" class="panel-note-actions"></div>
+            </div>
 
-
-	                    <div id="energyMix" class="subpanel nav-target">
-	                        <h2 class="section-title">Energy Mix</h2>
-                            <p>
-    	                        <h3>Blended energy portfolio</h3>
-                            </p>
-	                        <p class="section-copy">
-	                            Renewables, thermal recovery, flexible backup, and advanced generation to see how resilient energy changes corporate value.
+            <div class="panel-body stack">
+                <div class="panel-grid">
+                    <div id="specs" class="subpanel nav-target">
+                        <h3>Community and sponsor assumptions</h3>
+                        <p class="section-copy">
+                            Start with community scale, water quality improvement, sponsor penetration, and internal operating exposure.
                         </p>
 
-	                        <div class="energy-grid" id="energyGrid"></div>
+                        <div class="input-group">
+                            <label for="populationServed">Population served <span class="unit">(people)</span></label>
+                            <input type="number" id="populationServed" value="1200000" min="10000" step="10000">
+                        </div>
 
-                        <p class="section-copy" style="margin-top:14px;font-size:0.85rem;">Edit the default capacity factor, dispatchability, capital expenditure (capex), and low-carbon flag used for each energy source in the benefits model using the <span class="material-icons" style="font-size:0.95em;vertical-align:-0.2em;">more_vert</span> menu on each row.</p>
+                        <div class="input-group">
+                            <label for="avgHouseholdSize">Average household size <span class="unit">(people/household)</span></label>
+                            <input type="number" id="avgHouseholdSize" value="4.1" min="1.5" step="0.1">
+                        </div>
 
-                        <div class="action-row">
-                            <button type="button" class="btn" id="calculateCorporateBtn"><span class="material-icons">autorenew</span>Clear Changes</button>
+                        <div class="input-group">
+                            <label for="pureWaterCoverage">Pure-water service coverage <span class="unit">(%)</span></label>
+                            <input type="number" id="pureWaterCoverage" value="82" min="10" max="100" step="1">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="dailyPureWaterOutput">Daily pure-water output <span class="unit">(m3/day)</span></label>
+                            <input type="number" id="dailyPureWaterOutput" value="180000" min="1000" step="1000">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="targetLitersPerPerson">Target service level <span class="unit">(L/person/day)</span></label>
+                            <input type="number" id="targetLitersPerPerson" value="110" min="20" step="5">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="hardnessReduction">Hardness / contamination reduction <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="hardnessReduction" value="58" min="0" max="100" step="1">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="retailReach">Retail reach in served households <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="retailReach" value="62" min="1" max="100" step="1">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="sponsorBrandShare">Sponsor category share <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="sponsorBrandShare" value="18" min="1" max="100" step="1">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="communityIncomeLift">Income / basket-growth uplift <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="communityIncomeLift" value="6" min="0" max="25" step="0.5">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="annualSponsorContribution">Annual sponsor financing contribution <span class="unit">($M/year)</span></label>
+                            <input type="number" id="annualSponsorContribution" value="90" min="1" step="1">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="corporateDiscountRate">Sponsor discount rate <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="corporateDiscountRate" value="10" min="1" max="30" step="0.5">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="corporateHorizon">Benefit horizon <span class="unit">(years)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="corporateHorizon" value="10" min="3" max="30" step="1">
+                        </div>
+
+                        <div class="info-box">
+                            <strong>Why these fields matter:</strong> pure-water coverage changes product efficacy and willingness to buy more premium formulations;
+                            energy reliability stabilizes retail refrigeration, pumps, warehousing, and sponsor-owned process lines.
+                        </div>
+                    </div>
+
+                    <div class="stack">
+                        <div class="results-shell">
+                            <h3>Sponsor benefit stack</h3>
+                            <div class="metric-list">
+                                <div class="metric-row">
+                                    <span class="label">Incremental category revenue</span>
+                                    <span class="value" id="corpRevenueLift">$0</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="label">Operating profit uplift</span>
+                                    <span class="value" id="corpMarginLift">$0</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="label">Process-water value</span>
+                                    <span class="value" id="corpProcessValue">$0</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="label">Retail uptime / cold-chain value</span>
+                                    <span class="value" id="corpRetailValue">$0</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="label">Brand-trust and market-development value</span>
+                                    <span class="value" id="corpBrandValue">$0</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="label">Carbon / compliance value</span>
+                                    <span class="value" id="corpCarbonValue">$0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="results-shell">
+                            <h3>Sponsor narrative</h3>
+                            <div id="corporateNarrative" class="metric-list"></div>
                         </div>
                     </div>
                 </div>
-            </section>
+
+
+                    <div id="energyMix" class="subpanel nav-target">
+                        <h2 class="section-title">Energy Mix</h2>
+                        <p>
+	                        <h3>Blended energy portfolio</h3>
+                        </p>
+                        <p class="section-copy">
+                            Renewables, thermal recovery, flexible backup, and advanced generation to see how resilient energy changes corporate value.
+                    </p>
+
+                        <div class="energy-grid" id="energyGrid"></div>
+
+                    <p class="section-copy" style="margin-top:14px;font-size:0.85rem;">Edit the default capacity factor, dispatchability, capital expenditure (capex), and low-carbon flag used for each energy source in the benefits model using the <span class="material-icons" style="font-size:0.95em;vertical-align:-0.2em;">more_vert</span> menu on each row.</p>
+
+                    <div class="action-row">
+                        <button type="button" class="btn" id="calculateCorporateBtn"><span class="material-icons">autorenew</span>Clear Changes</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <section id="products" class="panel-shell expanded nav-target">
             <div class="panel-head">
@@ -3374,517 +3426,511 @@
             </div>
         </section>
 
-            <section id="fundingPanel" class="panel-shell expanded nav-target">
-                <div id="contributors" class="panel-head nav-target">
-                    <div class="panel-kicker"><span class="material-icons">account_balance</span>Capital stack</div>
-                    <h2>Blended Contributions Panel</h2>
-                    <p>
-                        Model a mix of corporate, nonprofit, and government support across project phases. Government is weighted toward planning, permitting, and early project development, while nonprofit and corporate capital scale into deployment.
-                    </p>
+        <section id="fundingPanel" class="panel-shell expanded nav-target">
+            <div id="contributors" class="panel-head nav-target">
+                <div class="panel-kicker"><span class="material-icons">account_balance</span>Capital stack</div>
+                <h2>Blended Contributions Panel</h2>
+                <p>
+                    Model a mix of corporate, nonprofit, and government support across project phases. Government is weighted toward planning, permitting, and early project development, while nonprofit and corporate capital scale into deployment.
+                </p>
+            </div>
+
+            <div class="panel-summary-grid">
+                <div class="summary-card">
+                    <span class="label">Government planning lead</span>
+                    <span class="value" id="fundingPlanningLead">$0</span>
+                    <span class="detail" id="fundingPlanningLeadDetail">Public contribution to studies, design, and permitting.</span>
                 </div>
-
-                <div class="panel-summary-grid">
-                    <div class="summary-card">
-                        <span class="label">Government planning lead</span>
-                        <span class="value" id="fundingPlanningLead">$0</span>
-                        <span class="detail" id="fundingPlanningLeadDetail">Public contribution to studies, design, and permitting.</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">Deployment capital stack</span>
-                        <span class="value" id="fundingDeploymentMix">-</span>
-                        <span class="detail" id="fundingDeploymentMixDetail">Corporate / nonprofit / government deployment mix.</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">Catalytic unlock ratio</span>
-                        <span class="value" id="fundingCatalyticRatio">0.0x</span>
-                        <span class="detail" id="fundingCatalyticRatioDetail">Deployable capital expenditure (capex) unlocked per public planning dollar.</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">Funding gap or reserve</span>
-                        <span class="value" id="fundingGap">-</span>
-                        <span class="detail" id="fundingGapDetail">Positive means the modeled stack still leaves a gap.</span>
-                    </div>
+                <div class="summary-card">
+                    <span class="label">Deployment capital stack</span>
+                    <span class="value" id="fundingDeploymentMix">-</span>
+                    <span class="detail" id="fundingDeploymentMixDetail">Corporate / nonprofit / government deployment mix.</span>
                 </div>
-
-                <div class="panel-note-row">
-                    <div class="panel-note"><span class="material-icons">schema</span>Government defaults are highest in planning to fund project preparation first, then corporate and nonprofit capital shoulder more of the buildout phase.</div>
-                    <div class="placeholder-pill"><span class="material-icons">edit_note</span>Conversion rates, rate buy-downs, and reserve settings below are placeholders.</div>
+                <div class="summary-card">
+                    <span class="label">Catalytic unlock ratio</span>
+                    <span class="value" id="fundingCatalyticRatio">0.0x</span>
+                    <span class="detail" id="fundingCatalyticRatioDetail">Deployable capital expenditure (capex) unlocked per public planning dollar.</span>
                 </div>
+                <div class="summary-card">
+                    <span class="label">Funding gap or reserve</span>
+                    <span class="value" id="fundingGap">-</span>
+                    <span class="detail" id="fundingGapDetail">Positive means the modeled stack still leaves a gap.</span>
+                </div>
+            </div>
 
-                <div class="panel-body">
-                    <div class="panel-grid">
-                        <div class="stack">
-                            <div class="subpanel">
-                                <h3>Planning-stage contributions</h3>
-                                <p class="section-copy">
-                                    Use this for prefeasibility, permitting, engineering, community engagement, site studies, and procurement preparation.
-                                </p>
+            <div class="panel-note-row">
+                <div class="panel-note"><span class="material-icons">schema</span>Government defaults are highest in planning to fund project preparation first, then corporate and nonprofit capital shoulder more of the buildout phase.</div>
+                <div class="placeholder-pill"><span class="material-icons">edit_note</span>Conversion rates, rate buy-downs, and reserve settings below are placeholders.</div>
+            </div>
 
-                                <div class="input-group">
-                                    <label for="planningStageBudget">Planning-stage budget <span class="unit">($M)</span></label>
-                                    <input type="number" id="planningStageBudget" value="48" min="1" step="1">
-                                </div>
+            <div class="panel-body">
+                <div class="panel-grid">
+                    <div class="stack">
+                        <div class="subpanel">
+                            <h3>Planning-stage contributions</h3>
+                            <p class="section-copy">
+                                Use this for prefeasibility, permitting, engineering, community engagement, site studies, and procurement preparation.
+                            </p>
 
-                                <div class="input-group">
-                                    <label for="governmentPlanningShare">Government planning share <span class="unit">(%)</span></label>
-                                    <input type="number" id="governmentPlanningShare" value="68" min="0" max="100" step="1">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="nonprofitPlanningShare">Nonprofit planning share <span class="unit">(%)</span></label>
-                                    <input type="number" id="nonprofitPlanningShare" value="20" min="0" max="100" step="1">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="corporatePlanningShare">Corporate planning share <span class="unit">(%)</span></label>
-                                    <input type="number" id="corporatePlanningShare" value="12" min="0" max="100" step="1">
-                                    <div class="info-box">
-                                        <strong>Planning-first public role:</strong> these defaults assume government mostly funds the planning stage so permitting, design, and site preparation are derisked before private deployment capital commits.
-                                    </div>
-                                </div>
+                            <div class="input-group">
+                                <label for="planningStageBudget">Planning-stage budget <span class="unit">($M)</span></label>
+                                <input type="number" id="planningStageBudget" value="48" min="1" step="1">
                             </div>
 
-                            <section id="deployment" class="subpanel nav-target">
-                                <h2 class="large-h2">Local Deployment</h2>
-                                <p>
-                                    <h3>Deployment-stage contributions</h3>
-                                </p>
-                                <p class="section-copy">
-                                    Deployment uses the broader water-plus-energy project capital expenditure (capex) from the corporate calculator and allocates that budget by the shares below.
-                                </p>
+                            <div class="input-group">
+                                <label for="governmentPlanningShare">Government planning share <span class="unit">(%)</span></label>
+                                <input type="number" id="governmentPlanningShare" value="68" min="0" max="100" step="1">
+                            </div>
 
-                                <div class="input-group">
-                                    <label for="governmentDeploymentShare">Government deployment share <span class="unit">(%)</span></label>
-                                    <input type="number" id="governmentDeploymentShare" value="22" min="0" max="100" step="1">
+                            <div class="input-group">
+                                <label for="nonprofitPlanningShare">Nonprofit planning share <span class="unit">(%)</span></label>
+                                <input type="number" id="nonprofitPlanningShare" value="20" min="0" max="100" step="1">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="corporatePlanningShare">Corporate planning share <span class="unit">(%)</span></label>
+                                <input type="number" id="corporatePlanningShare" value="12" min="0" max="100" step="1">
+                                <div class="info-box">
+                                    <strong>Planning-first public role:</strong> these defaults assume government mostly funds the planning stage so permitting, design, and site preparation are derisked before private deployment capital commits.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="subpanel">
+                            <h3>Workforce and tax-base assumptions</h3>
+                            <p class="section-copy">
+                                Add explicit job-creation, payroll, multiplier, and tax-capture assumptions so the government row reflects employment and tax-base expansion more directly.
+                            </p>
+
+                            <div class="input-group">
+                                <label for="constructionJobsPer100mCapex">Construction job-years per <span class="unit">$100M deployed</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="constructionJobsPer100mCapex" value="145" min="0" step="5">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="permanentJobsPer1000Households">Permanent jobs per <span class="unit">1,000 upgraded households</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="permanentJobsPer1000Households" value="11" min="0" step="0.5">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="averageAnnualWage">Average annual wage <span class="unit">($/job/year)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="averageAnnualWage" value="24000" min="0" step="500">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="localEconomicMultiplier">Local economic multiplier <span class="unit">(x)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="localEconomicMultiplier" value="1.35" min="0.5" step="0.05">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="payrollTaxCaptureRate">Payroll and income tax capture <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="payrollTaxCaptureRate" value="12" min="0" max="100" step="0.5">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="expandedTaxBaseCaptureRate">Expanded commercial tax capture <span class="unit">(% of incremental revenue)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="expandedTaxBaseCaptureRate" value="3.5" min="0" max="100" step="0.1">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="publicServiceSavingsPerHousehold">Public-service savings <span class="unit">($/household/year)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="publicServiceSavingsPerHousehold" value="14" min="0" step="1">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="nonprofitProgramCaptureRate">Nonprofit program-return capture <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="nonprofitProgramCaptureRate" value="28" min="0" max="100" step="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="results-panel">
+                        <div class="results-shell">
+                            <h3>Funding by phase</h3>
+                            <div class="metric-list">
+                                <div class="metric-row"><span class="label">Government planning contribution</span><span class="value" id="fundingPlanningGov">$0</span></div>
+                                <div class="metric-row"><span class="label">Nonprofit planning contribution</span><span class="value" id="fundingPlanningNpo">$0</span></div>
+                                <div class="metric-row"><span class="label">Corporate planning contribution</span><span class="value" id="fundingPlanningCorp">$0</span></div>
+                                <div class="metric-row"><span class="label">Government deployment contribution</span><span class="value" id="fundingDeploymentGov">$0</span></div>
+                                <div class="metric-row"><span class="label">Nonprofit deployment contribution</span><span class="value" id="fundingDeploymentNpo">$0</span></div>
+                                <div class="metric-row"><span class="label">Corporate deployment contribution</span><span class="value" id="fundingDeploymentCorp">$0</span></div>
+                            </div>
+                        </div>
+
+                        <div class="results-shell">
+                            <h3>Capital-stack narrative</h3>
+                            <div id="fundingNarrative" class="metric-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="engineering" class="panel-shell expanded nav-target">
+            <div class="panel-head">
+                <div class="panel-kicker"><span class="material-icons">view_in_ar</span>Reference scenario</div>
+                <h2>DEEP Nuclear for Water Replenishment</h2>
+                <p>
+                    DEEP-based reference scenario with full thermal, water-output, and finance model. A separate compact water panel below keeps the headline output and payback metrics visible without repeating the full input set. <a href="../grid/deep/">About Calculator</a>
+                </p>
+
+                <div class="page-links">
+                    <a href="../grid/nuclear/"><span class="material-icons">bolt</span>Safe Underground Nuclear</a>
+                </div>
+            </div>
+
+            <div class="panel-note-row">
+                <div class="placeholder-pill">
+                    <span class="material-icons">info</span>
+                    <div>
+                        <strong>Desalination Economic Evaluation Program (DEEP)</strong>
+                        <div style="font-weight:400;">International Atomic Energy Agency (IAEA)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapse-teaser">
+                <p id="nuclearCollapsedCopy">
+                    The default deep-nuclear scenario is already calculated. Expand this panel for reactor power, MED settings, tunnel assumptions, and the detailed financing proposal summary.
+                </p>
+            </div>
+
+            <div class="panel-body">
+                <div class="nuclear-layout">
+                    <div class="subpanel">
+                        <h3>Plant configuration</h3>
+                        <p class="section-copy">These detailed assumptions drive the MED retrofit case and the summary shown above.</p>
+
+                        <div class="input-group">
+                            <label for="reactorPower">Reactor thermal power output <span class="unit">(MWth)</span></label>
+                            <input type="number" id="reactorPower" value="3000" min="100" step="100">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="wasteHeatFactor">Waste heat utilization factor <span class="unit">(%)</span></label>
+                            <input type="number" id="wasteHeatFactor" value="67" min="50" max="75" step="1">
+                            <div class="info-box"><strong>Note:</strong> around 67% of reactor thermal power is often rejected through cooling systems. This models the recoverable share.</div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="medEfficiency">MED system efficiency <span class="unit">(GOR)</span></label>
+                            <input type="number" id="medEfficiency" value="12" min="8" max="20" step="0.5">
+                            <div class="info-box"><strong>GOR:</strong> Gain Output Ratio for MED.<br>Higher values indicate more distillate per unit of steam.</div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="numEffects">Number of MED effects</label>
+                            <input type="number" id="numEffects" value="8" min="4" max="16" step="1">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="topBrineTemp">Top brine temperature <span class="unit">(C)</span></label>
+                            <input type="number" id="topBrineTemp" value="70" min="50" max="90" step="5">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="availability">Plant availability factor <span class="unit">(%)</span></label>
+                            <input type="number" id="availability" value="90" min="80" max="95" step="1">
+                        </div>
+
+                        <div class="results-title-row">
+                            <h3>Economic parameters</h3>
+                            <button type="button" class="formula-toggle" aria-expanded="false" aria-controls="nuclearEconomicAdvice" title="Show guidance for project-specific economic inputs">
+                                <span class="material-icons">info</span>
+                            </button>
+                        </div>
+                        <div class="formula-box" id="nuclearEconomicAdvice" hidden>
+                            <p><strong>Replace first:</strong> water sale price, MED capital cost, retrofit multiplier, operating and maintenance rate, discount rate, analysis period, plant purchase price, tunnel lengths, boring cost, and plant availability.</p>
+                            <p>Those defaults are useful for a reference scenario, but deep-nuclear project economics usually need site-specific off-take pricing, financing terms, civil scope, retrofit scope, and uptime assumptions before the outputs should be treated as a project estimate.</p>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="waterPrice">Water sale price <span class="unit">($/m3)</span></label>
+                            <input type="number" id="waterPrice" value="0.50" min="0.10" step="0.05">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="medCapitalCost">MED system capital cost <span class="unit">($/m3/day capacity)</span></label>
+                            <input type="number" id="medCapitalCost" value="1500" min="1000" step="100">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="retrofitMultiplier">Retrofit cost multiplier</label>
+                            <input type="number" id="retrofitMultiplier" value="1.2" min="1.0" max="2.0" step="0.1">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="oAndMRate">Operating and maintenance rate <span class="unit">(% of project cost/year)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="oAndMRate" value="5" min="1" max="15" step="0.5">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="discountRate">Discount rate <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="discountRate" value="10" min="1" max="20" step="0.5">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="analysisYears">Analysis period <span class="unit">(years)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="analysisYears" value="20" min="5" max="50" step="1">
+                        </div>
+
+                        <h3>Earthgrid boring technology</h3>
+
+                        <div class="input-group">
+                            <label for="wasteTunnelLength">Waste disposal tunnel length <span class="unit">(km)</span></label>
+                            <input type="number" id="wasteTunnelLength" value="5" min="1" step="0.5">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="fuelTunnelLength">Fuel transport tunnel length <span class="unit">(km)</span></label>
+                            <input type="number" id="fuelTunnelLength" value="2" min="0.5" step="0.5">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="boringCostPerKm">Boring cost per kilometer <span class="unit">($M/km)</span></label>
+                            <input type="number" id="boringCostPerKm" value="50" min="20" step="5">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="plantPurchasePrice">Nuclear plant purchase price <span class="unit">($M)</span></label>
+                            <input type="number" id="plantPurchasePrice" value="500" min="100" step="50">
+                        </div>
+
+                        <div class="action-row">
+                            <button type="button" class="btn secondary" id="calculateNuclearBtn"><span class="material-icons">autorenew</span>Calculate desalination economics</button>
+                        </div>
+                        <p id="nuclearCalcFeedback" style="display:none;margin:8px 0 0;font-size:0.85rem;color:var(--color-accent,#2a9d8f);">Calculations updated.</p>
+                    </div>
+
+                    <div class="stack">
+                        <div class="subpanel">
+                            <div class="results-stack">
+                                <div class="results-block">
+                                    <div class="results-title-row">
+                                        <h3>Water production</h3>
+                                        <button type="button" class="formula-toggle" id="waterProductionFormulaToggle" aria-expanded="false" aria-controls="waterProductionFormula" title="Show water-production formula">
+                                            <span class="material-icons">info</span>
+                                        </button>
+                                    </div>
+                                    <div class="formula-box" id="waterProductionFormula" hidden>
+                                        <code>Daily Water (m3/day) = (Waste Heat MW * 1000 * 24 * 3600 * GOR) / (Latent Heat * 1000)
+
+                                    Waste Heat = Reactor Power * Waste Heat Factor / 100
+                                    Latent Heat = 2326 kJ/kg at about 70 C</code>
+                                    </div>
+                                    <div class="metric-list">
+                                        <div class="metric-row"><span class="label">Waste heat available</span><span class="value" id="wasteHeat">-</span></div>
+                                        <div class="metric-row"><span class="label">Daily fresh water production</span><span class="value" id="dailyWater">-</span></div>
+                                        <div class="metric-row"><span class="label">Annual water production</span><span class="value" id="annualWater">-</span></div>
+                                        <div class="metric-row"><span class="label">Water per MWth per day</span><span class="value" id="waterPerMW">-</span></div>
+                                    </div>
                                 </div>
 
-                                <div class="input-group">
-                                    <label for="nonprofitDeploymentShare">Nonprofit deployment share <span class="unit">(%)</span></label>
-                                    <input type="number" id="nonprofitDeploymentShare" value="18" min="0" max="100" step="1">
+                                <div class="results-block">
+                                    <h3>Financial analysis</h3>
+                                    <div class="metric-list">
+                                        <div class="metric-row"><span class="label">Annual water revenue</span><span class="value" id="annualRevenue">-</span></div>
+                                        <div class="metric-row"><span class="label">MED system capital cost</span><span class="value" id="medCapital">-</span></div>
+                                        <div class="metric-row"><span class="label">Total retrofit cost</span><span class="value" id="retrofitCost">-</span></div>
+                                        <div class="metric-row"><span class="label">Earthgrid boring cost</span><span class="value" id="boringCost">-</span></div>
+                                        <div class="metric-row"><span class="label">Total project cost</span><span class="value" id="totalCost">-</span></div>
+                                        <div class="metric-row"><span class="label">Payback period</span><span class="value" id="paybackPeriod">-</span></div>
+                                        <div class="metric-row"><span class="label" id="npvLabel">20-Year NPV (10% discount)</span><span class="value" id="npv">-</span></div>
+                                        <div class="metric-row"><span class="label">Cost per m3 of water</span><span class="value" id="costPerCubicMeter">-</span></div>
+                                    </div>
                                 </div>
 
-                                <div class="input-group">
-                                    <label for="corporateDeploymentShare">Corporate deployment share <span class="unit">(%)</span></label>
-                                    <input type="number" id="corporateDeploymentShare" value="60" min="0" max="100" step="1">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="planningConversionRate">Planning-to-deployment conversion <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="planningConversionRate" value="82" min="1" max="100" step="1">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="concessionalRateReduction">Concessional rate buy-down <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="concessionalRateReduction" value="1.8" min="0" max="10" step="0.1">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="communityBenefitReserve">Community benefit reserve <span class="unit">(% of deployment capital expenditure (capex))</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="communityBenefitReserve" value="4" min="0" max="20" step="0.5">
+                                <div class="results-block">
+                                    <h3>Energy metrics</h3>
+                                    <div class="metric-list">
+                                        <div class="metric-row"><span class="label">Thermal energy per m3</span><span class="value" id="energyPerCubicMeter">-</span></div>
+                                        <div class="metric-row"><span class="label">Specific energy consumption</span><span class="value" id="specificEnergy">-</span></div>
+                                    </div>
                                 </div>
 
                                 <div class="action-row">
-                                    <button type="button" class="btn" id="calculateFundingBtn"><span class="material-icons">autorenew</span>Clear Changes</button>
-                                </div>
-                            </section>
-
-                            <div class="subpanel">
-                                <h3>Workforce and tax-base assumptions</h3>
-                                <p class="section-copy">
-                                    Add explicit job-creation, payroll, multiplier, and tax-capture assumptions so the government row reflects employment and tax-base expansion more directly.
-                                </p>
-
-                                <div class="input-group">
-                                    <label for="constructionJobsPer100mCapex">Construction job-years per <span class="unit">$100M deployed</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="constructionJobsPer100mCapex" value="145" min="0" step="5">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="permanentJobsPer1000Households">Permanent jobs per <span class="unit">1,000 upgraded households</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="permanentJobsPer1000Households" value="11" min="0" step="0.5">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="averageAnnualWage">Average annual wage <span class="unit">($/job/year)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="averageAnnualWage" value="24000" min="0" step="500">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="localEconomicMultiplier">Local economic multiplier <span class="unit">(x)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="localEconomicMultiplier" value="1.35" min="0.5" step="0.05">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="payrollTaxCaptureRate">Payroll and income tax capture <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="payrollTaxCaptureRate" value="12" min="0" max="100" step="0.5">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="expandedTaxBaseCaptureRate">Expanded commercial tax capture <span class="unit">(% of incremental revenue)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="expandedTaxBaseCaptureRate" value="3.5" min="0" max="100" step="0.1">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="publicServiceSavingsPerHousehold">Public-service savings <span class="unit">($/household/year)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="publicServiceSavingsPerHousehold" value="14" min="0" step="1">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="nonprofitProgramCaptureRate">Nonprofit program-return capture <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="nonprofitProgramCaptureRate" value="28" min="0" max="100" step="1">
+                                    <button type="button" class="btn" id="exportNuclearCsvBtn"><span class="material-icons">download</span>Export results to CSV</button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="results-panel">
-                            <div class="results-shell">
-                                <h3>Funding by phase</h3>
-                                <div class="metric-list">
-                                    <div class="metric-row"><span class="label">Government planning contribution</span><span class="value" id="fundingPlanningGov">$0</span></div>
-                                    <div class="metric-row"><span class="label">Nonprofit planning contribution</span><span class="value" id="fundingPlanningNpo">$0</span></div>
-                                    <div class="metric-row"><span class="label">Corporate planning contribution</span><span class="value" id="fundingPlanningCorp">$0</span></div>
-                                    <div class="metric-row"><span class="label">Government deployment contribution</span><span class="value" id="fundingDeploymentGov">$0</span></div>
-                                    <div class="metric-row"><span class="label">Nonprofit deployment contribution</span><span class="value" id="fundingDeploymentNpo">$0</span></div>
-                                    <div class="metric-row"><span class="label">Corporate deployment contribution</span><span class="value" id="fundingDeploymentCorp">$0</span></div>
-                                </div>
-                            </div>
-
-                            <div class="results-shell">
-                                <h3>Capital-stack narrative</h3>
-                                <div id="fundingNarrative" class="metric-list"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="engineering" class="panel-shell expanded nav-target">
-                <div class="panel-head">
-                    <div class="panel-kicker"><span class="material-icons">view_in_ar</span>Reference scenario</div>
-                    <h2>DEEP Nuclear for Water Replenishment</h2>
-                    <p>
-                        DEEP-based reference scenario with full thermal, water-output, and finance model. A separate compact water panel below keeps the headline output and payback metrics visible without repeating the full input set. <a href="../grid/deep/">About Calculator</a>
-                    </p>
-
-                    <div class="page-links">
-                        <a href="../grid/nuclear/"><span class="material-icons">bolt</span>Safe Underground Nuclear</a>
-                    </div>
-
-                    
-
-                </div>
-
-
-
-                <div class="panel-note-row">
-                    <div class="placeholder-pill">
-                        <span class="material-icons">info</span>
-                        <div>
-                            <strong>Desalination Economic Evaluation Program (DEEP)</strong>
-                            <div style="font-weight:400;">International Atomic Energy Agency (IAEA)</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="collapse-teaser">
-                    <p id="nuclearCollapsedCopy">
-                        The default deep-nuclear scenario is already calculated. Expand this panel for reactor power, MED settings, tunnel assumptions, and the detailed financing proposal summary.
-                    </p>
-                </div>
-
-                <div class="panel-body">
-                    <div class="nuclear-layout">
-                        <div class="subpanel">
-                            <h3>Plant configuration</h3>
-                            <p class="section-copy">These detailed assumptions drive the MED retrofit case and the summary shown above.</p>
-
-                            <div class="input-group">
-                                <label for="reactorPower">Reactor thermal power output <span class="unit">(MWth)</span></label>
-                                <input type="number" id="reactorPower" value="3000" min="100" step="100">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="wasteHeatFactor">Waste heat utilization factor <span class="unit">(%)</span></label>
-                                <input type="number" id="wasteHeatFactor" value="67" min="50" max="75" step="1">
-                                <div class="info-box"><strong>Note:</strong> around 67% of reactor thermal power is often rejected through cooling systems. This models the recoverable share.</div>
-                            </div>
-
-                            <div class="input-group">
-                                <label for="medEfficiency">MED system efficiency <span class="unit">(GOR)</span></label>
-                                <input type="number" id="medEfficiency" value="12" min="8" max="20" step="0.5">
-                                <div class="info-box"><strong>GOR:</strong> Gain Output Ratio for MED.<br>Higher values indicate more distillate per unit of steam.</div>
-                            </div>
-
-                            <div class="input-group">
-                                <label for="numEffects">Number of MED effects</label>
-                                <input type="number" id="numEffects" value="8" min="4" max="16" step="1">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="topBrineTemp">Top brine temperature <span class="unit">(C)</span></label>
-                                <input type="number" id="topBrineTemp" value="70" min="50" max="90" step="5">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="availability">Plant availability factor <span class="unit">(%)</span></label>
-                                <input type="number" id="availability" value="90" min="80" max="95" step="1">
-                            </div>
-
+                        <div class="proposal-summary">
                             <div class="results-title-row">
-                                <h3>Economic parameters</h3>
-                                <button type="button" class="formula-toggle" aria-expanded="false" aria-controls="nuclearEconomicAdvice" title="Show guidance for project-specific economic inputs">
+                                <h3>Financing proposal summary</h3>
+                                <button type="button" class="formula-toggle" aria-expanded="false" aria-controls="nuclearProposalAdvice" title="Show guidance for project-specific financing inputs">
                                     <span class="material-icons">info</span>
                                 </button>
                             </div>
-                            <div class="formula-box" id="nuclearEconomicAdvice" hidden>
-                                <p><strong>Replace first:</strong> water sale price, MED capital cost, retrofit multiplier, operating and maintenance rate, discount rate, analysis period, plant purchase price, tunnel lengths, boring cost, and plant availability.</p>
-                                <p>Those defaults are useful for a reference scenario, but deep-nuclear project economics usually need site-specific off-take pricing, financing terms, civil scope, retrofit scope, and uptime assumptions before the outputs should be treated as a project estimate.</p>
+                            <div class="formula-box" id="nuclearProposalAdvice" hidden>
+                                <p><strong>Use this as a reference case first:</strong> update off-take price, finance rate and term, MED capex, retrofit factor, plant cost basis, tunnel scope, and availability before relying on the proposal summary for a specific project.</p>
                             </div>
-
-                            <div class="input-group">
-                                <label for="waterPrice">Water sale price <span class="unit">($/m3)</span></label>
-                                <input type="number" id="waterPrice" value="0.50" min="0.10" step="0.05">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="medCapitalCost">MED system capital cost <span class="unit">($/m3/day capacity)</span></label>
-                                <input type="number" id="medCapitalCost" value="1500" min="1000" step="100">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="retrofitMultiplier">Retrofit cost multiplier</label>
-                                <input type="number" id="retrofitMultiplier" value="1.2" min="1.0" max="2.0" step="0.1">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="oAndMRate">Operating and maintenance rate <span class="unit">(% of project cost/year)</span> <span class="meta-inline">Placeholder</span></label>
-                                <input type="number" id="oAndMRate" value="5" min="1" max="15" step="0.5">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="discountRate">Discount rate <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                <input type="number" id="discountRate" value="10" min="1" max="20" step="0.5">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="analysisYears">Analysis period <span class="unit">(years)</span> <span class="meta-inline">Placeholder</span></label>
-                                <input type="number" id="analysisYears" value="20" min="5" max="50" step="1">
-                            </div>
-
-                            <h3>Earthgrid boring technology</h3>
-
-                            <div class="input-group">
-                                <label for="wasteTunnelLength">Waste disposal tunnel length <span class="unit">(km)</span></label>
-                                <input type="number" id="wasteTunnelLength" value="5" min="1" step="0.5">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="fuelTunnelLength">Fuel transport tunnel length <span class="unit">(km)</span></label>
-                                <input type="number" id="fuelTunnelLength" value="2" min="0.5" step="0.5">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="boringCostPerKm">Boring cost per kilometer <span class="unit">($M/km)</span></label>
-                                <input type="number" id="boringCostPerKm" value="50" min="20" step="5">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="plantPurchasePrice">Nuclear plant purchase price <span class="unit">($M)</span></label>
-                                <input type="number" id="plantPurchasePrice" value="500" min="100" step="50">
-                            </div>
-
-                            <div class="action-row">
-                                <button type="button" class="btn secondary" id="calculateNuclearBtn"><span class="material-icons">autorenew</span>Calculate desalination economics</button>
-                            </div>
-                            <p id="nuclearCalcFeedback" style="display:none;margin:8px 0 0;font-size:0.85rem;color:var(--color-accent,#2a9d8f);">Calculations updated.</p>
-                        </div>
-
-                        <div class="stack">
-                            <div class="subpanel">
-                                <div class="results-stack">
-                                    <div class="results-block">
-                                        <div class="results-title-row">
-                                            <h3>Water production</h3>
-                                            <button type="button" class="formula-toggle" id="waterProductionFormulaToggle" aria-expanded="false" aria-controls="waterProductionFormula" title="Show water-production formula">
-                                                <span class="material-icons">info</span>
-                                            </button>
-                                        </div>
-                                        <div class="formula-box" id="waterProductionFormula" hidden>
-                                            <code>Daily Water (m3/day) = (Waste Heat MW * 1000 * 24 * 3600 * GOR) / (Latent Heat * 1000)
-
-Waste Heat = Reactor Power * Waste Heat Factor / 100
-Latent Heat = 2326 kJ/kg at about 70 C</code>
-                                        </div>
-                                        <div class="metric-list">
-                                            <div class="metric-row"><span class="label">Waste heat available</span><span class="value" id="wasteHeat">-</span></div>
-                                            <div class="metric-row"><span class="label">Daily fresh water production</span><span class="value" id="dailyWater">-</span></div>
-                                            <div class="metric-row"><span class="label">Annual water production</span><span class="value" id="annualWater">-</span></div>
-                                            <div class="metric-row"><span class="label">Water per MWth per day</span><span class="value" id="waterPerMW">-</span></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="results-block">
-                                        <h3>Financial analysis</h3>
-                                        <div class="metric-list">
-                                            <div class="metric-row"><span class="label">Annual water revenue</span><span class="value" id="annualRevenue">-</span></div>
-                                            <div class="metric-row"><span class="label">MED system capital cost</span><span class="value" id="medCapital">-</span></div>
-                                            <div class="metric-row"><span class="label">Total retrofit cost</span><span class="value" id="retrofitCost">-</span></div>
-                                            <div class="metric-row"><span class="label">Earthgrid boring cost</span><span class="value" id="boringCost">-</span></div>
-                                            <div class="metric-row"><span class="label">Total project cost</span><span class="value" id="totalCost">-</span></div>
-                                            <div class="metric-row"><span class="label">Payback period</span><span class="value" id="paybackPeriod">-</span></div>
-                                            <div class="metric-row"><span class="label" id="npvLabel">20-Year NPV (10% discount)</span><span class="value" id="npv">-</span></div>
-                                            <div class="metric-row"><span class="label">Cost per m3 of water</span><span class="value" id="costPerCubicMeter">-</span></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="results-block">
-                                        <h3>Energy metrics</h3>
-                                        <div class="metric-list">
-                                            <div class="metric-row"><span class="label">Thermal energy per m3</span><span class="value" id="energyPerCubicMeter">-</span></div>
-                                            <div class="metric-row"><span class="label">Specific energy consumption</span><span class="value" id="specificEnergy">-</span></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="action-row">
-                                        <button type="button" class="btn" id="exportNuclearCsvBtn"><span class="material-icons">download</span>Export results to CSV</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="proposal-summary">
-                                <div class="results-title-row">
-                                    <h3>Financing proposal summary</h3>
-                                    <button type="button" class="formula-toggle" aria-expanded="false" aria-controls="nuclearProposalAdvice" title="Show guidance for project-specific financing inputs">
-                                        <span class="material-icons">info</span>
-                                    </button>
-                                </div>
-                                <div class="formula-box" id="nuclearProposalAdvice" hidden>
-                                    <p><strong>Use this as a reference case first:</strong> update off-take price, finance rate and term, MED capex, retrofit factor, plant cost basis, tunnel scope, and availability before relying on the proposal summary for a specific project.</p>
-                                </div>
-                                <div id="proposalSummary">
-                                    <p style="color:#6c757d;">Reference scenario loads on open. Update water price, finance assumptions, plant cost basis, tunnel scope, and availability for a project-specific proposal summary.</p>
-                                </div>
+                            <div id="proposalSummary">
+                                <p style="color:#6c757d;">Reference scenario loads on open. Update water price, finance assumptions, plant cost basis, tunnel scope, and availability for a project-specific proposal summary.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-            </section>
+            </div>
+            
+        </section>
 
-            <section id="water" class="panel-shell collapsed nav-target">
-                <div class="panel-head">
-                    <h2>Water Output Calculator</h2>
-                    <p>
-                        This panel preserves the deeper reactor retrofit model. It is collapsed by default so the broader sponsor model stays on top, while a compact summary of water output and finance stays visible.
-                    </p>
+        <section id="water" class="panel-shell collapsed nav-target">
+            <div class="panel-head">
+                <h2>Water Output Calculator</h2>
+                <p>
+                    This panel preserves the deeper reactor retrofit model. It is collapsed by default so the broader sponsor model stays on top, while a compact summary of water output and finance stays visible.
+                </p>
+            </div>
+
+            <div class="panel-summary-grid">
+                <div class="summary-card">
+                    <span class="label">Daily fresh water</span>
+                    <span class="value" id="nuclearSummaryDailyWater">-</span>
+                    <span class="detail">Waste-heat driven MED output from the reference nuclear scenario.</span>
+                </div>
+                <div class="summary-card">
+                    <span class="label">Annual water revenue</span>
+                    <span class="value" id="nuclearSummaryRevenue">-</span>
+                    <span class="detail">Reference water sale value using default placeholder pricing.</span>
+                </div>
+                <div class="summary-card">
+                    <span class="label">Total project cost</span>
+                    <span class="value" id="nuclearSummaryCost">-</span>
+                    <span class="detail">Plant purchase, retrofit scope, and tunnel boring combined.</span>
+                </div>
+                <div class="summary-card">
+                    <span class="label">Payback period</span>
+                    <span class="value" id="nuclearSummaryPayback">-</span>
+                    <span class="detail" id="nuclearSummaryHint">Expand to inspect the detailed thermal and finance assumptions.</span>
+                </div>
+            </div>            
+        </section>
+
+        <section id="deployment" class="panel-shell expanded nav-target">
+            <div class="panel-head">
+                <div class="panel-kicker"><span class="material-icons">construction</span>Deployment</div>
+                <h2>Local Deployment</h2>
+                <p>Deployment uses the broader water-plus-energy project capital expenditure (capex) from the corporate calculator and allocates that budget by the shares below.</p>
+            </div>
+            <div class="panel-body">
+                <div class="input-group">
+                    <label for="governmentDeploymentShare">Government deployment share <span class="unit">(%)</span></label>
+                    <input type="number" id="governmentDeploymentShare" value="22" min="0" max="100" step="1">
                 </div>
 
-                <div class="panel-summary-grid">
-                    <div class="summary-card">
-                        <span class="label">Daily fresh water</span>
-                        <span class="value" id="nuclearSummaryDailyWater">-</span>
-                        <span class="detail">Waste-heat driven MED output from the reference nuclear scenario.</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">Annual water revenue</span>
-                        <span class="value" id="nuclearSummaryRevenue">-</span>
-                        <span class="detail">Reference water sale value using default placeholder pricing.</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">Total project cost</span>
-                        <span class="value" id="nuclearSummaryCost">-</span>
-                        <span class="detail">Plant purchase, retrofit scope, and tunnel boring combined.</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">Payback period</span>
-                        <span class="value" id="nuclearSummaryPayback">-</span>
-                        <span class="detail" id="nuclearSummaryHint">Expand to inspect the detailed thermal and finance assumptions.</span>
-                    </div>
+                <div class="input-group">
+                    <label for="nonprofitDeploymentShare">Nonprofit deployment share <span class="unit">(%)</span></label>
+                    <input type="number" id="nonprofitDeploymentShare" value="18" min="0" max="100" step="1">
                 </div>
 
-                
-            </section>
-
-            <section id="scorecard" class="panel-shell expanded nav-target">
-                <div class="panel-head">
-                    <div class="panel-kicker"><span class="material-icons">leaderboard</span>Builder incentive lens</div>
-                    <h2>Project Scorecard</h2>
-                    <p>
-                        The scorecard process assesses local-official incentives and high-quality-development with ratings for water-energy transformation, regional destination promotions and company incubation.
-                    </p>
+                <div class="input-group">
+                    <label for="corporateDeploymentShare">Corporate deployment share <span class="unit">(%)</span></label>
+                    <input type="number" id="corporateDeploymentShare" value="60" min="0" max="100" step="1">
                 </div>
 
-                <div class="panel-summary-grid">
-                    <div class="summary-card">
-                        <span class="label">Core promotion signals</span>
-                        <span class="value">Growth + jobs + order</span>
-                        <span class="detail">Economic performance, employment, and social stability remain foundational signals in the literature.</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">High-quality Dev</span>
-                        <span class="value">Innovation + green + debt discipline</span>
-                        <span class="detail">Recent framing puts more emphasis on industrial upgrading, environmental outcomes, and risk control.</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">BYD-style city win</span>
-                        <span class="value">Flagship firm effect</span>
-                        <span class="detail">Inference: landing or growing a robotics, battery, or clean-tech champion can strengthen an AI Builder's reputation for industrial strategy.</span>
-                    </div>
-                    <div class="summary-card">
-                        <span class="label">Creative extension</span>
-                        <span class="value">Water-energy leadership</span>
-                        <span class="detail">A city that solves water, resilience, and clean industry at once would likely generate political prestige and policy attention.</span>
-                    </div>
+                <div class="input-group">
+                    <label for="planningConversionRate">Planning-to-deployment conversion <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                    <input type="number" id="planningConversionRate" value="82" min="1" max="100" step="1">
                 </div>
 
-                <div class="panel-note-row">
-                    <div class="panel-note"><span class="material-icons">policy</span>Documented themes below are grounded in published research and official high-quality-development language.</div>
-                    <div class="placeholder-pill"><span class="material-icons">auto_awesome</span>Cards marked as inferred or creative are my extensions of how those incentives could play out in a water-energy-industrial context.</div>
+                <div class="input-group">
+                    <label for="concessionalRateReduction">Concessional rate buy-down <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                    <input type="number" id="concessionalRateReduction" value="1.8" min="0" max="10" step="0.1">
                 </div>
 
-                <div class="panel-body">
-                    <div class="stack">
-                        <div class="subpanel nav-target">
-                            <h3><span class="material-icons" style="font-size:1.1em;vertical-align:-0.18em;margin-right:6px;">workspace_premium</span>Performance Indicators</h3>
-                            <p class="section-copy">Move each slider to reflect how strongly an AI Builder is currently delivering against these documented or well-supported indicator clusters. The scorecard is cached in your browser and restored on reload.</p>
-                            <div id="performanceIndicatorGrid" class="scorecard-grid"></div>
+                <div class="input-group">
+                    <label for="communityBenefitReserve">Community benefit reserve <span class="unit">(% of deployment capital expenditure (capex))</span> <span class="meta-inline">Placeholder</span></label>
+                    <input type="number" id="communityBenefitReserve" value="4" min="0" max="20" step="0.5">
+                </div>
+
+                <div class="action-row">
+                    <button type="button" class="btn" id="calculateFundingBtn"><span class="material-icons">autorenew</span>Clear Changes</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="scorecard" class="panel-shell expanded nav-target">
+            <div class="panel-head">
+                <div class="panel-kicker"><span class="material-icons">leaderboard</span>Builder incentive lens</div>
+                <h2>Project Scorecard</h2>
+                <p>
+                    The scorecard process assesses local-official incentives and high-quality-development with ratings for water-energy transformation, regional destination promotions and company incubation.
+                </p>
+            </div>
+
+            <div class="panel-summary-grid">
+                <div class="summary-card">
+                    <span class="label">Core promotion signals</span>
+                    <span class="value">Growth + jobs + order</span>
+                    <span class="detail">Economic performance, employment, and social stability remain foundational signals in the literature.</span>
+                </div>
+                <div class="summary-card">
+                    <span class="label">High-quality Dev</span>
+                    <span class="value">Innovation + green + debt discipline</span>
+                    <span class="detail">Recent framing puts more emphasis on industrial upgrading, environmental outcomes, and risk control.</span>
+                </div>
+                <div class="summary-card">
+                    <span class="label">BYD-style city win</span>
+                    <span class="value">Flagship firm effect</span>
+                    <span class="detail">Inference: landing or growing a robotics, battery, or clean-tech champion can strengthen an AI Builder's reputation for industrial strategy.</span>
+                </div>
+                <div class="summary-card">
+                    <span class="label">Creative extension</span>
+                    <span class="value">Water-energy leadership</span>
+                    <span class="detail">A city that solves water, resilience, and clean industry at once would likely generate political prestige and policy attention.</span>
+                </div>
+            </div>
+
+            <div class="panel-note-row">
+                <div class="panel-note"><span class="material-icons">policy</span>Documented themes below are grounded in published research and official high-quality-development language.</div>
+                <div class="placeholder-pill"><span class="material-icons">auto_awesome</span>Cards marked as inferred or creative are my extensions of how those incentives could play out in a water-energy-industrial context.</div>
+            </div>
+
+            <div class="panel-body">
+                <div class="stack">
+                    <div class="subpanel nav-target">
+                        <h3><span class="material-icons" style="font-size:1.1em;vertical-align:-0.18em;margin-right:6px;">workspace_premium</span>Performance Indicators</h3>
+                        <p class="section-copy">Move each slider to reflect how strongly an AI Builder is currently delivering against these documented or well-supported indicator clusters. The scorecard is cached in your browser and restored on reload.</p>
+                        <div id="performanceIndicatorGrid" class="scorecard-grid"></div>
+                    </div>
+
+                    <div class="subpanel">
+                        <h3>Flagship Company Flywheel</h3>
+                        <div class="governance-grid">
+                            <div class="governance-card inference"><strong>Flagship-firm prestige</strong><span>Inference: if a city helps scale a breakout robotics or battery champion, the AI Builder can be seen as unusually effective at industrial strategy.</span></div>
+                            <div class="governance-card inference"><strong>Promotion narrative</strong><span>The story becomes: this builder/director did not just manage growth, but created a nationally significant sector winner.</span></div>
+                            <div class="governance-card inference"><strong>Accolades and visibility</strong><span>More inspections, conference slots, policy-pilot status, model-city branding, and media attention can follow.</span></div>
+                            <div class="governance-card inference"><strong>Cluster multiplier</strong><span>A flagship firm attracts suppliers, engineers, logistics, finance, and training institutions, making the achievement look repeatable.</span></div>
+                            <div class="governance-card inference"><strong>Export credibility</strong><span>Strong manufacturing exports and recognizable local champions 
+                            accelerating globally competitive products.</span></div>
+                            <div class="governance-card inference"><strong>Talent magnet effect</strong><span>City leadership gains prestige when graduates, founders, and investors start treating the city as a serious destination.</span></div>
+                        </div>
+                    </div>
+
+                    <div class="subpanel">
+                        <h3>Scorecard Factors</h3>
+                        <div class="governance-grid">
+                            <div class="governance-card inference"><strong>Pure-water coverage</strong><span>How many neighborhoods gain dependable clean water, and how fast service reaches low-income districts.</span></div>
+                            <div class="governance-card inference"><strong>Resilience per Expenditure</strong><span>How much blackout risk, drought risk, and logistics disruption is removed for each unit of spending.</span></div>
+                            <div class="governance-card inference"><strong>Clean-industry launch count</strong><span>New manufacturing processes, battery, pump, membrane, water-tech, recycling, and heat-recovery companies created under the project's tenure.</span></div>
+                            <div class="governance-card inference"><strong>Community trust uplift</strong><span>Whether households visibly feel the city is cleaner, safer, and more upwardly mobile because of the projects.</span></div>
+                            <div class="governance-card inference"><strong>Water-energy export package</strong><span>Can the city export not just goods, but a replicable water-plus-energy development model to other provinces or countries?</span></div>
+                            <div class="governance-card inference"><strong>Tour-of-duty legacy</strong><span>What landmark project or flagship company will still define the city positively after the builder/director is promoted elsewhere?</span></div>
+                            <div class="governance-card inference"><strong>Climate prestige</strong><span>Could the city become known nationally for proving that growth, clean industry, and water restoration can happen together?</span></div>
+                            <div class="governance-card inference"><strong>Mayor-as-builder reputation</strong><span>A stronger reputation for practical delivery: permits moved, capital assembled, factories opened, and households served.</span></div>
+                            <div class="governance-card inference"><strong>Model-city designation potential</strong><span>Creative extension: success could position the city for pilot-zone status, awards, and elite policy attention.</span></div>
                         </div>
 
-                        <div class="subpanel">
-                            <h3>Flagship Company Flywheel</h3>
-                            <div class="governance-grid">
-                                <div class="governance-card inference"><strong>Flagship-firm prestige</strong><span>Inference: if a city helps scale a breakout robotics or battery champion, the AI Builder can be seen as unusually effective at industrial strategy.</span></div>
-                                <div class="governance-card inference"><strong>Promotion narrative</strong><span>The story becomes: this builder/director did not just manage growth, but created a nationally significant sector winner.</span></div>
-                                <div class="governance-card inference"><strong>Accolades and visibility</strong><span>More inspections, conference slots, policy-pilot status, model-city branding, and media attention can follow.</span></div>
-                                <div class="governance-card inference"><strong>Cluster multiplier</strong><span>A flagship firm attracts suppliers, engineers, logistics, finance, and training institutions, making the achievement look repeatable.</span></div>
-                                <div class="governance-card inference"><strong>Export credibility</strong><span>Strong manufacturing exports and recognizable local champions 
-                                accelerating globally competitive products.</span></div>
-                                <div class="governance-card inference"><strong>Talent magnet effect</strong><span>City leadership gains prestige when graduates, founders, and investors start treating the city as a serious destination.</span></div>
-                            </div>
-                        </div>
-
-                        <div class="subpanel">
-                            <h3>Scorecard Factors</h3>
-                            <div class="governance-grid">
-                                <div class="governance-card inference"><strong>Pure-water coverage</strong><span>How many neighborhoods gain dependable clean water, and how fast service reaches low-income districts.</span></div>
-                                <div class="governance-card inference"><strong>Resilience per Expenditure</strong><span>How much blackout risk, drought risk, and logistics disruption is removed for each unit of spending.</span></div>
-                                <div class="governance-card inference"><strong>Clean-industry launch count</strong><span>New manufacturing processes, battery, pump, membrane, water-tech, recycling, and heat-recovery companies created under the project's tenure.</span></div>
-                                <div class="governance-card inference"><strong>Community trust uplift</strong><span>Whether households visibly feel the city is cleaner, safer, and more upwardly mobile because of the projects.</span></div>
-                                <div class="governance-card inference"><strong>Water-energy export package</strong><span>Can the city export not just goods, but a replicable water-plus-energy development model to other provinces or countries?</span></div>
-                                <div class="governance-card inference"><strong>Tour-of-duty legacy</strong><span>What landmark project or flagship company will still define the city positively after the builder/director is promoted elsewhere?</span></div>
-                                <div class="governance-card inference"><strong>Climate prestige</strong><span>Could the city become known nationally for proving that growth, clean industry, and water restoration can happen together?</span></div>
-                                <div class="governance-card inference"><strong>Mayor-as-builder reputation</strong><span>A stronger reputation for practical delivery: permits moved, capital assembled, factories opened, and households served.</span></div>
-                                <div class="governance-card inference"><strong>Model-city designation potential</strong><span>Creative extension: success could position the city for pilot-zone status, awards, and elite policy attention.</span></div>
-                            </div>
-
-                            <div class="sources-note">
-                                Source-backed themes: local growth incentives and cadre promotion research, plus official high-quality-development framing and renewable-energy emphasis.
-                                the creation of local “flagship companies” from innovation initiatives and industrial-upgrading incentives.
-                            </div>
+                        <div class="sources-note">
+                            Source-backed themes: local growth incentives and cadre promotion research, plus official high-quality-development framing and renewable-energy emphasis.
+                            the creation of local “flagship companies” from innovation initiatives and industrial-upgrading incentives.
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
+
+        
         </div>
 
         <section id="reporting" class="panel-shell expanded nav-target">
@@ -3909,7 +3955,19 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
         </section>
 
         <div class="footer-attribution">
-            Developed and maintained by <a href="https://dreamstudio.com">DreamStudio</a>
+            <div class="footer-nav-btns">
+                <button type="button" class="footer-nav-btn" id="footerPrevBtn" hidden>
+                    <span class="material-icons">arrow_back</span>
+                    <span id="footerPrevLabel">Previous</span>
+                </button>
+                <button type="button" class="footer-nav-btn" id="footerNextBtn" hidden>
+                    <span id="footerNextLabel">Next</span>
+                    <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
+            <div class="footer-credit">
+                Developed and maintained by <a href="https://dreamstudio.com">DreamStudio</a>
+            </div>
         </div>
         <div id="studioUpdateToast" class="studio-toast" hidden aria-live="polite"></div>
 
@@ -3975,15 +4033,15 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
         const MOBILE_LEFT_RAIL_BREAKPOINT = 800;
         const AUTO_COMPACT_LEFT_RAIL_BREAKPOINT = 1000;
         const MAX_SECTIONS_OPEN_COUNT = 8;
-        const SECTION_ORDER = ['studio', 'benefits', 'products', 'energyMix', 'contributors', 'deployment', 'engineering', 'water', 'scorecard', 'reporting'];
-        const SECTION_ROOT_IDS = ['studio', 'benefits', 'products', 'fundingPanel', 'scorecard', 'engineering', 'water', 'reporting'];
+        const SECTION_ORDER = ['studio', 'energyMix', 'contributors', 'products', 'benefits', 'engineering', 'water', 'deployment', 'scorecard', 'reporting'];
+        const SECTION_ROOT_IDS = ['studio', 'benefits', 'products', 'fundingPanel', 'scorecard', 'engineering', 'water', 'deployment', 'reporting'];
         const SECTION_ROOT_MAP = {
             studio: 'studio',
             benefits: 'benefits',
             products: 'products',
             energyMix: 'benefits',
             contributors: 'fundingPanel',
-            deployment: 'fundingPanel',
+            deployment: 'deployment',
             scorecard: 'scorecard',
             engineering: 'engineering',
             water: 'water',
@@ -6513,6 +6571,51 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
                     link.removeAttribute('aria-current');
                 }
             });
+
+            updateFooterNav(activeId);
+        }
+
+        function updateFooterNav(activeId) {
+            const prevBtn = document.getElementById('footerPrevBtn');
+            const nextBtn = document.getElementById('footerNextBtn');
+            const prevLabel = document.getElementById('footerPrevLabel');
+            const nextLabel = document.getElementById('footerNextLabel');
+            if (!prevBtn || !nextBtn) return;
+
+            const idx = SECTION_ORDER.indexOf(activeId);
+            const prevId = idx > 0 ? SECTION_ORDER[idx - 1] : null;
+            const nextId = idx >= 0 && idx < SECTION_ORDER.length - 1 ? SECTION_ORDER[idx + 1] : null;
+
+            function getSectionLabel(sectionId) {
+                const link = document.querySelector('.rail-link[data-nav-target="' + sectionId + '"]');
+                if (link) {
+                    const labelEl = link.querySelector('.rail-label');
+                    if (labelEl) return labelEl.textContent.trim();
+                }
+                return sectionId;
+            }
+
+            if (prevId) {
+                prevLabel.textContent = getSectionLabel(prevId);
+                prevBtn.hidden = false;
+                prevBtn.onclick = function() {
+                    if (typeof goHash === 'function') goHash({ section: prevId });
+                    else location.hash = 'section=' + prevId;
+                };
+            } else {
+                prevBtn.hidden = true;
+            }
+
+            if (nextId) {
+                nextLabel.textContent = getSectionLabel(nextId);
+                nextBtn.hidden = false;
+                nextBtn.onclick = function() {
+                    if (typeof goHash === 'function') goHash({ section: nextId });
+                    else location.hash = 'section=' + nextId;
+                };
+            } else {
+                nextBtn.hidden = true;
+            }
         }
 
         function getLeftRailTopOffset() {
