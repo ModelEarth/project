@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
-    <title>Community Water + Energy Sponsor Calculator</title>
+    <title>Project Engine</title>
     <style>
         :root {
             --bg-1: #eef5f4;
@@ -1152,6 +1152,7 @@
             border: 1px solid rgba(255, 255, 255, 0.6);
             overflow: visible;
             container-type: inline-size;
+            margin-bottom: 12px;
         }
 
         .panel-shell.panel-hidden {
@@ -1185,7 +1186,7 @@
             text-transform: uppercase;
         }
 
-        .large-h2, .panel-grid h2, .dashboard-stack h2, .panel-body h2 {
+        .large-h2, .panel-grid h2, .dashboard-stack h2, .panel-body h2, .panel-head h2 {
             margin: 0;
             font-sizeX: clamp(1.6rem, 3.2cqw, 2.6rem);
             font-size: 38px;
@@ -1194,7 +1195,6 @@
         }
 
         .panel-head p {
-            max-width: 880px;
             margin: 12px 0 0;
             color: var(--ink-2);
             line-height: 1.6;
@@ -1402,6 +1402,11 @@
             margin: 0 0 8px;
             font-size: 1.22rem;
             color: var(--ink-1);
+        }
+
+        #reporting .subpanel {
+            background: rgba(220, 232, 233, 0.55);
+            border-color: rgba(19, 42, 43, 0.1);
         }
 
         .subpanel h2.section-title {
@@ -1818,13 +1823,7 @@
             color: var(--ink-1);
         }
 
-        .reporting-shell {
-            max-width: 1500px;
-            margin: 0 auto;
-            padding: 0 30px 30px;
-        }
-
-        .readme-rendered {
+.readme-rendered {
             margin-bottom: 18px;
             line-height: 1.6;
         }
@@ -1833,7 +1832,7 @@
             margin: 1em 0 0.4em;
         }
 
-        .readme-rendered h1 { font-size: 1.4rem; }
+        .readme-rendered h1 { font-size: 1.4rem; margin-top: 0; }
         .readme-rendered h2 { font-size: 1.15rem; border-bottom: 1px solid rgba(19,42,43,0.1); padding-bottom: 4px; }
         .readme-rendered h3 { font-size: 1rem; }
 
@@ -2413,6 +2412,11 @@
             border-color: rgba(146, 177, 191, 0.18);
         }
 
+        .dark #reporting .subpanel {
+            background: rgba(6, 14, 20, 0.7);
+            border-color: rgba(146, 177, 191, 0.12);
+        }
+
         .dark .panel-kicker,
         .dark .panel-note,
         .dark .mini-btn {
@@ -2886,7 +2890,6 @@
     <link type="text/css" rel="stylesheet" href="/localsite/css/base.css" id="/localsite/css/base.css" />
     <script type="text/javascript" src="/localsite/js/localsite.js?showheader=true&showsearch=true"></script>
     <!--
-    Join in creating a Abundance Engine for RFP generation. 
     Sponsor projects using your private equipment for abundant energy and water replenishment.
     Sponsor soldiers using your private equipment with targets approved by the DOW.
     -->
@@ -3002,6 +3005,9 @@
                             </div>
                         </div>
                     </div>
+                    <p>
+                        Learn about <a href="https://www.forbes.com/sites/christopherhelman/2026/04/02/acclaimed-physicist-and-his-daughter-are-burying-tiny-nuclear-reactors-a-mile-underground/" style="color:#acb" target="deepFission">Deep Fission</a><br>30-inch-diameter bore holes powering 12,000 homes with safe 15 megawatt mile-deep reactors
+                    </p>
                 </div>
                 <div id="energySimple">
                     <div class="energy-simple-panel">
@@ -3193,159 +3199,6 @@
                         </div>
                     </div>
 
-                    <div class="panel-grid">
-                        <div id="products" class="subpanelX nav-target">
-                            <div class="panel-headX">
-                                <h2 class="section-title">Products and Services</h2>
-                            </div>
-                            <h3>Product areas and operating leverage</h3>
-                            <p class="section-copy">
-                                Choose the product families that matter to the sponsor, then estimate where water availability creates direct demand lift or manufacturing savings.
-                            </p>
-
-                            <div class="coefficient-shell">
-                                <h4>Product Areas</h4>
-                                <p>Pick the product families that matter to the sponsor, then tune the coefficients below for the selected categories.</p>
-                                <div class="panel-note"><span class="material-icons">tips_and_updates</span>Pick multiple product families in the popup to see which categories benefit most from cleaner water access.</div>
-
-                                <div class="input-group">
-                                    <label for="sectorSelectorBtn">Product areas <span class="unit">(choose all that apply)</span></label>
-                                    <div class="popup-anchor">
-                                        <button type="button" class="select-trigger" id="sectorSelectorBtn">
-                                            <span>Select product areas</span>
-                                            <span class="material-icons">expand_more</span>
-                                        </button>
-                                        <div class="check-popup open" id="sectorPopup">
-                                            <div class="popup-topline">
-                                                <div class="popup-heading">
-                                                    <strong>Select sponsor-relevant product areas</strong>
-                                                    <button type="button" class="layout-toggle-btn" id="sectorLayoutToggle" title="Switch to column layout">
-                                                        <span>Rows</span>
-                                                        <span class="material-icons">view_week</span>
-                                                    </button>
-                                                </div>
-                                                <div class="popup-actions">
-                                                    <button type="button" class="mini-btn" id="selectAllSectors">Select all</button>
-                                                    <button type="button" class="mini-btn" id="clearSectors">Clear</button>
-                                                </div>
-                                            </div>
-                                            <div class="check-grid" id="sectorOptions"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="coefficient-shell">
-                                <h4>Product Coefficients</h4>
-                                <p>Selected product areas use editable defaults for household spend, operating margin, water sensitivity, energy sensitivity, growth sensitivity, and brand factor.</p>
-                                <div id="productCoefficientGrid" class="coefficient-grid"></div>
-                            </div>
-
-                            <div class="coefficient-shell">
-                                <h4>Model Coefficients</h4>
-                                <p>These inputs control the placeholder uplift, process-water recovery, retail-load stabilization, brand clamp, and carbon-capture logic used by the calculator.</p>
-                                <div class="coefficient-input-grid">
-                                    <div class="input-group">
-                                        <label for="baseCategoryUpliftPercent">Base category uplift <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                        <input type="number" id="baseCategoryUpliftPercent" value="1.5" min="0" max="25" step="0.1">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="waterQualityUpliftWeightPercent">Water-quality uplift weight <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                        <input type="number" id="waterQualityUpliftWeightPercent" value="11" min="0" max="100" step="0.5">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="energyReliabilityUpliftWeightPercent">Energy-reliability uplift weight <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                        <input type="number" id="energyReliabilityUpliftWeightPercent" value="4" min="0" max="100" step="0.5">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="maxCategoryUpliftPercent">Max category uplift <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                        <input type="number" id="maxCategoryUpliftPercent" value="38" min="1" max="100" step="1">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="processWaterRecoverySharePercent">Recoverable process-water share <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                        <input type="number" id="processWaterRecoverySharePercent" value="16" min="0" max="100" step="1">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="retailLoadPerSiteMWh">Retail load per site <span class="unit">(MWh/year)</span> <span class="meta-inline">Placeholder</span></label>
-                                        <input type="number" id="retailLoadPerSiteMWh" value="110" min="0" step="5">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="retailReliabilityBaseFactor">Retail reliability base <span class="unit">(x)</span> <span class="meta-inline">Placeholder</span></label>
-                                        <input type="number" id="retailReliabilityBaseFactor" value="0.32" min="0" max="2" step="0.01">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="retailReliabilityLiftFactor">Retail reliability lift <span class="unit">(x)</span> <span class="meta-inline">Placeholder</span></label>
-                                        <input type="number" id="retailReliabilityLiftFactor" value="0.82" min="0" max="2" step="0.01">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="brandValueMinIndex">Brand-value minimum water index <span class="unit">(x)</span> <span class="meta-inline">Placeholder</span></label>
-                                        <input type="number" id="brandValueMinIndex" value="0.4" min="0" max="2" step="0.05">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="brandValueMaxIndex">Brand-value maximum water index <span class="unit">(x)</span> <span class="meta-inline">Placeholder</span></label>
-                                        <input type="number" id="brandValueMaxIndex" value="1.15" min="0" max="3" step="0.05">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="lowCarbonValueCaptureRatePercent">Low-carbon value capture rate <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
-                                        <input type="number" id="lowCarbonValueCaptureRatePercent" value="8" min="0" max="100" step="0.5">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="coefficient-shell">
-                                <h4>Water Infrastructure</h4>
-                                <p>Edit the water-side operating and capital assumptions that feed the sponsor-value model.</p>
-
-                                <div class="input-group">
-                                    <label for="internalProcessWaterNeed">Sponsor process-water demand <span class="unit">(m3/day)</span></label>
-                                    <input type="number" id="internalProcessWaterNeed" value="22000" min="0" step="500">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="processWaterSavingsPerM3">Process-water savings value <span class="unit">($/m3)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="processWaterSavingsPerM3" value="0.65" min="0" step="0.05">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="waterCapexPerM3Day">Water infrastructure capital expenditure (capex) <span class="unit">($/m3/day)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="waterCapexPerM3Day" value="1450" min="100" step="50">
-                                </div>
-                            </div>
-
-                            <div class="coefficient-shell">
-                                <h4>Retail Factors</h4>
-                                <p>Edit the retail, brand-trust, and low-carbon value assumptions that drive downstream sponsor upside.</p>
-
-                                <div class="input-group">
-                                    <label for="retailerSites">Retail / channel sites stabilized <span class="unit">(sites)</span></label>
-                                    <input type="number" id="retailerSites" value="4200" min="0" step="50">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="retailerValuePerMWh">Retail uptime value <span class="unit">($/MWh stabilized)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="retailerValuePerMWh" value="110" min="0" step="5">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="brandTrustValuePerHousehold">Brand-trust value <span class="unit">($/household/year)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="brandTrustValuePerHousehold" value="8" min="0" step="0.5">
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="carbonValuePerMWh">Carbon / compliance value <span class="unit">($/MWh low-carbon)</span> <span class="meta-inline">Placeholder</span></label>
-                                    <input type="number" id="carbonValuePerMWh" value="18" min="0" step="1">
-                                    <div class="inline-note">
-                                        Placeholder coefficients embedded in the product and energy models are disclosed in the results narrative so it is obvious what should be replaced with sponsor data.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="results-shell">
-                            <h3>Top product-area impacts</h3>
-                            <div id="sectorBreakdown" class="sector-breakdown"></div>
-                        </div>
-                    </div>
 
 	                    <div id="energyMix" class="subpanel nav-target">
 	                        <h2 class="section-title">Energy Mix</h2>
@@ -3366,6 +3219,160 @@
                     </div>
                 </div>
             </section>
+
+        <section id="products" class="panel-shell expanded nav-target">
+            <div class="panel-head">
+                <div class="panel-kicker"><span class="material-icons">view_in_ar</span>Products</div>
+                <h2>Products and Services</h2>
+                <p>Choose the product families that matter to the sponsor, then estimate where water availability creates direct demand lift or manufacturing savings.</p>
+            </div>
+            <div class="panel-body">
+                <div class="panel-grid">
+                    <div>
+                        <h3>Product areas and operating leverage</h3>
+                    <div class="coefficient-shell">
+                        <h4>Product Areas</h4>
+                        <p>Pick the product families that matter to the sponsor, then tune the coefficients below for the selected categories.</p>
+                        <div class="panel-note"><span class="material-icons">tips_and_updates</span>Pick multiple product families in the popup to see which categories benefit most from cleaner water access.</div>
+
+                        <div class="input-group">
+                            <label for="sectorSelectorBtn">Product areas <span class="unit">(choose all that apply)</span></label>
+                            <div class="popup-anchor">
+                                <button type="button" class="select-trigger" id="sectorSelectorBtn">
+                                    <span>Select product areas</span>
+                                    <span class="material-icons">expand_more</span>
+                                </button>
+                                <div class="check-popup open" id="sectorPopup">
+                                    <div class="popup-topline">
+                                        <div class="popup-heading">
+                                            <strong>Select sponsor-relevant product areas</strong>
+                                            <button type="button" class="layout-toggle-btn" id="sectorLayoutToggle" title="Switch to column layout">
+                                                <span>Rows</span>
+                                                <span class="material-icons">view_week</span>
+                                            </button>
+                                        </div>
+                                        <div class="popup-actions">
+                                            <button type="button" class="mini-btn" id="selectAllSectors">Select all</button>
+                                            <button type="button" class="mini-btn" id="clearSectors">Clear</button>
+                                        </div>
+                                    </div>
+                                    <div class="check-grid" id="sectorOptions"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="results-shell">
+                        <h3>Top product-area impacts</h3>
+                        <div id="sectorBreakdown" class="sector-breakdown"></div>
+                    </div>
+                </div>
+                    <div class="coefficient-shell">
+                        <h4>Product Coefficients</h4>
+                        <p>Selected product areas use editable defaults for household spend, operating margin, water sensitivity, energy sensitivity, growth sensitivity, and brand factor.</p>
+                        <div id="productCoefficientGrid" class="coefficient-grid"></div>
+                    </div>
+
+                    <div class="coefficient-shell">
+                        <h4>Model Coefficients</h4>
+                        <p>These inputs control the placeholder uplift, process-water recovery, retail-load stabilization, brand clamp, and carbon-capture logic used by the calculator.</p>
+                        <div class="coefficient-input-grid">
+                            <div class="input-group">
+                                <label for="baseCategoryUpliftPercent">Base category uplift <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="baseCategoryUpliftPercent" value="1.5" min="0" max="25" step="0.1">
+                            </div>
+                            <div class="input-group">
+                                <label for="waterQualityUpliftWeightPercent">Water-quality uplift weight <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="waterQualityUpliftWeightPercent" value="11" min="0" max="100" step="0.5">
+                            </div>
+                            <div class="input-group">
+                                <label for="energyReliabilityUpliftWeightPercent">Energy-reliability uplift weight <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="energyReliabilityUpliftWeightPercent" value="4" min="0" max="100" step="0.5">
+                            </div>
+                            <div class="input-group">
+                                <label for="maxCategoryUpliftPercent">Max category uplift <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="maxCategoryUpliftPercent" value="38" min="1" max="100" step="1">
+                            </div>
+                            <div class="input-group">
+                                <label for="processWaterRecoverySharePercent">Recoverable process-water share <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="processWaterRecoverySharePercent" value="16" min="0" max="100" step="1">
+                            </div>
+                            <div class="input-group">
+                                <label for="retailLoadPerSiteMWh">Retail load per site <span class="unit">(MWh/year)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="retailLoadPerSiteMWh" value="110" min="0" step="5">
+                            </div>
+                            <div class="input-group">
+                                <label for="retailReliabilityBaseFactor">Retail reliability base <span class="unit">(x)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="retailReliabilityBaseFactor" value="0.32" min="0" max="2" step="0.01">
+                            </div>
+                            <div class="input-group">
+                                <label for="retailReliabilityLiftFactor">Retail reliability lift <span class="unit">(x)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="retailReliabilityLiftFactor" value="0.82" min="0" max="2" step="0.01">
+                            </div>
+                            <div class="input-group">
+                                <label for="brandValueMinIndex">Brand-value minimum water index <span class="unit">(x)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="brandValueMinIndex" value="0.4" min="0" max="2" step="0.05">
+                            </div>
+                            <div class="input-group">
+                                <label for="brandValueMaxIndex">Brand-value maximum water index <span class="unit">(x)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="brandValueMaxIndex" value="1.15" min="0" max="3" step="0.05">
+                            </div>
+                            <div class="input-group">
+                                <label for="lowCarbonValueCaptureRatePercent">Low-carbon value capture rate <span class="unit">(%)</span> <span class="meta-inline">Placeholder</span></label>
+                                <input type="number" id="lowCarbonValueCaptureRatePercent" value="8" min="0" max="100" step="0.5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="coefficient-shell">
+                        <h4>Water Infrastructure</h4>
+                        <p>Edit the water-side operating and capital assumptions that feed the sponsor-value model.</p>
+
+                        <div class="input-group">
+                            <label for="internalProcessWaterNeed">Sponsor process-water demand <span class="unit">(m3/day)</span></label>
+                            <input type="number" id="internalProcessWaterNeed" value="22000" min="0" step="500">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="processWaterSavingsPerM3">Process-water savings value <span class="unit">($/m3)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="processWaterSavingsPerM3" value="0.65" min="0" step="0.05">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="waterCapexPerM3Day">Water infrastructure capital expenditure (capex) <span class="unit">($/m3/day)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="waterCapexPerM3Day" value="1450" min="100" step="50">
+                        </div>
+                    </div>
+
+                    <div class="coefficient-shell">
+                        <h4>Retail Factors</h4>
+                        <p>Edit the retail, brand-trust, and low-carbon value assumptions that drive downstream sponsor upside.</p>
+
+                        <div class="input-group">
+                            <label for="retailerSites">Retail / channel sites stabilized <span class="unit">(sites)</span></label>
+                            <input type="number" id="retailerSites" value="4200" min="0" step="50">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="retailerValuePerMWh">Retail uptime value <span class="unit">($/MWh stabilized)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="retailerValuePerMWh" value="110" min="0" step="5">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="brandTrustValuePerHousehold">Brand-trust value <span class="unit">($/household/year)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="brandTrustValuePerHousehold" value="8" min="0" step="0.5">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="carbonValuePerMWh">Carbon / compliance value <span class="unit">($/MWh low-carbon)</span> <span class="meta-inline">Placeholder</span></label>
+                            <input type="number" id="carbonValuePerMWh" value="18" min="0" step="1">
+                            <div class="inline-note">
+                                Placeholder coefficients embedded in the product and energy models are disclosed in the results narrative so it is obvious what should be replaced with sponsor data.
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </section>
 
             <section id="fundingPanel" class="panel-shell expanded nav-target">
                 <div id="contributors" class="panel-head nav-target">
@@ -3554,7 +3561,7 @@
             <section id="engineering" class="panel-shell expanded nav-target">
                 <div class="panel-head">
                     <div class="panel-kicker"><span class="material-icons">view_in_ar</span>Reference scenario</div>
-                    <h2>DEEP Nuclear</h2>
+                    <h2>DEEP Nuclear for Water Replenishment</h2>
                     <p>
                         DEEP-based reference scenario with full thermal, water-output, and finance model. A separate compact water panel below keeps the headline output and payback metrics visible without repeating the full input set. <a href="../grid/deep/">About Calculator</a>
                     </p>
@@ -3880,8 +3887,7 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
             </section>
         </div>
 
-        <div class="reporting-shell">
-            <section id="reporting" class="panel-shell expanded nav-target">
+        <section id="reporting" class="panel-shell expanded nav-target">
                 <div class="panel-head">
                     <div class="panel-kicker"><span class="material-icons">description</span>Export Model Data</div>
                     <h2>Reporting</h2>
@@ -3900,8 +3906,7 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+        </section>
 
         <div class="footer-attribution">
             Developed and maintained by <a href="https://dreamstudio.com">DreamStudio</a>
@@ -3971,11 +3976,11 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
         const AUTO_COMPACT_LEFT_RAIL_BREAKPOINT = 1000;
         const MAX_SECTIONS_OPEN_COUNT = 8;
         const SECTION_ORDER = ['studio', 'benefits', 'products', 'energyMix', 'contributors', 'deployment', 'engineering', 'water', 'scorecard', 'reporting'];
-        const SECTION_ROOT_IDS = ['studio', 'benefits', 'fundingPanel', 'scorecard', 'engineering', 'water', 'reporting'];
+        const SECTION_ROOT_IDS = ['studio', 'benefits', 'products', 'fundingPanel', 'scorecard', 'engineering', 'water', 'reporting'];
         const SECTION_ROOT_MAP = {
             studio: 'studio',
             benefits: 'benefits',
-            products: 'benefits',
+            products: 'products',
             energyMix: 'benefits',
             contributors: 'fundingPanel',
             deployment: 'fundingPanel',
