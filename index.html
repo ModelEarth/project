@@ -4556,7 +4556,7 @@
             const target = document.getElementById(targetId);
             if (!isSectionTargetVisible(target)) return;
             requestAnimationFrame(function() {
-                target.scrollIntoView({ block: 'start', behavior: behavior || 'smooth' });
+                target.scrollIntoView({ block: 'start', behavior: behavior || 'instant' });
                 requestAnimationFrame(updateLeftRailActive);
             });
         }
@@ -6382,7 +6382,7 @@
             }
 
             if (!didHashChange) {
-                syncVisibleSections({ scroll: true, behavior: 'smooth', forceTargetId: targetId });
+                syncVisibleSections({ scroll: true, behavior: 'instant', forceTargetId: targetId });
             }
         }
 
@@ -6427,10 +6427,10 @@
             }
 
             document.addEventListener('hashChangeEvent', function() {
-                syncVisibleSections({ scroll: true });
+                syncVisibleSections({ scroll: true, behavior: 'instant' });
             });
             window.addEventListener('hashchange', function() {
-                syncVisibleSections({ scroll: true });
+                syncVisibleSections({ scroll: true, behavior: 'instant' });
             });
         }
 
@@ -7392,14 +7392,14 @@
             suppressStudioToast = false;
             renderOutputPanel();
 
-            // Defer initial hash scroll until dynamic content above the target has rendered
+            // Scroll to initial hash section after header is positioned (header shifts layout)
             var _initialSection = getRequestedSectionsFromHash()[0];
             if (_initialSection) {
-                var _doInitialScroll = function() { scrollToSectionTarget(_initialSection, 'auto'); };
+                var _doInitialScroll = function() { scrollToSectionTarget(_initialSection, 'instant'); };
                 if (typeof waitForElm === 'function') {
-                    waitForElm('#bodyloaded').then(_doInitialScroll);
+                    waitForElm('#headerbar').then(function() { requestAnimationFrame(_doInitialScroll); });
                 } else {
-                    setTimeout(_doInitialScroll, 400);
+                    requestAnimationFrame(function() { requestAnimationFrame(_doInitialScroll); });
                 }
             }
         }
