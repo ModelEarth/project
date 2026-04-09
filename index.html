@@ -1119,12 +1119,6 @@
             font: inherit;
         }
 
-        .dashboard-stack {
-            display: grid;
-            gap: 22px;
-            margin-top: 22px;
-        }
-
         .footer-attribution {
             margin-top: 26px;
             padding: 14px 22px;
@@ -1227,7 +1221,7 @@
             text-transform: uppercase;
         }
 
-        .large-h2, .panel-grid h2, .dashboard-stack h2, .panel-body h2, .panel-head h2 {
+        .large-h2, .panel-grid h2, .panel-body h2, .panel-head h2 {
             margin: 0;
             font-sizeX: clamp(1.6rem, 3.2cqw, 2.6rem);
             font-size: 38px;
@@ -2967,7 +2961,7 @@
         </aside>
 
         <div class="dashboard-shell contentpadding">
-        <div id="studio" class="hero nav-target">
+        <section id="studio" class="hero nav-target">
             <div class="hero-topbar">
                 <div class="eyebrow">
                     <span class="eyebrow-main"><span class="material-icons">water_drop</span><span>Water + energy <span style="font-weight:350">sponsor studio</span></span></span>
@@ -3089,11 +3083,10 @@
                 <div id="heroCapitalRows" class="capital-lens-rows"></div>
                 <div class="capital-lens-note">Government fiscal-return, payroll, tax-base, and nonprofit capture assumptions are now editable in the <a href="#section=fundingPanel" onclick="if (typeof goHash === 'function') { goHash({ section: 'fundingPanel' }); return false; }">funding panel</a>.</div>
             </div>
-        </div>
+        </section>
 
         <div id="panelRestores" class="restore-bar"></div>
 
-        <div class="dashboard-stack">
         <section id="benefits" class="panel-shell expanded nav-target">
             <div class="panel-head">
                 <div class="panel-kicker"><span class="material-icons">business_center</span>Top calculator</div>
@@ -3771,7 +3764,6 @@
                     </div>
                 </div>
             </div>
-            
         </section>
 
         <section id="water" class="panel-shell collapsed nav-target">
@@ -3930,9 +3922,6 @@
             </div>
         </section>
 
-        
-        </div>
-
         <section id="reporting" class="panel-shell expanded nav-target">
                 <div class="panel-head">
                     <div class="panel-kicker"><span class="material-icons">description</span>Export Model Data</div>
@@ -3975,6 +3964,7 @@
             #main-footer {
                 border-radius: 28px;
                 margin-top:20px;
+                padding-top:0px;
             }
         </style>
         <div id="footer"></div>
@@ -6554,8 +6544,11 @@
                 return isSectionTargetVisible(document.getElementById(link.getAttribute('data-nav-target')));
             });
             let activeId = firstVisibleLink?.getAttribute('data-nav-target') || links[0].getAttribute('data-nav-target');
+            const seenTargets = new Set();
             links.forEach(link => {
                 const targetId = link.getAttribute('data-nav-target');
+                if (seenTargets.has(targetId)) return;
+                seenTargets.add(targetId);
                 const target = document.getElementById(targetId);
                 if (!isSectionTargetVisible(target)) return;
                 const rect = target.getBoundingClientRect();
@@ -7392,9 +7385,20 @@
             renderRestoreChips();
             updateClearChangesButtons();
             updateDefaultPreviewButton();
-            syncVisibleSections({ scroll: true });
+            syncVisibleSections({ scroll: false });
             suppressStudioToast = false;
             renderOutputPanel();
+
+            // Defer initial hash scroll until dynamic content above the target has rendered
+            var _initialSection = getRequestedSectionsFromHash()[0];
+            if (_initialSection) {
+                var _doInitialScroll = function() { scrollToSectionTarget(_initialSection, 'auto'); };
+                if (typeof waitForElm === 'function') {
+                    waitForElm('#bodyloaded').then(_doInitialScroll);
+                } else {
+                    setTimeout(_doInitialScroll, 400);
+                }
+            }
         }
 
         if (typeof waitForElm === 'function') {
