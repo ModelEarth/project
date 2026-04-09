@@ -1643,7 +1643,7 @@
 
         .energy-row {
             display: grid;
-            grid-template-columns: 18px 18px minmax(220px, 1.2fr) 110px 34px minmax(120px, 0.8fr);
+            grid-template-columns: 18px 18px minmax(200px, 1.2fr) 110px 34px minmax(100px, 0.8fr) 30px;
             gap: 12px;
             align-items: center;
             padding: 12px 14px;
@@ -1651,6 +1651,205 @@
             background: rgba(245, 248, 248, 0.96);
             border: 1px solid rgba(19, 42, 43, 0.08);
             cursor: grab;
+        }
+
+        .energy-row-editing .energy-row {
+            border-radius: 18px 18px 0 0;
+            border-bottom-color: transparent;
+        }
+
+        .energy-row-menu-wrap {
+            position: relative;
+        }
+
+        .energy-row-menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--ink-2);
+            transition: background 0.15s ease, color 0.15s ease;
+            padding: 0;
+        }
+
+        .energy-row-menu-btn:hover {
+            background: rgba(15, 113, 115, 0.1);
+            color: var(--accent-1);
+        }
+
+        .energy-row-menu-btn .material-icons {
+            font-size: 18px;
+        }
+
+        .energy-row-menu {
+            position: fixed;
+            z-index: 200;
+            background: #fff;
+            border: 1px solid rgba(19, 42, 43, 0.12);
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            min-width: 178px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .energy-row-menu[hidden] {
+            display: none;
+        }
+
+        .energy-row-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border: none;
+            background: transparent;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            color: var(--ink-1);
+            text-align: left;
+            transition: background 0.13s ease;
+        }
+
+        .energy-row-menu-item:hover {
+            background: rgba(15, 113, 115, 0.08);
+        }
+
+        .energy-row-menu-item.energy-row-menu-item-danger {
+            color: #c0392b;
+        }
+
+        .energy-row-menu-item.energy-row-menu-item-danger:hover {
+            background: rgba(192, 57, 43, 0.07);
+        }
+
+        .energy-row-menu-item .material-icons {
+            font-size: 16px;
+            opacity: 0.75;
+        }
+
+        .energy-row-editor {
+            padding: 14px 14px 12px;
+            border: 1px solid rgba(19, 42, 43, 0.08);
+            border-top: none;
+            border-radius: 0 0 18px 18px;
+            background: rgba(240, 246, 246, 0.9);
+        }
+
+        .energy-row-editor[hidden] {
+            display: none;
+        }
+
+        .output-panel {
+            padding: 28px;
+            background: rgba(255,255,255,0.82);
+            border: 1px solid rgba(19,42,43,0.1);
+            border-radius: 22px;
+            box-shadow: var(--soft-shadow);
+            margin-bottom: 22px;
+        }
+
+        .output-panel h3 {
+            margin: 0 0 6px;
+            font-size: 1.1rem;
+        }
+
+        .output-panel p {
+            color: var(--ink-2);
+            font-size: 0.92rem;
+            margin: 0 0 18px;
+            line-height: 1.55;
+        }
+
+        .output-radio-group {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .output-radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .output-radio-group input[type="radio"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .output-field {
+            margin-top: 16px;
+        }
+
+        .output-field label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink-2);
+            margin-bottom: 6px;
+        }
+
+        .output-field textarea {
+            width: 100%;
+            min-height: 260px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            padding: 12px 14px;
+            border: 1px solid rgba(19,42,43,0.12);
+            border-radius: 14px;
+            background: rgba(248,252,252,0.98);
+            resize: vertical;
+            box-sizing: border-box;
+            color: var(--ink-1);
+        }
+
+        .reporting-shell {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 30px 30px;
+        }
+
+        .readme-rendered {
+            margin-bottom: 18px;
+            line-height: 1.6;
+        }
+
+        .readme-rendered h1, .readme-rendered h2, .readme-rendered h3 {
+            margin: 1em 0 0.4em;
+        }
+
+        .readme-rendered h1 { font-size: 1.4rem; }
+        .readme-rendered h2 { font-size: 1.15rem; border-bottom: 1px solid rgba(19,42,43,0.1); padding-bottom: 4px; }
+        .readme-rendered h3 { font-size: 1rem; }
+
+        .readme-rendered ul, .readme-rendered ol {
+            padding-left: 1.4em;
+            margin: 0.4em 0;
+        }
+
+        .readme-rendered p { margin: 0.5em 0; }
+
+        .readme-rendered code {
+            background: rgba(15,113,115,0.08);
+            border-radius: 4px;
+            padding: 1px 5px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.88em;
         }
 
         .energy-row.energy-row-unchecked {
@@ -1888,13 +2087,17 @@
 
         .coefficient-input-grid .input-group {
             margin: 0;
+            grid-template-columns: 1fr;
         }
 
         .coefficient-input-grid .input-group label {
             font-size: 0.82rem;
         }
 
-        .coefficient-input-grid .input-group input {
+        .coefficient-input-grid .input-group > input,
+        .coefficient-input-grid .input-group > select {
+            width: 100%;
+            justify-self: stretch;
             padding: 9px 10px;
         }
 
@@ -2182,6 +2385,32 @@
             color: #e0eef0;
             border-color: rgba(146, 177, 191, 0.14);
             box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+        }
+
+        .dark .energy-row-editor {
+            background: rgba(8, 16, 24, 0.7);
+            border-color: rgba(146, 177, 191, 0.14);
+        }
+
+
+
+        .dark .energy-row-menu {
+            background: rgba(12, 21, 28, 0.98);
+            border-color: rgba(146, 177, 191, 0.18);
+        }
+
+        .dark .energy-row-menu-item {
+            color: #e0eef0;
+        }
+
+        .dark .energy-row-menu-item:hover {
+            background: rgba(15, 113, 115, 0.18);
+        }
+
+        .dark .output-field textarea {
+            background: rgba(8, 16, 24, 0.9);
+            color: #e0eef0;
+            border-color: rgba(146, 177, 191, 0.18);
         }
 
         .dark .panel-kicker,
@@ -2515,13 +2744,40 @@
             }
 
             .energy-row {
-                grid-template-columns: 1fr;
+                grid-template-columns: 18px 18px 1fr 30px;
+                grid-template-rows: auto auto;
+            }
+
+            .energy-row .energy-meta,
+            .energy-row .energy-unit {
+                display: none;
+            }
+
+            .energy-row .energy-drag-handle {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .energy-row .energy-row-checkbox {
+                grid-column: 2;
+                grid-row: 1;
+            }
+
+            .energy-row .energy-row-main {
+                grid-column: 3;
+                grid-row: 1;
+            }
+
+            .energy-row .energy-row-menu-wrap {
+                grid-column: 4;
+                grid-row: 1;
             }
 
             .energy-row input[type="number"] {
-                width: 60px;
+                width: 80px;
                 min-width: 60px;
-                justify-self: start;
+                grid-column: 3;
+                grid-row: 2;
             }
 
             .panel-note-actions {
@@ -2644,9 +2900,10 @@
                     <a class="rail-link" href="#section=contributors" data-nav-target="contributors"><span class="material-icons">groups_3</span><span class="rail-label">Contributors</span></a>
                     <a class="rail-link" href="#section=benefits" data-nav-target="benefits"><span class="material-icons">business_center</span><span class="rail-label">Benefits</span></a>
                     <a class="rail-link" href="#section=deployment" data-nav-target="deployment"><span class="material-icons">construction</span><span class="rail-label">Deployment</span></a>
-                    <a class="rail-link" href="#section=scorecard" data-nav-target="scorecard"><span class="material-icons">leaderboard</span><span class="rail-label">Scorecard</span></a>
                     <a class="rail-link" href="#section=engineering" data-nav-target="engineering"><span class="material-icons">engineering</span><span class="rail-label">Deep Nuclear</span></a>
                     <a class="rail-link" href="#section=water" data-nav-target="water"><span class="material-icons">water_drop</span><span class="rail-label">Water Output</span></a>
+                    <a class="rail-link" href="#section=scorecard" data-nav-target="scorecard"><span class="material-icons">leaderboard</span><span class="rail-label">Scorecard</span></a>
+                    <a class="rail-link" href="#section=reporting" data-nav-target="reporting"><span class="material-icons">description</span><span class="rail-label">Reporting</span></a>
                 </nav>
                 <button type="button" class="rail-toggle" id="leftRailToggle" aria-label="Collapse navigation" aria-pressed="false">
                     <span class="material-icons">left_panel_close</span>
@@ -3101,15 +3358,10 @@
 
 	                        <div class="energy-grid" id="energyGrid"></div>
 
-                            <div id="energyCoefficientShell" class="coefficient-shell" hidden>
-                                <h4>Energy Source Coefficients</h4>
-                                <p>Edit the default capacity factor, dispatchability, capital expenditure (capex), and low-carbon flag used for each energy source in the benefits model.</p>
-                                <div id="energyCoefficientGrid" class="coefficient-grid"></div>
-                            </div>
+                        <p class="section-copy" style="margin-top:14px;font-size:0.85rem;">Edit the default capacity factor, dispatchability, capital expenditure (capex), and low-carbon flag used for each energy source in the benefits model using the <span class="material-icons" style="font-size:0.95em;vertical-align:-0.2em;">more_vert</span> menu on each row.</p>
 
                         <div class="action-row">
                             <button type="button" class="btn" id="calculateCorporateBtn"><span class="material-icons">autorenew</span>Clear Changes</button>
-                            <button type="button" class="btn secondary" id="energySettingsToggleBtn">Edit Energy Settings</button>
                         </div>
                     </div>
                 </div>
@@ -3628,6 +3880,29 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
             </section>
         </div>
 
+        <div class="reporting-shell">
+            <section id="reporting" class="panel-shell expanded nav-target">
+                <div class="panel-head">
+                    <div class="panel-kicker"><span class="material-icons">description</span>Export Model Data</div>
+                    <h2>Reporting</h2>
+                    <p>Once you've collected your data, output to send to a service like <a href="https://getscribr.com/" target="_blank" rel="noopener">Scribr</a> for fine tuning using your custom price sheets, talent profiles and data files.</p>
+                </div>
+                <div class="panel-body">
+                    <div class="output-radio-group">
+                        <label><input type="radio" name="outputMode" id="outputModeRfp" value="rfp" checked> Data for RFP</label>
+                        <label><input type="radio" name="outputMode" id="outputModeProposal" value="proposal"> Data for Proposal</label>
+                    </div>
+                    <div class="subpanel">
+                        <div id="readmeRendered" class="readme-rendered"></div>
+                        <div class="output-field" id="jsonOutputField">
+                            <label for="jsonOutput">JSON</label>
+                            <textarea id="jsonOutput" readonly spellcheck="false"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
         <div class="footer-attribution">
             Developed and maintained by <a href="https://dreamstudio.com">DreamStudio</a>
         </div>
@@ -3695,8 +3970,8 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
         const MOBILE_LEFT_RAIL_BREAKPOINT = 800;
         const AUTO_COMPACT_LEFT_RAIL_BREAKPOINT = 1000;
         const MAX_SECTIONS_OPEN_COUNT = 8;
-        const SECTION_ORDER = ['studio', 'benefits', 'products', 'energyMix', 'contributors', 'deployment', 'engineering', 'water', 'scorecard'];
-        const SECTION_ROOT_IDS = ['studio', 'benefits', 'fundingPanel', 'scorecard', 'engineering', 'water'];
+        const SECTION_ORDER = ['studio', 'benefits', 'products', 'energyMix', 'contributors', 'deployment', 'engineering', 'water', 'scorecard', 'reporting'];
+        const SECTION_ROOT_IDS = ['studio', 'benefits', 'fundingPanel', 'scorecard', 'engineering', 'water', 'reporting'];
         const SECTION_ROOT_MAP = {
             studio: 'studio',
             benefits: 'benefits',
@@ -3708,7 +3983,8 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
             engineering: 'engineering',
             water: 'water',
             DeepNuclear: 'engineering',
-            waterPanel: 'water'
+            waterPanel: 'water',
+            reporting: 'reporting'
         };
         let lastLeftRailScrollY = 0;
         let leftRailClickPinUntil = 0;
@@ -3780,6 +4056,10 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
         let usingDefaultPreview = false;
         let suspendCacheWrites = false;
         let energyCoefficientSettingsOpen = false;
+        let energyRowEditOpen = {};
+        let energyMenuOpenId = null;
+        let energyMenuHideTimer = null;
+        let energyCoefficients = {};
         let sectionWindowState = {
             requested: ['studio'],
             visible: ['studio'],
@@ -3822,11 +4102,19 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
         }
 
         function getEnergyCoefficientNumber(rowId, key, fallback, scale) {
+            const coef = energyCoefficients[rowId];
+            if (coef) {
+                if (key === 'capacityFactorPercent') return coef.capacityFactor;
+                if (key === 'dispatchabilityPercent') return coef.dispatchability;
+                if (key === 'capexPerMwMillion') return coef.capexPerMwMillion;
+            }
             const rawValue = getNumber(getEnergyCoefficientFieldId(rowId, key), fallback * (scale || 1));
             return rawValue / (scale || 1);
         }
 
         function getEnergyLowCarbonValue(rowId, fallback) {
+            const coef = energyCoefficients[rowId];
+            if (coef) return coef.lowCarbon;
             return getCheckboxValue(getEnergyCoefficientFieldId(rowId, 'lowCarbon'), fallback);
         }
 
@@ -3885,45 +4173,30 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
         }
 
         function renderEnergyCoefficientEditors() {
-            const holder = document.getElementById('energyCoefficientGrid');
-            if (!holder) return;
-
-            holder.innerHTML = energySources.map(function(source) {
-                return `
-                    <div class="coefficient-card" id="energycoef-card-${source.id}">
-                        <div class="coefficient-card-top">
-                            <strong>${source.label}</strong>
-                            <span>${source.defaultMw} MW default</span>
-                        </div>
-                        <div class="coefficient-input-grid">
-                            <div class="input-group">
-                                <label for="${getEnergyCoefficientFieldId(source.id, 'capacityFactorPercent')}">Capacity factor <span class="unit">(%)</span></label>
-                                <input type="number" id="${getEnergyCoefficientFieldId(source.id, 'capacityFactorPercent')}" value="${roundTo(source.capacityFactor * 100, 1)}" min="0" max="100" step="0.5">
-                            </div>
-                            <div class="input-group">
-                                <label for="${getEnergyCoefficientFieldId(source.id, 'dispatchabilityPercent')}">Dispatchability <span class="unit">(%)</span></label>
-                                <input type="number" id="${getEnergyCoefficientFieldId(source.id, 'dispatchabilityPercent')}" value="${roundTo(source.dispatchability * 100, 1)}" min="0" max="100" step="0.5">
-                            </div>
-                            <div class="input-group">
-                                <label for="${getEnergyCoefficientFieldId(source.id, 'capexPerMwMillion')}">Capital expenditure <span class="unit">($M/MW)</span></label>
-                                <input type="number" id="${getEnergyCoefficientFieldId(source.id, 'capexPerMwMillion')}" value="${source.capexPerMwMillion}" min="0" step="0.05">
-                            </div>
-                            <label class="coefficient-checkbox" for="${getEnergyCoefficientFieldId(source.id, 'lowCarbon')}">
-                                <input type="checkbox" id="${getEnergyCoefficientFieldId(source.id, 'lowCarbon')}" ${source.lowCarbon ? 'checked' : ''}>
-                                <span>Counts as low-carbon output</span>
-                            </label>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            // Coefficient editors now live inline per energy row.
+            // Initialize energyCoefficients state from energySources defaults.
+            energySources.forEach(function(source) {
+                if (!energyCoefficients[source.id]) {
+                    energyCoefficients[source.id] = {
+                        capacityFactor: source.capacityFactor,
+                        dispatchability: source.dispatchability,
+                        capexPerMwMillion: source.capexPerMwMillion,
+                        lowCarbon: source.lowCarbon
+                    };
+                }
+            });
+            if (!energyCoefficients['other']) {
+                energyCoefficients['other'] = {
+                    capacityFactor: 0.469,
+                    dispatchability: 0.5636,
+                    capexPerMwMillion: 2.41,
+                    lowCarbon: false
+                };
+            }
         }
 
         function updateEnergyCoefficientShellVisibility() {
-            const shell = document.getElementById('energyCoefficientShell');
-            const button = document.getElementById('energySettingsToggleBtn');
-            if (!shell || !button) return;
-            shell.hidden = !energyCoefficientSettingsOpen;
-            button.textContent = energyCoefficientSettingsOpen ? 'Hide Settings' : 'Edit Energy Settings';
+            // Coefficient editors now live inline per energy row.
         }
 
         function formatNumber(value) {
@@ -4807,31 +5080,83 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
             }
         }
 
+        function getEnergyCoeffForRow(row) {
+            if (energyCoefficients[row.id]) return energyCoefficients[row.id];
+            return {
+                capacityFactor: row.capacityFactor,
+                dispatchability: row.dispatchability,
+                capexPerMwMillion: row.capexPerMwMillion,
+                lowCarbon: row.lowCarbon
+            };
+        }
+
         function renderEnergyGrid() {
             const holder = document.getElementById('energyGrid');
             if (!holder) return;
 
             const rowsMarkup = energyMixRows.map(function(row) {
                 const effectiveMw = getEffectiveEnergyRowMw(row);
-                const capacityFactor = getEnergyCoefficientNumber(row.id, 'capacityFactorPercent', row.capacityFactor, 100);
-                const capexPerMwMillion = getEnergyCoefficientNumber(row.id, 'capexPerMwMillion', row.capexPerMwMillion, 1);
+                const coef = getEnergyCoeffForRow(row);
+                const capacityFactor = coef.capacityFactor;
+                const capexPerMwMillion = coef.capexPerMwMillion;
                 const inputValue = row.isOther
                     ? (effectiveMw > 0 ? String(roundTo(effectiveMw, 2)) : '')
                     : (row.mw === null ? '' : escapeHtml(row.mw));
                 const metaMarkup = row.isOther
                     ? `Placeholder catch-all bucket for unassigned or removed MW.<br>Capacity factor ${formatPercent(capacityFactor * 100)}<br>Capital expenditure (capex) $${capexPerMwMillion.toFixed(2)}M/MW`
                     : `Capacity factor ${formatPercent(capacityFactor * 100)}<br>Capital expenditure (capex) $${capexPerMwMillion.toFixed(2)}M/MW`;
+                const isEditing = !!energyRowEditOpen[row.id];
+                const removeBtn = !row.isOther ? `
+                        <button type="button" class="energy-row-menu-item energy-row-menu-item-danger" data-energy-remove-id="${escapeHtml(row.id)}">
+                            <span class="material-icons">remove_circle_outline</span>Remove from mix
+                        </button>` : '';
                 return `
-                    <div class="energy-row ${row.checked ? '' : 'energy-row-unchecked'} ${row.isOther ? 'energy-placeholder-row' : ''}" draggable="true" data-energy-row-id="${row.id}" data-energy-drag-context="grid">
-                        <span class="energy-drag-handle" aria-hidden="true"><span class="material-icons">drag_indicator</span></span>
-                        <input class="energy-row-checkbox" type="checkbox" data-energy-checkbox-id="${row.id}" ${row.checked ? 'checked' : ''}>
-                        <div class="energy-row-main">
-                            <span class="energy-share">${formatPercent(getEnergyRowShare(row))}</span>
-                            <span class="energy-name-editor" contenteditable="true" spellcheck="false" data-energy-name-id="${row.id}">${escapeHtml(row.name)}</span>
+                    <div class="energy-row-wrap ${isEditing ? 'energy-row-editing' : ''}" data-energy-wrap-id="${escapeHtml(row.id)}">
+                        <div class="energy-row ${row.checked ? '' : 'energy-row-unchecked'} ${row.isOther ? 'energy-placeholder-row' : ''}" draggable="true" data-energy-row-id="${escapeHtml(row.id)}" data-energy-drag-context="grid">
+                            <span class="energy-drag-handle" aria-hidden="true"><span class="material-icons">drag_indicator</span></span>
+                            <input class="energy-row-checkbox" type="checkbox" data-energy-checkbox-id="${escapeHtml(row.id)}" ${row.checked ? 'checked' : ''}>
+                            <div class="energy-row-main">
+                                <span class="energy-share">${formatPercent(getEnergyRowShare(row))}</span>
+                                <span class="energy-name-editor" contenteditable="true" spellcheck="false" data-energy-name-id="${escapeHtml(row.id)}">${escapeHtml(row.name)}</span>
+                            </div>
+                            <input type="number" data-energy-mw-id="${escapeHtml(row.id)}" value="${inputValue}" min="0" step="${row.step}">
+                            <span class="energy-unit">MW</span>
+                            <div class="energy-meta">${metaMarkup}</div>
+                            <div class="energy-row-menu-wrap">
+                                <button type="button" class="energy-row-menu-btn" data-energy-menu-id="${escapeHtml(row.id)}" title="More options" aria-label="More options">
+                                    <span class="material-icons">more_vert</span>
+                                </button>
+                                <div class="energy-row-menu" hidden data-energy-menu-popup="${escapeHtml(row.id)}">
+                                    <button type="button" class="energy-row-menu-item" data-energy-edit-id="${escapeHtml(row.id)}">
+                                        <span class="material-icons">tune</span>${isEditing ? 'Hide' : 'Edit'} coefficients
+                                    </button>
+                                    <button type="button" class="energy-row-menu-item" data-energy-reset-id="${escapeHtml(row.id)}">
+                                        <span class="material-icons">refresh</span>Reset to default
+                                    </button>
+                                    ${removeBtn}
+                                </div>
+                            </div>
                         </div>
-                        <input type="number" data-energy-mw-id="${row.id}" value="${inputValue}" min="0" step="${row.step}">
-                        <span class="energy-unit">MW</span>
-                        <div class="energy-meta">${metaMarkup}</div>
+                        <div class="energy-row-editor" ${isEditing ? '' : 'hidden'} data-energy-editor-id="${escapeHtml(row.id)}">
+                            <div class="coefficient-input-grid">
+                                <div class="input-group">
+                                    <label for="${getEnergyCoefficientFieldId(row.id, 'capacityFactorPercent')}">Capacity factor <span class="unit">(%)</span></label>
+                                    <input type="number" id="${getEnergyCoefficientFieldId(row.id, 'capacityFactorPercent')}" value="${roundTo(coef.capacityFactor * 100, 1)}" min="0" max="100" step="0.5" data-energy-coef-id="${escapeHtml(row.id)}" data-coef-key="capacityFactor">
+                                </div>
+                                <div class="input-group">
+                                    <label for="${getEnergyCoefficientFieldId(row.id, 'dispatchabilityPercent')}">Dispatchability <span class="unit">(%)</span></label>
+                                    <input type="number" id="${getEnergyCoefficientFieldId(row.id, 'dispatchabilityPercent')}" value="${roundTo(coef.dispatchability * 100, 1)}" min="0" max="100" step="0.5" data-energy-coef-id="${escapeHtml(row.id)}" data-coef-key="dispatchability">
+                                </div>
+                                <div class="input-group">
+                                    <label for="${getEnergyCoefficientFieldId(row.id, 'capexPerMwMillion')}">Capital expenditure <span class="unit">($M/MW)</span></label>
+                                    <input type="number" id="${getEnergyCoefficientFieldId(row.id, 'capexPerMwMillion')}" value="${coef.capexPerMwMillion}" min="0" step="0.05" data-energy-coef-id="${escapeHtml(row.id)}" data-coef-key="capexPerMwMillion">
+                                </div>
+                                <label class="coefficient-checkbox" for="${getEnergyCoefficientFieldId(row.id, 'lowCarbon')}">
+                                    <input type="checkbox" id="${getEnergyCoefficientFieldId(row.id, 'lowCarbon')}" ${coef.lowCarbon ? 'checked' : ''} data-energy-coef-id="${escapeHtml(row.id)}" data-coef-key="lowCarbon">
+                                    <span>Counts as low-carbon output</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -6502,6 +6827,123 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
             });
         }
 
+        function generateReadmeOutput(mode) {
+            const isRfp = mode === 'rfp';
+            const label = isRfp ? 'RFP Data' : 'Proposal Data';
+            const today = new Date().toISOString().slice(0, 10);
+            const lines = [];
+            lines.push('# ' + label);
+            lines.push('Generated: ' + today);
+            lines.push('');
+
+            if (corporateResults) {
+                const c = corporateResults;
+                lines.push('## Corporate Benefits Model');
+                lines.push('Annual sponsor value: ' + formatCurrency(c.totalAnnualBenefit));
+                lines.push('  Revenue lift: ' + formatCurrency(c.totalRevenueLift));
+                lines.push('  Margin lift: ' + formatCurrency(c.totalMarginLift));
+                lines.push('  Process water value: ' + formatCurrency(c.processWaterValue));
+                lines.push('  Retail uptime value: ' + formatCurrency(c.retailUptimeValue));
+                lines.push('  Brand value: ' + formatCurrency(c.totalBrandValue));
+                lines.push('  Carbon value: ' + formatCurrency(c.carbonValue));
+                lines.push('NPV: ' + formatCurrency(c.npv));
+                lines.push('ROI multiple: ' + c.roiMultiple.toFixed(2) + 'x');
+                lines.push('Population served: ' + formatWhole(c.populationServed));
+                lines.push('Households covered: ' + formatWhole(c.coveredHouseholds));
+                lines.push('Annual energy: ' + formatNumber(c.annualEnergyMwh) + ' MWh/yr');
+                lines.push('Low-carbon share: ' + formatPercent(c.lowCarbonShare * 100));
+                lines.push('');
+            }
+
+            if (energyMixRows && energyMixRows.length) {
+                lines.push('## Energy Mix');
+                energyMixRows.filter(r => r.checked || (r.isOther && getEffectiveEnergyRowMw(r) > 0)).forEach(function(row) {
+                    const mw = getEnergyRowMw(row);
+                    lines.push('  ' + row.name + ': ' + mw + ' MW (' + formatPercent(getEnergyRowShare(row)) + ')');
+                });
+                lines.push('');
+            }
+
+            if (fundingResults) {
+                const f = fundingResults;
+                lines.push('## Funding Structure');
+                lines.push('Planning budget: ' + formatCurrency(f.planningBudget) + 'M');
+                lines.push('Deployment budget: ' + formatCurrency(f.deploymentBudget) + 'M');
+                lines.push('Government total: ' + formatCurrency(f.totalGovernmentContribution) + 'M');
+                lines.push('Nonprofit total: ' + formatCurrency(f.totalNonprofitContribution) + 'M');
+                lines.push('');
+            }
+
+            if (calculationResults && !isRfp) {
+                const r = calculationResults;
+                lines.push('## Nuclear Desalination Reference Case');
+                lines.push('Reactor power: ' + r.reactorPower + ' MWth');
+                lines.push('Waste heat recovered: ' + formatNumber(r.wasteHeatMW) + ' MWth');
+                lines.push('Daily water production: ' + formatNumber(r.dailyWaterProductionAdjusted) + ' m\u00b3/day');
+                lines.push('Annual water production: ' + formatNumber(r.annualWaterProduction) + ' m\u00b3/year');
+                lines.push('Annual revenue: ' + formatCurrency(r.annualRevenue));
+                lines.push('Total project cost: ' + formatCurrency(r.totalProjectCost));
+                lines.push('Payback period: ' + formatNumber(r.paybackPeriod) + ' years');
+                lines.push('NPV: ' + formatCurrency(r.npv));
+                lines.push('Cost per m\u00b3: ' + formatCurrency(r.costPerCubicMeter));
+                lines.push('');
+            }
+
+            return lines.join('\n');
+        }
+
+        function generateJsonOutput(mode) {
+            const today = new Date().toISOString().slice(0, 10);
+            const obj = {
+                mode: mode,
+                generated: today,
+                corporate: corporateResults || null,
+                funding: fundingResults || null,
+                nuclear: (mode === 'proposal' && calculationResults) ? calculationResults : null,
+                energyMix: energyMixRows ? energyMixRows.filter(r => r.checked || (r.isOther && getEffectiveEnergyRowMw(r) > 0)).map(function(row) {
+                    return {
+                        id: row.id,
+                        name: row.name,
+                        mw: getEnergyRowMw(row),
+                        sharePercent: roundTo(getEnergyRowShare(row), 1),
+                        coefficients: energyCoefficients[row.id] || null
+                    };
+                }) : []
+            };
+            return JSON.stringify(obj, null, 2);
+        }
+
+        function getOutputMode() {
+            const rfpEl = document.getElementById('outputModeRfp');
+            return (rfpEl && rfpEl.checked) ? 'rfp' : 'proposal';
+        }
+
+        function renderOutputPanel() {
+            const mode = getOutputMode();
+
+            // Update JSON field
+            const ta = document.getElementById('jsonOutput');
+            if (ta) ta.value = generateJsonOutput(mode);
+
+            // Render markdown via loadMarkdown using a Blob URL
+            const markdownText = generateReadmeOutput(mode);
+            const renderedDiv = document.getElementById('readmeRendered');
+            if (!renderedDiv) return;
+            renderedDiv.innerHTML = '';
+
+            const blob = new Blob([markdownText], { type: 'text/plain' });
+            const blobUrl = URL.createObjectURL(blob);
+            loadMarkdown(blobUrl, 'readmeRendered', null, 1, function() {
+                URL.revokeObjectURL(blobUrl);
+            });
+        }
+
+        function setupOutputHandlers() {
+            document.querySelectorAll('input[name="outputMode"]').forEach(function(radio) {
+                radio.addEventListener('change', renderOutputPanel);
+            });
+        }
+
         function setupEventHandlers() {
             const corporateBtn = document.getElementById('calculateCorporateBtn');
             const fundingBtn = document.getElementById('calculateFundingBtn');
@@ -6526,7 +6968,13 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
             if (nuclearBtn) nuclearBtn.addEventListener('click', function() {
                 calculateNuclear();
                 const fb = document.getElementById('nuclearCalcFeedback');
-                if (fb) {
+                if (fb && calculationResults) {
+                    const r = calculationResults;
+                    fb.innerHTML = '<strong>Calculations updated</strong> &mdash; '
+                        + formatNumber(r.dailyWaterProductionAdjusted) + '\u202fm\u00b3/day &middot; '
+                        + formatCurrency(r.annualRevenue) + '/yr revenue &middot; '
+                        + formatNumber(r.paybackPeriod) + '-yr payback &middot; '
+                        + 'NPV\u00a0' + formatCurrency(r.npv);
                     fb.style.display = 'block';
                     clearTimeout(fb._hideTimer);
                     fb._hideTimer = setTimeout(function() { fb.style.display = 'none'; }, 5000);
@@ -6542,12 +6990,7 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
                 event.stopPropagation();
                 toggleSectorLayout();
             });
-            if (energySettingsToggleBtn) {
-                energySettingsToggleBtn.addEventListener('click', function() {
-                    energyCoefficientSettingsOpen = !energyCoefficientSettingsOpen;
-                    updateEnergyCoefficientShellVisibility();
-                });
-            }
+            // energySettingsToggleBtn removed — coefficient editors are now inline per row.
 
             if (selectorBtn && sectorPopup) {
                 selectorBtn.addEventListener('click', function(event) {
@@ -6565,6 +7008,13 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
             document.addEventListener('click', function(event) {
                 if (sectorPopup && selectorBtn && !event.target.closest('#sectorPopup') && !event.target.closest('#sectorSelectorBtn')) {
                     sectorPopup.classList.remove('open');
+                }
+
+                if (energyMenuOpenId && !event.target.closest('[data-energy-menu-popup]') && !event.target.closest('[data-energy-menu-id]')) {
+                    if (energyMenuHideTimer) { clearTimeout(energyMenuHideTimer); energyMenuHideTimer = null; }
+                    const openPopup = energyGrid && energyGrid.querySelector('[data-energy-menu-popup="' + energyMenuOpenId + '"]');
+                    if (openPopup) openPopup.hidden = true;
+                    energyMenuOpenId = null;
                 }
 
                 const restoreButton = event.target.closest('[data-restore-panel]');
@@ -6670,6 +7120,19 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
                     const numberInput = event.target.closest('input[type="number"][data-energy-mw-id]');
                     if (numberInput) {
                         updateEnergyRowMw(numberInput.getAttribute('data-energy-mw-id'), numberInput.value);
+                        return;
+                    }
+
+                    const coefInput = event.target.closest('input[data-energy-coef-id]');
+                    if (coefInput) {
+                        const rowId = coefInput.getAttribute('data-energy-coef-id');
+                        const coefKey = coefInput.getAttribute('data-coef-key');
+                        if (!energyCoefficients[rowId]) energyCoefficients[rowId] = getEnergyCoeffForRow(energyMixRows.find(r => r.id === rowId) || {});
+                        if (coefKey === 'capacityFactor') energyCoefficients[rowId].capacityFactor = parseFloat(coefInput.value) / 100 || 0;
+                        else if (coefKey === 'dispatchability') energyCoefficients[rowId].dispatchability = parseFloat(coefInput.value) / 100 || 0;
+                        else if (coefKey === 'capexPerMwMillion') energyCoefficients[rowId].capexPerMwMillion = parseFloat(coefInput.value) || 0;
+                        else if (coefKey === 'lowCarbon') energyCoefficients[rowId].lowCarbon = coefInput.checked;
+                        calculateCorporateBenefits();
                     }
                 });
 
@@ -6686,6 +7149,100 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
                     const editor = event.target.closest('[contenteditable="true"][data-energy-name-id]');
                     if (!editor) return;
                     updateEnergyRowName(editor.getAttribute('data-energy-name-id'), editor.textContent);
+                });
+
+                energyGrid.addEventListener('mouseover', function(event) {
+                    if (!energyMenuOpenId) return;
+                    const wrap = event.target.closest('.energy-row-menu-wrap');
+                    if (wrap && wrap.querySelector('[data-energy-menu-popup="' + energyMenuOpenId + '"]')) {
+                        if (energyMenuHideTimer) { clearTimeout(energyMenuHideTimer); energyMenuHideTimer = null; }
+                    }
+                });
+
+                energyGrid.addEventListener('mouseout', function(event) {
+                    if (!energyMenuOpenId) return;
+                    const wrap = event.target.closest('.energy-row-menu-wrap');
+                    if (!wrap) return;
+                    if (event.relatedTarget && wrap.contains(event.relatedTarget)) return;
+                    if (energyMenuHideTimer) clearTimeout(energyMenuHideTimer);
+                    const capturedId = energyMenuOpenId;
+                    energyMenuHideTimer = setTimeout(function() {
+                        if (energyMenuOpenId !== capturedId) return;
+                        const popup = energyGrid && energyGrid.querySelector('[data-energy-menu-popup="' + capturedId + '"]');
+                        if (popup) popup.hidden = true;
+                        energyMenuOpenId = null;
+                        energyMenuHideTimer = null;
+                    }, 3000);
+                });
+
+                energyGrid.addEventListener('click', function(event) {
+                    const menuBtn = event.target.closest('[data-energy-menu-id]');
+                    if (menuBtn) {
+                        event.stopPropagation();
+                        const rowId = menuBtn.getAttribute('data-energy-menu-id');
+                        const popup = energyGrid.querySelector('[data-energy-menu-popup="' + rowId + '"]');
+                        if (!popup) return;
+                        const wasHidden = popup.hidden;
+                        // Close any other open menus
+                        energyGrid.querySelectorAll('[data-energy-menu-popup]').forEach(function(p) { p.hidden = true; });
+                        if (energyMenuHideTimer) { clearTimeout(energyMenuHideTimer); energyMenuHideTimer = null; }
+                        popup.hidden = !wasHidden;
+                        energyMenuOpenId = popup.hidden ? null : rowId;
+                        if (!popup.hidden) {
+                            // Position popup fixed, aligned to button top-right
+                            const btnRect = menuBtn.getBoundingClientRect();
+                            popup.style.top = btnRect.top + 'px';
+                            popup.style.left = '';
+                            popup.style.right = '';
+                            // After brief paint so we know popup width
+                            requestAnimationFrame(function() {
+                                const popRect = popup.getBoundingClientRect();
+                                const rightEdge = btnRect.right - popRect.width;
+                                popup.style.left = Math.max(4, rightEdge) + 'px';
+                            });
+                        }
+                        return;
+                    }
+
+                    const editBtn = event.target.closest('[data-energy-edit-id]');
+                    if (editBtn) {
+                        event.stopPropagation();
+                        const rowId = editBtn.getAttribute('data-energy-edit-id');
+                        energyRowEditOpen[rowId] = !energyRowEditOpen[rowId];
+                        energyMenuOpenId = null;
+                        renderEnergyGrid();
+                        return;
+                    }
+
+                    const resetBtn = event.target.closest('[data-energy-reset-id]');
+                    if (resetBtn) {
+                        event.stopPropagation();
+                        const rowId = resetBtn.getAttribute('data-energy-reset-id');
+                        const source = energySources.find(s => s.id === rowId);
+                        if (source) {
+                            energyCoefficients[rowId] = {
+                                capacityFactor: source.capacityFactor,
+                                dispatchability: source.dispatchability,
+                                capexPerMwMillion: source.capexPerMwMillion,
+                                lowCarbon: source.lowCarbon
+                            };
+                        } else if (rowId === 'other') {
+                            energyCoefficients['other'] = { capacityFactor: 0.469, dispatchability: 0.5636, capexPerMwMillion: 2.41, lowCarbon: false };
+                        }
+                        energyMenuOpenId = null;
+                        renderEnergyGrid();
+                        calculateCorporateBenefits();
+                        return;
+                    }
+
+                    const removeBtn = event.target.closest('[data-energy-remove-id]');
+                    if (removeBtn) {
+                        event.stopPropagation();
+                        const rowId = removeBtn.getAttribute('data-energy-remove-id');
+                        energyMenuOpenId = null;
+                        updateEnergyRowChecked(rowId, false);
+                        return;
+                    }
                 });
             }
 
@@ -6716,6 +7273,7 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
             refreshEnergyMixUi();
             initializePageConfigDarkToggle();
             setupEventHandlers();
+            setupOutputHandlers();
             setupPanelMenus();
             setupSectionWindowing();
             setupLeftRail();
@@ -6728,6 +7286,7 @@ Latent Heat = 2326 kJ/kg at about 70 C</code>
             updateDefaultPreviewButton();
             syncVisibleSections({ scroll: true });
             suppressStudioToast = false;
+            renderOutputPanel();
         }
 
         if (typeof waitForElm === 'function') {
