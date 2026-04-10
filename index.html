@@ -838,11 +838,23 @@
             display: grid;
             grid-template-columns: 18px 18px minmax(0, 1fr);
             align-items: center;
-            gap: 10px;
+            gap: 14px;
             padding: 9px 10px;
             border-radius: 16px;
             background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
             cursor: grab;
+        }
+
+        .energy-simple-item::before,
+        .energy-row::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 26px;
+            background: rgba(19, 42, 43, 0.08);
+            pointer-events: none;
         }
 
         .energy-simple-item.energy-row-unchecked {
@@ -859,7 +871,10 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            color: rgba(255, 255, 255, 0.58);
+            position: relative;
+            z-index: 1;
+            margin-left: 5px;
+            color: rgba(19, 42, 43, 0.52);
             cursor: grab;
             user-select: none;
         }
@@ -1488,7 +1503,7 @@
         .select-trigger {
             width: 100%;
             box-sizing: border-box;
-            padding: 12px 14px;
+            padding: 12px 14px 12px 4px;
             border-radius: 14px;
             border: 1px solid rgba(19, 42, 43, 0.12);
             background: rgba(255, 255, 255, 0.98);
@@ -1686,13 +1701,15 @@
 
         .energy-row {
             display: grid;
-            grid-template-columns: 18px 18px minmax(200px, 1.2fr) 110px 34px minmax(100px, 0.8fr) 30px;
-            gap: 12px;
+            grid-template-columns: 18px minmax(280px, 1.4fr) minmax(100px, 0.8fr) 30px;
+            gap: 16px;
             align-items: center;
-            padding: 12px 14px;
+            padding: 12px 14px 12px 0;
             border-radius: 18px;
             background: rgba(245, 248, 248, 0.96);
             border: 1px solid rgba(19, 42, 43, 0.08);
+            position: relative;
+            overflow: hidden;
             cursor: grab;
         }
 
@@ -1894,16 +1911,35 @@
         }
 
         .energy-row-main {
+            display: grid;
+            gap: 6px;
+            margin-left: 8px;
+            min-width: 0;
+        }
+
+        .energy-row-details {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 0.98rem;
+            flex-wrap: wrap;
+            min-width: 0;
+        }
+
+        .energy-row-measure {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             min-width: 0;
         }
 
         .energy-share {
-            min-width: 52px;
-            font-size: 0.84rem;
+            display: inline-flex;
+            align-items: center;
+            min-width: 0;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: rgba(15, 113, 115, 0.1);
+            font-size: 0.8rem;
             font-weight: 700;
             color: var(--accent-1);
         }
@@ -1913,9 +1949,10 @@
         }
 
         .energy-name-editor {
-            display: inline-block;
+            display: block;
             min-width: 0;
-            padding-left: 8px;
+            font-size: 1.08rem;
+            font-weight: 700;
             line-height: 1.35;
             cursor: text;
             box-shadow: inset 0 0 0 rgba(15, 113, 115, 0);
@@ -1935,17 +1972,37 @@
 
         .energy-row input[type="number"] {
             margin: 0;
-            width: 100%;
+            width: 60px;
+            min-width: 60px;
+            padding: 7px 24px 7px 4px;
+            border-radius: 12px;
+            border: 1px solid rgba(19, 42, 43, 0.12);
+            background: rgba(248, 252, 252, 0.98);
+            color: var(--ink-1);
+            text-align: right;
+            box-sizing: border-box;
+        }
+
+        .energy-row input[data-energy-mw-id] {
+            padding-right: 28px;
             text-align: right;
         }
 
+        .energy-row input[data-energy-mw-id]::-webkit-inner-spin-button,
+        .energy-row input[data-energy-mw-id]::-webkit-outer-spin-button {
+            margin-left: 6px;
+        }
+
         .energy-unit {
+            display: inline-flex;
+            align-items: center;
             color: var(--ink-2);
-            font-size: 0.88rem;
+            font-size: 0.8rem;
             font-weight: 700;
         }
 
         .energy-meta {
+            min-width: 258px;
             color: var(--ink-2);
             font-size: 0.88rem;
             line-height: 1.45;
@@ -2152,6 +2209,27 @@
         .coefficient-checkbox input {
             width: auto;
             margin: 0;
+        }
+
+        .energy-coefficient-overview {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(19, 42, 43, 0.08);
+            color: var(--ink-2);
+            font-size: 0.84rem;
+            line-height: 1.55;
+        }
+
+        .energy-coefficient-overview p {
+            margin: 0;
+        }
+
+        .energy-coefficient-overview p + p {
+            margin-top: 6px;
+        }
+
+        .energy-coefficient-overview strong {
+            color: var(--ink-1);
         }
 
         .formula-box {
@@ -2429,6 +2507,21 @@
             border-color: rgba(146, 177, 191, 0.14);
         }
 
+        .dark .energy-simple-item::before,
+        .dark .energy-row::before {
+            background: rgba(146, 177, 191, 0.14);
+        }
+
+        .dark .energy-drag-handle {
+            color: rgba(224, 238, 240, 0.72);
+        }
+
+        .dark .energy-row input[type="number"] {
+            background: rgba(8, 16, 24, 0.98);
+            color: #eef9fa;
+            border-color: rgba(146, 177, 191, 0.18);
+        }
+
 
 
         .dark .energy-row-menu {
@@ -2576,6 +2669,11 @@
             box-shadow: inset 1px 0 0 rgba(126, 217, 211, 0.8);
         }
 
+        .dark .energy-share {
+            background: rgba(126, 217, 211, 0.12);
+            color: #9fe8ef;
+        }
+
         .dark .formula-box {
             background: rgba(80, 59, 10, 0.36);
             border-color: rgba(231, 205, 125, 0.34);
@@ -2597,6 +2695,15 @@
         .dark .coefficient-card-note,
         .dark .coefficient-card-top span {
             color: #b8ccd4;
+        }
+
+        .dark .energy-coefficient-overview {
+            border-top-color: rgba(146, 177, 191, 0.14);
+            color: #b8ccd4;
+        }
+
+        .dark .energy-coefficient-overview strong {
+            color: #edf6f7;
         }
 
         .dark .coefficient-card {
@@ -2795,43 +2902,6 @@
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
-            .energy-row {
-                grid-template-columns: 18px 18px 1fr 30px;
-                grid-template-rows: auto auto;
-            }
-
-            .energy-row .energy-meta,
-            .energy-row .energy-unit {
-                display: none;
-            }
-
-            .energy-row .energy-drag-handle {
-                grid-column: 1;
-                grid-row: 1;
-            }
-
-            .energy-row .energy-row-checkbox {
-                grid-column: 2;
-                grid-row: 1;
-            }
-
-            .energy-row .energy-row-main {
-                grid-column: 3;
-                grid-row: 1;
-            }
-
-            .energy-row .energy-row-menu-wrap {
-                grid-column: 4;
-                grid-row: 1;
-            }
-
-            .energy-row input[type="number"] {
-                width: 80px;
-                min-width: 60px;
-                grid-column: 3;
-                grid-row: 2;
-            }
-
             .panel-note-actions {
                 flex-basis: 100%;
                 margin-left: 0;
@@ -2861,6 +2931,46 @@
 
             .panel-summary-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .energy-row {
+                grid-template-columns: 18px minmax(0, 1fr) 30px;
+                grid-template-rows: auto auto;
+                align-items: start;
+            }
+
+            .energy-row .energy-drag-handle {
+                grid-column: 1;
+                grid-row: 1;
+                padding-top: 4px;
+            }
+
+            .energy-row .energy-row-main {
+                grid-column: 2;
+                grid-row: 1;
+            }
+
+            .energy-row .energy-row-menu-wrap {
+                grid-column: 3;
+                grid-row: 1;
+                justify-self: end;
+            }
+
+            .energy-row .energy-name-editor {
+                font-size: 1.14rem;
+            }
+
+            .energy-row .energy-row-details {
+                gap: 8px;
+            }
+
+            .energy-row .energy-row-measure {
+                gap: 4px;
+            }
+
+            .energy-row .energy-meta {
+                grid-column: 2 / span 2;
+                grid-row: 2;
             }
 
             .input-group {
@@ -4082,18 +4192,29 @@
         ];
 
         const ENERGY_MIX_STORAGE_KEY = 'energyMixObject1';
+        const ENERGY_OTHER_DEFAULTS = {
+            capacityFactor: 0.469,
+            dispatchability: 0.5636,
+            capexPerMwMillion: 2.41,
+            lowCarbon: false,
+            overview: 'Fallback bucket for any residual or sponsor-specific generation that does not map cleanly to the named technologies.',
+            defaultBasis: 'This placeholder uses a blended, non-source-specific average so missing MW remains visible until replaced with sponsor data.'
+        };
+
         const energySources = [
-            { id: 'solar', label: 'Solar PV', defaultMw: 120, step: 5, capacityFactor: 0.24, capexPerMwMillion: 0.95, dispatchability: 0.28, lowCarbon: true },
-            { id: 'wind', label: 'Onshore wind', defaultMw: 95, step: 5, capacityFactor: 0.37, capexPerMwMillion: 1.45, dispatchability: 0.36, lowCarbon: true },
-            { id: 'geothermal', label: 'Geothermal', defaultMw: 35, step: 5, capacityFactor: 0.9, capexPerMwMillion: 4.8, dispatchability: 0.95, lowCarbon: true },
-            { id: 'hydro', label: 'Small hydro', defaultMw: 25, step: 5, capacityFactor: 0.52, capexPerMwMillion: 3.4, dispatchability: 0.78, lowCarbon: true },
-            { id: 'nuclear', label: 'SMR / nuclear retrofit', defaultMw: 40, step: 5, capacityFactor: 0.92, capexPerMwMillion: 6.8, dispatchability: 0.98, lowCarbon: true },
-            { id: 'wasteHeat', label: 'Industrial waste-heat recovery', defaultMw: 28, step: 2, capacityFactor: 0.61, capexPerMwMillion: 1.2, dispatchability: 0.7, lowCarbon: true },
-            { id: 'wasteToEnergy', label: 'Waste-to-energy / biogas', defaultMw: 18, step: 2, capacityFactor: 0.74, capexPerMwMillion: 5.0, dispatchability: 0.88, lowCarbon: true },
-            { id: 'gasBackup', label: 'Flexible gas backup', defaultMw: 22, step: 2, capacityFactor: 0.18, capexPerMwMillion: 1.1, dispatchability: 0.94, lowCarbon: false }
+            { id: 'solar', label: 'Solar PV', defaultMw: 120, defaultChecked: true, step: 5, capacityFactor: 0.25, capexPerMwMillion: 1.5, dispatchability: 0.28, lowCarbon: true, overview: 'Single-axis utility PV is usually the lowest-cost clean daytime power option, but production still follows irradiance and fades into the evening peak.', defaultBasis: 'Defaults align to recent U.S. tracker-plant benchmarks near 25% capacity factor and about $1.50M/MW capex from NREL ATB and EIA AEO2025.' },
+            { id: 'geothermal', label: 'Geothermal', defaultMw: 35, defaultChecked: true, step: 5, capacityFactor: 0.9, capexPerMwMillion: 3.96, dispatchability: 0.95, lowCarbon: true, overview: 'Geothermal behaves more like firm thermal generation than weather-driven renewables, with high uptime when the reservoir and drilling conditions are favorable.', defaultBasis: 'Defaults use a binary-cycle-style benchmark around 90% capacity factor and about $3.96M/MW capex from EIA AEO2025, with dispatchability kept high as a model assumption.' },
+            { id: 'deepFission', label: 'Deep Fission Steam Turbine', defaultMw: 15, defaultChecked: false, step: 5, capacityFactor: 0.95, capexPerMwMillion: 7.4, dispatchability: 0.98, lowCarbon: true, overview: 'Deep Fission pairs a one-mile borehole reactor with a conventional surface steam cycle, aiming for compact, modular, always-on nuclear output.', defaultBasis: 'Defaults assume one 15 MWe module from the company\'s published design. Capex is an inferred advanced-nuclear placeholder because Deep Fission publishes output and LCOE targets, not a public EPC cost stack.' },
+            { id: 'radiant', label: 'Radiant Nuclear SMR', defaultMw: 10, defaultChecked: false, step: 1, capacityFactor: 0.95, capexPerMwMillion: 9.4, dispatchability: 0.97, lowCarbon: true, overview: 'Radiant\'s Kaleidos concept is a portable helium-cooled microreactor intended for remote, resilient power where logistics and uptime matter more than sheer plant scale.', defaultBasis: 'Defaults aggregate roughly ten 1-MWe Kaleidos-class units into a 10 MW block. Capex is a first-of-a-kind microreactor proxy anchored above larger SMR benchmarks because public commercial EPC data are not yet available.' },
+            { id: 'nuclear', label: 'Nuclear Retrofit', legacyLabels: ['Nuclear retrofit', 'SMR / nuclear retrofit'], defaultMw: 40, defaultChecked: true, step: 5, capacityFactor: 0.93, capexPerMwMillion: 7.86, dispatchability: 0.98, lowCarbon: true, overview: 'Brownfield nuclear retrofit assumptions fit sites that can reuse grid interconnection, cooling water, or industrial infrastructure while still delivering very high availability.', defaultBasis: 'Defaults lean on EIA\'s advanced-nuclear brownfield benchmark, using about 93% capacity factor and roughly $7.86M/MW capex as a retrofit-friendly proxy.' },
+            { id: 'wasteHeat', label: 'Industrial Waste-Heat Recovery', defaultMw: 28, defaultChecked: true, step: 2, capacityFactor: 0.61, capexPerMwMillion: 1.8, dispatchability: 0.7, lowCarbon: true, overview: 'Waste-heat recovery converts existing industrial thermal losses into power, so economics can be attractive where there is steady process heat and an available host.', defaultBasis: 'Defaults use a mid-band waste-heat-to-power assumption. Capacity factor reflects host-process uptime, while capex is a moderate proxy within DOE-reported organic Rankine and steam-cycle project ranges.' },
+            { id: 'wasteToEnergy', label: 'Waste-to-Energy / Biogas', defaultMw: 18, defaultChecked: true, step: 2, capacityFactor: 0.74, capexPerMwMillion: 5.0, dispatchability: 0.88, lowCarbon: true, overview: 'Biogas and waste-to-energy projects can provide dispatchable local generation while also reducing methane or disposal burdens, but feedstock logistics drive plant utilization.', defaultBasis: 'Defaults keep a dispatchable biomass/biogas-style benchmark: about 74% capacity factor with capex around $5.00M/MW, suitable for digestion or waste-conversion projects with steady fuel supply.' },
+            { id: 'gasBackup', label: 'Flexible Gas Backup', defaultMw: 22, defaultChecked: true, step: 2, capacityFactor: 0.18, capexPerMwMillion: 1.61, dispatchability: 0.94, lowCarbon: false, overview: 'Flexible gas units are most valuable as peakers and reliability support, not as bulk-energy workhorses, because fuel costs and emissions rise quickly at high run time.', defaultBasis: 'Defaults use a simple-cycle peaker profile: low annual capacity factor with capex near the aeroderivative combustion-turbine benchmark in EIA AEO2025.' },
+            { id: 'wind', label: 'Onshore/Offshore Wind', legacyLabels: ['Onshore wind'], defaultMw: 95, defaultChecked: true, step: 5, capacityFactor: 0.37, capexPerMwMillion: 1.49, dispatchability: 0.36, lowCarbon: true, overview: 'Wind adds low-carbon bulk energy and tends to complement solar seasonally, but hourly output still depends on the local wind regime and site conditions.', defaultBasis: 'Defaults still follow representative U.S. land-based wind benchmarks near 37% capacity factor and roughly $1.49M/MW capex from NREL ATB and EIA AEO2025.' },
+            { id: 'hydro', label: 'Small Hydro', defaultMw: 25, defaultChecked: true, step: 5, capacityFactor: 0.52, capexPerMwMillion: 5.2, dispatchability: 0.78, lowCarbon: true, overview: 'Small hydro can deliver durable low-carbon output and some operating flexibility, but economics and annual production depend heavily on streamflow and civil works.', defaultBasis: 'Defaults keep a midrange small-hydro assumption: 52% capacity factor with capex below EIA\'s higher greenfield new-stream benchmark to reflect smaller redevelopment-style projects.' }
         ];
 
-        const DEFAULT_ENERGY_TOTAL_MW = energySources.reduce((sum, source) => sum + source.defaultMw, 0);
+        const DEFAULT_ENERGY_TOTAL_MW = energySources.reduce((sum, source) => sum + ((source.defaultChecked === false) ? 0 : source.defaultMw), 0);
 
         let calculationResults = null;
         let corporateResults = null;
@@ -4144,6 +4265,15 @@
 
         function getEnergyCoefficientFieldId(sourceId, key) {
             return 'energycoef-' + sourceId + '-' + key;
+        }
+
+        function getDefaultEnergyRowName(defaultRow, cachedName) {
+            const trimmed = String(cachedName || '').trim();
+            const knownDefaultNames = [defaultRow.label].concat(defaultRow.legacyLabels || []);
+            if (!trimmed || knownDefaultNames.includes(trimmed)) {
+                return defaultRow.label;
+            }
+            return trimmed;
         }
 
         function getConfiguredProductAreas() {
@@ -4246,10 +4376,10 @@
             });
             if (!energyCoefficients['other']) {
                 energyCoefficients['other'] = {
-                    capacityFactor: 0.469,
-                    dispatchability: 0.5636,
-                    capexPerMwMillion: 2.41,
-                    lowCarbon: false
+                    capacityFactor: ENERGY_OTHER_DEFAULTS.capacityFactor,
+                    dispatchability: ENERGY_OTHER_DEFAULTS.dispatchability,
+                    capexPerMwMillion: ENERGY_OTHER_DEFAULTS.capexPerMwMillion,
+                    lowCarbon: ENERGY_OTHER_DEFAULTS.lowCarbon
                 };
             }
         }
@@ -4747,7 +4877,7 @@
                 ...source,
                 name: source.label,
                 mw: source.defaultMw,
-                checked: true
+                checked: source.defaultChecked !== false
             })).concat([{
                 id: 'other',
                 label: 'Other',
@@ -4756,10 +4886,12 @@
                 mw: null,
                 checked: false,
                 step: 1,
-                capacityFactor: 0.469,
-                capexPerMwMillion: 2.41,
-                dispatchability: 0.5636,
-                lowCarbon: false,
+                capacityFactor: ENERGY_OTHER_DEFAULTS.capacityFactor,
+                capexPerMwMillion: ENERGY_OTHER_DEFAULTS.capexPerMwMillion,
+                dispatchability: ENERGY_OTHER_DEFAULTS.dispatchability,
+                lowCarbon: ENERGY_OTHER_DEFAULTS.lowCarbon,
+                overview: ENERGY_OTHER_DEFAULTS.overview,
+                defaultBasis: ENERGY_OTHER_DEFAULTS.defaultBasis,
                 isOther: true
             }]);
         }
@@ -5037,7 +5169,7 @@
                     const defaultRow = defaultRowMap.get(cachedRow.id);
                     nextRows.push({
                         ...defaultRow,
-                        name: String(cachedRow.name || defaultRow.label).trim() || defaultRow.label,
+                        name: getDefaultEnergyRowName(defaultRow, cachedRow.name),
                         mw: sanitizeEnergyMw(cachedRow.mw),
                         checked: !!cachedRow.checked
                     });
@@ -5149,6 +5281,20 @@
             };
         }
 
+        function syncEnergyMwInputWidth(input) {
+            if (!input) return;
+            const rawValue = String(input.value || '').trim();
+            const characterCount = Math.max(1, rawValue.length);
+            input.style.width = 'calc(' + Math.max(2.4, characterCount + 0.15) + 'ch + 34px)';
+        }
+
+        function syncEnergyMwInputWidths(scope) {
+            const holder = scope || document;
+            holder.querySelectorAll('input[type="number"][data-energy-mw-id]').forEach(function(input) {
+                syncEnergyMwInputWidth(input);
+            });
+        }
+
         function renderEnergyGrid() {
             const holder = document.getElementById('energyGrid');
             if (!holder) return;
@@ -5164,6 +5310,12 @@
                 const metaMarkup = row.isOther
                     ? `Placeholder catch-all bucket for unassigned or removed MW.<br>Capacity factor ${formatPercent(capacityFactor * 100)}<br>Capital expenditure (capex) $${capexPerMwMillion.toFixed(2)}M/MW`
                     : `Capacity factor ${formatPercent(capacityFactor * 100)}<br>Capital expenditure (capex) $${capexPerMwMillion.toFixed(2)}M/MW`;
+                const overviewMarkup = `
+                    <div class="energy-coefficient-overview">
+                        <p>${escapeHtml(row.overview || ENERGY_OTHER_DEFAULTS.overview)}</p>
+                        <p><strong>Default basis:</strong> ${escapeHtml(row.defaultBasis || ENERGY_OTHER_DEFAULTS.defaultBasis)} Dispatchability remains an internal reliability score for this model.</p>
+                    </div>
+                `;
                 const isEditing = !!energyRowEditOpen[row.id];
                 const removeBtn = !row.isOther ? `
                         <button type="button" class="energy-row-menu-item energy-row-menu-item-danger" data-energy-remove-id="${escapeHtml(row.id)}">
@@ -5173,13 +5325,17 @@
                     <div class="energy-row-wrap ${isEditing ? 'energy-row-editing' : ''}" data-energy-wrap-id="${escapeHtml(row.id)}">
                         <div class="energy-row ${row.checked ? '' : 'energy-row-unchecked'} ${row.isOther ? 'energy-placeholder-row' : ''}" draggable="true" data-energy-row-id="${escapeHtml(row.id)}" data-energy-drag-context="grid">
                             <span class="energy-drag-handle" aria-hidden="true"><span class="material-icons">drag_indicator</span></span>
-                            <input class="energy-row-checkbox" type="checkbox" data-energy-checkbox-id="${escapeHtml(row.id)}" ${row.checked ? 'checked' : ''}>
                             <div class="energy-row-main">
-                                <span class="energy-share">${formatPercent(getEnergyRowShare(row))}</span>
                                 <span class="energy-name-editor" contenteditable="true" spellcheck="false" data-energy-name-id="${escapeHtml(row.id)}">${escapeHtml(row.name)}</span>
+                                <div class="energy-row-details">
+                                    <input class="energy-row-checkbox" type="checkbox" data-energy-checkbox-id="${escapeHtml(row.id)}" ${row.checked ? 'checked' : ''}>
+                                    <span class="energy-share">${formatPercent(getEnergyRowShare(row))}</span>
+                                    <span class="energy-row-measure">
+                                        <input type="number" data-energy-mw-id="${escapeHtml(row.id)}" value="${inputValue}" min="0" step="${row.step}">
+                                        <span class="energy-unit">MW</span>
+                                    </span>
+                                </div>
                             </div>
-                            <input type="number" data-energy-mw-id="${escapeHtml(row.id)}" value="${inputValue}" min="0" step="${row.step}">
-                            <span class="energy-unit">MW</span>
                             <div class="energy-meta">${metaMarkup}</div>
                             <div class="energy-row-menu-wrap">
                                 <button type="button" class="energy-row-menu-btn" data-energy-menu-id="${escapeHtml(row.id)}" title="More options" aria-label="More options">
@@ -5215,11 +5371,13 @@
                                     <span>Counts as low-carbon output</span>
                                 </label>
                             </div>
+                            ${overviewMarkup}
                         </div>
                     </div>
                 `;
             }).join('');
             holder.innerHTML = rowsMarkup;
+            syncEnergyMwInputWidths(holder);
         }
 
         function renderEnergySimple() {
@@ -7217,6 +7375,12 @@
             });
 
             if (energyGrid) {
+                energyGrid.addEventListener('input', function(event) {
+                    const numberInput = event.target.closest('input[type="number"][data-energy-mw-id]');
+                    if (!numberInput) return;
+                    syncEnergyMwInputWidth(numberInput);
+                });
+
                 energyGrid.addEventListener('change', function(event) {
                     const checkbox = event.target.closest('input[type="checkbox"][data-energy-checkbox-id]');
                     if (checkbox) {
@@ -7334,7 +7498,12 @@
                                 lowCarbon: source.lowCarbon
                             };
                         } else if (rowId === 'other') {
-                            energyCoefficients['other'] = { capacityFactor: 0.469, dispatchability: 0.5636, capexPerMwMillion: 2.41, lowCarbon: false };
+                            energyCoefficients['other'] = {
+                                capacityFactor: ENERGY_OTHER_DEFAULTS.capacityFactor,
+                                dispatchability: ENERGY_OTHER_DEFAULTS.dispatchability,
+                                capexPerMwMillion: ENERGY_OTHER_DEFAULTS.capexPerMwMillion,
+                                lowCarbon: ENERGY_OTHER_DEFAULTS.lowCarbon
+                            };
                         }
                         energyMenuOpenId = null;
                         renderEnergyGrid();
