@@ -383,7 +383,7 @@
             border: 0;
             border-radius: 999px;
             background: rgba(255, 255, 255, 0.14);
-            color: #fff;
+            color: var(--text-header);
             cursor: pointer;
         }
 
@@ -395,12 +395,12 @@
         #showConfig:hover,
         #showConfig:focus-visible {
             background: rgba(255, 255, 255, 0.22);
+            color: var(--text-header-hover);
             outline: none;
         }
 
         #rightIcons #showConfig {
             background: rgba(0, 0, 0, 0.10);
-            color: #444;
         }
 
         #rightIcons #showConfig:hover,
@@ -2859,6 +2859,7 @@
 
         .dark #showConfig:hover,
         .dark #showConfig:focus-visible {
+            color: #fff;
             background: rgba(90, 190, 182, 0.18);
         }
 
