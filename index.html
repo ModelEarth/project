@@ -398,6 +398,16 @@
             outline: none;
         }
 
+        #rightIcons #showConfig {
+            background: rgba(0, 0, 0, 0.10);
+            color: #444;
+        }
+
+        #rightIcons #showConfig:hover,
+        #rightIcons #showConfig:focus-visible {
+            background: rgba(0, 0, 0, 0.16);
+        }
+
         .page-config {
             position: absolute;
             top: calc(100% + 8px);
@@ -4206,9 +4216,9 @@
         };
 
         const energySources = [
+            { id: 'deepFission', label: 'Deep Fission', defaultMw: 15, defaultChecked: true, step: 5, capacityFactor: 0.95, capexPerMwMillion: 7.4, dispatchability: 0.98, lowCarbon: true, overview: 'Deep Fission pairs a one-mile borehole reactor with a conventional surface turbine steam cycle, aiming for compact, modular, always-on nuclear output.', defaultBasis: 'Defaults assume one 15 MWe module from the company\'s published design. Capex is an inferred advanced-nuclear placeholder because Deep Fission publishes output and LCOE targets, not a public EPC cost stack.' },
             { id: 'solar', label: 'Solar PV', defaultMw: 120, defaultChecked: true, step: 5, capacityFactor: 0.25, capexPerMwMillion: 1.5, dispatchability: 0.28, lowCarbon: true, overview: 'Single-axis utility PV is usually the lowest-cost clean daytime power option, but production still follows irradiance and fades into the evening peak.', defaultBasis: 'Defaults align to recent U.S. tracker-plant benchmarks near 25% capacity factor and about $1.50M/MW capex from NREL ATB and EIA AEO2025.' },
             { id: 'geothermal', label: 'Geothermal', defaultMw: 35, defaultChecked: true, step: 5, capacityFactor: 0.9, capexPerMwMillion: 3.96, dispatchability: 0.95, lowCarbon: true, overview: 'Geothermal behaves more like firm thermal generation than weather-driven renewables, with high uptime when the reservoir and drilling conditions are favorable.', defaultBasis: 'Defaults use a binary-cycle-style benchmark around 90% capacity factor and about $3.96M/MW capex from EIA AEO2025, with dispatchability kept high as a model assumption.' },
-            { id: 'deepFission', label: 'Deep Fission Steam Turbine', defaultMw: 15, defaultChecked: false, step: 5, capacityFactor: 0.95, capexPerMwMillion: 7.4, dispatchability: 0.98, lowCarbon: true, overview: 'Deep Fission pairs a one-mile borehole reactor with a conventional surface steam cycle, aiming for compact, modular, always-on nuclear output.', defaultBasis: 'Defaults assume one 15 MWe module from the company\'s published design. Capex is an inferred advanced-nuclear placeholder because Deep Fission publishes output and LCOE targets, not a public EPC cost stack.' },
             { id: 'radiant', label: 'Radiant Nuclear SMR', defaultMw: 10, defaultChecked: false, step: 1, capacityFactor: 0.95, capexPerMwMillion: 9.4, dispatchability: 0.97, lowCarbon: true, overview: 'Radiant\'s Kaleidos concept is a portable helium-cooled microreactor intended for remote, resilient power where logistics and uptime matter more than sheer plant scale.', defaultBasis: 'Defaults aggregate roughly ten 1-MWe Kaleidos-class units into a 10 MW block. Capex is a first-of-a-kind microreactor proxy anchored above larger SMR benchmarks because public commercial EPC data are not yet available.' },
             { id: 'nuclear', label: 'Nuclear Retrofit', legacyLabels: ['Nuclear retrofit', 'SMR / nuclear retrofit'], defaultMw: 40, defaultChecked: true, step: 5, capacityFactor: 0.93, capexPerMwMillion: 7.86, dispatchability: 0.98, lowCarbon: true, overview: 'Brownfield nuclear retrofit assumptions fit sites that can reuse grid interconnection, cooling water, or industrial infrastructure while still delivering very high availability.', defaultBasis: 'Defaults lean on EIA\'s advanced-nuclear brownfield benchmark, using about 93% capacity factor and roughly $7.86M/MW capex as a retrofit-friendly proxy.' },
             { id: 'wasteHeat', label: 'Waste-Heat Recovery', defaultMw: 28, defaultChecked: true, step: 2, capacityFactor: 0.61, capexPerMwMillion: 1.8, dispatchability: 0.7, lowCarbon: true, overview: 'Waste-heat recovery converts existing industrial thermal losses into power, so economics can be attractive where there is steady process heat and an available host.', defaultBasis: 'Defaults use a mid-band waste-heat-to-power assumption. Capacity factor reflects host-process uptime, while capex is a moderate proxy within DOE-reported organic Rankine and steam-cycle project ranges.' },
