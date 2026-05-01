@@ -1,12 +1,12 @@
 id: lunar
-label: Lunar Base Development
+label: Lunar Base Nuclear
 kind: custom
 vehicle: sphere
 vehicle_label: FISSION
 object_name: lunar-reactor-budget
 follow_label: Follow Budget
-mission_name: Lunar Base Dev
-browser_title: Lunar Base Dev
+mission_name: Lunar Base Nuclear
+browser_title: Lunar Base Nuclear
 overview_label: Budget Overview
 overview_view: event
 start_date: 2026-04-14T18:08:00Z
