@@ -1,11 +1,11 @@
-id: iaeafuelcorridor
-label: Iran Renewal Corridor
+id: iran-energy
+label: Iran Energy Corridor
 kind: custom
 vehicle: sphere
 vehicle_label: FUEL
-object_name: iaea-fuel-corridor
-follow_label: Follow Fuel Plan
-mission_name: Iran Renewal Corridor
+object_name: iran-energy
+follow_label: Nuclear Fuel Plan, DeepFisson Partners
+mission_name: Iran Energy Corridor
 browser_title: IAEA Reactor Fuel Corridor Concept
 overview_label: Fuel Overview
 overview_view: event

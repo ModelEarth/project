@@ -1,12 +1,12 @@
-id: boxelderstratos
+id: stratos
 label: Box Elder Stratos
 kind: custom
 vehicle: sphere
 vehicle_label: STRATOS
 object_name: box-elder-stratos
 follow_label: Follow Stratos
-mission_name: Box Elder - Stratos Datacenter
-browser_title: Box Elder County Data Center Proposal
+mission_name: Stratos Datacenter - Utah
+browser_title: Stratos Datacenter Proposal - Box Elder County
 overview_label: Proposal Overview
 overview_view: event
 start_date: 2026-04-24T21:01:00Z

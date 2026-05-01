@@ -1,12 +1,12 @@
-id: vietnamdesal
+id: vietnam-coast
 label: Vietnam Desalination
 kind: custom
 vehicle: sphere
 vehicle_label: WATER
 object_name: vietnam-desal
 follow_label: Follow Water Plan
-mission_name: VIETNAM COASTAL DESALINATION
-browser_title: Vietnam Desalination Funding Concept
+mission_name: Vietnam Desalination
+browser_title: Vietnam Desalination Funding
 overview_label: Program Overview
 overview_view: event
 start_date: 2026-05-01T00:00:00Z

@@ -1,9 +1,9 @@
 {
   "defaultEventId": "",
   "events": [
-    { "id": "spacenuclearbudget", "label": "Lunar Base Nuclear", "specFile": "space-nuclear-budget.yaml" },
-    { "id": "vietnamdesal", "label": "Vietnam Coastal Desalination", "specFile": "vietnam-desalination.yaml" },
-    { "id": "iaeafuelcorridor", "label": "Iran Renewal Corridor", "specFile": "iran-renewal.yaml" },
-    { "id": "boxelderstratos", "label": "Box Elder - Stratos Datacenter", "specFile": "box-elder-stratos.yaml" }
+    { "id": "lunar", "label": "Lunar Base Developmnet", "specFile": "lunar.yaml" },
+    { "id": "vietnam-coast", "label": "Vietnam Coastal Desalination", "specFile": "vietnam-coast.yaml" },
+    { "id": "iran-energy", "label": "Iran Energy Corridor", "specFile": "iran-energy.yaml" },
+    { "id": "stratos", "label": "Stratos Datacenter - Utah", "specFile": "stratos.yaml" }
   ]
 }
