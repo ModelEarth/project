@@ -369,8 +369,55 @@
             align-items: center;
             gap: 12px;
             position: relative;
-            z-index: 5;
+            z-index: 8;
             flex-wrap: wrap;
+        }
+
+        #project-controls #hud.event-hud-inline {
+            margin-right: auto;
+        }
+
+        #project-hud-anchor {
+            position: relative;
+            z-index: 4;
+            margin: 0 0 16px;
+        }
+
+        #project-hud-anchor #hud.event-hud-inline #hud-left {
+            min-width: min(420px, 100%);
+            border-radius: 28px;
+            padding: 8px 20px 20px;
+        }
+
+        #project-hud-anchor #mission-menu .mission-menu-panel {
+            border-radius: 28px;
+            padding: 20px;
+        }
+
+        #project-hud-anchor #mission-menu.event-hud-inline {
+            position: static;
+            top: auto;
+            right: auto;
+            left: auto;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        #project-hud-anchor #mission-menu .mission-menu-backdrop {
+            display: none;
+        }
+
+        #project-hud-anchor #mission-menu .mission-menu-panel {
+            width: 100%;
+        }
+
+        #project-hud-anchor #mission-menu-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            max-height: none;
+            overflow: visible;
+            padding-right: 0;
         }
 
         #showConfig {
@@ -2920,6 +2967,10 @@
         }
 
         @container (max-width: 780px) {
+            #project-hud-anchor #mission-menu-list {
+                grid-template-columns: 1fr;
+            }
+
             .hero-highlights {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
@@ -3169,7 +3220,9 @@
 </head>
 <body>
     <link type="text/css" rel="stylesheet" href="/localsite/css/base.css" id="/localsite/css/base.css" />
+    <link type="text/css" rel="stylesheet" href="/localsite/css/event.css" id="/localsite/css/event.css" />
     <script type="text/javascript" src="/localsite/js/localsite.js?showheader=true&showsearch=true"></script>
+    <script type="text/javascript" src="/localsite/js/event.js"></script>
     <!--
     Sponsor projects using your private equipment for abundant energy and water replenishment.
     Sponsor soldiers using your private equipment with targets approved by the DOW.
@@ -3197,6 +3250,7 @@
         </aside>
 
         <div class="dashboard-shell contentpadding">
+        <div id="project-hud-anchor"></div>
         <section id="studio" class="hero nav-target">
             <div class="hero-topbar">
                 <div class="eyebrow">
@@ -4210,6 +4264,18 @@
                     <p>Once you've collected your data, send to a service like <a href="https://getscribr.com/" target="_blank" rel="noopener">Scribr</a> to fine tune your project flow using your custom price sheets, talent profiles and data files.</p>
                 </div>
                 <div class="panel-body">
+                    <div class="subpanel">
+                        <h3>Confidence Percent Rubric</h3>
+                        <div class="governance-grid">
+                            <div class="governance-card inference"><strong>0-25</strong><span>Exploratory assumption. Use for long-horizon visions, weakly constrained ranges, or options that still need major validation.</span></div>
+                            <div class="governance-card inference"><strong>26-50</strong><span>Scenario estimate. Directionally useful for planning, but still dependent on substantial modeling choices or incomplete site-specific data.</span></div>
+                            <div class="governance-card inference"><strong>51-75</strong><span>Grounded planning estimate. Anchored in published context or comparable systems, but still not a verified local engineering or finance input.</span></div>
+                            <div class="governance-card inference"><strong>76-100</strong><span>Near-validated model input. Reserve for values backed by direct measurement, audited project data, or tightly documented source material.</span></div>
+                        </div>
+                        <div class="sources-note">
+                            Use confidence percentages to distinguish modeled assumptions from source-confirmed values. Lower scores are not necessarily bad ideas; they indicate wider uncertainty and a stronger need for verification before decisions are made.
+                        </div>
+                    </div>
                     <div class="output-radio-group">
                         <label><input type="radio" name="outputMode" id="outputModeRfp" value="rfp" checked> Data for RFP</label>
                         <label><input type="radio" name="outputMode" id="outputModeProposal" value="proposal"> Data for Proposal</label>
@@ -6756,10 +6822,14 @@
             }
 
             document.addEventListener('hashChangeEvent', function() {
-                syncVisibleSections({ scroll: true, behavior: 'instant' });
+                const hash = getHashValues();
+                const shouldScroll = getSectionsOpenValue() === '1' && Boolean(normalizeSectionId(hash.section || hash['']));
+                syncVisibleSections({ scroll: shouldScroll, behavior: 'instant' });
             });
             window.addEventListener('hashchange', function() {
-                syncVisibleSections({ scroll: true, behavior: 'instant' });
+                const hash = getHashValues();
+                const shouldScroll = getSectionsOpenValue() === '1' && Boolean(normalizeSectionId(hash.section || hash['']));
+                syncVisibleSections({ scroll: shouldScroll, behavior: 'instant' });
             });
         }
 
@@ -7744,6 +7814,15 @@
             }
         }
 
+        if (window.SharedEventUI) {
+            window.SharedEventUI.bootstrap({
+                defaultEventId: 'orion2026',
+                eventsBasePath: './events',
+                applyBrowserTitle: false,
+                requestedEventId: (typeof getHash === 'function' ? (getHash() || {}).event : new URLSearchParams(window.location.hash.replace(/^#/, '')).get('event') || '')
+            });
+        }
+
         if (typeof waitForElm === 'function') {
             waitForElm('#populationServed').then(initializeDashboard);
         } else if (document.readyState === 'loading') {
@@ -7755,11 +7834,35 @@
         if (typeof waitForElm === 'function') {
             Promise.all([
                 waitForElm('#rightIcons'),
-                waitForElm('#project-controls')
-            ]).then(function([rightIcons, projectControls]) {
+                waitForElm('#project-controls'),
+                waitForElm('#project-hud-anchor')
+            ]).then(function([rightIcons, projectControls, projectHudAnchor]) {
+                if (window.SharedEventUI && !document.getElementById('hud')) {
+                    window.SharedEventUI.mountHud({
+                        targetSelector: '#project-hud-anchor',
+                        mode: 'inline',
+                        insertPosition: 'beforeend',
+                        showDetails: true,
+                        clearSectionHashUnlessSingle: true,
+                        isSingleSectionView: function() {
+                            return getSectionsOpenValue() === '1';
+                        }
+                    });
+                }
                 rightIcons.appendChild(projectControls);
                 projectControls.style.marginTop = '4px';
                 projectControls.style.marginRight = '18px';
+            });
+        } else if (window.SharedEventUI) {
+            window.SharedEventUI.mountHud({
+                targetSelector: '#project-hud-anchor',
+                mode: 'inline',
+                insertPosition: 'beforeend',
+                showDetails: true,
+                clearSectionHashUnlessSingle: true,
+                isSingleSectionView: function() {
+                    return getSectionsOpenValue() === '1';
+                }
             });
         }
     </script>

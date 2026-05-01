@@ -1,0 +1,551 @@
+id: boxelderstratos
+label: Box Elder Stratos
+kind: custom
+vehicle: sphere
+vehicle_label: STRATOS
+object_name: box-elder-stratos
+follow_label: Follow Stratos
+mission_name: Box Elder - Stratos Datacenter
+browser_title: Box Elder County Data Center Proposal
+overview_label: Proposal Overview
+overview_view: event
+start_date: 2026-04-24T21:01:00Z
+end_date: 2045-12-31T23:59:59Z
+initial_view: event
+path_color: '#ff8c69'
+phase_labels: [Reveal, Review, Delay, Water Debate, Transition, Rebuild]
+phase_text: Project Stratos Review
+source_url: https://ksltv.com/environment/scientists-share-concerns-over-proposed-mega-data-center-in-box-elder-county/903505/
+source_confirmed:
+  publisher: KSL TV
+  published_date: 2026-04-29
+  proposal_name: Project Stratos
+  county: Box Elder County
+  state: Utah
+  land_area_acres: 40000
+  status: Proposed
+  reported_scope:
+    - USU scientists questioned feasibility of the proposed mega data center in Box Elder County.
+    - KSL reported an initial 3 GW phase with possible growth toward 9 GW.
+    - The article summarized disputes over cooling water, greenhouse gas impacts, and heat disposal.
+    - Project representatives said phase one water use could be about 24 acre-feet with closed-loop cooling, while critics challenged that estimate.
+  power_context:
+    initial_power_gw: 3.0
+    full_buildout_power_gw: 9.0
+    primary_energy_source: Natural gas from pipeline-connected generation
+  water_context:
+    phase_one_claimed_water_use_acre_feet: 24
+    article_position: Claimed by project representatives for phase one closed-loop operations; disputed by critics and scientists in the KSL report.
+  cited_concerns:
+    greenhouse_gas_growth_at_9gw_natural_gas: 'About 50 percent above Utah current total greenhouse gas production, per the KSL summary of Robert Davies comments'
+    cooling_uncertainty: Heat rejection method remains unresolved in public reporting.
+    watershed_risk: Great Salt Lake and connected aquifer systems could face additional stress.
+modeled_assumptions:
+  provenance_note: Fields in this section are scenario-model inputs added for planning and comparison. They are not directly verified by the KSL source unless repeated above in source_confirmed.
+  confidence_percent: 44
+  project_identity:
+    confidence_percent: 62
+    sponsor_type: Hyperscale data center campus with military and cloud-computing framing
+    public_interest_frame:
+      - National defense compute resilience
+      - Regional infrastructure buildout
+      - Water-energy stress test for the Great Salt Lake basin
+  power_context:
+    confidence_percent: 58
+    comparison_context:
+      confidence_percent: 61
+      utah_system_scale_note: Full 9 GW buildout approaches city-scale electricity demand and creates statewide planning implications.
+      greenhouse_warning_note: KSL reported expert concern that 9 GW of gas generation could raise Utah greenhouse emissions by roughly 50 percent.
+    concern_summary_confidence_percent: 56
+    concern_summary:
+      - Natural-gas-first deployment compresses the state carbon budget into a single project area.
+      - Water use claims remain contested relative to the thermal load of a multi-gigawatt campus.
+      - Heat disposal may create air or aquifer stress even under closed-loop cooling.
+  water_context:
+    confidence_percent: 41
+    key_uncertainties:
+      - evaporative loss under prolonged summer heat
+      - aquifer thermal loading if heat is rejected to water
+      - indirect water use from power generation
+      - cumulative effects on Great Salt Lake restoration targets
+  industry_types:
+    confidence_percent: 52
+    anchor_activities:
+      - name: Hyperscale data centers
+        role: Core campus load
+        naics_2_digit: '51'
+        naics_2_digit_label: Information
+        likely_naics_6_digit:
+          - code: '518210'
+            label: Data Processing, Hosting, and Related Services
+          - code: '519290'
+            label: Web Search Portals and Other Information Services
+      - name: Merchant or captive gas-fired power generation
+        role: Baseline planned energy supply
+        naics_2_digit: '22'
+        naics_2_digit_label: Utilities
+        likely_naics_6_digit:
+          - code: '221112'
+            label: Fossil Fuel Electric Power Generation
+          - code: '221210'
+            label: Natural Gas Distribution
+      - name: Water supply and cooling infrastructure
+        role: Cooling, treatment, recycling, and possible desal-style polishing
+        naics_2_digit: '22'
+        naics_2_digit_label: Utilities
+        likely_naics_6_digit:
+          - code: '221310'
+            label: Water Supply and Irrigation Systems
+          - code: '221320'
+            label: Sewage Treatment Facilities
+      - name: Heavy civil and energy construction
+        role: Campus roads, pipelines, power islands, substations, and treatment assets
+        naics_2_digit: '23'
+        naics_2_digit_label: Construction
+        likely_naics_6_digit:
+          - code: '237130'
+            label: Power and Communication Line and Related Structures Construction
+          - code: '237110'
+            label: Water and Sewer Line and Related Structures Construction
+      - name: Advanced manufacturing and fuel-cycle support
+        role: Long-run alternative technology path including geothermal, nuclear, and water modules
+        naics_2_digit: '33'
+        naics_2_digit_label: Manufacturing
+        likely_naics_6_digit:
+          - code: '333414'
+            label: Heating Equipment and Heat Exchanger Manufacturing
+          - code: '333611'
+            label: Turbine and Turbine Generator Set Units Manufacturing
+  naics_energy_profiles:
+    confidence_percent: 33
+    methodology_note: Scenario planning intensities for the event model, not audited site measurements.
+    profiles:
+      - name: Hyperscale AI hosting core
+        naics_2_digit: '51'
+        naics_2_digit_label: Information
+        naics_6_digit: '518210'
+        naics_6_digit_label: Data Processing, Hosting, and Related Services
+        energy_profile:
+          pipeline_share_baseline_percent: 82
+          campus_load_mw_initial: 1800
+          campus_load_mw_full_buildout: 5400
+          backup_and_flex_load_mw: 450
+          relative_water_intensity: medium_to_high
+          risk_note: Cooling and thermal discharge dominate local concern.
+      - name: Gas power island
+        naics_2_digit: '22'
+        naics_2_digit_label: Utilities
+        naics_6_digit: '221112'
+        naics_6_digit_label: Fossil Fuel Electric Power Generation
+        energy_profile:
+          pipeline_share_baseline_percent: 100
+          generation_mw_initial: 3000
+          generation_mw_full_buildout: 9000
+          implied_thermal_input_mw_range: [6600, 19800]
+          greenhouse_risk: very_high
+          risk_note: Direct combustion pathway drives the largest near-term air and climate burden.
+      - name: Water utility and recovery systems
+        naics_2_digit: '22'
+        naics_2_digit_label: Utilities
+        naics_6_digit: '221310'
+        naics_6_digit_label: Water Supply and Irrigation Systems
+        energy_profile:
+          campus_load_mw_initial: 45
+          campus_load_mw_full_buildout: 180
+          reuse_target_percent: 70
+          aquifer_recharge_dependency: high
+      - name: Sewage and industrial water treatment
+        naics_2_digit: '22'
+        naics_2_digit_label: Utilities
+        naics_6_digit: '221320'
+        naics_6_digit_label: Sewage Treatment Facilities
+        energy_profile:
+          campus_load_mw_initial: 18
+          campus_load_mw_full_buildout: 72
+          thermal_recovery_potential_mw: 20
+      - name: Heavy construction and site services
+        naics_2_digit: '23'
+        naics_2_digit_label: Construction
+        naics_6_digit: '237130'
+        naics_6_digit_label: Power and Communication Line and Related Structures Construction
+        energy_profile:
+          temporary_buildout_load_mw_initial: 120
+          temporary_buildout_load_mw_full: 250
+          diesel_displacement_priority: high
+  energy_scenarios:
+    confidence_percent: 29
+    scenario_note: Energy cases compare the baseline pipeline plan to staged alternatives.
+    baseline_pipeline_case:
+      confidence_percent: 48
+      name: Pipeline-led gas buildout
+      generation_mix_percent:
+        natural_gas: 92
+        solar: 4
+        wind: 2
+        geothermal: 1
+        nuclear: 1
+      attributes:
+        dispatchability: very_high
+        water_intensity: medium
+        carbon_intensity: very_high
+        local_air_quality_risk: high
+        speed_to_deploy: high
+        basin_resilience: low
+    transition_case_2035:
+      confidence_percent: 31
+      name: Hybrid transition with firm low-carbon replacements
+      generation_mix_percent:
+        natural_gas: 35
+        solar: 20
+        wind: 18
+        geothermal: 12
+        nuclear: 15
+      nuclear_detail:
+        conventional_small_modular: 7
+        deep_fission: 8
+      storage_and_flex:
+        battery_mw: 1800
+        thermal_storage_mw_equivalent: 600
+        demand_response_mw: 500
+      attributes:
+        dispatchability: high
+        water_intensity: low_to_medium
+        carbon_intensity: medium
+        basin_resilience: medium_to_high
+    regenerative_case_2045:
+      confidence_percent: 18
+      name: Deep-boring and deep-fission water-energy corridor
+      generation_mix_percent:
+        natural_gas: 8
+        solar: 24
+        wind: 20
+        geothermal: 18
+        nuclear: 30
+      nuclear_detail:
+        conventional_small_modular: 8
+        deep_fission: 22
+      deep_boring_systems:
+        geothermal_loop_depth_ft_range: [12000, 22000]
+        aquifer_monitoring_bores: 48
+        recharge_well_clusters: 16
+        saline_or_brackish_recovery_nodes: 10
+      attributes:
+        dispatchability: very_high
+        water_intensity: low
+        carbon_intensity: low
+        basin_resilience: high
+        aquifer_replenishment_potential: high
+  alternative_energy_parameters:
+    confidence_percent: 37
+    solar:
+      confidence_percent: 55
+      target_capacity_mw:
+        initial_phase: 800
+        full_buildout: 2600
+      capacity_factor_percent: 28
+      land_synergy_note: Pair with parking canopies, brownfield edges, and agrivoltaic buffers where feasible.
+      water_use_relative_to_gas: very_low
+    wind:
+      confidence_percent: 52
+      target_capacity_mw:
+        initial_phase: 600
+        full_buildout: 2200
+      capacity_factor_percent: 40
+      transmission_dependency: high
+      biodiversity_watch_items:
+        - avian migration
+        - bat mortality
+        - ridgeline habitat fragmentation
+    geothermal:
+      confidence_percent: 34
+      target_capacity_mw:
+        initial_phase: 300
+        full_buildout: 1600
+      capacity_factor_percent: 92
+      deep_boring_dependency: very_high
+      co_benefits:
+        - firm clean power
+        - usable low-grade heat
+        - subsurface characterization useful for aquifer management
+    nuclear:
+      confidence_percent: 28
+      target_capacity_mw:
+        initial_phase: 450
+        full_buildout: 2700
+      capacity_factor_percent: 95
+      cooling_modes:
+        - dry cooling
+        - hybrid cooling
+        - heat-to-water cogeneration
+      subtypes:
+        smr:
+          share_of_nuclear_case_percent: 35
+        deep_fission:
+          share_of_nuclear_case_percent: 65
+          relevance:
+            - buried reactor geometry reduces surface footprint
+            - high-grade heat can support desalination and water polishing
+            - deep bore construction aligns with aquifer recharge and subsurface monitoring concepts
+  abundance_engine_sections:
+    confidence_percent: 36
+    studio_section:
+      confidence_percent: 46
+      title: Water + energy sponsor studio
+      scenario_parameters:
+        population_served_range: [45000, 180000]
+        households_supported_range: [15000, 60000]
+        sponsor_annual_value_range_usd: [250000000, 2400000000]
+        annual_water_revenue_range_usd: [30000000, 420000000]
+        energy_portfolio_mwh_year_range: [12000000, 63000000]
+        compute_tenant_mix:
+          defense_cloud_percent: 35
+          commercial_ai_percent: 45
+          public_infrastructure_percent: 20
+    benefits_section:
+      confidence_percent: 39
+      title: Corporate Benefits Calculator
+      parameters:
+        pure_water_coverage_percent_range: [20, 100]
+        daily_pure_water_output_m3_day_range: [10000, 600000]
+        sponsor_process_water_demand_m3_day_range: [5000, 120000]
+        process_water_savings_per_m3_usd_range: [0.35, 4.50]
+        hardness_reduction_percent_range: [10, 95]
+        uptime_value_per_hour_usd_range: [25000, 2500000]
+        carbon_value_per_tonne_usd_range: [25, 220]
+        margin_lift_basis_points_range: [5, 250]
+        brand_trust_uplift_percent_range: [0.5, 18]
+      Utah_interpretation:
+        upside_channels:
+          - resilient compute capacity
+          - construction and operations payroll
+          - process water recovery for industry
+          - regional infrastructure tax base
+        downside_channels:
+          - water conflict
+          - carbon lock-in
+          - local ecological degradation
+    products_section:
+      confidence_percent: 34
+      title: Products & Services
+      parameters:
+        water_infrastructure_capex_per_m3_day_usd_range: [1500, 11000]
+        process_water_recovery_share_percent_range: [5, 90]
+        industrial_service_lines:
+          - data center cooling and heat reuse
+          - water recycling and polishing
+          - grid services and storage
+          - district heat and greenhouse support
+          - desalination or brackish water treatment modules
+          - deep boring, geothermal, and borefield monitoring services
+    contributors_section:
+      confidence_percent: 43
+      title: Capital Participation Outlook
+      planning_share_defaults_percent:
+        government: 30
+        nonprofit: 10
+        corporate: 60
+      deployment_share_defaults_percent:
+        government: 22
+        nonprofit: 18
+        corporate: 60
+      added_participants:
+        - Utah water districts
+        - Great Salt Lake restoration programs
+        - rural electric and transmission entities
+        - federal clean energy and defense infrastructure funds
+    engineering_section:
+      confidence_percent: 27
+      title: DEEP Nuclear for Water Replenishment
+      parameters:
+        reactor_power_mwth_range: [50, 1200]
+        waste_heat_mw_range: [35, 900]
+        med_gain_output_ratio_range: [6, 16]
+        water_price_usd_per_m3_range: [0.60, 4.50]
+        desal_capex_usd_per_m3_day_range: [1800, 12000]
+        deep_fission_siting_modes:
+          - off-grid campus power
+          - heat-to-water cogeneration
+          - aquifer recovery and brackish treatment hubs
+        deep_boring_co_design:
+          - recharge wells
+          - geothermal loops
+          - thermal storage
+          - saline interception and managed recovery
+    water_section:
+      confidence_percent: 32
+      title: Water Output Calculator
+      parameters:
+        direct_cooling_water_use_acre_feet_range: [24, 2500]
+        closed_loop_makeup_water_loss_percent_range: [1, 12]
+        annual_recharge_target_acre_feet_range: [0, 80000]
+        treatment_reuse_percent_range: [40, 98]
+        brackish_recovery_m3_day_range: [0, 250000]
+        replenishment_pathways:
+          - managed aquifer recharge basins
+          - deep recharge wells
+          - canal and stormwater capture
+          - desalinated water substitutions for overdrawn freshwater sources
+    deployment_section:
+      confidence_percent: 41
+      title: Local Deployment
+      parameters:
+        government_deployment_share_percent_range: [0, 60]
+        nonprofit_deployment_share_percent_range: [0, 40]
+        corporate_deployment_share_percent_range: [20, 100]
+        community_reserve_percent_range: [0, 25]
+        transmission_capex_usd_range: [500000000, 6500000000]
+        water_system_capex_usd_range: [100000000, 4500000000]
+        habitat_mitigation_capex_usd_range: [10000000, 900000000]
+    scorecard_section:
+      confidence_percent: 47
+      title: Project Scorecard
+      weights:
+        at_risk_populations: 18
+        species_and_biodiversity: 16
+        aquifer_and_watershed: 18
+        jobs_and_workforce_quality: 11
+        state_and_local_economy: 12
+        infrastructure_resilience: 10
+        emissions_and_air_quality: 10
+        fiscal_transparency_and_governance: 5
+      factor_prompts:
+        at_risk_populations:
+          - nearby rural households exposed to water stress
+          - tribal and agricultural communities with constrained adaptive capacity
+          - public health sensitivity to ozone, heat, and dust
+        species_and_biodiversity:
+          - Great Salt Lake food-web dependency
+          - migratory birds
+          - sage-steppe fragmentation
+          - aquatic salinity thresholds
+        jobs_and_workforce_quality:
+          - construction duration jobs
+          - permanent technical jobs
+          - local supplier development
+          - housing and wage pressure
+        infrastructure_resilience:
+          - substations
+          - gas pipeline dependence
+          - roads and rail
+          - broadband and defense communications
+          - emergency water treatment and backup power
+    reporting_section:
+      confidence_percent: 58
+      title: Project Reporting
+      required_metrics:
+        - hourly power by fuel type
+        - water withdrawals by source
+        - evaporative loss estimates
+        - groundwater temperature and drawdown
+        - greenhouse gas emissions scope 1 and market-based scope 2
+        - habitat disturbance acreage
+        - county payroll and supplier spending
+        - public subsidy and tax expenditure reporting
+      cadence:
+        construction: monthly
+        first_three_operating_years: monthly
+        stabilized_operations: quarterly
+    future_section:
+      confidence_percent: 16
+      title: Regenerative Utah Vision
+      premise: Initial negative impacts can be reversed over a long enough timeline if the campus becomes the anchor demand for a water-positive, low-carbon, deep-boring infrastructure corridor.
+      pathways:
+        - Replace most gas generation with solar, wind, geothermal, and nuclear firming.
+        - Use deep-boring for geothermal loops, aquifer monitoring, and managed recharge infrastructure.
+        - Use deep-fission heat for desalination, brackish treatment, and industrial water polishing rather than once-through freshwater extraction.
+        - Build a basin-scale water accounting system that ties compute growth to net aquifer replenishment targets.
+        - Redirect surplus power and heat into resilient agriculture, municipal reuse, and Great Salt Lake support projects.
+      long_horizon_targets:
+        by_2030:
+          - no approval without auditable water and heat-rejection accounting
+          - begin non-gas firm power replacement path
+        by_2035:
+          - majority clean-firm energy mix
+          - measurable groundwater recovery pilots
+          - deep boring demonstration integrated with geothermal and recharge
+        by_2045:
+          - net-positive aquifer replenishment
+          - near-elimination of pipeline gas dependence for core campus load
+          - exportable Utah water-energy restoration model
+  risk_matrix:
+    confidence_percent: 38
+    most_at_risk:
+      populations:
+        confidence_percent: 54
+        rating: high
+        drivers:
+          - water scarcity
+          - utility cost pass-through
+          - heat and air pollution
+      species:
+        confidence_percent: 46
+        rating: high
+        drivers:
+          - lake salinity stress
+          - habitat fragmentation
+          - thermal and hydrologic disruption
+      biodiversity:
+        confidence_percent: 44
+        rating: high
+        drivers:
+          - migratory bird food-web impacts
+          - wetland stress
+          - cumulative industrial footprint
+      jobs:
+        confidence_percent: 49
+        rating: medium
+        drivers:
+          - strong construction upside
+          - uncertain long-run operations intensity
+          - housing and labor market displacement risks
+      overall_economy:
+        confidence_percent: 42
+        rating: high_variance
+        drivers:
+          - large capital inflow upside
+          - infrastructure and water conflict downside
+          - subsidy exposure and public finance risk
+  infrastructure_and_spending_effects:
+    confidence_percent: 37
+    positive_if_managed_well:
+      - transmission and substation upgrades
+      - water reuse networks
+      - skilled workforce training
+      - tax base diversification
+      - local manufacturing pull-through for pumps, piping, switchgear, and controls
+    negative_if_pipeline_lock_in_persists:
+      - carbon-intensive generation dependency
+      - public pressure on basin restoration spending
+      - emergency water and health mitigation costs
+      - accelerated road, housing, and civic service strain
+  cost_ranges:
+    confidence_percent: 21
+    baseline_gas_first_capex_usd: [8000000000, 30000000000]
+    clean_transition_incremental_capex_usd: [4000000000, 18000000000]
+    water_replenishment_and_reuse_capex_usd: [500000000, 7000000000]
+    deep_boring_and_deep_fission_corridor_capex_usd: [2000000000, 15000000000]
+initial_camera:
+  position: [78000, 30000, 132000]
+  target: [0, 0, 0]
+route:
+  - date: 2026-04-24T21:01:00Z
+    body: Earth
+    offset_km: [860000, 240000, -120000]
+  - date: 2026-04-27T17:00:00Z
+    body: Earth
+    offset_km: [420000, 260000, 220000]
+  - date: 2026-04-29T17:10:00Z
+    body: Earth
+    offset_km: [-200000, 320000, 540000]
+  - date: 2026-05-04T18:00:00Z
+    body: Earth
+    offset_km: [-660000, 180000, 260000]
+  - date: 2030-01-01T00:00:00Z
+    body: Moon
+    offset_km: [180000, 60000, -60000]
+  - date: 2035-01-01T00:00:00Z
+    body: Earth
+    offset_km: [260000, -120000, 420000]
+  - date: 2045-12-31T23:59:59Z
+    body: Earth
+    offset_km: [0, 0, 0]
