@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Project Event Admin</title>
+<link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="/localsite/css/base.css" id="/localsite/css/base.css" />
+<link rel="stylesheet" href="/localsite/css/event.css" id="/localsite/css/event.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+<link rel="stylesheet" href="../css/input-tabs.css" />
+
+<style>
+:root {
+  --pipeline-panel: #fff;
+  --pipeline-accent: #2563eb;
+  --pipeline-accent-soft: rgba(37, 99, 235, 0.12);
+  --pipeline-radius: 18px;
+  --pipeline-shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
+  --pipeline-font: "Lato", "Segoe UI", sans-serif;
+}
+
+body {
+  background: #f5f7fb;
+  color: var(--pipeline-text);
+  font-family: var(--pipeline-font);
+}
+
+.dark body, body.dark { background: #0b1120; color: #e2e8f0; }
+
+.pipeline-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.pipeline-panel {
+  background: var(--pipeline-panel);
+  border-radius: var(--pipeline-radius);
+  box-shadow: var(--pipeline-shadow);
+  border: 1px solid var(--input-border);
+  display: flex;
+  flex-direction: column;
+  min-height: 180px;
+}
+
+.dark .pipeline-panel, body.dark .pipeline-panel {
+  background: #0f172a;
+  border-color: rgba(148, 163, 184, 0.3);
+  box-shadow: 0 18px 60px rgba(15, 23, 42, 0.4);
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--input-border);
+  gap: 16px;
+}
+
+.panel-title { font-size: 18px; font-weight: 600; }
+.panel-meta  { color: var(--pipeline-muted); font-size: 14px; }
+
+.panel-meta-link {
+  color: var(--pipeline-accent);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.panel-meta-link:hover,
+.panel-meta-link:focus-visible {
+  text-decoration: underline;
+  outline: none;
+}
+
+.panel-body {
+  padding: 18px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pipeline-search input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.dark .pipeline-search input, body.dark .pipeline-search input {
+  background: #0b1120;
+  color: #e2e8f0;
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+.pipeline-list { display: flex; flex-direction: column; gap: 10px; }
+
+.node-card {
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color 0.12s ease, background-color 0.12s ease;
+}
+
+.node-card:hover  { border-color: var(--pipeline-accent); background: rgba(37, 99, 235, 0.06); }
+.node-card.active { border-color: var(--pipeline-accent); background: var(--pipeline-accent-soft); box-shadow: inset 0 0 0 1px var(--pipeline-accent); }
+
+.dark .node-card, body.dark .node-card {
+  background: #111827;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.node-name { font-weight: 600; margin-bottom: 4px; }
+.node-meta { font-size: 12px; color: var(--pipeline-muted); }
+
+.raw-config-text {
+  width: 100%;
+  box-sizing: border-box;
+  background: #f8fafc;
+  color: var(--pipeline-text);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.45;
+  resize: vertical;
+  overflow-x: auto;
+  min-height: 200px;
+}
+
+.dark .raw-config-text, body.dark .raw-config-text {
+  background: #020617;
+  color: #e2e8f0;
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+.overview-table { border-collapse: collapse; font-size: 14px; width: 100%; max-width: 600px; }
+.overview-table th { text-align: left; padding: 5px 14px 5px 0; color: var(--pipeline-muted); font-weight: 500; white-space: nowrap; vertical-align: top; }
+.overview-table td { padding: 5px 0; word-break: break-word; }
+.overview-table a { color: var(--pipeline-accent); }
+
+.field-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.field-item { background: #f1f5f9; border-radius: 6px; padding: 4px 10px; font-size: 13px; }
+.field-item code { font-family: ui-monospace, monospace; }
+.field-type { color: var(--pipeline-muted); font-size: 11px; margin-left: 4px; }
+
+.event-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 16px;
+}
+
+.event-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.event-form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.event-form-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--pipeline-muted);
+}
+
+.event-form-input,
+.event-form-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background: #fff;
+  color: var(--pipeline-text);
+  font-size: 14px;
+}
+
+.event-form-textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.event-form-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  color: var(--pipeline-text);
+}
+
+.event-form-checkbox input {
+  width: 16px;
+  height: 16px;
+}
+
+.event-form-help {
+  font-size: 12px;
+  color: var(--pipeline-muted);
+}
+
+.card { border: 1px solid var(--input-border); border-radius: 10px; padding: 12px 14px; background: #fff; }
+
+#project-hud-anchor {
+  position: relative;
+  z-index: 4;
+  margin: 0 0 16px;
+}
+
+#project-hud-anchor #mission-menu.event-hud-inline {
+  position: static;
+  top: auto;
+  right: auto;
+  left: auto;
+  width: 100%;
+  max-width: none;
+  margin-top: 10px;
+}
+
+#project-hud-anchor #mission-menu .mission-menu-backdrop {
+  display: none;
+}
+
+#project-hud-anchor #mission-menu .mission-menu-panel {
+  width: 100%;
+}
+
+#project-hud-anchor #hud.event-hud-inline:has(+ #mission-menu.open) {
+  width: 100%;
+}
+
+#project-hud-anchor #hud.event-hud-inline:has(+ #mission-menu.open) #hud-left {
+  width: 100%;
+  max-width: none;
+}
+
+#project-hud-anchor #mission-menu-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: none;
+  overflow: visible;
+  padding-right: 0;
+}
+
+@media (max-width: 860px) {
+  .event-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #project-hud-anchor #mission-menu-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
+
+<script src="/localsite/js/localsite.js?showheader=true&showsearch=false"></script>
+<script src="/localsite/js/yaml.js"></script>
+<script src="/localsite/js/event.js"></script>
+<script src="../js/input-tabs.js"></script>
+</head>
+<body>
+<div class="content contentpadding pipeline-shell">
+
+  <div id="project-hud-anchor"></div>
+
+  <section class="pipeline-grid event-admin-grid">
+    <aside class="pipeline-panel event-admin-list-panel" id="panelList">
+      <div class="panel-head">
+        <div class="panel-title">Events</div>
+        <div class="panel-meta" id="eventCount">Loading…</div>
+      </div>
+      <div class="panel-body">
+        <div class="pipeline-search">
+          <input id="eventSearch" type="search" placeholder="Filter" aria-label="Filter events">
+        </div>
+        <div id="eventList" class="pipeline-list"></div>
+      </div>
+    </aside>
+
+    <main class="pipeline-panel" id="panelDetail">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title" id="detailTitle">Select an event</div>
+          <div class="panel-meta" id="detailMeta"></div><a class="panel-meta-link" id="projectEngineLink" href="/project/">Project Engine</a>
+        </div>
+      </div>
+      <div class="panel-body">
+        <section class="detail-section" id="detailSummary"></section>
+        <section class="detail-section is-hidden" id="overviewSection">
+          <div class="section-title">Overview</div>
+          <div id="overviewConfig"></div>
+        </section>
+        <section class="detail-section is-hidden" id="detailConfig">
+          <div class="section-title">Fields</div>
+          <div id="fieldsContent"></div>
+        </section>
+        <section class="detail-section is-hidden" id="rawConfigSection">
+          <div class="section-title settings-title-row">Yaml</div>
+          <textarea id="rawConfigYaml" class="raw-config-text" wrap="off" readonly></textarea>
+        </section>
+        <section class="detail-section is-hidden" id="adminNoteSection">
+          <div class="section-title">Notes</div>
+          <div class="card">
+            <div id="adminDiv" class="panel-meta"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </section>
+</div>
+
+<script>
+(function () {
+  var EVENTS_PATH = '../events';
+
+  var state = {
+    events: [],
+    activeId: null,
+    rawYamlText: '',
+    parsedYaml: null,
+  };
+
+  function safeGetHash() {
+    if (typeof getHash === 'function') return getHash();
+    var h = window.location.hash.replace(/^#/, '');
+    return h.split('&').reduce(function (acc, pair) {
+      var parts = pair.split('=');
+      if (parts[0]) acc[parts[0]] = decodeURIComponent(parts[1] || '');
+      return acc;
+    }, {});
+  }
+
+  function safeGoHash(update) {
+    if (typeof goHash === 'function') { goHash(update); return; }
+    var h = safeGetHash();
+    Object.assign(h, update);
+    var next = Object.keys(h)
+      .filter(function (k) { return h[k] !== undefined && h[k] !== null && h[k] !== ''; })
+      .map(function (k) { return k + '=' + encodeURIComponent(h[k]); })
+      .join('&');
+    window.location.hash = next;
+  }
+
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  async function loadEventsList() {
+    try {
+      var res = await fetch(EVENTS_PATH + '/events.json', { cache: 'no-cache' });
+      var config = await res.json();
+      state.events = config.events || [];
+      var countEl = document.getElementById('eventCount');
+      if (countEl) countEl.textContent = state.events.length + ' event' + (state.events.length !== 1 ? 's' : '');
+      renderEventList();
+    } catch (err) {
+      console.error('Failed to load events.json:', err);
+    }
+  }
+
+  function renderEventList() {
+    var list = document.getElementById('eventList');
+    if (!list) return;
+    var query = (document.getElementById('eventSearch') ? document.getElementById('eventSearch').value : '').toLowerCase();
+    var filtered = state.events.filter(function (e) {
+      return !query || e.label.toLowerCase().includes(query) || e.id.toLowerCase().includes(query);
+    });
+    list.innerHTML = filtered.map(function (e) {
+      return '<div class="node-card' + (e.id === state.activeId ? ' active' : '') + '" data-id="' + escapeHtml(e.id) + '" role="button" tabindex="0">' +
+        '<div class="node-name">' + escapeHtml(e.label) + '</div>' +
+        '<div class="node-meta">' + escapeHtml(e.id) + '</div>' +
+        '</div>';
+    }).join('');
+    list.querySelectorAll('.node-card[data-id]').forEach(function (card) {
+      card.addEventListener('click', function () { safeGoHash({ event: card.getAttribute('data-id') }); });
+      card.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') safeGoHash({ event: card.getAttribute('data-id') });
+      });
+    });
+  }
+
+  function updateHudForEvent(eventId, parsed) {
+    if (!window.SharedEventUI || !parsed) return;
+    window.__initialEventId = eventId;
+    window.SharedEventUI.applyInitialEventMeta({
+      eventId: eventId,
+      label: parsed.label || eventId,
+      missionName: parsed.mission_name || '',
+      browserTitle: parsed.browser_title || '',
+      kind: parsed.kind || '',
+      overviewLabel: parsed.overview_label || 'Overview',
+      followLabel: parsed.follow_label || 'Follow',
+      showSolarSystem: parsed.show_solar_system !== false,
+      videoYoutubeId: parsed.video_youtube_id || parsed.youtube_id || '',
+      sourceUrl: parsed.source_url || '',
+      titleText: parsed.kind === 'orion' ? 'NASA · CSA' : '',
+      detailSource: (parsed.source_confirmed && parsed.source_confirmed.publisher) || '',
+      detailPublishedDate: (parsed.source_confirmed && parsed.source_confirmed.published_date) || '',
+      detailCost: parsed.cost_range_usd || '',
+      detailSummary: parsed.concept_note || parsed.source_note || parsed.browser_title || '',
+      phaseText: '',
+      metText: '',
+    });
+    window.SharedEventUI.hydrateEventMenu(eventId);
+  }
+
+  async function loadEventYaml(eventId) {
+    var event = state.events.find(function (e) { return e.id === eventId; });
+    if (!event) return;
+    try {
+      var res = await fetch(EVENTS_PATH + '/' + event.specFile, { cache: 'no-cache' });
+      if (!res.ok) throw new Error('Failed to fetch ' + event.specFile);
+      var text = await res.text();
+      state.rawYamlText = text;
+      state.parsedYaml = window.YAML ? window.YAML.parse(text) : null;
+      state.activeId = eventId;
+      updateHudForEvent(eventId, state.parsedYaml || {});
+      updateProjectEngineLink();
+      renderDetail(event);
+    } catch (err) {
+      console.error('Failed to load event yaml:', err);
+    }
+  }
+
+  function renderDetail(event) {
+    var titleEl = document.getElementById('detailTitle');
+    var metaEl  = document.getElementById('detailMeta');
+    if (titleEl) titleEl.textContent = event.label;
+    if (metaEl)  metaEl.textContent  = event.id;
+
+    var summary = document.getElementById('detailSummary');
+    if (summary) summary.innerHTML = '<div id="inputTabsContainer"></div>';
+
+    renderOverview();
+    renderFields();
+    var rawEl = document.getElementById('rawConfigYaml');
+    if (rawEl) rawEl.value = state.rawYamlText;
+    renderNotes();
+    renderEventList();
+
+    if (window.InputTabs) {
+      window.InputTabs.renderInputTabs();
+      window.InputTabs.applyInputSectionVisibility({
+        hasYaml: Boolean(state.rawYamlText.trim()),
+        hasNotes: Boolean(state.parsedYaml && state.parsedYaml.notes),
+      });
+    }
+  }
+
+  function renderOverview() {
+    var el = document.getElementById('overviewConfig');
+    if (!el) return;
+    var p = state.parsedYaml;
+    if (!p) { el.innerHTML = ''; return; }
+    var rows = [
+      { key: 'label',        label: 'Label' },
+      { key: 'kind',         label: 'Kind' },
+      { key: 'mission_name', label: 'Mission' },
+      { key: 'start_date',   label: 'Start' },
+      { key: 'end_date',     label: 'End' },
+    ].filter(function (r) { return p[r.key] != null; });
+    var sourceUrl = p.source_url;
+    el.innerHTML = '<table class="overview-table"><tbody>' +
+      rows.map(function (r) {
+        return '<tr><th>' + escapeHtml(r.label) + '</th><td>' + escapeHtml(String(p[r.key])) + '</td></tr>';
+      }).join('') +
+      (sourceUrl ? '<tr><th>Source</th><td><a href="' + escapeHtml(sourceUrl) + '" target="_blank" rel="noopener">' + escapeHtml(sourceUrl) + '</a></td></tr>' : '') +
+      '</tbody></table>';
+  }
+
+  function tryParseStructuredValue(rawValue, fallback) {
+    var text = String(rawValue || '').trim();
+    if (!text) return fallback;
+    try {
+      return JSON.parse(text);
+    } catch (jsonErr) {
+      try {
+        return window.YAML ? window.YAML.parse(text) : fallback;
+      } catch (yamlErr) {
+        return fallback;
+      }
+    }
+  }
+
+  function updateRawYamlFromParsed() {
+    if (!state.parsedYaml) return;
+    if (window.YAML && typeof window.YAML.stringify === 'function') {
+      state.rawYamlText = window.YAML.stringify(state.parsedYaml);
+    } else {
+      state.rawYamlText = JSON.stringify(state.parsedYaml, null, 2);
+    }
+    var rawEl = document.getElementById('rawConfigYaml');
+    if (rawEl) rawEl.value = state.rawYamlText;
+  }
+
+  function updateProjectEngineLink() {
+    var link = document.getElementById('projectEngineLink');
+    if (!link) return;
+    var hash = safeGetHash();
+    var eventId = state.activeId || hash.event || hash.node || '';
+    link.href = eventId ? '/project/#event=' + encodeURIComponent(eventId) : '/project/';
+  }
+
+  function applyFieldEdit(key, nextValue) {
+    if (!state.parsedYaml) return;
+    state.parsedYaml[key] = nextValue;
+    updateRawYamlFromParsed();
+    renderOverview();
+    renderNotes();
+    if (key === 'label') {
+      var event = state.events.find(function(entry) { return entry.id === state.activeId; });
+      if (event) {
+        event.label = String(nextValue || event.label || '');
+        renderEventList();
+      }
+      var titleEl = document.getElementById('detailTitle');
+      if (titleEl) titleEl.textContent = String(nextValue || '');
+    }
+    updateProjectEngineLink();
+  }
+
+  function renderFields() {
+    var el = document.getElementById('fieldsContent');
+    if (!el) return;
+    var p = state.parsedYaml;
+    if (!p) { el.innerHTML = ''; return; }
+    var keys = Object.keys(p);
+    if (!keys.length) {
+      el.innerHTML = '<div class="panel-meta">No fields found.</div>';
+      return;
+    }
+    el.innerHTML = '<div class="event-form-grid" id="eventFormGrid"></div>';
+    var formGrid = document.getElementById('eventFormGrid');
+    if (!formGrid) return;
+
+    keys.forEach(function (k) {
+      var val = p[k];
+      var type = Array.isArray(val) ? 'array' : (val === null ? 'null' : typeof val);
+      var wrapper = document.createElement('div');
+      wrapper.className = 'event-form-field';
+
+      var label = document.createElement('label');
+      label.className = 'event-form-label';
+      label.textContent = k;
+      wrapper.appendChild(label);
+
+      if (type === 'boolean') {
+        var checkboxWrap = document.createElement('label');
+        checkboxWrap.className = 'event-form-checkbox';
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = Boolean(val);
+        checkbox.addEventListener('change', function () {
+          applyFieldEdit(k, checkbox.checked);
+        });
+        var checkboxText = document.createElement('span');
+        checkboxText.textContent = 'Enabled';
+        checkboxWrap.appendChild(checkbox);
+        checkboxWrap.appendChild(checkboxText);
+        wrapper.appendChild(checkboxWrap);
+      } else if (type === 'array' || type === 'object') {
+        wrapper.classList.add('full-width');
+        var textarea = document.createElement('textarea');
+        textarea.className = 'event-form-textarea';
+        textarea.value = window.YAML && typeof window.YAML.stringify === 'function'
+          ? window.YAML.stringify(val)
+          : JSON.stringify(val, null, 2);
+        textarea.addEventListener('change', function () {
+          applyFieldEdit(k, tryParseStructuredValue(textarea.value, val));
+          renderFields();
+        });
+        wrapper.appendChild(textarea);
+        var help = document.createElement('div');
+        help.className = 'event-form-help';
+        help.textContent = 'Edit as YAML or JSON.';
+        wrapper.appendChild(help);
+      } else {
+        var input = document.createElement('input');
+        input.className = 'event-form-input';
+        input.type = type === 'number' ? 'number' : 'text';
+        input.value = val == null ? '' : String(val);
+        input.addEventListener('input', function () {
+          var nextValue = input.value;
+          if (type === 'number') {
+            nextValue = nextValue === '' ? '' : Number(nextValue);
+          }
+          applyFieldEdit(k, nextValue);
+        });
+        wrapper.appendChild(input);
+      }
+
+      formGrid.appendChild(wrapper);
+    });
+  }
+
+  function renderNotes() {
+    var el = document.getElementById('adminDiv');
+    if (!el) return;
+    var notes = state.parsedYaml && state.parsedYaml.notes;
+    el.textContent = notes ? (typeof notes === 'string' ? notes : JSON.stringify(notes, null, 2)) : '';
+  }
+
+  function handleHashChange() {
+    var hash = safeGetHash();
+    var eventId = hash.event || hash.node || '';
+    updateProjectEngineLink();
+    if (window.InputTabs) window.InputTabs.renderInputTabs();
+    if (eventId && eventId !== state.activeId) {
+      loadEventYaml(eventId);
+    } else if (window.InputTabs) {
+      window.InputTabs.applyInputSectionVisibility({
+        hasYaml: Boolean(state.rawYamlText.trim()),
+        hasNotes: Boolean(state.parsedYaml && state.parsedYaml.notes),
+      });
+    }
+  }
+
+  async function onMissionSelect(missionId) {
+    window.__initialEventId = missionId;
+    safeGoHash({ event: missionId });
+    try {
+      var text = await window.SharedEventUI.loadEventSpecTextById(missionId);
+      var parsed = window.YAML ? window.YAML.parse(text) : {};
+      updateHudForEvent(missionId, parsed);
+    } catch (e) { console.error(e); }
+  }
+
+  function init() {
+    var hash = safeGetHash();
+
+    if (window.SharedEventUI) {
+      window.SharedEventUI.bootstrap({
+        eventsBasePath: EVENTS_PATH,
+        applyBrowserTitle: false,
+        requestedEventId: hash.event || hash.node || '',
+        onMissionSelect: onMissionSelect,
+      });
+
+      function mountHud() {
+        if (document.getElementById('hud')) return;
+        window.SharedEventUI.mountHud({
+          targetSelector: '#project-hud-anchor',
+          mode: 'inline',
+          insertPosition: 'beforeend',
+          showDetails: true,
+          adminLinkHref: '/project/admin/',
+          adminLinkHashKey: 'event',
+        });
+      }
+
+      if (typeof waitForElm === 'function') {
+        waitForElm('#project-hud-anchor').then(mountHud);
+      } else {
+        mountHud();
+      }
+    }
+
+    loadEventsList().then(function () {
+      var h = safeGetHash();
+      if (h.event || h.node) loadEventYaml(h.event || h.node);
+      updateProjectEngineLink();
+    });
+
+    document.addEventListener('hashChangeEvent', handleHashChange, false);
+    window.addEventListener('hashchange', handleHashChange);
+
+    var search = document.getElementById('eventSearch');
+    if (search) search.addEventListener('input', renderEventList);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
