@@ -565,6 +565,32 @@
             color: var(--accent-1);
         }
 
+        .page-config-btn-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        #showHudListBtn {
+            flex-shrink: 0;
+            padding: 10px 12px;
+            border: 0;
+            border-radius: 999px;
+            background: rgba(15, 113, 115, 0.09);
+            color: var(--accent-1);
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.84rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        #showHudListBtn:hover,
+        #showHudListBtn:focus-visible {
+            background: rgba(15, 113, 115, 0.14);
+            outline: none;
+        }
+
         #toggleDefaultPreviewBtn {
             display: flex;
             justify-content: flex-start;
@@ -3268,9 +3294,12 @@
                             </button>
                         </div>
                         <div class="page-config-section">
-                            <button type="button" id="toggleDefaultPreviewBtn" hidden>
-                                <span id="toggleDefaultPreviewText">View Defaults</span>
-                            </button>
+                            <div class="page-config-btn-row">
+                                <button type="button" id="showHudListBtn" hidden>Show List</button>
+                                <button type="button" id="toggleDefaultPreviewBtn" hidden>
+                                    <span id="toggleDefaultPreviewText">View Defaults</span>
+                                </button>
+                            </div>
                         </div>
                         <div class="page-config-section">
                             <label class="sections-open-control" for="sectionsOpen">
@@ -7816,7 +7845,7 @@
 
         if (window.SharedEventUI) {
             window.SharedEventUI.bootstrap({
-                defaultEventId: 'orion2026',
+                defaultEventId: '',
                 eventsBasePath: './events',
                 applyBrowserTitle: false,
                 requestedEventId: (typeof getHash === 'function' ? (getHash() || {}).event : new URLSearchParams(window.location.hash.replace(/^#/, '')).get('event') || '')
@@ -7869,6 +7898,39 @@
                 }
             });
         }
+    </script>
+    <script>
+    (function() {
+      function setHudAnchorVisible(visible) {
+        var anchor = document.getElementById('project-hud-anchor');
+        var btn = document.getElementById('showHudListBtn');
+        if (anchor) anchor.style.display = visible ? '' : 'none';
+        if (btn) {
+          if (visible) btn.setAttribute('hidden', '');
+          else btn.removeAttribute('hidden');
+        }
+      }
+      function showHudAnchorIfEvent() {
+        var hash = typeof getHash === 'function' ? getHash() : {};
+        if (!hash.event) return;
+        setHudAnchorVisible(true);
+      }
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.mission-menu-close')) {
+          var hash = typeof getHash === 'function' ? getHash() : {};
+          if (!hash.event) setHudAnchorVisible(false);
+        }
+      });
+      var showListBtn = document.getElementById('showHudListBtn');
+      if (showListBtn) {
+        showListBtn.addEventListener('click', function() {
+          setHudAnchorVisible(true);
+          if (window.SharedEventUI) window.SharedEventUI.setMissionMenuOpen(true);
+        });
+      }
+      document.addEventListener('hashChangeEvent', showHudAnchorIfEvent);
+      window.addEventListener('hashchange', showHudAnchorIfEvent);
+    })();
     </script>
 
     <!-- Sankey chart data and logic -->

@@ -624,6 +624,8 @@ body {
   function handleHashChange() {
     var hash = safeGetHash();
     var eventId = hash.event || hash.node || '';
+    var anchor = document.getElementById('project-hud-anchor');
+    if (anchor && eventId) anchor.classList.remove('is-hidden');
     updateProjectEngineLink();
     if (window.InputTabs) window.InputTabs.renderInputTabs();
     if (eventId && eventId !== state.activeId) {
@@ -684,6 +686,16 @@ body {
 
     document.addEventListener('hashChangeEvent', handleHashChange, false);
     window.addEventListener('hashchange', handleHashChange);
+
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.mission-menu-close')) {
+        var h = safeGetHash();
+        if (!h.event && !h.node) {
+          var anchor = document.getElementById('project-hud-anchor');
+          if (anchor) anchor.classList.add('is-hidden');
+        }
+      }
+    });
 
     var search = document.getElementById('eventSearch');
     if (search) search.addEventListener('input', renderEventList);
