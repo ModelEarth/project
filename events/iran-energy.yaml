@@ -4,7 +4,7 @@ kind: custom
 vehicle: sphere
 vehicle_label: FUEL
 object_name: iran-energy
-follow_label: Nuclear Fuel Plan, DeepFisson Partners
+follow_label: Nuclear Fuel Plan, DeepFission Partners
 mission_name: Iran Energy Corridor
 browser_title: IAEA Reactor Fuel Corridor Concept
 overview_label: Fuel Overview
@@ -14,10 +14,7 @@ end_date: 2032-12-31T23:59:59Z
 initial_view: event
 path_color: '#9fd56d'
 phase_labels: [Verification, Conversion, Fabrication, Safeguards, Desal Buildout, Dispatch]
-phase_text: Verified Fuel Conversion Scenario
-cost_range_usd: 'US-overseen IAEA facility in partnership with India and Pakistan converts enriched Iranian uranium into verified reactor fuel for DeepFission desalination facilities.'
-cost_notes: 'Range is conceptual and intended for later refinement in this YAML file.'
-concept_note: '$2B-$8B placeholder scenario range for safeguarded conversion, fabrication, transport, and DeepFission desalination deployment'
+phase_text: IAEA-Verified Fuel-to-Desal Corridor
 source_url: https://www.perplexity.ai/search/item-posts-article-on-using-de-NFn.lqDgT1WHU.TmWMcwQQ#3
 initial_camera:
   position: [64000, 28000, 120000]
@@ -41,3 +38,646 @@ route:
   - date: 2032-12-31T23:59:59Z
     body: Earth
     offset_km: [0, 0, 0]
+source_confirmed:
+  primary_source: IAEA Safeguards Report (June 2025) and Bushehr operational data via World Nuclear Association
+  source_url: https://www.perplexity.ai/search/item-posts-article-on-using-de-NFn.lqDgT1WHU.TmWMcwQQ#3
+  published_date: 2025-06
+  scenario_name: Iran Nuclear Fuel Corridor and DeepFission Desalination Concept
+  corridor_parties: [Iran, IAEA, United States, India, Pakistan, DeepFission]
+  status: Concept — no formal trilateral framework exists as of May 2026
+  reported_scope:
+    - IAEA June 2025 safeguards report total Iranian enriched uranium stockpile 9874.9 kg
+    - 60%-enriched HEU sub-stockpile 440.9 kg as of June 2025
+    - 5%-enriched sub-stockpile 6024.4 kg
+    - Breakout timeline to weapons-grade from current 60% HEU stock estimated at approximately 3 weeks
+    - Notional weapons equivalence approximately 9 weapons from the 60% HEU stockpile at 90%+ enrichment
+    - Bushehr 1 desalination 70000 m3/day operational since August 2022 co-located with 1000 MWe VVER
+    - Bushehr Units 2 and 3 reported 18% construction complete commercial operation target 2029
+    - Iran classified extremely high water stress by WRI more than 80% renewable water used annually
+    - 16 million people displaced due to water scarcity as of 2025
+    - Tehran reservoir capacity 12% of rated volume as of 2025
+    - Experts warned of apocalyptic scenario with 2-3 weeks to prevent nationwide shortage July 2025
+  power_context:
+    bushehr_1_mwe: 1000
+    bushehr_1_mwth_estimated: 3000
+    bushehr_desal_m3_day: 70000
+    bushehr_units_2_3_status: 18% complete, commercial operation target 2029
+    deepfission_mwe_per_bore: 15
+    deepfission_bore_depth_miles: 1
+    deepfission_bore_diameter_inches: 30
+    deepfission_lcoe_usd_per_mwh_range: [50, 70]
+    deepfission_construction_months_per_bore: 6
+  water_context:
+    iran_water_stress_classification: Extremely high (WRI, over 80% renewable water used annually)
+    displaced_persons_water: 16000000
+    tehran_reservoir_capacity_percent: 12
+  cited_concerns:
+    non_proliferation: No India-Pakistan-US trilateral IAEA precedent exists; novel diplomatic arrangement required
+    breakout_risk: Current 60% HEU stockpile approaches weapons-usable threshold within approximately 3 weeks
+    transport_security: Cross-border movement of uranium hexafluoride or fuel pellets through geopolitically contested routes
+    water_crisis_urgency: July 2025 expert warnings described a near-term nationwide shortage scenario
+modeled_assumptions:
+  confidence_percent: 22
+  project_identity:
+    confidence_percent: 38
+    sponsor_type: Multilateral IAEA-overseen nuclear fuel conversion and desalination corridor
+    public_interest_frame:
+      - Non-proliferation through verified fuel down-conversion of 60% HEU stockpile
+      - Water security for Iran's 16 million water-displaced residents
+      - Regional diplomatic confidence-building between India, Pakistan, Iran, and the US
+      - DeepFission technology demonstration in a desalination-critical coastal context
+  power_context:
+    confidence_percent: 42
+    comparison_context:
+      confidence_percent: 45
+      iran_total_nuclear_capacity_mwe_2026: 1000
+      iran_planned_nuclear_capacity_mwe_2029: 3000
+      deepfission_10_unit_array_mwe: 150
+      deepfission_100_unit_corridor_mwe: 1500
+      greenhouse_note: DeepFission produces zero combustion emissions; scenario displaces potential gas-fired desalination
+    concern_summary_confidence_percent: 32
+    concern_summary:
+      - Fuel conversion to reactor-grade requires full IAEA chain-of-custody with no precedent for trilateral US-India-Pakistan oversight
+      - Transport of enriched uranium across borders carries significant physical security and geopolitical risks
+      - DeepFission technology remains pre-commercial; Iran deployment is speculative beyond 2030
+      - Iran's energy infrastructure is under US sanctions regimes that complicate financing pathways
+  water_context:
+    confidence_percent: 48
+    key_uncertainties:
+      - Coastal aquifer depletion rates versus desalinated water substitution timelines
+      - Allocation governance between existing Bushehr desal output and new DeepFission arrays
+      - Whether desalinated water can reach inland population centers such as Tehran at 12% reservoir via conveyance infrastructure
+      - Seasonal variation in Persian Gulf salinity and temperature affecting MED performance
+  industry_types:
+    confidence_percent: 45
+    anchor_activities:
+      - name: Nuclear fuel processing and conversion
+        role: Core mission activity; UF6 to UO2 conversion and LEU fuel pellet fabrication
+        naics_2_digit: '33'
+        naics_2_digit_label: Manufacturing
+        likely_naics_6_digit:
+          - code: '325180'
+            label: Other Basic Inorganic Chemical Manufacturing (uranium processing proxy)
+          - code: '212291'
+            label: Uranium-Radium-Vanadium Ores Mining
+      - name: Desalination and water utilities
+        role: Primary civilian output; coastal MED desalination serving Iranian cities
+        naics_2_digit: '22'
+        naics_2_digit_label: Utilities
+        likely_naics_6_digit:
+          - code: '221310'
+            label: Water Supply and Irrigation Systems
+          - code: '221320'
+            label: Sewage Treatment Facilities
+      - name: Nuclear electric power generation
+        role: Bushehr baseline and DeepFission bore array electricity output
+        naics_2_digit: '22'
+        naics_2_digit_label: Utilities
+        likely_naics_6_digit:
+          - code: '221113'
+            label: Nuclear Electric Power Generation
+      - name: Heavy civil and tunneling construction
+        role: DeepFission bore drilling and reactor installation; MED coastal intake and outfall
+        naics_2_digit: '23'
+        naics_2_digit_label: Construction
+        likely_naics_6_digit:
+          - code: '237110'
+            label: Water and Sewer Line and Related Structures Construction
+          - code: '237130'
+            label: Power and Communication Line and Related Structures Construction
+      - name: IAEA safeguards instrumentation and monitoring
+        role: Non-proliferation oversight; chain-of-custody tracking from conversion to fuel loading
+        naics_2_digit: '54'
+        naics_2_digit_label: Professional and Scientific Services
+        likely_naics_6_digit:
+          - code: '541380'
+            label: Testing Laboratories and Services
+          - code: '541690'
+            label: Other Scientific and Technical Consulting Services
+  naics_energy_profiles:
+    confidence_percent: 28
+    methodology_note: Scenario planning intensities for the event model; not audited site measurements. Iran-specific data limited by sanctions and restricted reporting.
+    profiles:
+      - name: Nuclear fuel conversion facility
+        naics_2_digit: '33'
+        naics_6_digit: '325180'
+        naics_6_digit_label: Other Basic Inorganic Chemical Manufacturing
+        energy_profile:
+          electrical_load_mw_range: [40, 120]
+          thermal_input_mwth_range: [20, 80]
+          monitoring: continuous IAEA-grade isotope tracking
+          risk_note: Requires full IAEA chain-of-custody; no comparable trilateral facility exists.
+      - name: DeepFission bore array
+        naics_2_digit: '22'
+        naics_6_digit: '221113'
+        naics_6_digit_label: Nuclear Electric Power Generation
+        energy_profile:
+          mwe_per_bore: 15
+          mwth_per_bore_estimated: 45
+          array_10_unit_mwe: 150
+          array_10_unit_mwth: 450
+          array_100_unit_mwe: 1500
+          array_100_unit_mwth: 4550
+          capacity_factor_percent: 95
+          risk_note: Pre-commercial technology; no operating demonstration at commercial scale.
+      - name: MED desalination plant
+        naics_2_digit: '22'
+        naics_6_digit: '221310'
+        naics_6_digit_label: Water Supply and Irrigation Systems
+        energy_profile:
+          thermal_input_per_40000_m3_day_mwth: 330
+          daily_output_reference_m3_day: 40000
+          specific_thermal_kwh_per_m3: 50
+          specific_electrical_kwh_per_m3: 2.0
+          gor_range: [8, 14]
+          persian_gulf_salinity_note: Higher feedwater temperature and hypersalinity (37-42 ppt) limits GOR ceiling compared to Mediterranean or Atlantic sites.
+      - name: Civil boring and tunneling construction
+        naics_2_digit: '23'
+        naics_6_digit: '237130'
+        naics_6_digit_label: Power and Communication Line and Related Structures Construction
+        energy_profile:
+          temporary_construction_load_mw_per_bore_cluster: [20, 60]
+          diesel_displacement_priority: very_high
+  energy_scenarios:
+    confidence_percent: 24
+    scenario_note: Three energy cases compare the status quo trajectory to staged DeepFission deployment alternatives. Diplomatic preconditions dominate uncertainty.
+    baseline_no_conversion_case:
+      confidence_percent: 38
+      name: No-conversion crisis trajectory
+      description: Status quo — no fuel conversion occurs, no DeepFission is deployed, Iran's water crisis worsens.
+      generation_mix_percent:
+        natural_gas: 67
+        oil_diesel: 18
+        nuclear: 12
+        renewables: 3
+      desalination_context:
+        bushehr_desal_m3_day: 70000
+        additional_desal_m3_day: 0
+        water_stress_trajectory: worsening
+        displaced_persons_trajectory: increasing toward 20 million
+      attributes:
+        proliferation_risk: very_high
+        water_security: very_low
+        diplomatic_engagement: none
+        carbon_intensity: high
+        deepfission_deployment: none
+    transition_iaea_10unit_case:
+      confidence_percent: 19
+      name: IAEA-verified 10-unit DeepFission coastal array
+      timeline: 2027-2031
+      preconditions:
+        - US-Iran diplomatic framework enabling IAEA oversight of conversion
+        - Trilateral India-Pakistan-US conversion facility agreement
+        - DeepFission commercial readiness at 15 MWe per bore scale
+        - OFAC sanctions relief pathway for civilian nuclear and water applications
+      fuel_conversion_parameters:
+        heu_60pct_converted_kg: 440.9
+        converted_to_fuel_type: LEU 4.95% UO2 reactor fuel pellets
+        conversion_facility_host: India DAE or IAEA neutral territory
+        conversion_duration_months_range: [18, 36]
+        iaea_monitoring: continuous chain-of-custody from conversion through fuel loading
+      deepfission_array:
+        units: 10
+        mwe_per_unit: 15
+        total_mwe: 150
+        total_mwth_estimated: 450
+        waste_heat_mwth: 301
+        bore_depth_miles: 1
+        bore_diameter_inches: 30
+        construction_months_per_bore: 6
+        parallel_bores_during_construction: 4
+        total_array_construction_months: 24
+        coastal_sites: [Bushehr province, Hormozgan province]
+      desalination_output:
+        waste_heat_fraction: 0.67
+        gor: 10
+        top_brine_temp_c: 65
+        num_effects: 8
+        availability_percent: 88
+        daily_water_m3_day: 99000
+        annual_water_m3_year: 36135000
+        combined_with_bushehr_m3_day: 169000
+      generation_mix_percent:
+        nuclear_deepfission: 14
+        nuclear_bushehr: 10
+        natural_gas: 58
+        renewables: 12
+        oil_diesel: 6
+      attributes:
+        proliferation_risk: low_to_medium
+        water_security: medium
+        diplomatic_engagement: high
+        carbon_intensity: medium
+        basin_resilience: medium
+    regenerative_100unit_corridor_case:
+      confidence_percent: 11
+      name: Full 100-unit DeepFission water-energy corridor
+      timeline_optimistic: 2029-2032
+      timeline_realistic: 2032-2038
+      deepfission_array:
+        units: 100
+        mwe_per_unit: 15
+        total_mwe: 1500
+        total_mwth_estimated: 4550
+        waste_heat_mwth: 3048
+        gor: 10
+        daily_water_m3_day_at_88pct_availability: 990000
+        annual_water_m3_year: 361350000
+      additional_fuel_use:
+        leu_5pct_stockpile_consumed_kg: up to 6024 over corridor lifetime
+      generation_mix_percent:
+        nuclear_deepfission: 28
+        nuclear_bushehr: 6
+        solar: 22
+        wind: 14
+        natural_gas: 22
+        oil_diesel: 4
+        other_renewables: 4
+      water_impact:
+        population_served_at_200L_per_day: 5450000
+        combined_desal_m3_day_with_bushehr: 1060000
+        inland_conveyance_required: true
+        nearest_inland_cities: {Ahvaz: 300 km, Shiraz: 250 km, Isfahan: 500 km, Tehran: 950 km}
+      attributes:
+        proliferation_risk: very_low
+        water_security: high
+        diplomatic_engagement: transformational
+        carbon_intensity: low
+        basin_resilience: high
+  alternative_energy_parameters:
+    confidence_percent: 32
+    solar:
+      confidence_percent: 48
+      target_capacity_mw:
+        initial_phase: 200
+        full_buildout: 800
+      capacity_factor_percent: 22
+      note: Lower than inland Iran due to coastal humidity; still strong resource.
+      water_use_relative_to_gas: very_low
+    wind:
+      confidence_percent: 40
+      target_capacity_mw:
+        initial_phase: 150
+        full_buildout: 500
+      capacity_factor_percent: 32
+      note: Offshore Hormuz Strait potential; onshore constrained by sanctions on turbine imports.
+    geothermal:
+      confidence_percent: 25
+      target_capacity_mw:
+        initial_phase: 0
+        full_buildout: 300
+      capacity_factor_percent: 88
+      note: Northwest Iran volcanic belt only; no coastal geothermal resource known.
+    nuclear:
+      confidence_percent: 22
+      target_capacity_mw:
+        initial_phase: 150
+        full_buildout: 1500
+      capacity_factor_percent: 95
+      cooling_modes:
+        - seawater once-through heat rejection (Persian Gulf)
+        - heat-to-MED-desalination cogeneration (primary mode)
+      subtypes:
+        smr:
+          share_of_nuclear_case_percent: 15
+        deep_fission:
+          share_of_nuclear_case_percent: 85
+          relevance:
+            - Bore geometry enables coastal siting without large surface footprint
+            - Iranian sanctions restrict imported conventional PWR or BWR technology; borehole reactors may qualify under different regulatory category
+            - High-grade thermal waste directly feeds MED desalination trains at 65°C top brine temperature
+  abundance_engine_sections:
+    confidence_percent: 31
+    studio_section:
+      confidence_percent: 35
+      title: Water + energy sponsor studio
+      scenario_parameters:
+        population_served_range: [500000, 5500000]
+        households_supported_range: [100000, 1100000]
+        sponsor_annual_value_range_usd: [80000000, 900000000]
+        annual_water_revenue_range_usd: [18000000, 380000000]
+        energy_portfolio_mwh_year_range: [1200000, 13000000]
+        corridor_participant_mix:
+          iaea_oversight_percent: 25
+          us_state_dept_financing_percent: 20
+          india_dae_conversion_percent: 20
+          pakistan_paec_fabrication_percent: 15
+          deepfission_technology_percent: 15
+          iran_water_authority_percent: 5
+    benefits_section:
+      confidence_percent: 33
+      title: Corridor Benefits Calculator
+      parameters:
+        pure_water_coverage_percent_range: [5, 55]
+        daily_pure_water_output_m3_day_range: [70000, 1090000]
+        sponsor_process_water_demand_m3_day_range: [10000, 200000]
+        process_water_savings_per_m3_usd_range: [0.40, 3.20]
+        hardness_reduction_percent_range: [20, 98]
+        uptime_value_per_hour_usd_range: [5000, 500000]
+        carbon_value_per_tonne_usd_range: [15, 120]
+        margin_lift_basis_points_range: [5, 180]
+        brand_trust_uplift_percent_range: [0.5, 12]
+      Iran_interpretation:
+        upside_channels:
+          - Verified fuel elimination removes proliferation risk premium from regional insurance and trade financing
+          - Desalinated water reduces agricultural collapse and population displacement costs
+          - DeepFission technology royalty revenue and fabrication jobs for India and Pakistan corridor parties
+          - IAEA-certified supply chain creates exportable model for other HEU-holding states
+        downside_channels:
+          - Sanctions violations if financing pathways are not pre-cleared with US Treasury OFAC
+          - Technology transfer risks from DeepFission bore designs
+          - Water conveyance infrastructure to inland cities remains unfunded in base scenario
+          - Iran domestic political opposition to foreign-controlled conversion facility
+    products_section:
+      confidence_percent: 28
+      title: Products and Services
+      parameters:
+        water_infrastructure_capex_per_m3_day_usd_range: [1500, 9000]
+        process_water_recovery_share_percent_range: [10, 85]
+        industrial_service_lines:
+          - IAEA chain-of-custody instrumentation and safeguards monitoring systems
+          - Uranium hexafluoride conversion and LEU fuel fabrication services
+          - DeepFission borehole drilling and reactor installation
+          - MED desalination train engineering procurement and construction
+          - Persian Gulf seawater intake and concentrate disposal systems
+          - Inland water conveyance pipeline engineering
+          - IAEA-grade isotope tracking and tamper-evident sealing technology
+          - Emergency water trucking displacement and distribution network transition
+    contributors_section:
+      confidence_percent: 40
+      title: Capital Participation Outlook
+      planning_share_defaults_percent:
+        government: 55
+        nonprofit: 5
+        corporate: 40
+      deployment_share_defaults_percent:
+        government: 45
+        nonprofit: 8
+        corporate: 47
+      named_participants:
+        - name: IAEA (International Atomic Energy Agency)
+          role: Safeguards verification, chain-of-custody monitoring, conversion facility oversight
+          country: International (Vienna)
+          confidence: medium
+          funding_type: assessed contributions + voluntary trust fund
+        - name: US State Department / NNSA
+          role: Non-proliferation financing, sanctions waiver administration, technical assistance
+          country: United States
+          confidence: low_to_medium
+          funding_type: NNSA Global Threat Reduction Initiative funds
+        - name: India DAE (Department of Atomic Energy)
+          role: Conversion facility operation or co-hosting; LEU fuel fabrication through NFC Hyderabad
+          country: India
+          confidence: low
+          funding_type: bilateral agreement; potential Export-Import Bank financing
+        - name: Pakistan PAEC (Pakistan Atomic Energy Commission)
+          role: Fuel fabrication co-partner; diplomatic bridge given Iran-Pakistan pipeline context
+          country: Pakistan
+          confidence: very_low
+          funding_type: bilateral trust mechanism
+        - name: DeepFission Inc.
+          role: Borehole reactor technology provider; EPC contractor for bore array
+          country: United States
+          confidence: low
+          funding_type: private equity + government R&D grants
+        - name: Iranian Water Authority (Ministry of Energy)
+          role: Water offtake agreement, distribution network, domestic co-funding
+          country: Iran
+          confidence: medium
+          funding_type: sovereign budget + potential JCPOA-linked escrow release
+    engineering_section:
+      confidence_percent: 24
+      title: DEEP Nuclear for Water Replenishment
+      parameters:
+        reactor_power_mwth_range: [45, 4550]
+        waste_heat_mw_range: [30, 3048]
+        med_gain_output_ratio_range: [8, 14]
+        water_price_usd_per_m3_range: [0.50, 3.50]
+        desal_capex_usd_per_m3_day_range: [1800, 11000]
+        deep_fission_reference_unit:
+          mwe_per_bore: 15
+          mwth_per_bore_estimated: 45
+          bore_depth_miles: 1
+          bore_diameter_inches: 30
+          construction_months_per_bore: 6
+          lcoe_usd_per_mwh_range: [50, 70]
+        deep_fission_siting_modes:
+          - coastal MED desalination cogeneration (primary mode for Iran)
+          - off-grid water treatment plant power
+          - fuel conversion facility power supply enabling IAEA-secured site independence
+        med_reference_case:
+          thermal_input_mwth: 330
+          daily_output_m3_day: 40000
+          specific_thermal_kwh_per_m3: 50
+          specific_electrical_kwh_per_m3: 2.0
+          top_brine_temperature_c: 65
+          num_effects: 8
+          availability_percent: 88
+          gor: 10
+        calculator_defaults:
+          reactorPower: 450
+          wasteHeatFactor: 67
+          medEfficiency: 10
+          numEffects: 8
+          topBrineTemp: 65
+          availability: 88
+          waterPrice: 1.20
+          medCapitalCost: 2200
+          retrofitMultiplier: 1.35
+          plantPurchasePrice: 1200
+          wasteTunnelLength: 3
+          fuelTunnelLength: 1.5
+          boringCostPerKm: 65
+        calculator_expected_output:
+          daily_water_m3_day: 99000
+          annual_revenue_usd: 43300000
+          total_project_cost_usd: 1787000000
+          payback_years: 41
+          cost_note: At $1.20/m3 emergency pricing, payback is ~41 years. Scenario requires IAEA grant financing or higher water pricing ($3+/m3) to achieve commercial viability.
+    water_section:
+      confidence_percent: 38
+      title: Water Output Calculator
+      parameters:
+        direct_desal_output_m3_day_range: [70000, 1090000]
+        existing_bushehr_desal_m3_day: 70000
+        deepfission_10unit_desal_m3_day: 99000
+        deepfission_100unit_desal_m3_day: 990000
+        combined_max_m3_day: 1060000
+        coastal_intake_salinity_ppt_range: [37, 42]
+        concentrate_disposal_modes:
+          - deep well injection co-located with bore infrastructure
+          - offshore diffuser at depth in Persian Gulf
+          - brine mineral extraction (speculative; long horizon)
+        inland_conveyance:
+          tehran_distance_km: 950
+          pipeline_feasibility: low for current scenario
+          nearer_population_centers: {Ahvaz: 300 km, Shiraz: 250 km, Isfahan: 500 km}
+        replenishment_pathways:
+          - coastal municipal water supply replacement reducing groundwater extraction
+          - industrial process water for Khuzestan petrochemical plants
+          - agricultural drip irrigation supplement in Khuzestan river-delta
+          - emergency humanitarian distribution in acute water-crisis zones
+        annual_desal_capacity_m3_year_range: [25550000, 386750000]
+    deployment_section:
+      confidence_percent: 30
+      title: Local Deployment
+      parameters:
+        government_deployment_share_percent_range: [30, 75]
+        nonprofit_deployment_share_percent_range: [0, 15]
+        corporate_deployment_share_percent_range: [15, 70]
+        community_reserve_percent_range: [0, 10]
+        conversion_facility_capex_usd_range: [200000000, 800000000]
+        deepfission_array_capex_usd_range: [600000000, 7500000000]
+        med_desal_capex_usd_range: [150000000, 2200000000]
+        inland_conveyance_capex_usd_range: [0, 12000000000]
+        safeguards_infrastructure_capex_usd_range: [50000000, 300000000]
+    scorecard_section:
+      confidence_percent: 44
+      title: Project Scorecard
+      weights:
+        non_proliferation_and_arms_control: 28
+        water_security_and_humanitarian: 24
+        diplomatic_and_governance_feasibility: 18
+        technology_readiness: 12
+        jobs_and_economic_development: 8
+        environmental_and_coastal_impact: 6
+        fiscal_transparency_and_governance: 4
+      factor_prompts:
+        non_proliferation_and_arms_control:
+          - Physical elimination of 440.9 kg of 60% HEU from Iranian custody
+          - IAEA continuous chain-of-custody monitoring from conversion through fuel loading
+          - Verified fuel use in civilian desalination removes dual-use pathway
+          - Precedent value for other HEU-possessing states considering civilian conversion
+        water_security_and_humanitarian:
+          - Direct output serving coastal cities such as Bushehr and Bandar Abbas
+          - Potential pipeline extension to Shiraz (250 km) and Ahvaz (300 km)
+          - Tehran reservoir restoration requires inland conveyance not in base case
+          - Agricultural water stress reduction in Khuzestan river-delta farming communities
+        diplomatic_and_governance_feasibility:
+          - India-Pakistan bilateral nuclear cooperation agreement required; does not currently exist
+          - US OFAC sanctions waiver for civilian nuclear and water technology
+          - Iran domestic political acceptance of foreign-controlled conversion facility
+          - IAEA Board of Governors formal authorization for novel safeguards modality
+        technology_readiness:
+          - DeepFission first-of-a-kind commercial deployment anywhere in the world
+          - MED coupling to borehole reactor heat exchanger has no operating precedent
+          - Persian Gulf hypersalinity performance data for borehole casing materials unavailable
+          - Six-month construction claim per bore unvalidated at commercial scale
+    reporting_section:
+      confidence_percent: 52
+      title: Project Reporting
+      required_metrics:
+        - IAEA safeguards verification reports with uranium mass balance
+        - DeepFission bore operational status including uptime and thermal output
+        - Daily desalinated water production by coastal site
+        - Persian Gulf salinity and concentrate discharge monitoring
+        - Population served and water quality at distribution points
+        - Diplomatic framework milestone completion (conversion agreement, sanctions waivers, fuel transport permits)
+        - Job creation by country (Iran, India, Pakistan, US contractor)
+        - Carbon-equivalent displacement versus counterfactual gas-fired desalination
+      cadence:
+        conversion_phase: weekly IAEA verification reports; monthly public summary
+        construction_phase: monthly progress and safety reports
+        operating_phase: quarterly water production and non-proliferation compliance reports
+        annual: full corridor performance review with IAEA, US State, and all corridor parties
+    future_section:
+      confidence_percent: 14
+      title: Regenerative Iran Water-Energy Vision
+      premise: The immediate scenario converts a proliferation risk into a water-security asset. The long-horizon vision uses that diplomatic opening to build a regional clean-energy and water corridor serving Iran, Gulf neighbors, and Central Asian states.
+      pathways:
+        - Expand DeepFission corridor from 10 to 100 units along Persian Gulf and Gulf of Oman coasts
+        - Use verified fuel draw-down as a template for other states to convert HEU stockpiles into civilian desalination assets under IAEA safeguards
+        - Extend inland water conveyance to Shiraz, Ahvaz, and ultimately the Tehran basin via a national water grid
+        - Develop Persian Gulf brine mineral co-products such as lithium, magnesium, and potassium as revenue offset for desalination costs
+        - Integrate Iran into a regional energy-water corridor with Pakistan and India to build infrastructure trust for broader normalization
+      long_horizon_targets:
+        by_2030:
+          - 10-unit DeepFission array operational; 99000 m3/day additional desal capacity
+          - Full 440.9 kg HEU stockpile verifiably converted and loaded as reactor fuel
+          - IAEA safeguards protocol finalized and publicly reported
+        by_2035:
+          - 50-unit array expansion decision reached
+          - 5% LEU stockpile partially consumed as fuel feedstock
+          - Inland conveyance pilot to Ahvaz (300 km) operational
+        by_2042:
+          - 100-unit corridor serving approximately 5.5 million persons with desalinated water
+          - Full Iranian enriched uranium stockpile consumed or verifiably converted
+          - Exportable IAEA-certified fuel-to-desal model applied in at least one other state
+risk_matrix:
+  confidence_percent: 32
+  most_at_risk:
+    populations:
+      confidence_percent: 55
+      rating: high
+      drivers:
+        - 16 million persons already water-displaced; worsening without intervention
+        - Tehran reservoir at 12% capacity; inland population not served by coastal desal without 950 km pipeline
+        - Agricultural collapse in Khuzestan threatens food and livelihood security for millions
+    proliferation_stability:
+      confidence_percent: 42
+      rating: very_high
+      drivers:
+        - 440.9 kg HEU at 60% enrichment is within 3 weeks of weapons-grade
+        - Iran has not ratified Additional Protocol; inspections have gaps
+        - Failure to execute conversion leaves stockpile intact or growing at 4.7 kg per month
+    diplomatic_framework:
+      confidence_percent: 36
+      rating: high
+      drivers:
+        - No trilateral India-Pakistan-US nuclear cooperation precedent
+        - US sanctions require OFAC waivers not yet sought
+        - Iran domestic political consent uncertain; hardliner opposition to foreign-controlled facility
+    technology_execution:
+      confidence_percent: 30
+      rating: high
+      drivers:
+        - DeepFission has not completed a commercial bore reactor anywhere in the world
+        - Persian Gulf environment of hypersalinity and heat is untested for bore casing materials
+        - Six-month construction claim per bore unvalidated at commercial scale
+    coastal_ecology:
+      confidence_percent: 38
+      rating: medium
+      drivers:
+        - Persian Gulf is semi-enclosed; concentrate accumulates without adequate dispersal
+        - Near-shore coral reefs in Hormuz Strait sensitive to thermal and salinity stress
+        - Seawater intake biofouling in warm hypersaline conditions increases maintenance burden
+    sanctions_and_finance:
+      confidence_percent: 45
+      rating: very_high
+      drivers:
+        - OFAC secondary sanctions apply to Iranian energy sector
+        - Financing from US, India, and Pakistan each requires individual sanctions waivers
+        - At $1.20/m3 emergency water price, payback is ~41 years without grant financing
+    jobs_and_economy:
+      confidence_percent: 48
+      rating: medium_positive
+      drivers:
+        - Construction jobs in India and Pakistan for conversion facility
+        - Iranian water operator training and facility maintenance employment
+        - Long-run operations revenue for Iranian Water Authority
+infrastructure_and_spending_effects:
+  confidence_percent: 30
+  positive_if_managed_well:
+    - India and Pakistan gain nuclear fuel cycle service revenue and technical workforce development
+    - Iran gains civilian water infrastructure without direct foreign military presence
+    - IAEA gains a replicable HEU-to-desal safeguards model for export to other states
+    - DeepFission gains first commercial deployment reference site
+    - Regional diplomatic normalization creates conditions for expanded energy-water cooperation
+    - Persian Gulf concentrate brine is lithium and magnesium rich; co-product extraction could offset operating costs over time
+  negative_if_framework_collapses:
+    - Failed negotiation emboldens Iranian enrichment continuation
+    - DeepFission technology transfer risk if partnership dissolves mid-construction
+    - India-Pakistan nuclear cooperation precedent could be misread as legitimizing broader bilateral nuclear trade
+    - Sanctions violations by any party could trigger secondary sanctions cascade
+    - Half-built coastal desalination infrastructure without operating reactors becomes stranded asset
+cost_ranges:
+  confidence_percent: 17
+  methodology_note: All ranges are conceptual scenario-planning inputs. No engineering study, IAEA budget, or DeepFission EPC proposal exists for this corridor. Ranges span from minimum grant-funded pilot to full corridor including inland conveyance.
+  phase_1_verification_and_diplomacy_usd: [50000000, 300000000]
+  phase_2_conversion_and_fabrication_usd: [200000000, 800000000]
+  phase_3_deepfission_10unit_array_usd: [600000000, 1800000000]
+  phase_4_med_desal_coastal_infrastructure_usd: [150000000, 650000000]
+  phase_5_100unit_corridor_and_conveyance_usd: [3000000000, 18000000000]
+  total_scenario_range_usd: [1000000000, 21550000000]
+  concept_note: '$1B minimum for verified 10-unit coastal pilot; $21.55B ceiling for full 100-unit corridor with inland pipeline to Tehran-area basins.'
+  commercial_viability_note: 'At $1.20/m3 emergency water pricing, the 10-unit pilot payback is approximately 41 years. IAEA grant financing or water prices of $3+/m3 are required for commercial viability. The non-proliferation benefit alone may justify public sector grant funding independent of water revenue.'
