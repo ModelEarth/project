@@ -1,0 +1,257 @@
+/* event-hub.css — styles for #hub panel and section banners */
+
+#hub.event-hub-panel {
+  margin-bottom: 20px;
+  border-radius: 20px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--soft-shadow);
+  overflow: hidden;
+}
+
+/* ── Identity bar ───────────────────────────────────────── */
+.hub-identity-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px 8px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4px;
+}
+
+.hub-mission-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--hero-1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hub-phase-text {
+  font-size: 0.875rem;
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+.hub-source-link {
+  font-size: 0.78rem;
+  color: var(--accent-1);
+  text-decoration: none;
+  margin-left: auto;
+}
+
+.hub-source-link:hover { text-decoration: underline; }
+
+.hub-confidence-badge {
+  background: rgba(183, 121, 31, 0.12);
+  color: var(--warning);
+  border-radius: 999px;
+  padding: 3px 11px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── Summary cards (reuses existing .panel-summary-grid/.summary-card) ── */
+.hub-totals {
+  padding: 12px 24px 4px;
+}
+
+/* ── Phase timeline bar ─────────────────────────────────── */
+.hub-phase-bar {
+  display: flex;
+  gap: 4px;
+  padding: 8px 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.hub-phase-bar::-webkit-scrollbar { display: none; }
+
+.hub-phase-pill {
+  flex: 1;
+  min-width: 70px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(15, 113, 115, 0.1);
+  color: var(--accent-1);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  border: 1px solid rgba(15, 113, 115, 0.2);
+}
+
+/* ── Scenario confidence pills ──────────────────────────── */
+.hub-scenario-pills {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.hub-scenario-label {
+  font-size: 0.75rem;
+  color: var(--ink-2);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hub-pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.77rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.hub-pill:hover { opacity: 0.78; }
+
+.hub-pill-high { background: rgba(15, 157, 88, 0.14); color: var(--success); }
+.hub-pill-med  { background: rgba(242, 193, 78, 0.22); color: var(--warning); }
+.hub-pill-low  { background: rgba(239, 131, 84, 0.18); color: var(--accent-3); }
+
+/* ── Charts row ─────────────────────────────────────────── */
+.hub-charts-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  padding: 6px 24px 18px;
+}
+
+.hub-chart-wrap {
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  min-height: 220px;
+}
+
+.hub-chart-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+  padding: 10px 14px 0;
+}
+
+/* ── Reset row ──────────────────────────────────────────── */
+.hub-reset-row {
+  padding: 0 24px 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hub-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 113, 115, 0.08);
+  color: var(--accent-1);
+  border: 1px solid rgba(15, 113, 115, 0.25);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.hub-reset-btn:hover { background: rgba(15, 113, 115, 0.15); }
+.hub-reset-btn .material-icons { font-size: 16px; }
+
+/* ── Section banners ────────────────────────────────────── */
+.hub-section-banner {
+  margin-bottom: 16px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: rgba(15, 113, 115, 0.06);
+  border-left: 3px solid var(--accent-1);
+  font-size: 0.875rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+.hub-section-banner strong {
+  color: var(--ink-1);
+  font-weight: 600;
+}
+
+.hub-section-banner .hub-banner-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-bottom: 6px;
+}
+
+.hub-section-banner .hub-banner-row:last-child { margin-bottom: 0; }
+
+.hub-stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.hub-stat .hub-stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+}
+
+.hub-stat .hub-stat-value {
+  font-weight: 700;
+  color: var(--ink-1);
+}
+
+.hub-confidence-chip {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(183, 121, 31, 0.1);
+  color: var(--warning);
+}
+
+.hub-banner-metrics {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  font-size: 0.82rem;
+  color: var(--ink-2);
+}
+
+.hub-banner-metrics li { margin-bottom: 2px; }
+
+.hub-seeded-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--success);
+  font-weight: 600;
+}
+
+.hub-seeded-note .material-icons { font-size: 14px; }
+
+/* ── Dark mode overrides ────────────────────────────────── */
+body.dark #hub.event-hub-panel,
+.dark #hub.event-hub-panel {
+  background: rgba(30, 50, 52, 0.88);
+}
+
+body.dark .hub-chart-wrap,
+.dark .hub-chart-wrap {
+  background: rgba(20, 36, 38, 0.72);
+}
+
+body.dark .hub-section-banner,
+.dark .hub-section-banner {
+  background: rgba(15, 113, 115, 0.1);
+}
