@@ -44,7 +44,7 @@
   // ── Active event id ────────────────────────────────────────────────────────
   function getActiveEventId() {
     var hash = typeof getHash === 'function' ? getHash() : {};
-    return (hash.event || DEFAULT_EVENT).replace(/[^a-zA-Z0-9_-]/g, '');
+    return (hash.event || '').replace(/[^a-zA-Z0-9_-]/g, '');
   }
 
   function userEditsKey(eventId) {
@@ -652,7 +652,10 @@
     if (banners) banners.remove();
   }
 
+  var _activeEventId = '';
+
   function loadAndRender(eventId) {
+    _activeEventId = eventId;
     clearOverview();
     loadEventYaml(eventId)
       .then(function (data) {
@@ -680,21 +683,19 @@
   // ── Boot ───────────────────────────────────────────────────────────────────
   function boot() {
     var eventId = getActiveEventId();
-    loadAndRender(eventId);
+    if (eventId) {
+      loadAndRender(eventId);
+    }
 
     document.addEventListener('hashChangeEvent', function () {
       var hash = typeof getHash === 'function' ? getHash() : {};
-      var prior = window.priorHash || {};
-      if (hash.event !== prior.event) {
-        loadAndRender(hash.event || DEFAULT_EVENT);
-      }
-    });
-
-    window.addEventListener('hashchange', function () {
-      var hash = typeof getHash === 'function' ? getHash() : {};
-      var prior = window.priorHash || {};
-      if (hash.event !== prior.event) {
-        loadAndRender(hash.event || DEFAULT_EVENT);
+      var newId = (hash.event || '').replace(/[^a-zA-Z0-9_-]/g, '');
+      if (newId === _activeEventId) return;
+      if (newId) {
+        loadAndRender(newId);
+      } else {
+        _activeEventId = '';
+        clearOverview();
       }
     });
   }
