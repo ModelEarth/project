@@ -374,7 +374,7 @@
             flex-wrap: wrap;
         }
 
-        #project-controls #hud.event-hud-inline {
+        #project-controls #headsup.event-hud-inline {
             margin-right: auto;
         }
 
@@ -384,7 +384,7 @@
             margin: 0 0 16px;
         }
 
-        #project-hud-anchor #hud.event-hud-inline #hud-left {
+        #project-hud-anchor #headsup.event-hud-inline #hud-left {
             min-width: min(420px, 100%);
             border-radius: 28px;
             padding: 8px 20px 20px;
@@ -3280,6 +3280,7 @@
 
         <div class="dashboard-shell contentpadding">
         <div id="project-hud-anchor"></div>
+        <div id="projectOverview"></div>
         <section id="studio" class="hero nav-target">
             <div class="hero-topbar">
                 <div class="eyebrow">
@@ -7869,7 +7870,7 @@
                 waitForElm('#project-controls'),
                 waitForElm('#project-hud-anchor')
             ]).then(function([rightIcons, projectControls, projectHudAnchor]) {
-                if (window.SharedEventUI && !document.getElementById('hud')) {
+                if (window.SharedEventUI && !document.getElementById('headsup')) {
                     window.SharedEventUI.mountHud({
                         targetSelector: '#project-hud-anchor',
                         mode: 'inline',

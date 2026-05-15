@@ -242,11 +242,11 @@ body {
   width: 100%;
 }
 
-#project-hud-anchor #hud.event-hud-inline:has(+ #mission-menu.open) {
+#project-hud-anchor #headsup.event-hud-inline:has(+ #mission-menu.open) {
   width: 100%;
 }
 
-#project-hud-anchor #hud.event-hud-inline:has(+ #mission-menu.open) #hud-left {
+#project-hud-anchor #headsup.event-hud-inline:has(+ #mission-menu.open) #hud-left {
   width: 100%;
   max-width: none;
 }
@@ -660,7 +660,7 @@ body {
       });
 
       function mountHud() {
-        if (document.getElementById('hud')) return;
+        if (document.getElementById('headsup')) return;
         window.SharedEventUI.mountHud({
           targetSelector: '#project-hud-anchor',
           mode: 'inline',

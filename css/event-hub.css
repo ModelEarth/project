@@ -1,6 +1,6 @@
-/* event-hub.css — styles for #hub panel and section banners */
+/* event-hub.css — styles for #topinfo panel and section banners */
 
-#hub.event-hub-panel {
+#topinfo.event-hub-panel {
   margin-bottom: 20px;
   border-radius: 20px;
   background: var(--panel);
@@ -166,9 +166,23 @@
 .hub-reset-btn:hover { background: rgba(15, 113, 115, 0.15); }
 .hub-reset-btn .material-icons { font-size: 16px; }
 
+/* ── Section banners container inside #headsup ──────────── */
+#headsup:has(#hub-banners) {
+  display: block;
+  width: 100%;
+}
+
+#hub-banners {
+  width: 100%;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
 /* ── Section banners ────────────────────────────────────── */
 .hub-section-banner {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   padding: 12px 18px;
   border-radius: 12px;
   background: rgba(15, 113, 115, 0.06);
@@ -241,8 +255,8 @@
 .hub-seeded-note .material-icons { font-size: 14px; }
 
 /* ── Dark mode overrides ────────────────────────────────── */
-body.dark #hub.event-hub-panel,
-.dark #hub.event-hub-panel {
+body.dark #topinfo.event-hub-panel,
+.dark #topinfo.event-hub-panel {
   background: rgba(30, 50, 52, 0.88);
 }
 

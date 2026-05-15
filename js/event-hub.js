@@ -1,11 +1,11 @@
-/* event-hub.js — loads iran-energy.yaml and renders #hub panel + section banners */
+/* event-hub.js — loads event YAML and renders #topinfo panel + section banners */
 (function () {
   'use strict';
 
   // ── Constants ──────────────────────────────────────────────────────────────
-  var YAML_PATH      = './events/iran-energy.yaml';
-  var YAML_FALLBACK  = '../events/iran-energy.yaml';
-  var USER_EDITS_KEY = 'iranEnergyUserEditsV1';
+  var EVENTS_BASE     = './events';
+  var EVENTS_FALLBACK = '../events';
+  var DEFAULT_EVENT   = 'iran-energy';
 
   var EDITABLE_FIELDS = [
     'reactorPower', 'wasteHeatFactor', 'medEfficiency', 'numEffects',
@@ -41,8 +41,21 @@
     return (val != null && isFinite(val)) ? val + '%' : '—';
   }
 
+  // ── Active event id ────────────────────────────────────────────────────────
+  function getActiveEventId() {
+    var hash = typeof getHash === 'function' ? getHash() : {};
+    return (hash.event || DEFAULT_EVENT).replace(/[^a-zA-Z0-9_-]/g, '');
+  }
+
+  function userEditsKey(eventId) {
+    return 'eventHubUserEdits_' + (eventId || DEFAULT_EVENT);
+  }
+
   // ── YAML fetch with fallback ───────────────────────────────────────────────
-  function loadEventYaml() {
+  function loadEventYaml(eventId) {
+    var slug = (eventId || DEFAULT_EVENT).replace(/[^a-zA-Z0-9_-]/g, '');
+    var primary  = EVENTS_BASE + '/' + slug + '.yaml';
+    var fallback = EVENTS_FALLBACK + '/' + slug + '.yaml';
     function tryFetch(url) {
       return fetch(url, { cache: 'no-cache' })
         .then(function (r) {
@@ -50,8 +63,8 @@
           return r.text();
         });
     }
-    return tryFetch(YAML_PATH)
-      .catch(function () { return tryFetch(YAML_FALLBACK); })
+    return tryFetch(primary)
+      .catch(function () { return tryFetch(fallback); })
       .then(function (text) {
         if (!window.YAML || typeof window.YAML.parse !== 'function') {
           throw new Error('window.YAML not available');
@@ -70,26 +83,27 @@
   function getRisk(data){ return safeGet(data, 'risk_matrix', 'most_at_risk') || {}; }
 
   // ── localStorage user edits ────────────────────────────────────────────────
-  function getUserEdits() {
-    try { return JSON.parse(localStorage.getItem(USER_EDITS_KEY) || '{}') || {}; }
+  function getUserEdits(eventId) {
+    try { return JSON.parse(localStorage.getItem(userEditsKey(eventId)) || '{}') || {}; }
     catch (_) { return {}; }
   }
 
-  function saveUserEdits(edits) {
+  function saveUserEdits(edits, eventId) {
     try {
+      var key = userEditsKey(eventId);
       if (Object.keys(edits).length) {
-        localStorage.setItem(USER_EDITS_KEY, JSON.stringify(edits));
+        localStorage.setItem(key, JSON.stringify(edits));
       } else {
-        localStorage.removeItem(USER_EDITS_KEY);
+        localStorage.removeItem(key);
       }
     } catch (_) {}
   }
 
   // ── Calculator field seeding ───────────────────────────────────────────────
-  function seedCalculatorFields(data) {
+  function seedCalculatorFields(data, eventId) {
     var ae = getAe(data);
     var defaults = safeGet(ae, 'engineering_section', 'parameters', 'calculator_defaults') || {};
-    var userEdits = getUserEdits();
+    var userEdits = getUserEdits(eventId);
     var merged = Object.assign({}, defaults, userEdits);
     EDITABLE_FIELDS.forEach(function (id) {
       if (!Object.prototype.hasOwnProperty.call(merged, id)) return;
@@ -117,8 +131,8 @@
     var confidence  = safeGet(data, 'modeled_assumptions', 'confidence_percent');
     var sourceUrl   = data.source_url || '#';
     var phaseLabels = data.phase_labels || [];
-    var startYear   = data.start_date ? data.start_date.slice(0, 4) : '';
-    var endYear     = data.end_date   ? data.end_date.slice(0, 4)   : '';
+    var startYear   = data.start_date ? String(new Date(data.start_date).getUTCFullYear()) : '';
+    var endYear     = data.end_date   ? String(new Date(data.end_date).getUTCFullYear())   : '';
 
     var totalMin = safeGet(data, 'cost_ranges', 'total_scenario_range_usd', 0);
     var totalMax = safeGet(data, 'cost_ranges', 'total_scenario_range_usd', 1);
@@ -144,17 +158,17 @@
         phaseLabels.map(function (p) {
           return '<div class="hub-phase-pill">' + p + '</div>';
         }).join('') +
-        ((startYear || endYear) ? '<div class="hub-phase-pill" style="opacity:.55">' + startYear + '–' + endYear + '</div>' : '') +
         '</div>';
     }
 
     var html = '';
-    html += '<div id="hub" class="event-hub-panel">';
+    html += '<div id="topinfo" class="event-hub-panel">';
 
     // Identity bar
     html += '<div class="hub-identity-bar">';
     html += '<span class="hub-mission-name"><span class="material-icons" style="color:var(--hero-1);font-size:20px">hub</span>' + missionName + '</span>';
     if (phaseText) html += '<span class="hub-phase-text">' + phaseText + '</span>';
+    if (startYear || endYear) html += '<span class="hub-phase-text" style="opacity:.7">' + startYear + '–' + endYear + '</span>';
     if (confidence != null) html += '<span class="hub-confidence-badge">' + fmtPct(confidence) + ' model confidence</span>';
     html += '<a class="hub-source-link" href="' + sourceUrl + '" target="_blank" rel="noopener"><span class="material-icons" style="font-size:14px;vertical-align:middle">open_in_new</span> Source</a>';
     html += '</div>';
@@ -298,23 +312,152 @@
 
   function resizeHubCharts() {
     _hubCharts.forEach(function (c) { try { c.resize(); } catch (_) {} });
+    _overviewCharts.forEach(function (c) { try { c.resize(); } catch (_) {} });
   }
 
   window.resizeHubCharts = resizeHubCharts;
 
-  // ── Section banners ────────────────────────────────────────────────────────
-  function renderSectionBanner(sectionId, html) {
-    var section = document.getElementById(sectionId);
-    if (!section) return;
-    var target = section.querySelector('.panel-body') || section;
-    var existing = section.querySelector('.hub-section-banner');
-    if (existing) existing.remove();
-    var div = document.createElement('div');
-    div.className = 'hub-section-banner';
-    div.innerHTML = html;
-    target.prepend(div);
+  // ── Project Overview panel ─────────────────────────────────────────────────
+  var _overviewCharts = [];
+
+  function renderProjectOverview(data) {
+    var ov = document.getElementById('projectOverview');
+    if (!ov) return;
+
+    _overviewCharts.forEach(function (c) { try { c.dispose(); } catch (_) {} });
+    _overviewCharts = [];
+
+    var ae = getAe(data);
+    var eo  = safeGet(ae, 'engineering_section', 'parameters', 'calculator_expected_output') || {};
+    var defs = safeGet(ae, 'engineering_section', 'parameters', 'calculator_defaults') || {};
+    var sc  = getScen(data);
+
+    // Summary stat cards
+    var cards = [];
+    if (eo.daily_water_m3_day != null)
+      cards.push('<div class="summary-card"><span class="label">Calculated daily water</span><span class="value">' + fmtK(eo.daily_water_m3_day) + ' m³/day</span><span class="detail">IAEA 10-unit array, YAML defaults</span></div>');
+    if (eo.annual_revenue_usd != null)
+      cards.push('<div class="summary-card"><span class="label">Annual water revenue</span><span class="value">' + fmtM(eo.annual_revenue_usd) + '</span><span class="detail">At $' + (defs.waterPrice || '—') + '/m³ water price</span></div>');
+    if (eo.total_project_cost_usd != null)
+      cards.push('<div class="summary-card"><span class="label">Total project CAPEX</span><span class="value">' + fmtM(eo.total_project_cost_usd) + '</span><span class="detail">MED desal + boring + tunneling</span></div>');
+    if (eo.payback_years != null)
+      cards.push('<div class="summary-card"><span class="label">Payback period</span><span class="value">' + eo.payback_years + ' yrs</span><span class="detail">At seeded pricing assumptions</span></div>');
+
+    // Water comparison data across scenarios
+    var waterScens = [], waterVals = [];
+    var baseDesal = safeGet(sc, 'baseline_no_conversion_case', 'desalination_context', 'bushehr_desal_m3_day');
+    if (baseDesal != null) { waterScens.push('No-conversion'); waterVals.push(baseDesal); }
+    var iaeaDesal = safeGet(sc, 'transition_iaea_10unit_case', 'desalination_output', 'combined_with_bushehr_m3_day');
+    if (iaeaDesal != null) { waterScens.push('IAEA 10-unit'); waterVals.push(iaeaDesal); }
+    var fullDesal = safeGet(sc, 'regenerative_100unit_corridor_case', 'water_impact', 'combined_desal_m3_day_with_bushehr');
+    if (fullDesal != null) { waterScens.push('100-unit corridor'); waterVals.push(fullDesal); }
+
+    // Generation mix for the IAEA 10-unit scenario (primary calculator scenario)
+    var mixScen = safeGet(sc, 'transition_iaea_10unit_case', 'generation_mix_percent')
+               || safeGet(sc, 'baseline_no_conversion_case', 'generation_mix_percent') || {};
+    var mixLabels = { nuclear_deepfission: 'DeepFission', nuclear_bushehr: 'Bushehr', nuclear: 'Nuclear',
+                      natural_gas: 'Gas', oil_diesel: 'Oil/Diesel', solar: 'Solar',
+                      wind: 'Wind', renewables: 'Renewables', other_renewables: 'Other Ren.' };
+    var mixData = [];
+    Object.keys(mixScen).forEach(function (k) {
+      if (mixScen[k] && mixLabels[k]) mixData.push({ value: mixScen[k], name: mixLabels[k] });
+    });
+
+    var hasCards  = cards.length > 0;
+    var hasMix    = mixData.length > 0;
+    var hasWater  = waterVals.length > 0;
+    var hasCharts = typeof echarts !== 'undefined' && (hasMix || hasWater);
+
+    if (!hasCards && !hasCharts) {
+      var eventSlug = (data.id || data.object_name || 'this event');
+      ov.innerHTML = '<div style="margin-bottom:20px;background:var(--panel);border-radius:20px;border:1px solid var(--line);box-shadow:var(--soft-shadow);padding:20px 24px;display:flex;align-items:flex-start;gap:12px;">'
+        + '<span class="material-icons" style="color:var(--accent-2);font-size:22px;margin-top:1px">info</span>'
+        + '<div><div style="font-weight:600;color:var(--ink-1);margin-bottom:4px;">No scenario data for <em>' + eventSlug + '</em></div>'
+        + '<div style="font-size:0.85rem;color:var(--ink-2);">Add <code>modeled_assumptions.energy_scenarios</code> and <code>modeled_assumptions.abundance_engine_sections</code> to <strong>' + eventSlug + '.yaml</strong> to enable scenario charts and calculated outputs.</div>'
+        + '</div></div>';
+      return;
+    }
+
+    var html = '<div style="margin-bottom:20px;background:var(--panel);border-radius:20px;border:1px solid var(--line);box-shadow:var(--soft-shadow);overflow:hidden;">';
+
+    html += '<div style="padding:14px 24px 6px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;">'
+          + '<span class="material-icons" style="color:var(--hero-1);font-size:20px">insights</span>'
+          + '<span style="font-size:1rem;font-weight:700;color:var(--hero-1);">Calculated Scenario Outputs</span>'
+          + '<span style="font-size:0.82rem;color:var(--ink-2);font-style:italic;margin-left:4px;">' + (data.mission_name || data.label || '') + '</span>'
+          + '</div>';
+
+    if (hasCards)
+      html += '<div class="panel-summary-grid" style="padding:12px 24px 4px;">' + cards.join('') + '</div>';
+
+    if (hasCharts) {
+      html += '<div class="hub-charts-row">';
+      if (hasMix)
+        html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Generation mix — IAEA 10-unit scenario</div><div id="overviewMixChart" style="height:220px;"></div></div>';
+      if (hasWater)
+        html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Desal water output by scenario (m³/day)</div><div id="overviewWaterChart" style="height:220px;"></div></div>';
+      html += '</div>';
+    }
+
+    html += '</div>';
+    ov.innerHTML = html;
+
+    if (typeof echarts === 'undefined') return;
+
+    if (hasMix) {
+      var domMix = document.getElementById('overviewMixChart');
+      if (domMix) {
+        var cMix = echarts.init(domMix);
+        _overviewCharts.push(cMix);
+        cMix.setOption({
+          tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+          legend: { bottom: 2, textStyle: { fontSize: 10 }, orient: 'horizontal' },
+          series: [{
+            type: 'pie',
+            radius: ['36%', '62%'],
+            center: ['50%', '44%'],
+            data: mixData,
+            label: { show: false },
+            emphasis: { itemStyle: { shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.18)' } },
+            color: ['#0f7173', '#0d5c63', '#f2c14e', '#ef8354', '#0f9d58', '#b7791f', '#64b5f6', '#a5d6a7']
+          }]
+        });
+      }
+    }
+
+    if (hasWater) {
+      var domWater = document.getElementById('overviewWaterChart');
+      if (domWater) {
+        var cWater = echarts.init(domWater);
+        _overviewCharts.push(cWater);
+        cWater.setOption({
+          tooltip: {
+            trigger: 'axis',
+            formatter: function (p) { return p[0].name + '<br/>' + Math.round(p[0].value / 1000) + 'K m³/day'; }
+          },
+          grid: { left: 108, right: 24, top: 14, bottom: 30 },
+          xAxis: {
+            type: 'value',
+            name: 'm³/day',
+            axisLabel: { fontSize: 9, formatter: function (v) { return v >= 1000 ? Math.round(v / 1000) + 'K' : v; } }
+          },
+          yAxis: { type: 'category', data: waterScens, axisLabel: { fontSize: 10 } },
+          color: ['#0f7173'],
+          series: [{
+            type: 'bar',
+            data: waterVals,
+            barWidth: '46%',
+            itemStyle: { borderRadius: [0, 6, 6, 0] },
+            label: {
+              show: true, position: 'insideRight', fontSize: 10, color: '#fff',
+              formatter: function (p) { return Math.round(p.value / 1000) + 'K'; }
+            }
+          }]
+        });
+      }
+    }
   }
 
+  // ── Section banners ────────────────────────────────────────────────────────
   function stat(label, value) {
     return '<span class="hub-stat"><span class="hub-stat-label">' + label + ':</span> <span class="hub-stat-value">' + value + '</span></span>';
   }
@@ -324,14 +467,20 @@
   }
 
   function renderAllSectionBanners(data) {
-    var ae = getAe(data);
+    var existing = document.getElementById('hub-banners');
+    if (existing) existing.remove();
 
-    // Studio
+    var headsup = document.getElementById('headsup');
+    if (!headsup) return;
+
+    var ae = getAe(data);
+    var parts = [];
+
     var studio = ae.studio_section;
     if (studio) {
       var sp = studio.scenario_parameters || {};
-      renderSectionBanner('studio', [
-        '<div class="hub-banner-row"><strong>Iran Energy Corridor — Scenario Parameters</strong>' + chipPct(studio.confidence_percent) + '</div>',
+      parts.push([
+        '<div class="hub-banner-row"><strong>Scenario Parameters</strong>' + chipPct(studio.confidence_percent) + '</div>',
         '<div class="hub-banner-row">',
         stat('Sponsor value/yr', fmtM((sp.sponsor_annual_value_range_usd || [])[0]) + ' – ' + fmtM((sp.sponsor_annual_value_range_usd || [0, 0])[1])),
         stat('Households', (((sp.households_supported_range || [])[0] || 0) / 1e3 | 0) + 'K – ' + ((((sp.households_supported_range || [0, 0])[1]) || 0) / 1e3 | 0) + 'K'),
@@ -341,12 +490,11 @@
       ].join(''));
     }
 
-    // Benefits
     var ben = ae.benefits_section;
     if (ben) {
       var bp = ben.parameters || {};
-      renderSectionBanner('benefits', [
-        '<div class="hub-banner-row"><strong>Corridor Benefits — Iran Scenario</strong>' + chipPct(ben.confidence_percent) + '</div>',
+      parts.push([
+        '<div class="hub-banner-row"><strong>Corridor Benefits</strong>' + chipPct(ben.confidence_percent) + '</div>',
         '<div class="hub-banner-row">',
         stat('Pure water coverage', (bp.pure_water_coverage_percent_range || [5, 55]).join('–') + '%'),
         stat('Daily water output', fmtK((bp.daily_pure_water_output_m3_day_range || [])[0]) + ' – ' + fmtK((bp.daily_pure_water_output_m3_day_range || [0, 0])[1]) + ' m³/day'),
@@ -356,14 +504,13 @@
       ].join(''));
     }
 
-    // Engineering (Deep Nuclear)
     var eng = ae.engineering_section;
     if (eng) {
       var ep = eng.parameters || {};
       var dfu = ep.deep_fission_reference_unit || {};
       var eo = ep.calculator_expected_output || {};
-      renderSectionBanner('engineering', [
-        '<div class="hub-banner-row"><strong>DEEP Nuclear for Water Replenishment</strong>' + chipPct(eng.confidence_percent) + '<span class="hub-seeded-note"><span class="material-icons">check_circle</span>Calculator inputs seeded from iran-energy.yaml</span></div>',
+      parts.push([
+        '<div class="hub-banner-row"><strong>DEEP Nuclear for Water Replenishment</strong>' + chipPct(eng.confidence_percent) + '<span class="hub-seeded-note"><span class="material-icons">check_circle</span>Calculator seeded from ' + (data.id || 'event') + '.yaml</span></div>',
         '<div class="hub-banner-row">',
         stat('Reactor power', (ep.reactor_power_mwth_range || [45, 4550]).join('–') + ' MWth'),
         stat('LCOE', '$' + (dfu.lcoe_usd_per_mwh_range || [50, 70]).join('–') + '/MWh'),
@@ -379,13 +526,12 @@
       ].join(''));
     }
 
-    // Water Output
     var water = ae.water_section;
     if (water) {
       var wp = water.parameters || {};
       var ic = wp.inland_conveyance || {};
-      renderSectionBanner('water', [
-        '<div class="hub-banner-row"><strong>Water Output — Iran Desal Scenario</strong>' + chipPct(water.confidence_percent) + '</div>',
+      parts.push([
+        '<div class="hub-banner-row"><strong>Water Output</strong>' + chipPct(water.confidence_percent) + '</div>',
         '<div class="hub-banner-row">',
         stat('Direct desal range', fmtK((wp.direct_desal_output_m3_day_range || [])[0]) + ' – ' + fmtK((wp.direct_desal_output_m3_day_range || [0, 0])[1]) + ' m³/day'),
         stat('Existing Bushehr', fmtK(wp.existing_bushehr_desal_m3_day) + ' m³/day'),
@@ -400,11 +546,10 @@
       ].join(''));
     }
 
-    // Deployment
     var dep = ae.deployment_section;
     if (dep) {
       var dp = dep.parameters || {};
-      renderSectionBanner('deployment', [
+      parts.push([
         '<div class="hub-banner-row"><strong>Local Deployment — Capital Ranges</strong>' + chipPct(dep.confidence_percent) + '</div>',
         '<div class="hub-banner-row">',
         stat('Conversion facility', fmtM((dp.conversion_facility_capex_usd_range || [])[0]) + ' – ' + fmtM((dp.conversion_facility_capex_usd_range || [0, 0])[1])),
@@ -415,49 +560,56 @@
       ].join(''));
     }
 
-    // Scorecard
     var scard = ae.scorecard_section;
     if (scard) {
       var wts = scard.weights || {};
       var wtList = Object.keys(wts).map(function (k) {
         return '<li><strong>' + wts[k] + '%</strong> ' + k.replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); }) + '</li>';
       }).join('');
-      renderSectionBanner('scorecard', [
-        '<div class="hub-banner-row"><strong>Scorecard Weights — Iran Energy Corridor</strong>' + chipPct(scard.confidence_percent) + '</div>',
+      parts.push([
+        '<div class="hub-banner-row"><strong>Scorecard Weights</strong>' + chipPct(scard.confidence_percent) + '</div>',
         '<ul class="hub-banner-metrics">' + wtList + '</ul>'
       ].join(''));
     }
 
-    // Reporting
     var rep = ae.reporting_section;
     if (rep) {
       var metrics = (rep.required_metrics || []).map(function (m) { return '<li>' + m + '</li>'; }).join('');
-      renderSectionBanner('reporting', [
-        '<div class="hub-banner-row"><strong>Project Reporting Requirements</strong>' + chipPct(rep.confidence_percent) + '</div>',
+      parts.push([
+        '<div class="hub-banner-row"><strong>Reporting Requirements</strong>' + chipPct(rep.confidence_percent) + '</div>',
         '<ul class="hub-banner-metrics">' + metrics + '</ul>'
       ].join(''));
     }
+
+    if (!parts.length) return;
+
+    var container = document.createElement('div');
+    container.id = 'hub-banners';
+    container.innerHTML = parts.map(function (html) {
+      return '<div class="hub-section-banner">' + html + '</div>';
+    }).join('');
+    headsup.appendChild(container);
   }
 
   // ── Reset button & field change listeners ──────────────────────────────────
-  function updateResetButtonVisibility() {
+  function updateResetButtonVisibility(eventId) {
     var row = document.getElementById('hubResetRow');
     if (!row) return;
-    row.hidden = Object.keys(getUserEdits()).length === 0;
+    row.hidden = Object.keys(getUserEdits(eventId)).length === 0;
   }
 
-  function bindHubResetButton(data) {
+  function bindHubResetButton(data, eventId) {
     var btn = document.getElementById('hubResetBtn');
     if (!btn) return;
     btn.addEventListener('click', function () {
-      localStorage.removeItem(USER_EDITS_KEY);
-      seedCalculatorFields(data);
-      updateResetButtonVisibility();
+      localStorage.removeItem(userEditsKey(eventId));
+      seedCalculatorFields(data, eventId);
+      updateResetButtonVisibility(eventId);
       if (typeof calculateNuclear === 'function') calculateNuclear();
     });
   }
 
-  function bindFieldChangeListeners(data) {
+  function bindFieldChangeListeners(data, eventId) {
     var ae = getAe(data);
     var yamlDefaults = safeGet(ae, 'engineering_section', 'parameters', 'calculator_defaults') || {};
     EDITABLE_FIELDS.forEach(function (id) {
@@ -465,50 +617,86 @@
       if (!el) return;
       el.addEventListener('change', function () {
         var diff = buildDiffFromFields(yamlDefaults);
-        saveUserEdits(diff);
-        updateResetButtonVisibility();
+        saveUserEdits(diff, eventId);
+        updateResetButtonVisibility(eventId);
       });
     });
   }
 
   // ── Hub render (public — also used by space/index.html) ───────────────────
-  function renderHub(data) {
+  function renderHub(data, eventId) {
     window.activeProjectEvent = data;
     var anchor = document.getElementById('project-hud-anchor');
     if (anchor) {
-      var existing = document.getElementById('hub');
+      var existing = document.getElementById('topinfo');
       if (existing) existing.remove();
       anchor.insertAdjacentHTML('afterend', buildHubMarkup(data));
       renderHubCharts(data);
-      bindHubResetButton(data);
-      bindFieldChangeListeners(data);
-      updateResetButtonVisibility();
+      bindHubResetButton(data, eventId);
+      bindFieldChangeListeners(data, eventId);
+      updateResetButtonVisibility(eventId);
     }
     renderAllSectionBanners(data);
+    renderProjectOverview(data);
   }
 
   window.renderEventHub = renderHub;
 
-  // ── Boot ───────────────────────────────────────────────────────────────────
-  function boot() {
-    loadEventYaml()
+  // ── Load and render a single event ────────────────────────────────────────
+  function clearOverview() {
+    var ov = document.getElementById('projectOverview');
+    if (ov) ov.innerHTML = '';
+    var hub = document.getElementById('topinfo');
+    if (hub) hub.remove();
+    var banners = document.getElementById('hub-banners');
+    if (banners) banners.remove();
+  }
+
+  function loadAndRender(eventId) {
+    clearOverview();
+    loadEventYaml(eventId)
       .then(function (data) {
         window.activeProjectEvent = data;
-        seedCalculatorFields(data);
-        renderHub(data);
-        // Re-run nuclear calculator with seeded values
-        var attempts = 0;
-        var poll = setInterval(function () {
-          if (typeof calculateNuclear === 'function') {
-            clearInterval(poll);
-            calculateNuclear();
-          }
-          if (++attempts > 50) clearInterval(poll);
-        }, 100);
+        seedCalculatorFields(data, eventId);
+        renderHub(data, eventId);
+        if (eventId === DEFAULT_EVENT) {
+          var attempts = 0;
+          var poll = setInterval(function () {
+            if (typeof calculateNuclear === 'function') {
+              clearInterval(poll);
+              calculateNuclear();
+            }
+            if (++attempts > 50) clearInterval(poll);
+          }, 100);
+        }
       })
       .catch(function (err) {
-        console.warn('[event-hub] Failed to load iran-energy.yaml:', err);
+        console.warn('[event-hub] Failed to load ' + eventId + '.yaml:', err);
+        var ov = document.getElementById('projectOverview');
+        if (ov) ov.innerHTML = '<div style="padding:16px 24px;color:var(--ink-2);">Could not load event data for <strong>' + eventId + '</strong>.</div>';
       });
+  }
+
+  // ── Boot ───────────────────────────────────────────────────────────────────
+  function boot() {
+    var eventId = getActiveEventId();
+    loadAndRender(eventId);
+
+    document.addEventListener('hashChangeEvent', function () {
+      var hash = typeof getHash === 'function' ? getHash() : {};
+      var prior = window.priorHash || {};
+      if (hash.event !== prior.event) {
+        loadAndRender(hash.event || DEFAULT_EVENT);
+      }
+    });
+
+    window.addEventListener('hashchange', function () {
+      var hash = typeof getHash === 'function' ? getHash() : {};
+      var prior = window.priorHash || {};
+      if (hash.event !== prior.event) {
+        loadAndRender(hash.event || DEFAULT_EVENT);
+      }
+    });
   }
 
   // Fire as soon as DOM is available — try three approaches to ensure it runs
