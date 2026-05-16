@@ -1445,6 +1445,8 @@
             color: var(--ink-1);
             text-decoration: none;
             box-shadow: var(--soft-shadow);
+            user-select: text;
+            -webkit-user-select: text;
         }
 
         .panel-highlight:hover,
@@ -1463,6 +1465,8 @@
             display: grid;
             gap: 4px;
             min-width: 0;
+            user-select: text;
+            -webkit-user-select: text;
         }
 
         .panel-highlight-copy strong {
@@ -3489,10 +3493,10 @@
             </div>
 
             <div class="panel-note-row">
-                <a class="panel-highlight" href="https://www.kjzz.org/business/2026-03-17/saving-water-in-arizona-is-expensive-can-big-companies-help-pay-for-it" target="kjzz">
+                <a class="panel-highlight" href="https://www.kjzz.org/business/2026-03-17/saving-water-in-arizona-is-expensive-can-big-companies-help-pay-for-it" target="kjzz" draggable="false">
                     <span class="material-icons">highlight</span>
                     <div class="panel-highlight-copy">
-                        <strong>Gila River Indian Community reservation in Arizona</strong>
+                        <strong>Example: Gila River Indian Community reservation in Arizona</strong>
                         <span>P&amp;G and Google paid for about 60% of the project, increasing water for shampoo or laundry detergent production.</span>
                     </div>
                 </a>
@@ -7480,6 +7484,31 @@
             });
         }
 
+        function setupPanelHighlightSelection() {
+            document.querySelectorAll('.panel-highlight').forEach(function(link) {
+                if (link.dataset.selectionGuardBound) return;
+                link.addEventListener('pointerdown', function(event) {
+                    link.dataset.pointerStartX = String(event.clientX);
+                    link.dataset.pointerStartY = String(event.clientY);
+                    link.dataset.suppressNextClick = 'false';
+                });
+                link.addEventListener('pointerup', function(event) {
+                    const startX = parseFloat(link.dataset.pointerStartX || event.clientX);
+                    const startY = parseFloat(link.dataset.pointerStartY || event.clientY);
+                    const moved = Math.hypot(event.clientX - startX, event.clientY - startY) > 4;
+                    const selectionText = window.getSelection ? window.getSelection().toString().trim() : '';
+                    link.dataset.suppressNextClick = moved && selectionText ? 'true' : 'false';
+                });
+                link.addEventListener('click', function(event) {
+                    if (link.dataset.suppressNextClick !== 'true') return;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    link.dataset.suppressNextClick = 'false';
+                });
+                link.dataset.selectionGuardBound = 'true';
+            });
+        }
+
         function setupEventHandlers() {
             const corporateBtn = document.getElementById('calculateCorporateBtn');
             const fundingBtn = document.getElementById('calculateFundingBtn');
@@ -7820,6 +7849,7 @@
             refreshEnergyMixUi();
             initializePageConfigDarkToggle();
             setupEventHandlers();
+            setupPanelHighlightSelection();
             setupOutputHandlers();
             setupPanelMenus();
             setupSectionWindowing();
@@ -7876,6 +7906,7 @@
                         mode: 'inline',
                         insertPosition: 'beforeend',
                         showDetails: true,
+                        missionMenuTitle: 'Project Scenarios',
                         adminLinkHref: '/project/admin/',
                         adminLinkHashKey: 'event',
                         clearSectionHashUnlessSingle: true,
@@ -7894,6 +7925,7 @@
                 mode: 'inline',
                 insertPosition: 'beforeend',
                 showDetails: true,
+                missionMenuTitle: 'Project Scenarios',
                 adminLinkHref: '/project/admin/',
                 adminLinkHashKey: 'event',
                 clearSectionHashUnlessSingle: true,
@@ -7908,9 +7940,10 @@
       function setHudAnchorVisible(visible) {
         var anchor = document.getElementById('project-hud-anchor');
         var btn = document.getElementById('showHudListBtn');
+        var hash = typeof getHash === 'function' ? getHash() : {};
         if (anchor) anchor.style.display = visible ? '' : 'none';
         if (btn) {
-          if (visible) btn.setAttribute('hidden', '');
+          if (visible && !hash.event) btn.setAttribute('hidden', '');
           else btn.removeAttribute('hidden');
         }
       }
@@ -7928,12 +7961,17 @@
       var showListBtn = document.getElementById('showHudListBtn');
       if (showListBtn) {
         showListBtn.addEventListener('click', function() {
+          var pageConfig = document.getElementById('pageConfig');
+          var showConfig = document.getElementById('showConfig');
+          if (pageConfig) pageConfig.classList.remove('active');
+          if (showConfig) showConfig.setAttribute('aria-expanded', 'false');
           setHudAnchorVisible(true);
           if (window.SharedEventUI) window.SharedEventUI.setMissionMenuOpen(true);
         });
       }
       document.addEventListener('hashChangeEvent', showHudAnchorIfEvent);
       window.addEventListener('hashchange', showHudAnchorIfEvent);
+      showHudAnchorIfEvent();
     })();
     </script>
 

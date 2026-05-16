@@ -366,6 +366,15 @@ body {
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
+  function hasEventNotes() {
+    var notes = state.parsedYaml && state.parsedYaml.notes;
+    if (notes == null) return false;
+    if (typeof notes === 'string') return notes.trim().length > 0;
+    if (Array.isArray(notes)) return notes.length > 0;
+    if (typeof notes === 'object') return Object.keys(notes).length > 0;
+    return Boolean(notes);
+  }
+
   async function loadEventsList() {
     try {
       var res = await fetch(EVENTS_PATH + '/events.json', { cache: 'no-cache' });
@@ -460,10 +469,10 @@ body {
     renderEventList();
 
     if (window.InputTabs) {
-      window.InputTabs.renderInputTabs();
+      window.InputTabs.renderInputTabs({ hasNotes: hasEventNotes() });
       window.InputTabs.applyInputSectionVisibility({
         hasYaml: Boolean(state.rawYamlText.trim()),
-        hasNotes: Boolean(state.parsedYaml && state.parsedYaml.notes),
+        hasNotes: hasEventNotes(),
       });
     }
   }
@@ -627,13 +636,14 @@ body {
     var anchor = document.getElementById('project-hud-anchor');
     if (anchor && eventId) anchor.classList.remove('is-hidden');
     updateProjectEngineLink();
-    if (window.InputTabs) window.InputTabs.renderInputTabs();
+    if (window.InputTabs) window.InputTabs.renderInputTabs({ hasNotes: hasEventNotes() });
     if (eventId && eventId !== state.activeId) {
       loadEventYaml(eventId);
     } else if (window.InputTabs) {
+      window.InputTabs.renderInputTabs({ hasNotes: hasEventNotes() });
       window.InputTabs.applyInputSectionVisibility({
         hasYaml: Boolean(state.rawYamlText.trim()),
-        hasNotes: Boolean(state.parsedYaml && state.parsedYaml.notes),
+        hasNotes: hasEventNotes(),
       });
     }
   }

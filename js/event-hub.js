@@ -41,6 +41,47 @@
     return (val != null && isFinite(val)) ? val + '%' : '—';
   }
 
+  function buildProjectAdminHref(eventId) {
+    var slug = (eventId || getActiveEventId() || DEFAULT_EVENT).replace(/[^a-zA-Z0-9_-]/g, '');
+    return '/project/admin/#event=' + encodeURIComponent(slug);
+  }
+
+  var _scenarioDataCollapsed = false;
+
+  function bindScenarioDataLink(link) {
+    if (!link) return;
+    link.hidden = !_scenarioDataCollapsed;
+    if (link.dataset.scenarioDataBound) return;
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      setScenarioDataCollapsed(false);
+      var target = document.getElementById('projectOverview') || document.getElementById('topinfo');
+      if (target && typeof target.scrollIntoView === 'function') {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+    link.dataset.scenarioDataBound = 'true';
+  }
+
+  function setScenarioDataCollapsed(collapsed) {
+    _scenarioDataCollapsed = Boolean(collapsed);
+    var topinfo = document.getElementById('topinfo');
+    var overview = document.getElementById('projectOverview');
+    var link = document.getElementById('hud-scenario-data-link');
+    if (topinfo) topinfo.hidden = _scenarioDataCollapsed;
+    if (overview) overview.hidden = _scenarioDataCollapsed;
+    if (link) {
+      bindScenarioDataLink(link);
+      return;
+    }
+    if (typeof waitForElm === 'function') {
+      waitForElm('#hud-scenario-data-link').then(function (scenarioLink) {
+        bindScenarioDataLink(scenarioLink);
+      });
+    }
+  }
+
   // ── Active event id ────────────────────────────────────────────────────────
   function getActiveEventId() {
     var hash = typeof getHash === 'function' ? getHash() : {};
@@ -320,7 +361,7 @@
   // ── Project Overview panel ─────────────────────────────────────────────────
   var _overviewCharts = [];
 
-  function renderProjectOverview(data) {
+  function renderProjectOverview(data, eventId) {
     var ov = document.getElementById('projectOverview');
     if (!ov) return;
 
@@ -369,14 +410,18 @@
     var hasCharts = typeof echarts !== 'undefined' && (hasMix || hasWater);
 
     if (!hasCards && !hasCharts) {
-      var eventSlug = (data.id || data.object_name || 'this event');
+      var eventSlug = eventId || data.id || data.object_name || 'this event';
+      var adminHref = buildProjectAdminHref(eventSlug);
       ov.innerHTML = '<div style="margin-bottom:20px;background:var(--panel);border-radius:20px;border:1px solid var(--line);box-shadow:var(--soft-shadow);padding:20px 24px;display:flex;align-items:flex-start;gap:12px;">'
         + '<span class="material-icons" style="color:var(--accent-2);font-size:22px;margin-top:1px">info</span>'
-        + '<div><div style="font-weight:600;color:var(--ink-1);margin-bottom:4px;">No scenario data for <em>' + eventSlug + '</em></div>'
+        + '<div style="flex:1 1 auto;"><div style="font-weight:600;color:var(--ink-1);margin-bottom:4px;">No scenario data for <em>' + eventSlug + '</em></div>'
         + '<div style="font-size:0.85rem;color:var(--ink-2);">Add <code>modeled_assumptions.energy_scenarios</code> and <code>modeled_assumptions.abundance_engine_sections</code> to <strong>' + eventSlug + '.yaml</strong> to enable scenario charts and calculated outputs.</div>'
+        + '<div style="margin-top:14px;"><a href="' + adminHref + '" style="font-size:0.85rem;font-weight:700;color:var(--accent-1);text-decoration:none;">Admin</a></div>'
         + '</div></div>';
+      setScenarioDataCollapsed(true);
       return;
     }
+    setScenarioDataCollapsed(false);
 
     var html = '<div style="margin-bottom:20px;background:var(--panel);border-radius:20px;border:1px solid var(--line);box-shadow:var(--soft-shadow);overflow:hidden;">';
 
@@ -646,7 +691,7 @@
       bindFieldChangeListeners(data, eventId);
       updateResetButtonVisibility(eventId);
     }
-    renderProjectOverview(data);
+    renderProjectOverview(data, eventId);
     renderAllSectionBanners(data, eventId);
   }
 
@@ -656,8 +701,11 @@
   function clearOverview() {
     var ov = document.getElementById('projectOverview');
     if (ov) ov.innerHTML = '';
+    if (ov) ov.hidden = false;
     var hub = document.getElementById('topinfo');
     if (hub) hub.remove();
+    var link = document.getElementById('hud-scenario-data-link');
+    if (link) link.hidden = true;
   }
 
   var _activeEventId = '';
@@ -685,6 +733,8 @@
         console.warn('[event-hub] Failed to load ' + eventId + '.yaml:', err);
         var ov = document.getElementById('projectOverview');
         if (ov) ov.innerHTML = '<div style="padding:16px 24px;color:var(--ink-2);">Could not load event data for <strong>' + eventId + '</strong>.</div>';
+        var link = document.getElementById('hud-scenario-data-link');
+        if (link) link.hidden = true;
       });
   }
 

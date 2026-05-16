@@ -36,15 +36,19 @@
     return Object.prototype.hasOwnProperty.call(INPUT_TABS, normalized) ? normalized : 'all';
   }
 
-  function renderInputTabs() {
+  function renderInputTabs(opts) {
+    opts = opts || {};
     var container = document.getElementById('inputTabsContainer');
     if (!container) return;
     var hash = safeGetHash();
     var mode = resolveInputMode(hash.input);
+    var hasNotes = Boolean(opts.hasNotes);
+    if (mode === 'notes' && !hasNotes) mode = 'overview';
     _mode = mode;
 
     var html = ['<div class="page-tab-container">'];
     Object.keys(INPUT_TABS).forEach(function (key) {
+      if (key === 'notes' && !hasNotes) return;
       var active = key === mode ? ' active' : '';
       html.push(
         '<button class="page-tab' + active + '" id="input-' + key + '-tab" type="button" data-input="' + key + '">' +
