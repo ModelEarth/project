@@ -387,7 +387,7 @@
           + '</div>';
 
     if (hasCards)
-      html += '<div class="panel-summary-grid" style="padding:12px 24px 4px;">' + cards.join('') + '</div>';
+      html += '<div class="panel-summary-grid hub-overview-gutter" style="padding-top:12px;padding-bottom:4px;">' + cards.join('') + '</div>';
 
     if (hasCharts) {
       html += '<div class="hub-charts-row">';
@@ -397,6 +397,7 @@
         html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Desal water output by scenario (m³/day)</div><div id="overviewWaterChart" style="height:220px;"></div></div>';
       html += '</div>';
     }
+    html += '<div id="hub-banners-anchor"></div>';
 
     html += '</div>';
     ov.innerHTML = html;
@@ -466,12 +467,20 @@
     return '<span class="hub-confidence-chip">' + fmtPct(pct) + ' confidence</span>';
   }
 
-  function renderAllSectionBanners(data) {
+  function renderAllSectionBanners(data, eventId) {
     var existing = document.getElementById('hub-banners');
     if (existing) existing.remove();
 
-    var headsup = document.getElementById('headsup');
-    if (!headsup) return;
+    var anchor = document.getElementById('hub-banners-anchor');
+    if (!anchor) {
+      if (typeof waitForElm === 'function') {
+        waitForElm('#hub-banners-anchor').then(function () {
+          if ((eventId || '') !== (_activeEventId || '')) return;
+          renderAllSectionBanners(data, eventId);
+        });
+      }
+      return;
+    }
 
     var ae = getAe(data);
     var parts = [];
@@ -585,10 +594,11 @@
 
     var container = document.createElement('div');
     container.id = 'hub-banners';
+    container.className = 'hub-overview-gutter';
     container.innerHTML = parts.map(function (html) {
       return '<div class="hub-section-banner">' + html + '</div>';
     }).join('');
-    headsup.appendChild(container);
+    anchor.replaceWith(container);
   }
 
   // ── Reset button & field change listeners ──────────────────────────────────
@@ -636,8 +646,8 @@
       bindFieldChangeListeners(data, eventId);
       updateResetButtonVisibility(eventId);
     }
-    renderAllSectionBanners(data);
     renderProjectOverview(data);
+    renderAllSectionBanners(data, eventId);
   }
 
   window.renderEventHub = renderHub;
@@ -648,8 +658,6 @@
     if (ov) ov.innerHTML = '';
     var hub = document.getElementById('topinfo');
     if (hub) hub.remove();
-    var banners = document.getElementById('hub-banners');
-    if (banners) banners.remove();
   }
 
   var _activeEventId = '';

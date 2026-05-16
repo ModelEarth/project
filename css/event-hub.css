@@ -59,6 +59,11 @@
   padding: 12px 24px 4px;
 }
 
+.hub-overview-gutter {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
 /* ── Phase timeline bar ─────────────────────────────────── */
 .hub-phase-bar {
   display: flex;
@@ -166,15 +171,10 @@
 .hub-reset-btn:hover { background: rgba(15, 113, 115, 0.15); }
 .hub-reset-btn .material-icons { font-size: 16px; }
 
-/* ── Section banners container inside #headsup ──────────── */
-#headsup:has(#hub-banners) {
-  display: block;
-  width: 100%;
-}
-
 #hub-banners {
   width: 100%;
-  margin-top: 12px;
+  margin-top: 0;
+  padding-bottom: 18px;
   display: flex;
   flex-direction: column;
   gap: 0;
