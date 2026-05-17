@@ -3270,18 +3270,18 @@
                 <nav class="rail-nav" aria-label="Section navigation">
                     <a class="rail-link" href="#section=studio" data-nav-target="studio"><span class="material-icons">auto_awesome</span><span class="rail-label">Studio</span></a>
                     <a class="rail-link" href="#section=energyMix" data-nav-target="energyMix"><span class="material-icons">bolt</span><span class="rail-label">Energy Mix</span></a>
-                    <a class="rail-link" href="#section=contributors" data-nav-target="contributors"><span class="material-icons">groups_3</span><span class="rail-label">Contributors</span></a>
                     <a class="rail-link" href="#section=products" data-nav-target="products"><span class="material-icons">view_in_ar</span><span class="rail-label">Products &amp; Services</span></a>
-                    <a class="rail-link" href="#section=benefits" data-nav-target="benefits"><span class="material-icons">business_center</span><span class="rail-label">Benefits</span></a>
+                    <a class="rail-link" href="#section=contributors" data-nav-target="contributors"><span class="material-icons">groups_3</span><span class="rail-label">Contributors</span></a>
+                    <a class="rail-link" href="#section=benefits" data-nav-target="benefits"><span class="material-icons">business_center</span><span class="rail-label">Benefits Calculator</span></a>
                     <a class="rail-link" href="#section=engineering" data-nav-target="engineering"><span class="material-icons">engineering</span><span class="rail-label">Deep Nuclear</span></a>
                     <a class="rail-link" href="#section=water" data-nav-target="water"><span class="material-icons">water_drop</span><span class="rail-label">Water Output</span></a>
-                    <a class="rail-link" href="#section=deployment" data-nav-target="deployment"><span class="material-icons">construction</span><span class="rail-label">Deployment</span></a>
-                    <a class="rail-link" href="#section=scorecard" data-nav-target="scorecard"><span class="material-icons">leaderboard</span><span class="rail-label">Scorecard</span></a>
-                    <a class="rail-link" href="#section=reporting" data-nav-target="reporting"><span class="material-icons">description</span><span class="rail-label">Reporting</span></a>
+                    <a class="rail-link" href="#section=deployment" data-nav-target="deployment"><span class="material-icons">construction</span><span class="rail-label">Local Deployment</span></a>
+                    <a class="rail-link" href="#section=scorecard" data-nav-target="scorecard"><span class="material-icons">leaderboard</span><span class="rail-label">Project Scorecard</span></a>
+                    <a class="rail-link" href="#section=reporting" data-nav-target="reporting"><span class="material-icons">description</span><span class="rail-label">Project Reporting</span></a>
                 </nav>
                 <button type="button" class="rail-toggle" id="leftRailToggle" aria-label="Collapse navigation" aria-pressed="false">
                     <span class="material-icons">left_panel_close</span>
-                    <span class="rail-toggle-text">Collapse</span>
+                    <span class="rail-toggle-text">Collapse Side</span>
                 </button>
             </div>
         </aside>
@@ -3334,8 +3334,8 @@
                             <div id="pageConfigSections" class="page-config-list">
                                 <a class="page-config-link" href="#section=studio" data-nav-target="studio">Studio</a>
                                 <a class="page-config-link" href="#section=energyMix" data-nav-target="energyMix">Energy Mix</a>
-                                <a class="page-config-link" href="#section=contributors" data-nav-target="contributors">Contributors</a>
                                 <a class="page-config-link" href="#section=products" data-nav-target="products">Products &amp; Services</a>
+                                <a class="page-config-link" href="#section=contributors" data-nav-target="contributors">Contributors</a>
                                 <a class="page-config-link" href="#section=benefits" data-nav-target="benefits">Benefits</a>
                                 <a class="page-config-link" href="#section=engineering" data-nav-target="engineering">Deep Nuclear</a>
                                 <a class="page-config-link" href="#section=water" data-nav-target="water">Water Output</a>
@@ -3413,7 +3413,7 @@
                     <span><i style="background:#62e3d8"></i>Max</span>
                 </div>
                 <div id="heroCapitalRows" class="capital-lens-rows"></div>
-                <div class="capital-lens-note">Government fiscal-return, payroll, tax-base, and nonprofit capture assumptions are now editable in the <a href="#section=fundingPanel" onclick="if (typeof goHash === 'function') { goHash({ section: 'fundingPanel' }); return false; }">funding panel</a>.</div>
+                <div class="capital-lens-note">Government fiscal-return, payroll, tax-base, and nonprofit capture assumptions are now editable in the <a href="#section=contributors" onclick="if (typeof goHash === 'function') { goHash({ section: 'contributors' }); return false; }">funding panel</a>.</div>
             </div>
 
             <div id="trade-only">
@@ -3466,9 +3466,9 @@
         <section id="benefits" class="panel-shell expanded nav-target">
             <div class="panel-head">
                 <div class="panel-kicker"><span class="material-icons">business_center</span>Top calculator</div>
-                <h2>Corporate Benefits Calculator</h2>
+                <h2>Benefits Calculator</h2>
                 <p>
-                    Estimate the business case for sponsors that help finance clean-water infrastructure and a blended community energy stack.
+                    Estimates the business case for sponsors that help financing clean-water infrastructure and a blended energy stack.
                     Edit the community assumptions, selected product coefficients, energy-source coefficients, and model coefficients below before treating the outputs as sponsor-specific guidance.
                 </p>
             </div>
@@ -3619,18 +3619,21 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-
-                    <div id="energyMix" class="subpanel nav-target">
-                        <h2 class="section-title">Energy Mix</h2>
-                        <p>
-	                        <h3>Blended energy portfolio</h3>
-                        </p>
-                        <p class="section-copy">
-                            Renewables, thermal recovery, flexible backup, and advanced generation to see how resilient energy changes corporate value.
-                    </p>
-
-                        <div class="energy-grid" id="energyGrid"></div>
+        <section id="energyMix" class="panel-shell expanded nav-target">
+            <div class="panel-head">
+                <div class="panel-kicker"><span class="material-icons">bolt</span>Energy mix</div>
+                <h2>Energy Mix</h2>
+                <p>
+                    Renewables, thermal recovery, flexible backup, and advanced generation to see how resilient energy changes corporate value.
+                </p>
+            </div>
+            <div class="panel-body">
+                <div class="subpanel">
+                    <h3>Blended energy portfolio</h3>
+                    <div class="energy-grid" id="energyGrid"></div>
 
                     <p class="section-copy" style="margin-top:14px;font-size:0.85rem;">Edit the default capacity factor, dispatchability, capital expenditure (capex), and low-carbon flag used for each energy source in the benefits model using the <span class="material-icons" style="font-size:0.95em;vertical-align:-0.2em;">more_vert</span> menu on each row.</p>
 
@@ -3795,12 +3798,12 @@
             </div>
         </section>
 
-        <section id="fundingPanel" class="panel-shell expanded nav-target">
-            <div id="contributors" class="panel-head nav-target">
+        <section id="contributors" class="panel-shell expanded nav-target">
+            <div class="panel-head">
                 <div class="panel-kicker"><span class="material-icons">account_balance</span>Capital stack</div>
-                <h2>Blended Contributions Panel</h2>
+                <h2>Funding Contributions</h2>
                 <p>
-                    Model a mix of corporate, nonprofit, and government support across project phases. Government is weighted toward planning, permitting, and early project development, while nonprofit and corporate capital scale into deployment.
+                    Corporate, government and nonprofit mix across project phases. Government is weighted toward planning, permitting, and early project development, while nonprofit and corporate capital scale into deployment.
                 </p>
             </div>
 
@@ -3940,7 +3943,7 @@
                 <div class="panel-kicker"><span class="material-icons">view_in_ar</span>Reference scenario</div>
                 <h2>DEEP Nuclear for Water Replenishment</h2>
                 <p>
-                    DEEP-based reference scenario with full thermal, water-output, and finance model. A separate compact water panel below keeps the headline output and payback metrics visible without repeating the full input set. <a href="../grid/deep/">About Calculator</a>
+                    Developed by the International Atomic Energy Agency (IAEA), the Desalination Economic Evaluation Program (DEEP) estimates financing for full thermal projects for water-output. A separate compact water panel below keeps the headline output and payback metrics visible without repeating the full input set. <a href="../grid/deep/">About Calculator</a>
                 </p>
 
                 <div class="page-links">
@@ -4305,7 +4308,7 @@
                     <p>Once you've collected your data, send to a service like <a href="https://getscribr.com/" target="_blank" rel="noopener">Scribr</a> to fine tune your project flow using your custom price sheets, talent profiles and data files.</p>
                 </div>
                 <div class="panel-body">
-                    <div class="subpanel">
+                    <div class="subpanel" style="margin-bottom:15px;">
                         <h3>Confidence Percent Rubric</h3>
                         <div class="governance-grid">
                             <div class="governance-card inference"><strong>0-25</strong><span>Exploratory assumption. Use for long-horizon visions, weakly constrained ranges, or options that still need major validation.</span></div>
@@ -4317,11 +4320,11 @@
                             Use confidence percentages to distinguish modeled assumptions from source-confirmed values. Lower scores are not necessarily bad ideas; they indicate wider uncertainty and a stronger need for verification before decisions are made.
                         </div>
                     </div>
-                    <div class="output-radio-group">
-                        <label><input type="radio" name="outputMode" id="outputModeRfp" value="rfp" checked> Data for RFP</label>
-                        <label><input type="radio" name="outputMode" id="outputModeProposal" value="proposal"> Data for Proposal</label>
-                    </div>
                     <div class="subpanel">
+                        <div class="output-radio-group">
+                            <label><input type="radio" name="outputMode" id="outputModeRfp" value="rfp" checked> Data for RFP</label>
+                            <label><input type="radio" name="outputMode" id="outputModeProposal" value="proposal"> Data for Proposal</label>
+                        </div>
                         <div id="readmeRendered" class="readme-rendered"></div>
                         <div class="output-field" id="jsonOutputField">
                             <label for="jsonOutput">JSON</label>
@@ -4414,14 +4417,14 @@
         const MOBILE_LEFT_RAIL_BREAKPOINT = 800;
         const AUTO_COMPACT_LEFT_RAIL_BREAKPOINT = 1000;
         const MAX_SECTIONS_OPEN_COUNT = 8;
-        const SECTION_ORDER = ['studio', 'energyMix', 'contributors', 'products', 'benefits', 'engineering', 'water', 'deployment', 'scorecard', 'reporting'];
-        const SECTION_ROOT_IDS = ['studio', 'benefits', 'products', 'fundingPanel', 'scorecard', 'engineering', 'water', 'deployment', 'reporting'];
+        const SECTION_ORDER = ['studio', 'energyMix', 'products', 'contributors', 'benefits', 'engineering', 'water', 'deployment', 'scorecard', 'reporting'];
+        const SECTION_ROOT_IDS = SECTION_ORDER.slice();
         const SECTION_ROOT_MAP = {
             studio: 'studio',
             benefits: 'benefits',
             products: 'products',
-            energyMix: 'benefits',
-            contributors: 'fundingPanel',
+            energyMix: 'energyMix',
+            contributors: 'contributors',
             deployment: 'deployment',
             scorecard: 'scorecard',
             engineering: 'engineering',
@@ -4851,6 +4854,11 @@
             return requested.length ? requested : ['studio'];
         }
 
+        function hasSectionTargetInHash() {
+            const hash = getHashValues();
+            return Boolean(normalizeSectionId(hash.section || hash['']));
+        }
+
         function getSectionsOpenValue() {
             const selector = document.getElementById('sectionsOpen');
             const rawValue = selector?.value || '1';
@@ -5036,7 +5044,7 @@
         }
 
         function getFundingFormFields() {
-            return getSectionFormFields('#fundingPanel');
+            return getSectionFormFields('#contributors');
         }
 
         function readCorporateFieldValue(field) {
@@ -6743,7 +6751,7 @@
             const icon = toggle.querySelector('.material-icons');
             const label = toggle.querySelector('.rail-toggle-text');
             if (icon) icon.textContent = compact ? 'left_panel_open' : 'left_panel_close';
-            if (label) label.textContent = compact ? 'Expand' : 'Collapse';
+            if (label) label.textContent = compact ? 'Expand' : 'Collapse Side';
 
             try {
                 window.localStorage?.setItem(LEFT_RAIL_STORAGE_KEY, compact ? '1' : '0');
@@ -6863,14 +6871,10 @@
             }
 
             document.addEventListener('hashChangeEvent', function() {
-                const hash = getHashValues();
-                const shouldScroll = getSectionsOpenValue() === '1' && Boolean(normalizeSectionId(hash.section || hash['']));
-                syncVisibleSections({ scroll: shouldScroll, behavior: 'instant' });
+                syncVisibleSections({ scroll: hasSectionTargetInHash(), behavior: 'auto' });
             });
             window.addEventListener('hashchange', function() {
-                const hash = getHashValues();
-                const shouldScroll = getSectionsOpenValue() === '1' && Boolean(normalizeSectionId(hash.section || hash['']));
-                syncVisibleSections({ scroll: shouldScroll, behavior: 'instant' });
+                syncVisibleSections({ scroll: hasSectionTargetInHash(), behavior: 'auto' });
             });
         }
 
@@ -6983,10 +6987,9 @@
             const links = Array.from(document.querySelectorAll('.rail-link[data-nav-target], .mobile-rail-link[data-nav-target], .page-config-link[data-nav-target]'));
             if (!links.length) return;
 
-            const firstVisibleLink = links.find(function(link) {
-                return isSectionTargetVisible(document.getElementById(link.getAttribute('data-nav-target')));
-            });
-            let activeId = firstVisibleLink?.getAttribute('data-nav-target') || links[0].getAttribute('data-nav-target');
+            let activeId = links[0].getAttribute('data-nav-target');
+            let activeCandidate = null;
+            let firstBelowCandidate = null;
             const seenTargets = new Set();
             links.forEach(link => {
                 const targetId = link.getAttribute('data-nav-target');
@@ -6995,8 +6998,23 @@
                 const target = document.getElementById(targetId);
                 if (!isSectionTargetVisible(target)) return;
                 const rect = target.getBoundingClientRect();
-                if (rect.top <= 180) activeId = targetId;
+                const candidate = {
+                    id: targetId,
+                    top: rect.top
+                };
+                if (rect.top <= 180) {
+                    if (!activeCandidate || rect.top > activeCandidate.top) {
+                        activeCandidate = candidate;
+                    }
+                } else if (!firstBelowCandidate || rect.top < firstBelowCandidate.top) {
+                    firstBelowCandidate = candidate;
+                }
             });
+            if (activeCandidate) {
+                activeId = activeCandidate.id;
+            } else if (firstBelowCandidate) {
+                activeId = firstBelowCandidate.id;
+            }
 
             links.forEach(link => {
                 const isActive = link.getAttribute('data-nav-target') === activeId;
@@ -7339,7 +7357,8 @@
 
             const panels = [
                 { id: 'benefits', label: 'Corporate Benefits', collapsed: false },
-                { id: 'fundingPanel', label: 'Blended Contributions', collapsed: false },
+                { id: 'energyMix', label: 'Energy Mix', collapsed: false },
+                { id: 'contributors', label: 'Blended Contributions', collapsed: false },
                 { id: 'scorcard', label: 'Mayor Incentives', collapsed: false },
                 { id: 'engineering', label: 'Deep Nuclear', collapsed: false },
                 { id: 'water', label: 'Water Output Calculator', collapsed: true }
@@ -7530,7 +7549,7 @@
             const energySettingsToggleBtn = document.getElementById('energySettingsToggleBtn');
             const heroCapitalReturnToggle = document.getElementById('heroCapitalReturnToggle');
             const benefitsPanel = document.getElementById('benefits');
-            const fundingPanel = document.getElementById('fundingPanel');
+            const fundingPanel = document.getElementById('contributors');
 
             if (corporateBtn) corporateBtn.addEventListener('click', clearStudioChanges);
             if (fundingBtn) fundingBtn.addEventListener('click', clearFundingChanges);
@@ -7865,18 +7884,33 @@
             renderRestoreChips();
             updateClearChangesButtons();
             updateDefaultPreviewButton();
-            syncVisibleSections({ scroll: false });
+            syncVisibleSections({ scroll: hasSectionTargetInHash(), behavior: 'auto' });
             suppressStudioToast = false;
             renderOutputPanel();
 
-            // Scroll to initial hash section after header is positioned (header shifts layout)
-            var _initialSection = getRequestedSectionsFromHash()[0];
-            if (_initialSection) {
+            // Scroll to an initial section only when the URL explicitly asks for one.
+            // Event-only links should keep the top HUD visible.
+            if (hasSectionTargetInHash()) {
+                var _initialSection = getRequestedSectionsFromHash()[0];
                 var _doInitialScroll = function() { scrollToSectionTarget(_initialSection, 'instant'); };
                 if (typeof waitForElm === 'function') {
                     waitForElm('#headerbar').then(function() { requestAnimationFrame(_doInitialScroll); });
                 } else {
                     requestAnimationFrame(function() { requestAnimationFrame(_doInitialScroll); });
+                }
+            } else if ((getHashValues() || {}).event) {
+                var _keepHudVisible = function() {
+                    var anchor = document.getElementById('project-hud-anchor');
+                    if (anchor && typeof anchor.scrollIntoView === 'function') {
+                        anchor.scrollIntoView({ block: 'start', behavior: 'instant' });
+                    } else {
+                        window.scrollTo(0, 0);
+                    }
+                };
+                if (typeof waitForElm === 'function') {
+                    waitForElm('#project-hud-anchor').then(function() { requestAnimationFrame(_keepHudVisible); });
+                } else {
+                    requestAnimationFrame(_keepHudVisible);
                 }
             }
         }
