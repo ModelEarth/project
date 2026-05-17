@@ -47,19 +47,85 @@
   }
 
   var _scenarioDataCollapsed = false;
+  var _scenarioDataPointer = null;
+
+  function getScenarioDataScrollTarget() {
+    return document.getElementById('topinfo')
+      || document.getElementById('scenarioDataPanel')
+      || document.getElementById('projectOverview')
+      || document.getElementById('studio');
+  }
+
+  function isScenarioDataSelectionClick(link, event) {
+    var pointer = _scenarioDataPointer;
+    _scenarioDataPointer = null;
+
+    var selection = null;
+    var selectionText = '';
+    try {
+      selection = window.getSelection ? window.getSelection() : null;
+      selectionText = String(selection ? selection.toString() : '').trim();
+    } catch (_) {
+      selection = null;
+      selectionText = '';
+    }
+
+    if (selectionText) {
+      try {
+        if (!selection || !selection.rangeCount) return true;
+        var range = selection.getRangeAt(0);
+        return range.intersectsNode(link);
+      } catch (_) {
+        return true;
+      }
+    }
+    if (!pointer || !event) return false;
+
+    var dx = Math.abs((event.clientX || 0) - pointer.x);
+    var dy = Math.abs((event.clientY || 0) - pointer.y);
+    return pointer.link === link && (dx > 4 || dy > 4);
+  }
+
+  function revealScenarioData() {
+    setScenarioDataCollapsed(false);
+    var target = getScenarioDataScrollTarget();
+    if (target && typeof target.scrollIntoView === 'function') {
+      requestAnimationFrame(function () {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }
+
+  document.addEventListener('click', function (event) {
+    var link = event.target && event.target.closest
+      ? event.target.closest('#hud-scenario-data-link')
+      : null;
+    if (!link) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (isScenarioDataSelectionClick(link, event)) return;
+    revealScenarioData();
+  }, true);
 
   function bindScenarioDataLink(link) {
     if (!link) return;
     link.hidden = !_scenarioDataCollapsed;
+    link.setAttribute('href', '#topinfo');
+    link.style.userSelect = 'text';
+    link.style.webkitUserSelect = 'text';
     if (link.dataset.scenarioDataBound) return;
+    link.addEventListener('pointerdown', function (event) {
+      _scenarioDataPointer = {
+        link: link,
+        x: event.clientX || 0,
+        y: event.clientY || 0
+      };
+    });
     link.addEventListener('click', function (event) {
       event.preventDefault();
       event.stopPropagation();
-      setScenarioDataCollapsed(false);
-      var target = document.getElementById('projectOverview') || document.getElementById('topinfo');
-      if (target && typeof target.scrollIntoView === 'function') {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if (isScenarioDataSelectionClick(link, event)) return;
+      revealScenarioData();
     });
     link.dataset.scenarioDataBound = 'true';
   }
@@ -412,7 +478,7 @@
     if (!hasCards && !hasCharts) {
       var eventSlug = eventId || data.id || data.object_name || 'this event';
       var adminHref = buildProjectAdminHref(eventSlug);
-      ov.innerHTML = '<div style="margin-bottom:20px;background:var(--panel);border-radius:20px;border:1px solid var(--line);box-shadow:var(--soft-shadow);padding:20px 24px;display:flex;align-items:flex-start;gap:12px;">'
+      ov.innerHTML = '<div id="scenarioDataPanel" style="scroll-margin-top:96px;margin-bottom:20px;background:var(--panel);border-radius:20px;border:1px solid var(--line);box-shadow:var(--soft-shadow);padding:20px 24px;display:flex;align-items:flex-start;gap:12px;">'
         + '<span class="material-icons" style="color:var(--accent-2);font-size:22px;margin-top:1px">info</span>'
         + '<div style="flex:1 1 auto;"><div style="font-weight:600;color:var(--ink-1);margin-bottom:4px;">No scenario data for <em>' + eventSlug + '</em></div>'
         + '<div style="font-size:0.85rem;color:var(--ink-2);">Add <code>modeled_assumptions.energy_scenarios</code> and <code>modeled_assumptions.abundance_engine_sections</code> to <strong>' + eventSlug + '.yaml</strong> to enable scenario charts and calculated outputs.</div>'
@@ -423,7 +489,7 @@
     }
     setScenarioDataCollapsed(false);
 
-    var html = '<div style="margin-bottom:20px;background:var(--panel);border-radius:20px;border:1px solid var(--line);box-shadow:var(--soft-shadow);overflow:hidden;">';
+    var html = '<div id="scenarioDataPanel" style="scroll-margin-top:96px;margin-bottom:20px;background:var(--panel);border-radius:20px;border:1px solid var(--line);box-shadow:var(--soft-shadow);overflow:hidden;">';
 
     html += '<div style="padding:14px 24px 6px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;">'
           + '<span class="material-icons" style="color:var(--hero-1);font-size:20px">insights</span>'
