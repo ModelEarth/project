@@ -4,6 +4,42 @@ kind: custom
 vehicle: sphere
 vehicle_label: STRATOS
 object_name: box-elder-stratos
+
+name: Box Elder Stratos Datacenter
+location: Box Elder County, Utah, USA
+category: Data Infrastructure
+contributors:
+  - West GenCo
+  - O'Leary Digital
+  - Microsoft (potential role)
+  - MIDA (Utah state authority)
+products:
+  - Hyperscale Data Centers
+  - Natural Gas Power Campus
+benefits:
+  - Job creation
+  - Economic growth
+  - Increased compute capacity
+microsoft_commitments:
+  - Shift energy infrastructure costs to industry
+  - Replenish more water than data centers consume
+  - Hire locally with streamlined processes
+  - Skip property tax breaks
+  - Provide free AI training to schools and small businesses
+residential_concerns:
+  - Build farther from homes
+  - Reduce noise pollution
+  - Separate residential from industrial zones
+  - Decorative facades to reduce visual impact
+cost_estimate:
+  low: 500000000
+  high: 2000000000
+  currency: USD
+timeline:
+  start: 2025
+  phase1_completion: 2027
+  full_completion: 2030
+
 follow_label: Follow Stratos
 mission_name: Stratos Datacenter - Utah
 browser_title: Stratos Datacenter Proposal - Box Elder County
