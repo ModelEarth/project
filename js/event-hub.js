@@ -408,7 +408,15 @@
       var c3 = echarts.init(dom3);
       _hubCharts.push(c3);
       c3.setOption({
-        tooltip: {},
+        tooltip: {
+          confine: true,
+          formatter: function (params) {
+            var vals = params.value;
+            return rDims.map(function (d, i) {
+              return d.label + ': <b>' + (vals[i] || 0) + '%</b>';
+            }).join('<br/>');
+          }
+        },
         radar: {
           indicator: rDims.map(function (d) { return { name: d.label, max: 60 }; }),
           radius: '60%',
