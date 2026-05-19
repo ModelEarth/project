@@ -369,13 +369,22 @@
             return phases[idx] + '<br/>$' + lo.toFixed(2) + 'B – $' + hi.toFixed(2) + 'B';
           }
         },
-        grid: { left: 14, right: 14, top: 12, bottom: 54 },
-        xAxis: { type: 'category', data: phases, axisLabel: { fontSize: 9, rotate: 12 } },
-        yAxis: { type: 'value', name: 'USD B', axisLabel: { fontSize: 10, formatter: '${value}B' } },
+        grid: { left: 110, right: 120, top: 12, bottom: 32 },
+        xAxis: { type: 'value', axisLabel: { fontSize: 9, formatter: '${value}B' } },
+        yAxis: { type: 'category', data: phases, axisLabel: { fontSize: 10 } },
         color: ['transparent', '#0f7173'],
         series: [
           { type: 'bar', stack: 'rng', data: costMins,   itemStyle: { color: 'transparent' }, tooltip: { show: false } },
-          { type: 'bar', stack: 'rng', data: costRanges, itemStyle: { color: '#0f7173', opacity: 0.75 }, barWidth: '52%' }
+          { type: 'bar', stack: 'rng', data: costRanges, itemStyle: { color: '#0f7173', opacity: 0.75 }, barWidth: '52%',
+            label: {
+              show: true, position: 'right', fontSize: 9, color: 'var(--ink-1)',
+              formatter: function (params) {
+                var idx = params.dataIndex;
+                var lo = costMins[idx], hi = lo + costRanges[idx];
+                return '$' + lo.toFixed(1) + 'B – $' + hi.toFixed(1) + 'B';
+              }
+            }
+          }
         ]
       });
     }
