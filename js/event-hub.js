@@ -295,8 +295,10 @@
 
     // Chart containers
     html += '<div class="hub-charts-row">';
+    html += '<div class="hub-chart-wrap"><div class="hub-chart-label" style="text-align:center">Cost range by phase (USD)</div><div id="hubCostChart" style="height:220px;"></div></div>';
+    html += '</div>';
+    html += '<div class="hub-charts-row">';
     html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Generation mix by scenario</div><div id="hubScenarioChart" style="height:220px;"></div></div>';
-    html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Cost range by phase (USD)</div><div id="hubCostChart" style="height:220px;"></div></div>';
     html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Risk dimension confidence</div><div id="hubRiskChart" style="height:220px;"></div></div>';
     html += '</div>';
 
@@ -406,7 +408,15 @@
       var c3 = echarts.init(dom3);
       _hubCharts.push(c3);
       c3.setOption({
-        tooltip: {},
+        tooltip: {
+          confine: true,
+          formatter: function (params) {
+            var vals = params.value;
+            return rDims.map(function (d, i) {
+              return d.label + ': <b>' + (vals[i] || 0) + '%</b>';
+            }).join('<br/>');
+          }
+        },
         radar: {
           indicator: rDims.map(function (d) { return { name: d.label, max: 60 }; }),
           radius: '60%',
