@@ -96,6 +96,7 @@ modeled_assumptions:
     baseline_grid_dependent_case:
       confidence_percent: 52
       name: Status quo grid-dependent treatment
+      water_output_m3_day: 4542
       generation_mix_percent:
         grid_natural_gas: 48
         grid_nuclear: 22
@@ -110,6 +111,7 @@ modeled_assumptions:
       confidence_percent: 35
       name: Micro-hydro and solar transition with 20 system upgrades
       timeline: 2026-2031
+      water_output_m3_day: 68100
       water_infrastructure:
         systems_upgraded: 20
         households_newly_served: 18000
@@ -130,6 +132,7 @@ modeled_assumptions:
       confidence_percent: 22
       name: Full watershed revival — all 38 county systems upgraded
       timeline_realistic: 2031-2035
+      water_output_m3_day: 196920
       water_infrastructure:
         systems_upgraded: 38
         households_newly_served: 52000
