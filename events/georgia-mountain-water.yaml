@@ -1,0 +1,217 @@
+id: georgia-mountain-water
+label: Georgia Mountain Water Revival
+kind: custom
+vehicle: sphere
+vehicle_label: WATER
+object_name: georgia-mountain-water
+follow_label: Blue Ridge Watershed Partners
+mission_name: Georgia Mountain Water Revival
+browser_title: Georgia Mountain Watershed Revival – Blue Ridge Restoration
+overview_label: Revival Overview
+overview_view: event
+start_date: 2026-06-01T00:00:00Z
+end_date: 2035-12-31T23:59:59Z
+initial_view: event
+path_color: '#4db8ff'
+phase_labels: [Assessment, Remediation, Infrastructure, Distribution, Expansion, Stewardship]
+phase_text: Blue Ridge Watershed Restoration Corridor
+source_url: https://www.americanrivers.org/rivers/north-georgia-mountain-rivers/
+initial_camera:
+  position: [32000, 18000, 60000]
+  target: [0, 0, 0]
+route:
+  - date: 2026-06-01T00:00:00Z
+    body: Earth
+    offset_km: [80000, 40000, 20000]
+  - date: 2027-09-01T00:00:00Z
+    body: Earth
+    offset_km: [60000, 50000, -10000]
+  - date: 2029-03-01T00:00:00Z
+    body: Earth
+    offset_km: [-30000, 60000, 40000]
+  - date: 2031-06-01T00:00:00Z
+    body: Earth
+    offset_km: [-50000, -20000, 30000]
+  - date: 2033-01-01T00:00:00Z
+    body: Earth
+    offset_km: [20000, -40000, 50000]
+  - date: 2035-12-31T23:59:59Z
+    body: Earth
+    offset_km: [0, 0, 0]
+source_confirmed:
+  primary_source: Georgia Environmental Protection Division and US Forest Service Chattahoochee-Oconee National Forest water quality reports
+  source_url: https://epd.georgia.gov/watershed-protection
+  published_date: 2025-09
+  scenario_name: North Georgia Blue Ridge Watershed Revival and Rural Water Security Initiative
+  corridor_parties: [Georgia EPD, US Forest Service, TVA, Mountain communities, Georgia Tech Water Institute, USDA Rural Development]
+  status: Planning phase — stakeholder alignment in progress as of 2026
+  reported_scope:
+    - North Georgia mountains supply drinking water to approximately 7 million Atlanta metro residents via the Chattahoochee River
+    - Blue Ridge, Cohutta, and Toccoa watersheds degraded by legacy mining, clear-cutting runoff, and agricultural contamination
+    - Approximately 240 miles of mountain streams assessed as impaired under EPA 303(d) listing
+    - 38 rural mountain counties rely on aging water infrastructure with median system age over 55 years
+    - Drought stress index for North Georgia classified as high by NOAA; increasing in frequency and severity
+    - Georgia groundwater recharge zones in mountain valleys face increasing impervious surface pressure
+    - Cherokee, Lumpkin, Union, and Towns counties have documented nitrate and sediment exceedances
+  water_context:
+    primary_watershed: Chattahoochee-Coosa-Toccoa
+    downstream_population_served: 7000000
+    impaired_stream_miles: 240
+    rural_counties_affected: 38
+    median_infrastructure_age_years: 55
+    annual_precipitation_inches_avg: 64
+    drought_frequency_increase_percent_since_2000: 34
+  power_context:
+    tva_hydroelectric_capacity_mw_region: 1200
+    micro_hydro_potential_mw_estimated: 45
+    solar_ridge_capacity_factor_percent: 19
+    biogas_from_forestry_residue_potential_mw: 12
+modeled_assumptions:
+  confidence_percent: 41
+  project_identity:
+    confidence_percent: 55
+    sponsor_type: Federal-state-municipal watershed restoration and rural water security partnership
+    public_interest_frame:
+      - Restored mountain watersheds protect drinking water for 7 million downstream Atlanta residents
+      - Rural mountain communities gain reliable clean water access replacing failing 55-year-old systems
+      - Reforestation and riparian buffer restoration sequester carbon and reduce flood risk
+      - Appalachian ecotourism and trout fishing economies recover with improved stream health
+  power_context:
+    confidence_percent: 50
+    comparison_context:
+      tva_region_hydro_mw: 1200
+      micro_hydro_run_of_river_new_mw: 45
+      solar_canopy_over_treatment_ponds_mw: 8
+      biogas_forestry_residue_mw: 12
+      total_renewable_potential_mw: 65
+  water_context:
+    confidence_percent: 62
+    key_uncertainties:
+      - Actual remediation cost per stream mile varies significantly with contamination type
+      - Legacy mine sites in Dahlonega gold mining district require specialized heavy metal treatment
+      - Agricultural BMP adoption rate among private landowners is voluntary and uncertain
+      - Climate projection uncertainty for drought frequency and intensity through 2035
+  energy_scenarios:
+    confidence_percent: 38
+    baseline_grid_dependent_case:
+      confidence_percent: 52
+      name: Status quo grid-dependent treatment
+      generation_mix_percent:
+        grid_natural_gas: 48
+        grid_nuclear: 22
+        grid_coal: 18
+        grid_hydro_tva: 10
+        on_site_renewables: 2
+      attributes:
+        water_security: low
+        infrastructure_resilience: very_low
+        carbon_intensity: high
+    transition_micro_hydro_solar_case:
+      confidence_percent: 35
+      name: Micro-hydro and solar transition with 20 system upgrades
+      timeline: 2026-2031
+      water_infrastructure:
+        systems_upgraded: 20
+        households_newly_served: 18000
+        impaired_streams_remediated_miles: 80
+        riparian_acres_restored: 12000
+        reforestation_acres: 20000
+      renewable_energy:
+        micro_hydro_mw_installed: 18
+        solar_canopy_mw_installed: 4
+        biogas_mw_installed: 3
+        total_on_site_mw: 25
+        grid_independence_percent: 72
+      attributes:
+        water_security: medium
+        infrastructure_resilience: medium
+        carbon_intensity: low
+    regenerative_full_revival_case:
+      confidence_percent: 22
+      name: Full watershed revival — all 38 county systems upgraded
+      timeline_realistic: 2031-2035
+      water_infrastructure:
+        systems_upgraded: 38
+        households_newly_served: 52000
+        impaired_streams_remediated_miles: 240
+        riparian_acres_restored: 45000
+        reforestation_acres: 50000
+        legacy_mine_sites_remediated: 14
+      renewable_energy:
+        micro_hydro_mw_installed: 45
+        solar_canopy_mw_installed: 8
+        biogas_mw_installed: 12
+        total_on_site_mw: 65
+        grid_independence_percent: 95
+      attributes:
+        water_security: high
+        infrastructure_resilience: high
+        carbon_intensity: very_low
+abundance_engine_sections:
+  contributors_section:
+    confidence_percent: 55
+    title: Capital Participation Outlook
+    planning_share_defaults_percent:
+      government: 60
+      nonprofit: 15
+      corporate: 25
+    named_participants:
+      - name: USDA Rural Development
+        role: Water and Waste Disposal loan and grant program
+        country: United States (Federal)
+        confidence: high
+        funding_type: Section 515 loans and Section 306C grants
+      - name: Georgia EPD
+        role: 303(d) impaired waters remediation oversight
+        country: United States (Georgia)
+        confidence: high
+        funding_type: EPA 319 nonpoint source grants; state revolving fund
+      - name: TVA
+        role: Grid interconnection for micro-hydro export
+        country: United States (Federal)
+        confidence: medium
+        funding_type: TVA watershed stewardship program
+      - name: US Forest Service – Chattahoochee-Oconee NF
+        role: Federal land micro-hydro licensing; reforestation
+        country: United States (Federal)
+        confidence: medium
+        funding_type: NRCS EQIP program; Forest Legacy funds
+      - name: The Nature Conservancy – Georgia Chapter
+        role: Conservation easement acquisition; riparian buffer protection
+        country: United States (Georgia)
+        confidence: high
+        funding_type: Land and Water Conservation Fund; private philanthropy
+  benefits_section:
+    confidence_percent: 50
+    title: Corridor Benefits Calculator
+    parameters:
+      trout_stream_miles_restored_range: [40, 140]
+      riparian_acres_restored_range: [12000, 45000]
+      reforestation_acres_range: [20000, 50000]
+      carbon_sequestration_tonnes_per_year_range: [18000, 65000]
+      ecotourism_revenue_recovery_annual_usd_range: [8000000, 42000000]
+      flood_damage_reduction_annual_usd_range: [3000000, 22000000]
+  deployment_section:
+    confidence_percent: 44
+    title: Local Deployment
+    parameters:
+      government_deployment_share_percent_range: [45, 70]
+      nonprofit_deployment_share_percent_range: [8, 20]
+      corporate_deployment_share_percent_range: [15, 40]
+    location:
+      region: North Georgia Blue Ridge Mountains
+      counties: [Cherokee, Lumpkin, Union, Towns, Fannin, Gilmer, Pickens, Dawson, Habersham, White, Rabun, Murray, Whitfield, Gordon, Bartow]
+      primary_watersheds: [Chattahoochee, Coosawattee, Toccoa, Etowah, Conasauga]
+      national_forest: Chattahoochee-Oconee National Forest
+      appalachian_trail_miles_through_region: 78
+cost_ranges:
+  confidence_percent: 32
+  phase_1_assessment_and_planning_usd: [3000000, 8000000]
+  phase_2_stream_remediation_usd: [19200000, 84000000]
+  phase_3_rural_system_upgrades_usd: [29400000, 126000000]
+  phase_4_reforestation_and_riparian_usd: [8000000, 90000000]
+  phase_5_mine_remediation_usd: [14000000, 70000000]
+  phase_6_monitoring_network_usd: [2000000, 8000000]
+  phase_7_renewable_energy_usd: [18000000, 72000000]
+  total_scenario_range_usd: [93600000, 458000000]
+  concept_note: '$94M minimum for 20-system priority upgrade with 80 miles of stream restoration; $458M ceiling for full 38-county revival with all legacy mine remediation and 50,000-acre reforestation.'

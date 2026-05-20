@@ -1,9 +1,30 @@
 {
   "defaultEventId": "",
   "events": [
-    { "id": "lunar", "label": "Lunar Base Nuclear", "specFile": "lunar.yaml" },
-    { "id": "vietnam-coast", "label": "Vietnam Coastal Desalination", "specFile": "vietnam-coast.yaml" },
-    { "id": "iran-energy", "label": "Iran Energy Corridor", "specFile": "iran-energy.yaml" },
-    { "id": "stratos", "label": "Stratos Datacenter - Utah", "specFile": "stratos.yaml" }
+    {
+      "id": "lunar",
+      "label": "Lunar Base Nuclear",
+      "specFile": "lunar.yaml"
+    },
+    {
+      "id": "vietnam-coast",
+      "label": "Vietnam Coastal Desalination",
+      "specFile": "vietnam-coast.yaml"
+    },
+    {
+      "id": "iran-energy",
+      "label": "Iran Energy Corridor",
+      "specFile": "iran-energy.yaml"
+    },
+    {
+      "id": "stratos",
+      "label": "Stratos Datacenter - Utah",
+      "specFile": "stratos.yaml"
+    },
+    {
+      "id": "georgia-mountain-water",
+      "label": "Georgia Mountain Water Revival",
+      "specFile": "georgia-mountain-water.yaml"
+    }
   ]
 }
