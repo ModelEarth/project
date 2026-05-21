@@ -189,6 +189,54 @@
   function getScen(data){ return safeGet(data, 'modeled_assumptions', 'energy_scenarios') || {}; }
   function getRisk(data){ return safeGet(data, 'risk_matrix', 'most_at_risk') || {}; }
 
+  // ── Generic scenario helpers ───────────────────────────────────────────────
+  // Returns [{key, label, data}] for all scenarios in energy_scenarios, in order
+  function getScenarioList(sc) {
+    return Object.keys(sc).filter(function (k) {
+      return sc[k] && typeof sc[k] === 'object' && !Array.isArray(sc[k]);
+    }).map(function (k) {
+      var d = sc[k];
+      var label = (d.name || k.replace(/_/g, ' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); }));
+      // Shorten label to ~18 chars for pills
+      if (label.length > 22) label = label.substring(0, 20) + '…';
+      return { key: k, label: label, data: d };
+    });
+  }
+
+  // Returns the water output value for a single scenario object, checking known paths
+  function getScenarioWaterOutput(scenData) {
+    return safeGet(scenData, 'water_output_m3_day')
+      || safeGet(scenData, 'desalination_output', 'combined_with_bushehr_m3_day')
+      || safeGet(scenData, 'water_impact', 'combined_desal_m3_day_with_bushehr')
+      || safeGet(scenData, 'water_impact', 'daily_water_m3_day')
+      || safeGet(scenData, 'desalination_context', 'bushehr_desal_m3_day')
+      || null;
+  }
+
+  // Returns baseline (first scenario) water output
+  function getBaselineWater(data, sc, scenList) {
+    var fromPowerCtx = safeGet(data, 'source_confirmed', 'power_context', 'bushehr_desal_m3_day');
+    if (fromPowerCtx) return fromPowerCtx;
+    if (scenList.length) return getScenarioWaterOutput(scenList[0].data) || 0;
+    return 0;
+  }
+
+  // Returns full-buildout (last scenario) water output
+  function getFullScenarioWater(sc, scenList) {
+    if (!scenList.length) return 0;
+    return getScenarioWaterOutput(scenList[scenList.length - 1].data) || 0;
+  }
+
+  // Returns population served from last scenario
+  function getFullScenarioPopulation(sc, scenList) {
+    if (!scenList.length) return 0;
+    var last = scenList[scenList.length - 1].data;
+    return safeGet(last, 'water_impact', 'population_served_at_200L_per_day')
+      || safeGet(last, 'water_impact', 'households_newly_served')
+      || safeGet(last, 'water_infrastructure', 'households_newly_served')
+      || 0;
+  }
+
   // ── localStorage user edits ────────────────────────────────────────────────
   function getUserEdits(eventId) {
     try { return JSON.parse(localStorage.getItem(userEditsKey(eventId)) || '{}') || {}; }
@@ -243,17 +291,31 @@
 
     var totalMin = safeGet(data, 'cost_ranges', 'total_scenario_range_usd', 0);
     var totalMax = safeGet(data, 'cost_ranges', 'total_scenario_range_usd', 1);
-    var waterMin = safeGet(data, 'source_confirmed', 'power_context', 'bushehr_desal_m3_day') || 70000;
-    var waterMax = safeGet(getAe(data), 'water_section', 'parameters', 'combined_max_m3_day') || 1060000;
-    var displaced = safeGet(data, 'source_confirmed', 'water_context', 'displaced_persons_water') || 0;
-    var sc = getScen(data);
-    var popServed = safeGet(sc, 'regenerative_100unit_corridor_case', 'water_impact', 'population_served_at_200L_per_day') || 0;
 
-    var scenarios = [
-      { label: 'No-conversion',    pct: safeGet(sc, 'baseline_no_conversion_case', 'confidence_percent'),        cls: 'hub-pill-high' },
-      { label: 'IAEA 10-unit',     pct: safeGet(sc, 'transition_iaea_10unit_case', 'confidence_percent'),        cls: 'hub-pill-med'  },
-      { label: '100-unit corridor', pct: safeGet(sc, 'regenerative_100unit_corridor_case', 'confidence_percent'), cls: 'hub-pill-low'  }
-    ];
+    // Generic water range — works for any event YAML
+    var sc = getScen(data);
+    var scenList = getScenarioList(sc);
+    var wp = safeGet(getAe(data), 'water_section', 'parameters') || {};
+    var waterMin = getBaselineWater(data, sc, scenList);
+    var waterMax = wp.combined_max_m3_day
+      || safeGet(getAe(data), 'water_section', 'parameters', 'direct_treatment_output_mgd_range', 1) * 3785
+      || getFullScenarioWater(sc, scenList)
+      || 0;
+
+    // Generic affected-persons — try known paths then fall back gracefully
+    var displaced = safeGet(data, 'source_confirmed', 'water_context', 'displaced_persons_water')
+      || safeGet(data, 'source_confirmed', 'water_context', 'downstream_population_served')
+      || safeGet(data, 'source_confirmed', 'water_context', 'affected_persons')
+      || 0;
+
+    // Generic population served at full buildout — last scenario with a water impact value
+    var popServed = getFullScenarioPopulation(sc, scenList);
+
+    // Dynamic scenarios from YAML keys
+    var pillClasses = ['hub-pill-high', 'hub-pill-med', 'hub-pill-low'];
+    var scenarios = scenList.map(function (s, i) {
+      return { label: s.label, pct: safeGet(s.data, 'confidence_percent'), cls: pillClasses[i] || 'hub-pill-low' };
+    });
 
     var pillsHtml = scenarios.map(function (s) {
       return '<span class="hub-pill ' + s.cls + '">' + s.label + ' ' + fmtPct(s.pct) + '</span>';
@@ -281,11 +343,14 @@
     html += '</div>';
 
     // Summary cards
+    var ae = getAe(data);
+    var fullScenLabel = scenList.length ? scenList[scenList.length - 1].label : 'full buildout';
+    var baseScenLabel = scenList.length ? scenList[0].label : 'baseline';
     html += '<div class="panel-summary-grid hub-totals">';
-    html += '<div class="summary-card"><span class="label">Total cost range</span><span class="value">' + fmtM(totalMin) + ' – ' + fmtM(totalMax) + '</span><span class="detail">Concept-to-full 100-unit corridor</span></div>';
-    html += '<div class="summary-card"><span class="label">Water output range</span><span class="value">' + fmtK(waterMin) + ' – ' + fmtK(waterMax) + ' m³/day</span><span class="detail">Bushehr baseline → 100-unit DeepFission</span></div>';
-    html += '<div class="summary-card"><span class="label">Water-displaced persons</span><span class="value">' + (displaced ? (displaced / 1e6).toFixed(0) + 'M' : '—') + '</span><span class="detail">As of 2025 (WRI classification)</span></div>';
-    html += '<div class="summary-card"><span class="label">Population served (full)</span><span class="value">' + (popServed ? (popServed / 1e6).toFixed(2) + 'M' : '—') + '</span><span class="detail">At 200 L/day, 100-unit corridor</span></div>';
+    html += '<div class="summary-card"><span class="label">Total cost range</span><span class="value">' + fmtM(totalMin) + ' – ' + fmtM(totalMax) + '</span><span class="detail">Concept to ' + fullScenLabel + '</span></div>';
+    html += '<div class="summary-card"><span class="label">Water output range</span><span class="value">' + fmtK(waterMin) + ' – ' + fmtK(waterMax) + (waterMax >= 1 ? ' m³/day' : '') + '</span><span class="detail">' + baseScenLabel + ' → ' + fullScenLabel + '</span></div>';
+    html += '<div class="summary-card"><span class="label">Affected persons</span><span class="value">' + (displaced ? (displaced >= 1e6 ? (displaced / 1e6).toFixed(0) + 'M' : fmtK(displaced)) : '—') + '</span><span class="detail">From source-confirmed water context</span></div>';
+    html += '<div class="summary-card"><span class="label">Population served (full)</span><span class="value">' + (popServed ? (popServed >= 1e6 ? (popServed / 1e6).toFixed(2) + 'M' : fmtK(popServed)) : '—') + '</span><span class="detail">' + fullScenLabel + ' scenario</span></div>';
     html += '</div>';
 
     html += phaseBarHtml;
@@ -316,45 +381,65 @@
     if (typeof echarts === 'undefined') return;
 
     var sc = getScen(data);
-    var base = safeGet(sc, 'baseline_no_conversion_case', 'generation_mix_percent') || {};
-    var iaea = safeGet(sc, 'transition_iaea_10unit_case', 'generation_mix_percent') || {};
-    var full = safeGet(sc, 'regenerative_100unit_corridor_case', 'generation_mix_percent') || {};
+    var scenList = getScenarioList(sc);
 
-    var sources   = ['Nuclear', 'Gas', 'Oil/Diesel', 'Solar', 'Wind', 'Renewables'];
-    var baseData  = [base.nuclear || 0, base.natural_gas || 0, base.oil_diesel || 0, base.solar || 0, base.wind || 0, base.renewables || 0];
-    var iaeaData  = [(iaea.nuclear_deepfission || 0) + (iaea.nuclear_bushehr || 0), iaea.natural_gas || 0, iaea.oil_diesel || 0, iaea.solar || 0, iaea.wind || 0, iaea.renewables || 0];
-    var fullData  = [(full.nuclear_deepfission || 0) + (full.nuclear_bushehr || 0), full.natural_gas || 0, full.oil_diesel || 0, full.solar || 0, full.wind || 0, (full.other_renewables || 0)];
+    // Chart 1: scenario generation mix — built from whatever scenarios exist in YAML
+    var mixSources = ['Nuclear', 'Gas', 'Oil/Diesel', 'Solar', 'Wind', 'Renewables', 'Micro-Hydro', 'Biogas', 'Grid Backup'];
+    var mixKeys    = [
+      function(m){ return (m.nuclear || 0) + (m.nuclear_deepfission || 0) + (m.nuclear_bushehr || 0); },
+      function(m){ return m.natural_gas || 0; },
+      function(m){ return m.oil_diesel || 0; },
+      function(m){ return (m.solar || 0) + (m.solar_canopy || 0); },
+      function(m){ return m.wind || 0; },
+      function(m){ return (m.renewables || 0) + (m.other_renewables || 0); },
+      function(m){ return m.micro_hydro || 0; },
+      function(m){ return m.biogas || 0; },
+      function(m){ return m.grid_backup || 0; }
+    ];
+    var chartColors = ['#ef8354', '#0f9d58', '#0f7173', '#f2c14e', '#64b5f6', '#a5d6a7', '#4db8ff', '#b7791f', '#9fd56d'];
 
-    // Chart 1: scenario generation mix
+    var scenSeriesData = scenList.map(function (s) {
+      var mix = safeGet(s.data, 'generation_mix_percent') || {};
+      return mixKeys.map(function (fn) { return fn(mix); });
+    });
+
+    // Only show energy sources that have at least one non-zero value across all scenarios
+    var activeSrcIdx = mixSources.map(function (_, i) {
+      return scenSeriesData.some(function (row) { return row[i] > 0; });
+    });
+    var filteredSources = mixSources.filter(function (_, i) { return activeSrcIdx[i]; });
+    var filteredSeries  = scenList.map(function (s, si) {
+      return {
+        name: s.label + (scenSeriesData[si].reduce(function(a,b){return a+b;},0) > 0 ? ' (' + (safeGet(s.data,'confidence_percent')||'?') + '%)' : ''),
+        type: 'bar',
+        data: scenSeriesData[si].filter(function (_, i) { return activeSrcIdx[i]; })
+      };
+    });
+
     var dom1 = document.getElementById('hubScenarioChart');
-    if (dom1) {
+    if (dom1 && filteredSeries.length) {
       var c1 = echarts.init(dom1);
       _hubCharts.push(c1);
       c1.setOption({
         tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-        legend: { bottom: 4, textStyle: { fontSize: 10 }, data: ['No-conv (38%)', 'IAEA 10-unit (19%)', '100-unit (11%)'] },
+        legend: { bottom: 4, textStyle: { fontSize: 10 }, data: filteredSeries.map(function(s){return s.name;}) },
         grid: { left: 60, right: 12, top: 12, bottom: 54 },
-        xAxis: { type: 'category', data: sources, axisLabel: { fontSize: 10 } },
+        xAxis: { type: 'category', data: filteredSources, axisLabel: { fontSize: 10 } },
         yAxis: { type: 'value', name: '%', max: 80, axisLabel: { fontSize: 10 } },
-        color: ['#ef8354', '#0f9d58', '#0f7173'],
-        series: [
-          { name: 'No-conv (38%)',      type: 'bar', data: baseData },
-          { name: 'IAEA 10-unit (19%)', type: 'bar', data: iaeaData },
-          { name: '100-unit (11%)',     type: 'bar', data: fullData }
-        ]
+        color: chartColors,
+        series: filteredSeries
       });
     }
 
-    // Chart 2: cost ranges (floating bar)
+    // Chart 2: cost ranges — read whatever phase_*_usd keys exist in cost_ranges
     var cr = safeGet(data, 'cost_ranges') || {};
-    var phases = ['Verification', 'Conversion', 'DeepFission 10u', 'MED Coastal', '100u+Conveyance'];
-    var phaseKeys = [
-      'phase_1_verification_and_diplomacy_usd',
-      'phase_2_conversion_and_fabrication_usd',
-      'phase_3_deepfission_10unit_array_usd',
-      'phase_4_med_desal_coastal_infrastructure_usd',
-      'phase_5_100unit_corridor_and_conveyance_usd'
-    ];
+    var phaseKeys = Object.keys(cr).filter(function (k) {
+      return /^phase_\d+/.test(k) && Array.isArray(cr[k]);
+    }).sort();
+    var phases = phaseKeys.map(function (k) {
+      return k.replace(/^phase_\d+_/, '').replace(/_usd$/, '').replace(/_/g, ' ')
+        .replace(/\b\w/g, function (c) { return c.toUpperCase(); }).substring(0, 22);
+    });
     var costMins   = phaseKeys.map(function (k) { return ((cr[k] || [0])[0] || 0) / 1e9; });
     var costRanges = phaseKeys.map(function (k, i) { return (((cr[k] || [0, 0])[1] || 0) / 1e9) - costMins[i]; });
 
@@ -391,16 +476,14 @@
       });
     }
 
-    // Chart 3: risk radar
+    // Chart 3: risk radar — read whatever dimensions exist in risk_matrix.most_at_risk
     var rm = getRisk(data);
-    var rDims = [
-      { key: 'populations',            label: 'Populations' },
-      { key: 'proliferation_stability',label: 'Proliferation' },
-      { key: 'diplomatic_framework',   label: 'Diplomacy' },
-      { key: 'technology_execution',   label: 'Technology' },
-      { key: 'coastal_ecology',        label: 'Ecology' },
-      { key: 'sanctions_and_finance',  label: 'Sanctions' }
-    ];
+    var rDims = Object.keys(rm).map(function (k) {
+      return {
+        key: k,
+        label: k.replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); }).substring(0, 14)
+      };
+    });
     var riskConf = rDims.map(function (d) { return safeGet(rm, d.key, 'confidence_percent') || 0; });
 
     var dom3 = document.getElementById('hubRiskChart');
@@ -469,18 +552,23 @@
     if (eo.payback_years != null)
       cards.push('<div class="summary-card"><span class="label">Payback period</span><span class="value">' + eo.payback_years + ' yrs</span><span class="detail">At seeded pricing assumptions</span></div>');
 
-    // Water comparison data across scenarios
+    // Water comparison data — read from any available path across scenarios
     var waterScens = [], waterVals = [];
-    var baseDesal = safeGet(sc, 'baseline_no_conversion_case', 'desalination_context', 'bushehr_desal_m3_day');
-    if (baseDesal != null) { waterScens.push('No-conversion'); waterVals.push(baseDesal); }
-    var iaeaDesal = safeGet(sc, 'transition_iaea_10unit_case', 'desalination_output', 'combined_with_bushehr_m3_day');
-    if (iaeaDesal != null) { waterScens.push('IAEA 10-unit'); waterVals.push(iaeaDesal); }
-    var fullDesal = safeGet(sc, 'regenerative_100unit_corridor_case', 'water_impact', 'combined_desal_m3_day_with_bushehr');
-    if (fullDesal != null) { waterScens.push('100-unit corridor'); waterVals.push(fullDesal); }
+    var scenList = getScenarioList(sc);
+    scenList.forEach(function (s) {
+      var val = getScenarioWaterOutput(s.data)
+        || safeGet(s.data, 'desalination_context', 'bushehr_desal_m3_day')
+        || safeGet(s.data, 'desalination_output', 'combined_with_bushehr_m3_day')
+        || safeGet(s.data, 'water_impact', 'combined_desal_m3_day_with_bushehr')
+        || safeGet(s.data, 'water_impact', 'daily_water_m3_day');
+      if (val != null) { waterScens.push(s.label); waterVals.push(val); }
+    });
 
-    // Generation mix for the IAEA 10-unit scenario (primary calculator scenario)
-    var mixScen = safeGet(sc, 'transition_iaea_10unit_case', 'generation_mix_percent')
-               || safeGet(sc, 'baseline_no_conversion_case', 'generation_mix_percent') || {};
+    // Generation mix — use first non-baseline scenario, fall back to baseline
+    var primaryScen = scenList.length > 1 ? scenList[1] : (scenList.length ? scenList[0] : null);
+    var primaryLabel = primaryScen ? primaryScen.label : 'Primary scenario';
+    var mixScen = (primaryScen && safeGet(primaryScen.data, 'generation_mix_percent'))
+               || (scenList.length && safeGet(scenList[0].data, 'generation_mix_percent')) || {};
     var mixLabels = { nuclear_deepfission: 'DeepFission', nuclear_bushehr: 'Bushehr', nuclear: 'Nuclear',
                       natural_gas: 'Gas', oil_diesel: 'Oil/Diesel', solar: 'Solar',
                       wind: 'Wind', renewables: 'Renewables', other_renewables: 'Other Ren.' };
@@ -522,7 +610,7 @@
     if (hasCharts) {
       html += '<div class="hub-charts-row">';
       if (hasMix)
-        html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Generation mix — IAEA 10-unit scenario</div><div id="overviewMixChart" style="height:220px;"></div></div>';
+        html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Generation mix — ' + primaryLabel + '</div><div id="overviewMixChart" style="height:220px;"></div></div>';
       if (hasWater)
         html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Desal water output by scenario (m³/day)</div><div id="overviewWaterChart" style="height:220px;"></div></div>';
       html += '</div>';
@@ -668,33 +756,37 @@
     var water = ae.water_section;
     if (water) {
       var wp = water.parameters || {};
-      var ic = wp.inland_conveyance || {};
-      parts.push([
+      // Generic water range — handle both m3/day and MGD events
+      var wMin = (wp.direct_desal_output_m3_day_range || wp.direct_treatment_output_mgd_range || [])[0];
+      var wMax = (wp.direct_desal_output_m3_day_range || wp.direct_treatment_output_mgd_range || [0,0])[1];
+      var wUnit = wp.direct_desal_output_m3_day_range ? 'm³/day' : 'MGD';
+      var wStats = [
         '<div class="hub-banner-row"><strong>Water Output</strong>' + chipPct(water.confidence_percent) + '</div>',
         '<div class="hub-banner-row">',
-        stat('Direct desal range', fmtK((wp.direct_desal_output_m3_day_range || [])[0]) + ' – ' + fmtK((wp.direct_desal_output_m3_day_range || [0, 0])[1]) + ' m³/day'),
-        stat('Existing Bushehr', fmtK(wp.existing_bushehr_desal_m3_day) + ' m³/day'),
-        stat('10-unit adds', fmtK(wp.deepfission_10unit_desal_m3_day) + ' m³/day'),
-        stat('100-unit adds', fmtK(wp.deepfission_100unit_desal_m3_day) + ' m³/day'),
-        '</div>',
-        '<div class="hub-banner-row">',
-        stat('Combined max', fmtK(wp.combined_max_m3_day) + ' m³/day'),
-        stat('Salinity', (wp.coastal_intake_salinity_ppt_range || [37, 42]).join('–') + ' ppt Persian Gulf'),
-        stat('Tehran distance', (ic.tehran_distance_km || '—') + ' km'),
-        '</div>'
-      ].join(''));
+        stat('Output range', fmtK(wMin) + ' – ' + fmtK(wMax) + ' ' + wUnit)
+      ];
+      if (wp.combined_max_m3_day)   wStats.push(stat('Combined max', fmtK(wp.combined_max_m3_day) + ' m³/day'));
+      if (wp.existing_bushehr_desal_m3_day) wStats.push(stat('Existing baseline', fmtK(wp.existing_bushehr_desal_m3_day) + ' m³/day'));
+      if (wp.impaired_stream_miles_target)  wStats.push(stat('Stream miles target', wp.impaired_stream_miles_target + ' mi'));
+      if (wp.reforestation_acres_target)    wStats.push(stat('Reforestation target', fmtK(wp.reforestation_acres_target) + ' acres'));
+      wStats.push('</div>');
+      parts.push(wStats.join(''));
     }
 
     var dep = ae.deployment_section;
     if (dep) {
       var dp = dep.parameters || {};
+      // Show whatever capex keys exist — filter to array-valued ones
+      var capexKeys = Object.keys(dp).filter(function (k) { return /_capex_usd_range$/.test(k) && Array.isArray(dp[k]); });
+      var capexStats = capexKeys.map(function (k) {
+        var label = k.replace(/_capex_usd_range$/, '').replace(/_/g, ' ')
+          .replace(/\b\w/g, function (c) { return c.toUpperCase(); }).substring(0, 28);
+        return stat(label, fmtM(dp[k][0]) + ' – ' + fmtM(dp[k][1]));
+      });
       parts.push([
         '<div class="hub-banner-row"><strong>Local Deployment — Capital Ranges</strong>' + chipPct(dep.confidence_percent) + '</div>',
         '<div class="hub-banner-row">',
-        stat('Conversion facility', fmtM((dp.conversion_facility_capex_usd_range || [])[0]) + ' – ' + fmtM((dp.conversion_facility_capex_usd_range || [0, 0])[1])),
-        stat('DeepFission array', fmtM((dp.deepfission_array_capex_usd_range || [])[0]) + ' – ' + fmtM((dp.deepfission_array_capex_usd_range || [0, 0])[1])),
-        stat('MED coastal', fmtM((dp.med_desal_capex_usd_range || [])[0]) + ' – ' + fmtM((dp.med_desal_capex_usd_range || [0, 0])[1])),
-        stat('Inland conveyance', fmtM((dp.inland_conveyance_capex_usd_range || [])[0]) + ' – ' + fmtM((dp.inland_conveyance_capex_usd_range || [0, 0])[1])),
+        capexStats.join('') || stat('CAPEX', '—'),
         '</div>'
       ].join(''));
     }
