@@ -109,15 +109,13 @@
             gap: 6px;
         }
 
-        .rail-link,
-        .rail-toggle {
+        .rail-link, .rail-toggle {
             display: inline-flex;
             align-items: center;
             gap: 15px;
             width: 100%;
             padding: 14px 16px;
             border: 0;
-            border-radius: 999px;
             background: transparent;
             color: var(--ink-1);
             text-decoration: none;
@@ -129,7 +127,11 @@
             cursor: pointer;
             transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
         }
-
+        @media (min-width: 600px) {
+            .rail-link, .rail-toggle {
+                 border-radius: 999px;
+            }
+        }
         .rail-link:hover,
         .rail-toggle:hover,
         .rail-link:focus-visible,
@@ -329,7 +331,6 @@
         .hero {
             position: relative;
             overflow: hidden;
-            border-radius: 32px;
             padding: 34px 34px 30px;
             color: #fff;
             box-shadow: var(--card-shadow);
@@ -339,7 +340,11 @@
                 linear-gradient(135deg, var(--hero-1) 0%, #117174 42%, var(--hero-2) 100%);
             container-type: inline-size;
         }
-
+        @media (min-width: 600px) {
+           .hero {
+                border-radius: 32px;
+           } 
+        }
         #studio {
             margin-bottom: 20px;
         }
@@ -368,35 +373,33 @@
             z-index: 4;
         }
 
-        #project-controls {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 12px;
-            position: relative;
-            z-index: 8;
-            flex-wrap: wrap;
-        }
-
-        #project-controls #headsup.event-hud-inline {
-            margin-right: auto;
-        }
-
-        #project-hud-anchor {
-            position: relative;
-            z-index: 4;
-            margin: 0 0 16px;
-        }
-
-        #project-hud-anchor #headsup.event-hud-inline #hud-left {
-            min-width: min(420px, 100%);
-            border-radius: 28px;
-            padding: 8px 20px 20px;
-        }
-
-        #project-hud-anchor #mission-menu .mission-menu-panel {
-            border-radius: 28px;
-            padding: 20px;
+        @media (min-width: 600px) {
+            #project-controls {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 12px;
+                position: relative;
+                z-index: 8;
+                flex-wrap: wrap;
+            }
+            #project-controls #headsup.event-hud-inline {
+                margin-right: auto;
+            }
+            #project-hud-anchor {
+                position: relative;
+                z-index: 4;
+                margin: 0 0 16px;
+            }
+            #project-hud-anchor #headsup.event-hud-inline #hud-left {
+                min-width: min(420px, 100%);
+                border-radius: 28px;
+                padding: 8px 20px 20px;
+            }
+            #project-hud-anchor #mission-menu .mission-menu-panel {
+                border-radius: 28px;
+                padding: 20px;
+            }
         }
 
         #project-hud-anchor #mission-menu.event-hud-inline {
@@ -459,13 +462,9 @@
         #rightIcons #showConfig:focus-visible {
             background: rgba(0, 0, 0, 0.16);
         }
-
         .page-config {
-            position: absolute;
-            top: calc(100% + 8px);
-            right: 0;
-            min-width: min(340px, calc(100vw - 40px));
-            max-width: 380px;
+            display: none;
+            width: 100%;
             padding: 16px;
             border-radius: 24px;
             background: rgba(255, 255, 255, 0.96);
@@ -474,10 +473,98 @@
             color: var(--ink-1);
             font-size: 1rem;
             line-height: 1.5;
-            display: none;
             z-index: 10020;
         }
 
+        @media (min-width: 600px) {
+            .page-config {
+                position: absolute;
+                top: calc(100% + 8px);
+                right: 0;
+                min-width: min(340px, calc(100vw - 40px));
+                max-width: 380px;
+            }
+        }
+
+        @media (max-width: 599px) {
+            #rightIcons.page-config-open,
+            #rightIcons:has(#project-controls.page-config-open) {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                align-items: flex-start;
+                gap: 8px;
+                max-height: none;
+                overflow: visible;
+            }
+
+            #project-controls {
+                position: relative;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                justify-content: flex-end;
+                gap: 10px;
+                width: auto;
+                max-width: calc(100vw - 20px);
+                margin-right: 0 !important;
+            }
+
+            #project-controls.page-config-open {
+                display: grid;
+                grid-template-columns: auto;
+                align-items: stretch;
+                justify-items: end;
+                padding-bottom: 10px;
+            }
+
+            #project-controls.page-config-open #showConfig {
+                justify-self: end;
+            }
+
+            .page-config {
+                position: relative;
+                top: auto;
+                right: auto;
+                min-width: 0;
+                width: calc(100vw - 20px);
+                max-width: calc(100vw - 20px);
+                margin-top: 2px;
+                box-shadow: 0 14px 28px rgba(16, 35, 39, 0.16);
+            }
+
+            .dashboard-shell > .page-config.page-config-inline {
+                width: 100%;
+                max-width: 100%;
+                margin: 0 0 14px;
+            }
+
+            #project-hud-anchor {
+                position: relative;
+                z-index: 1;
+                width: 100%;
+                min-width: 0;
+                clear: both;
+            }
+
+            #project-hud-anchor #headsup.event-hud-inline,
+            #project-hud-anchor #headsup.event-hud-inline #hud-left,
+            #project-hud-anchor #mission-menu.event-hud-inline,
+            #project-hud-anchor #mission-menu .mission-menu-panel {
+                width: 100%;
+                min-width: 0;
+                max-width: 100%;
+            }
+
+            #project-hud-anchor #mission-menu.event-hud-inline {
+                position: static;
+                margin-top: 10px;
+            }
+
+            #project-hud-anchor #mission-menu .mission-menu-panel {
+                overflow: visible;
+            }
+        }
         .page-config.active {
             display: block;
         }
@@ -3248,6 +3335,9 @@
         #sankey-attribution { margin: 0.75em 0 0; line-height: 2; }
         #sankey-attribution a { color: #2563eb; text-decoration: none; }
         #sankey-attribution a:hover { text-decoration: underline; }
+
+        
+
     </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" id="localsite/js/d3.v5.min.js"></script>
@@ -3257,6 +3347,16 @@
 </head>
 <body>
     <link type="text/css" rel="stylesheet" href="/localsite/css/base.css" id="/localsite/css/base.css" />
+    <style>
+        /* Uses panel margins when narrow. */
+        @media (max-width: 600px) {
+            .contentpadding {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+        }
+    </style>
+
     <link type="text/css" rel="stylesheet" href="/localsite/css/event.css" id="/localsite/css/event.css" />
     <script type="text/javascript" src="/localsite/js/localsite.js?showheader=true&showsearch=true"></script>
     <script type="text/javascript" src="/localsite/js/event.js"></script>
@@ -6844,11 +6944,51 @@
             }
 
             if (showConfig && pageConfig) {
+                var pageConfigHomeParent = pageConfig.parentNode;
+                var pageConfigHomeNext = pageConfig.nextSibling;
+
+                function restorePageConfigHome() {
+                    if (!pageConfigHomeParent || pageConfig.parentNode === pageConfigHomeParent) {
+                        pageConfig.classList.remove('page-config-inline');
+                        return;
+                    }
+                    pageConfigHomeParent.insertBefore(pageConfig, pageConfigHomeNext);
+                    pageConfig.classList.remove('page-config-inline');
+                }
+
+                function syncPageConfigPlacement(isOpen) {
+                    var isNarrow = window.matchMedia && window.matchMedia('(max-width: 599px)').matches;
+                    var anchor = document.getElementById('project-hud-anchor');
+                    var shell = document.querySelector('.dashboard-shell');
+                    if (isOpen && isNarrow && anchor && shell) {
+                        if (pageConfig.parentNode !== shell) {
+                            shell.insertBefore(pageConfig, anchor);
+                        }
+                        pageConfig.classList.add('page-config-inline');
+                    } else {
+                        restorePageConfigHome();
+                    }
+                }
+
+                function syncPageConfigOpenState(isOpen) {
+                    var projectControls = document.getElementById('project-controls');
+                    var rightIcons = document.getElementById('rightIcons');
+                    syncPageConfigPlacement(isOpen);
+                    pageConfig.classList.toggle('active', isOpen);
+                    showConfig.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    showConfig.classList.toggle('active', isOpen);
+                    if (projectControls) projectControls.classList.toggle('page-config-open', isOpen);
+                    if (rightIcons) rightIcons.classList.toggle('page-config-open', isOpen);
+                }
+
+                window.addEventListener('resize', function() {
+                    syncPageConfigPlacement(pageConfig.classList.contains('active'));
+                });
+
                 showConfig.addEventListener('click', function(event) {
                     event.stopPropagation();
                     const nextOpen = !pageConfig.classList.contains('active');
-                    pageConfig.classList.toggle('active', nextOpen);
-                    showConfig.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
+                    syncPageConfigOpenState(nextOpen);
                 });
 
                 pageConfig.addEventListener('click', function(event) {
@@ -6858,15 +6998,13 @@
                 pageConfig.querySelectorAll('.page-config-link[data-nav-target]').forEach(function(link) {
                     link.addEventListener('click', function(event) {
                         event.preventDefault();
-                        pageConfig.classList.remove('active');
-                        showConfig.setAttribute('aria-expanded', 'false');
+                        syncPageConfigOpenState(false);
                         handleSectionNav(this.getAttribute('data-nav-target'));
                     });
                 });
 
                 document.addEventListener('click', function() {
-                    pageConfig.classList.remove('active');
-                    showConfig.setAttribute('aria-expanded', 'false');
+                    syncPageConfigOpenState(false);
                 });
             }
 
@@ -8003,8 +8141,16 @@
         showListBtn.addEventListener('click', function() {
           var pageConfig = document.getElementById('pageConfig');
           var showConfig = document.getElementById('showConfig');
+          var projectControls = document.getElementById('project-controls');
+          var rightIcons = document.getElementById('rightIcons');
           if (pageConfig) pageConfig.classList.remove('active');
           if (showConfig) showConfig.setAttribute('aria-expanded', 'false');
+          if (projectControls) projectControls.classList.remove('page-config-open');
+          if (rightIcons) rightIcons.classList.remove('page-config-open');
+          if (pageConfig && projectControls && pageConfig.parentNode !== projectControls) {
+            projectControls.appendChild(pageConfig);
+            pageConfig.classList.remove('page-config-inline');
+          }
           setHudAnchorVisible(true);
           if (window.SharedEventUI) window.SharedEventUI.setMissionMenuOpen(true);
         });
