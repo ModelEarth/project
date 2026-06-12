@@ -20,6 +20,7 @@ benefits:
   - Job creation
   - Economic growth
   - Increased compute capacity
+  - Potential Great Salt Lake water dedication if excess water is treated and protected
 microsoft_commitments:
   - Shift energy infrastructure costs to industry
   - Replenish more water than data centers consume
@@ -31,6 +32,8 @@ residential_concerns:
   - Reduce noise pollution
   - Separate residential from industrial zones
   - Decorative facades to reduce visual impact
+  - Public transparency on water, air-quality, heat-capture, and permitting reviews
+  - Preserve wildlife habitat and agricultural uses around any revised campus footprint
 cost_estimate:
   low: 500000000
   high: 2000000000
@@ -49,22 +52,125 @@ start_date: 2026-04-24T21:01:00Z
 end_date: 2045-12-31T23:59:59Z
 initial_view: event
 path_color: '#ff8c69'
-phase_labels: [Reveal, Review, Delay, Water Debate, Transition, Rebuild]
-phase_text: Project Stratos Review
-source_url: https://ksltv.com/environment/scientists-share-concerns-over-proposed-mega-data-center-in-box-elder-county/903505/
+phase_labels: [Reveal, Review, Opposition, Downsize, Water + Heat, Permits]
+phase_text: Project Stratos Downsize Review
+source_url: https://www.sltrib.com/news/2026/06/04/box-elder-county-data-center/
+historic_link: https://www.sltrib.com/news/2026/06/04/box-elder-county-data-center/
+history_links:
+  - label: June 2026 Downsize
+    type: news_update
+    date: 2026-06-04
+    publisher: The Salt Lake Tribune
+    url: https://www.sltrib.com/news/2026/06/04/box-elder-county-data-center/
+    summary: Kevin O'Leary's team agreed to reduce the Box Elder County Stratos proposal after public and legislative pressure.
+  - label: Adams Reduction Request
+    type: public_official_request
+    date: 2026-06-01
+    publisher: Utah Public Radio
+    url: https://www.upr.org/politics/2026-06-01/stuart-adams-stratos-data-center-letter-75
+    summary: Senate President J. Stuart Adams asked for a 75 percent project-area reduction and added environmental transparency conditions.
+  - label: Initial Public Scrutiny
+    type: project_feasibility_reporting
+    date: 2026-04-29
+    publisher: KSL TV
+    url: https://ksltv.com/environment/scientists-share-concerns-over-proposed-mega-data-center-in-box-elder-county/903505/
+    summary: USU scientists and project critics raised questions about power demand, water use, greenhouse gases, and heat disposal.
 source_confirmed:
-  publisher: KSL TV
-  published_date: 2026-04-29
+  publisher: The Salt Lake Tribune
+  published_date: 2026-06-04
+  source_url: https://www.sltrib.com/news/2026/06/04/box-elder-county-data-center/
   proposal_name: Project Stratos
+  alternate_project_area_name: Stratos Project Area
+  developer: O'Leary Digital Utah Development Company
   county: Box Elder County
   state: Utah
-  land_area_acres: 40000
-  status: Proposed
+  land_area_acres_original: 40000
+  land_area_acres_revised_proposed: 20000
+  development_footprint_acres_revised_claimed: 10000
+  preserved_acres_revised_claimed: 10000
+  acreage_details:
+    original_total_private_project_area_acres: 40000
+    revised_total_project_area_acres: 20000
+    revised_active_data_center_and_power_area_acres: 10000
+    revised_preserved_open_space_acres: 10000
+    removed_total_acres: 20050
+    removed_areas:
+      - name: Locomotive Springs area
+        acres: 19430
+      - name: I-84-adjacent parcel
+        acres: 620
+    remaining_area:
+      name: Hansel Valley parcel
+      acres: 20000
+    reduction_request_from_adams:
+      requested_total_project_area_acres: 10000
+      requested_reduction_percent: 75
+    note: Acreage figures reflect public proposal and reporting values; they are not final permits or surveyed construction limits.
+  governance_and_permitting_details:
+    mida_initial_project_area_approval_date: 2026-04-24
+    box_elder_county_commission_resolution_date: 2026-05-04
+    challenged_county_measures:
+      - Box Elder County Resolution 26-11
+      - Box Elder County Resolution 26-12
+    opponent_lawsuit_filed_date: 2026-06-03
+    public_status_note: The revised proposal remained in early review; public reporting said permitting, environmental review, and final approvals were still future steps.
+    requested_transparency_measures:
+      - public-facing project website
+      - access to review materials
+      - access to environmental analyses
+      - access to water and air-quality permit information
+      - regular project updates
+  status: Proposed - revised footprint under review
+  sources:
+    - publisher: The Salt Lake Tribune
+      published_date: 2026-06-04
+      url: https://www.sltrib.com/news/2026/06/04/box-elder-county-data-center/
+      note: User-provided primary update link for the June 2026 Box Elder County data center development.
+    - publisher: KSL
+      published_date: 2026-06-04
+      url: https://www.ksl.com/article/51506884/kevin-oleary-agrees-to-cut-box-elder-county-data-center-project-area-in-half
+      note: Reported O'Leary's agreement to reduce the project area from roughly 40,000 acres to roughly 20,000 acres.
+    - publisher: Utah Public Radio
+      published_date: 2026-06-01
+      url: https://www.upr.org/politics/2026-06-01/stuart-adams-stratos-data-center-letter-75
+      note: Reported Senate President Stuart Adams' request for a 75 percent footprint reduction and added environmental transparency requirements.
+  recent_developments:
+    - date: 2026-06-01
+      summary: Utah Senate President J. Stuart Adams called for the Stratos project area to shrink from about 40,000 acres to about 10,000 acres before moving forward.
+      requested_conditions:
+        - stronger water-treatment and Great Salt Lake dedication commitments
+        - heat-capture technology analysis
+        - independent scientific and engineering review
+        - wildlife and agricultural preservation commitments
+        - a public-facing transparency website for permits, reviews, and project updates
+      acreage_request:
+        original_project_area_acres: 40000
+        requested_project_area_acres: 10000
+        requested_reduction_percent: 75
+    - date: 2026-06-04
+      summary: Kevin O'Leary agreed to remove two of the three proposed project areas, reducing the proposal from roughly 40,000 acres to roughly 20,000 acres.
+      original_project_area_acres: 40000
+      revised_project_area_acres: 20000
+      revised_active_development_acres_claimed: 10000
+      revised_preserved_acres_claimed: 10000
+      removed_areas:
+        - name: Locomotive Springs area
+          acres: 19430
+        - name: I-84-adjacent parcel
+          acres: 620
+      remaining_area:
+        name: Hansel Valley parcel
+        acres: 20000
+      developer_position: O'Leary Digital described the revised plan as about 10,000 acres of data center and power-generation facilities plus about 10,000 acres of preserved land.
+    - date: 2026-06-03
+      summary: Project opponents filed suit challenging the rejection of their effort to force a vote on Box Elder County measures that allowed the proposal to proceed.
   reported_scope:
     - USU scientists questioned feasibility of the proposed mega data center in Box Elder County.
     - KSL reported an initial 3 GW phase with possible growth toward 9 GW.
     - The article summarized disputes over cooling water, greenhouse gas impacts, and heat disposal.
     - Project representatives said phase one water use could be about 24 acre-feet with closed-loop cooling, while critics challenged that estimate.
+    - June 2026 reporting said the project footprint was proposed to shrink from about 40,000 acres to about 20,000 acres after public and legislative pressure.
+    - Senate President Stuart Adams requested additional conditions around water treatment, Great Salt Lake dedication, heat capture, independent review, habitat/agricultural preservation, and public transparency.
   power_context:
     initial_power_gw: 3.0
     full_buildout_power_gw: 9.0
@@ -77,15 +183,21 @@ source_confirmed:
     cooling_uncertainty: Heat rejection method remains unresolved in public reporting.
     watershed_risk: Great Salt Lake and connected aquifer systems could face additional stress.
 modeled_assumptions:
-  provenance_note: Fields in this section are scenario-model inputs added for planning and comparison. They are not directly verified by the KSL source unless repeated above in source_confirmed.
-  confidence_percent: 44
+  provenance_note: Fields in this section are scenario-model inputs added for planning and comparison. They are not directly verified by source reporting unless repeated above in source_confirmed.
+  confidence_percent: 51
   project_identity:
-    confidence_percent: 62
+    confidence_percent: 68
     sponsor_type: Hyperscale data center campus with military and cloud-computing framing
     public_interest_frame:
       - National defense compute resilience
       - Regional infrastructure buildout
       - Water-energy stress test for the Great Salt Lake basin
+    footprint_context:
+      original_project_area_acres: 40000
+      revised_project_area_acres: 20000
+      revised_active_development_acres_claimed: 10000
+      revised_preservation_acres_claimed: 10000
+      note: Revised footprint figures are source-confirmed public proposal values, not final permit approvals.
   power_context:
     confidence_percent: 58
     comparison_context:

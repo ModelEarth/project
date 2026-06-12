@@ -41,6 +41,26 @@
     return (val != null && isFinite(val)) ? val + '%' : '—';
   }
 
+  function escapeHtml(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function normalizeHistoryLinks(data) {
+    var links = Array.isArray(data.history_links) ? data.history_links.slice() : [];
+    if (data.historic_link && !links.some(function (link) { return link && link.url === data.historic_link; })) {
+      links.unshift({
+        label: 'History',
+        url: data.historic_link
+      });
+    }
+    return links.filter(function (link) { return link && link.url; });
+  }
+
   function buildProjectAdminHref(eventId) {
     var slug = (eventId || getActiveEventId() || DEFAULT_EVENT).replace(/[^a-zA-Z0-9_-]/g, '');
     return '/project/admin/#event=' + encodeURIComponent(slug);
@@ -285,6 +305,7 @@
     var phaseText   = data.phase_text || '';
     var confidence  = safeGet(data, 'modeled_assumptions', 'confidence_percent');
     var sourceUrl   = data.source_url || '#';
+    var historyLinks = normalizeHistoryLinks(data);
     var phaseLabels = data.phase_labels || [];
     var startYear   = data.start_date ? String(new Date(data.start_date).getUTCFullYear()) : '';
     var endYear     = data.end_date   ? String(new Date(data.end_date).getUTCFullYear())   : '';
@@ -339,18 +360,41 @@
     if (phaseText) html += '<span class="hub-phase-text">' + phaseText + '</span>';
     if (startYear || endYear) html += '<span class="hub-phase-text" style="opacity:.7">' + startYear + '–' + endYear + '</span>';
     if (confidence != null) html += '<span class="hub-confidence-badge">' + fmtPct(confidence) + ' model confidence</span>';
-    html += '<a class="hub-source-link" href="' + sourceUrl + '" target="_blank" rel="noopener"><span class="material-icons" style="font-size:14px;vertical-align:middle">open_in_new</span> Source</a>';
+    html += '<span class="hub-link-group">';
+    html += '<a class="hub-source-link" href="' + escapeHtml(sourceUrl) + '" target="_blank" rel="noopener"><span class="material-icons" style="font-size:14px;vertical-align:middle">open_in_new</span> Source</a>';
+    historyLinks.forEach(function (link, index) {
+      var label = link.label || (historyLinks.length > 1 ? 'History ' + (index + 1) : 'History');
+      html += '<a class="hub-source-link hub-history-link" href="' + escapeHtml(link.url) + '" target="_blank" rel="noopener"><span class="material-icons" style="font-size:14px;vertical-align:middle">history</span> ' + escapeHtml(label) + '</a>';
+    });
+    html += '</span>';
     html += '</div>';
 
     // Summary cards
     var ae = getAe(data);
     var fullScenLabel = scenList.length ? scenList[scenList.length - 1].label : 'full buildout';
     var baseScenLabel = scenList.length ? scenList[0].label : 'baseline';
+
+    // Total revenue over the full project duration (annual range × years covered)
+    var projectYears = 0;
+    if (data.start_date && data.end_date) {
+      var _sd = new Date(data.start_date), _ed = new Date(data.end_date);
+      if (isFinite(_sd) && isFinite(_ed) && _ed > _sd)
+        projectYears = (_ed - _sd) / (365.25 * 24 * 3600 * 1000);
+    }
+    var annualRev = safeGet(ae, 'studio_section', 'scenario_parameters', 'annual_water_revenue_range_usd') || [];
+    var revMin = (annualRev[0] || 0) * projectYears;
+    var revMax = (annualRev[1] || 0) * projectYears;
+
+    // Combined affected-persons display value + population-served sub-value
+    var affectedStr = displaced ? (displaced >= 1e6 ? (displaced / 1e6).toFixed(0) + 'M' : fmtK(displaced)) : '—';
+    var popServedStr = popServed ? (popServed >= 1e6 ? (popServed / 1e6).toFixed(2) + 'M' : fmtK(popServed)) : '—';
+    var popInfoIcon = '<span class="material-icons hub-info-icon" title="Population served at full buildout. Click to view scenario population details below." style="font-size:14px;cursor:pointer;color:var(--accent-2);vertical-align:middle;margin-left:4px;" onclick="var el=document.getElementById(\'hub-population-section\');if(el)el.scrollIntoView({behavior:\'smooth\',block:\'center\'});">info</span>';
+
     html += '<div class="panel-summary-grid hub-totals">';
     html += '<div class="summary-card"><span class="label">Total cost range</span><span class="value">' + fmtM(totalMin) + ' – ' + fmtM(totalMax) + '</span><span class="detail">Concept to ' + fullScenLabel + '</span></div>';
+    html += '<div class="summary-card"><span class="label">Total revenue</span><span class="value">' + (revMax ? fmtM(revMin) + ' – ' + fmtM(revMax) : '—') + '</span><span class="detail">' + (projectYears ? 'Over ' + projectYears.toFixed(1) + ' yrs (' + startYear + '–' + endYear + ')' : 'Full project duration') + '</span></div>';
     html += '<div class="summary-card"><span class="label">Water output range</span><span class="value">' + fmtK(waterMin) + ' – ' + fmtK(waterMax) + (waterMax >= 1 ? ' m³/day' : '') + '</span><span class="detail">' + baseScenLabel + ' → ' + fullScenLabel + '</span></div>';
-    html += '<div class="summary-card"><span class="label">Affected persons</span><span class="value">' + (displaced ? (displaced >= 1e6 ? (displaced / 1e6).toFixed(0) + 'M' : fmtK(displaced)) : '—') + '</span><span class="detail">From source-confirmed water context</span></div>';
-    html += '<div class="summary-card"><span class="label">Population served (full)</span><span class="value">' + (popServed ? (popServed >= 1e6 ? (popServed / 1e6).toFixed(2) + 'M' : fmtK(popServed)) : '—') + '</span><span class="detail">' + fullScenLabel + ' scenario</span></div>';
+    html += '<div class="summary-card"><span class="label">Affected persons' + popInfoIcon + '</span><span class="value">' + affectedStr + '</span><span class="detail">Population served: <strong>' + popServedStr + '</strong> · ' + fullScenLabel + '</span></div>';
     html += '</div>';
 
     html += phaseBarHtml;
@@ -707,8 +751,9 @@
     if (studio) {
       var sp = studio.scenario_parameters || {};
       parts.push([
-        '<div class="hub-banner-row"><strong>Scenario Parameters</strong>' + chipPct(studio.confidence_percent) + '</div>',
+        '<div class="hub-banner-row" id="hub-population-section" style="scroll-margin-top:96px;"><strong>Scenario Parameters</strong>' + chipPct(studio.confidence_percent) + '</div>',
         '<div class="hub-banner-row">',
+        stat('Population served', fmtK((sp.population_served_range || [])[0]) + ' – ' + fmtK((sp.population_served_range || [0, 0])[1])),
         stat('Sponsor value/yr', fmtM((sp.sponsor_annual_value_range_usd || [])[0]) + ' – ' + fmtM((sp.sponsor_annual_value_range_usd || [0, 0])[1])),
         stat('Households', (((sp.households_supported_range || [])[0] || 0) / 1e3 | 0) + 'K – ' + ((((sp.households_supported_range || [0, 0])[1]) || 0) / 1e3 | 0) + 'K'),
         stat('Energy portfolio', ((((sp.energy_portfolio_mwh_year_range || [])[0] || 0) / 1e6).toFixed(1)) + 'M – ' + (((sp.energy_portfolio_mwh_year_range || [0, 0])[1] || 0) / 1e6).toFixed(0) + 'M MWh/yr'),

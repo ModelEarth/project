@@ -35,11 +35,19 @@
   font-style: italic;
 }
 
+.hub-link-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
 .hub-source-link {
   font-size: 0.78rem;
   color: var(--accent-1);
   text-decoration: none;
-  margin-left: auto;
+  white-space: nowrap;
 }
 
 .hub-source-link:hover { text-decoration: underline; }
