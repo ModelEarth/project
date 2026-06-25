@@ -7703,7 +7703,6 @@
                         + 'NPV\u00a0' + formatCurrency(r.npv);
                     fb.style.display = 'block';
                     clearTimeout(fb._hideTimer);
-                    fb._hideTimer = setTimeout(function() { fb.style.display = 'none'; }, 5000);
                 }
             });
             if (exportBtn) exportBtn.addEventListener('click', exportToCSV);
