@@ -25,6 +25,11 @@
       "id": "georgia-mountain-water",
       "label": "Georgia Mountain Water Revival",
       "specFile": "georgia-mountain-water.yaml"
+    },
+    {
+      "id": "deadsea",
+      "label": "Dead Sea Rebirth",
+      "specFile": "deadsea.yaml"
     }
   ]
 }
