@@ -209,6 +209,17 @@
   function getScen(data){ return safeGet(data, 'modeled_assumptions', 'energy_scenarios') || {}; }
   function getRisk(data){ return safeGet(data, 'risk_matrix', 'most_at_risk') || {}; }
 
+  // Whether the YAML actually has any of the source data #topinfo is built from
+  // (cost_ranges, energy_scenarios, abundance_engine_sections). Some events
+  // (e.g. concept-only events with no modeled numbers) have none of these, so
+  // the panel would otherwise render as an empty shell of placeholder dashes.
+  function hasHubData(data) {
+    var cr = safeGet(data, 'cost_ranges') || {};
+    var scen = getScen(data);
+    var ae = getAe(data);
+    return Boolean(Object.keys(cr).length || Object.keys(scen).length || Object.keys(ae).length);
+  }
+
   // ── Generic scenario helpers ───────────────────────────────────────────────
   // Returns [{key, label, data}] for all scenarios in energy_scenarios, in order
   function getScenarioList(sc) {
@@ -390,26 +401,46 @@
     var popServedStr = popServed ? (popServed >= 1e6 ? (popServed / 1e6).toFixed(2) + 'M' : fmtK(popServed)) : '—';
     var popInfoIcon = '<span class="material-icons hub-info-icon" title="Population served at full buildout. Click to view scenario population details below." style="font-size:14px;cursor:pointer;color:var(--accent-2);vertical-align:middle;margin-left:4px;" onclick="var el=document.getElementById(\'hub-population-section\');if(el)el.scrollIntoView({behavior:\'smooth\',block:\'center\'});">info</span>';
 
-    html += '<div class="panel-summary-grid hub-totals">';
-    html += '<div class="summary-card"><span class="label">Total cost range</span><span class="value">' + fmtM(totalMin) + ' – ' + fmtM(totalMax) + '</span><span class="detail">Concept to ' + fullScenLabel + '</span></div>';
-    html += '<div class="summary-card"><span class="label">Total revenue</span><span class="value">' + (revMax ? fmtM(revMin) + ' – ' + fmtM(revMax) : '—') + '</span><span class="detail">' + (projectYears ? 'Over ' + projectYears.toFixed(1) + ' yrs (' + startYear + '–' + endYear + ')' : 'Full project duration') + '</span></div>';
-    html += '<div class="summary-card"><span class="label">Water output range</span><span class="value">' + fmtK(waterMin) + ' – ' + fmtK(waterMax) + (waterMax >= 1 ? ' m³/day' : '') + '</span><span class="detail">' + baseScenLabel + ' → ' + fullScenLabel + '</span></div>';
-    html += '<div class="summary-card"><span class="label">Affected persons' + popInfoIcon + '</span><span class="value">' + affectedStr + '</span><span class="detail">Population served: <strong>' + popServedStr + '</strong> · ' + fullScenLabel + '</span></div>';
-    html += '</div>';
+    // Only show each summary card when its underlying YAML data is present
+    var hasTotalCost = Boolean(totalMin || totalMax);
+    var hasRevenue   = annualRev.length > 0;
+    var hasWater     = Boolean(waterMin || waterMax);
+    var hasAffected  = Boolean(displaced || popServed);
+
+    var cardsHtml = '';
+    if (hasTotalCost) cardsHtml += '<div class="summary-card"><span class="label">Total cost range</span><span class="value">' + fmtM(totalMin) + ' – ' + fmtM(totalMax) + '</span><span class="detail">Concept to ' + fullScenLabel + '</span></div>';
+    if (hasRevenue)   cardsHtml += '<div class="summary-card"><span class="label">Total revenue</span><span class="value">' + (revMax ? fmtM(revMin) + ' – ' + fmtM(revMax) : '—') + '</span><span class="detail">' + (projectYears ? 'Over ' + projectYears.toFixed(1) + ' yrs (' + startYear + '–' + endYear + ')' : 'Full project duration') + '</span></div>';
+    if (hasWater)     cardsHtml += '<div class="summary-card"><span class="label">Water output range</span><span class="value">' + fmtK(waterMin) + ' – ' + fmtK(waterMax) + (waterMax >= 1 ? ' m³/day' : '') + '</span><span class="detail">' + baseScenLabel + ' → ' + fullScenLabel + '</span></div>';
+    if (hasAffected)  cardsHtml += '<div class="summary-card"><span class="label">Affected persons' + popInfoIcon + '</span><span class="value">' + affectedStr + '</span><span class="detail">Population served: <strong>' + popServedStr + '</strong> · ' + fullScenLabel + '</span></div>';
+    if (cardsHtml) html += '<div class="panel-summary-grid hub-totals">' + cardsHtml + '</div>';
 
     html += phaseBarHtml;
 
-    // Scenario pills
-    html += '<div class="hub-scenario-pills"><span class="hub-scenario-label">Scenario confidence:</span>' + pillsHtml + '</div>';
+    // Scenario pills — only when there are scenarios to show
+    if (scenarios.length) {
+      html += '<div class="hub-scenario-pills"><span class="hub-scenario-label">Scenario confidence:</span>' + pillsHtml + '</div>';
+    }
 
-    // Chart containers
-    html += '<div class="hub-charts-row">';
-    html += '<div class="hub-chart-wrap"><div class="hub-chart-label" style="text-align:center">Cost range by phase (USD)</div><div id="hubCostChart" style="height:220px;"></div></div>';
-    html += '</div>';
-    html += '<div class="hub-charts-row">';
-    html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Generation mix by scenario</div><div id="hubScenarioChart" style="height:220px;"></div></div>';
-    html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Risk dimension confidence</div><div id="hubRiskChart" style="height:220px;"></div></div>';
-    html += '</div>';
+    // Chart containers — only when the YAML has the data each chart needs
+    var cr = safeGet(data, 'cost_ranges') || {};
+    var hasCostChart = Object.keys(cr).some(function (k) { return /^phase_\d+/.test(k) && Array.isArray(cr[k]); });
+    var hasMixChart = scenList.some(function (s) {
+      var mix = safeGet(s.data, 'generation_mix_percent');
+      return mix && Object.keys(mix).some(function (k) { return mix[k]; });
+    });
+    var hasRiskChart = Object.keys(getRisk(data)).length > 0;
+
+    if (hasCostChart) {
+      html += '<div class="hub-charts-row">';
+      html += '<div class="hub-chart-wrap"><div class="hub-chart-label" style="text-align:center">Cost range by phase (USD)</div><div id="hubCostChart" style="height:220px;"></div></div>';
+      html += '</div>';
+    }
+    if (hasMixChart || hasRiskChart) {
+      html += '<div class="hub-charts-row">';
+      if (hasMixChart) html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Generation mix by scenario</div><div id="hubScenarioChart" style="height:220px;"></div></div>';
+      if (hasRiskChart) html += '<div class="hub-chart-wrap"><div class="hub-chart-label">Risk dimension confidence</div><div id="hubRiskChart" style="height:220px;"></div></div>';
+      html += '</div>';
+    }
 
     // Reset row
     html += '<div class="hub-reset-row" id="hubResetRow" hidden><button type="button" class="hub-reset-btn" id="hubResetBtn"><span class="material-icons">restart_alt</span>Reset calculator to YAML defaults</button></div>';
@@ -907,11 +938,15 @@
     if (anchor) {
       var existing = document.getElementById('topinfo');
       if (existing) existing.remove();
-      anchor.insertAdjacentHTML('afterend', buildHubMarkup(data));
-      renderHubCharts(data);
-      bindHubResetButton(data, eventId);
-      bindFieldChangeListeners(data, eventId);
-      updateResetButtonVisibility(eventId);
+      // Skip the panel entirely for events with none of the source data it's
+      // built from (e.g. concept-only events with no modeled numbers yet).
+      if (hasHubData(data)) {
+        anchor.insertAdjacentHTML('afterend', buildHubMarkup(data));
+        renderHubCharts(data);
+        bindHubResetButton(data, eventId);
+        bindFieldChangeListeners(data, eventId);
+        updateResetButtonVisibility(eventId);
+      }
     }
     renderProjectOverview(data, eventId);
     renderAllSectionBanners(data, eventId);
