@@ -39,3 +39,165 @@ route:
   - date: 2035-12-31T23:59:59Z
     body: Earth
     offset_km: [0, 0, 0]
+source_confirmed:
+  primary_source: Wikipedia (Dead Sea; Red Sea-Dead Sea Water Conveyance; EcoPeace Middle East); CNN Dead Sea sinkholes report; World Bank Palestinian tourism estimate
+  source_url: https://en.wikipedia.org/wiki/Dead_Sea
+  published_date: 2025-09
+  scenario_name: Dead Sea Basin Stabilization - Shared Water, Tourism and Agriculture Revival
+  corridor_parties: [ICL Group / Dead Sea Works, Israel Water Authority, Jordan Ministry of Water and Irrigation, EcoPeace Middle East, Dead Sea hotel associations, World Bank]
+  status: 'Concept - the 2005-2021 Red Sea-Dead Sea Conveyance was shelved by Jordan in 2021 citing lack of Israeli interest; smaller-scale cooperation (tourism levies, agricultural efficiency, EcoPeace-style pilots) remains an open path as of 2026'
+  reported_scope:
+    - ICL Group's Dead Sea Works withdraws an estimated 160 million cubic meters of water per year for mineral extraction
+    - Dead Sea surface has shrunk roughly 33% since the 1960s, declining over 1 meter per year
+    - Jordan River, historically the primary inflow, now contributes only about one-sixth of its historical share due to Israel's National Water Carrier (1964) and regional irrigation
+    - Sinkholes from subsurface salt dissolution are widespread along the western shore near Ein Gedi, closing many beach resorts
+    - Israel's 15 Dead Sea hotels generated $291 million in revenue in 2012
+    - Jordan operates 9 international hotel franchises near the Dead Sea with 2,800 rooms
+    - World Bank estimates Palestinian Dead Sea tourism could generate $290 million/year and 2,900 jobs, currently unrealized due to permit restrictions
+    - A 2009 EcoPeace-backed pilot proposed a 180km Red Sea-to-Dead Sea pipeline moving 200 million cubic meters/year, half desalinated for Jordan and half returned to the Dead Sea
+    - The full Red Sea-Dead Sea Conveyance was estimated at $2.5 billion for its first phase and $2-10+ billion overall before being shelved in 2021
+  water_context:
+    primary_watershed: Dead Sea Basin (Jordan River terminal lake)
+    annual_extraction_icl_m3: 160000000
+    surface_area_decline_percent_since_1960s: 33
+    decline_rate_m_per_year: 1.0
+    jordan_river_inflow_share_of_historical: one-sixth
+  power_context:
+    conveyance_pilot_m3_year: 200000000
+    conveyance_pilot_to_dead_sea_m3_year: 100000000
+    conveyance_pilot_pipeline_km: 180
+modeled_assumptions:
+  confidence_percent: 32
+  project_identity:
+    confidence_percent: 45
+    sponsor_type: Transboundary water-tourism-agriculture stabilization partnership (Israel-Jordan-Palestine, NGO-facilitated)
+    public_interest_frame:
+      - Protects over $580M in combined existing and unrealized annual Dead Sea tourism revenue
+      - Unlocks $290M/year and 2,900 jobs in blocked Palestinian tourism development
+      - Reduces sinkhole risk that has already forced closure of multiple beach resorts
+      - Builds on EcoPeace Middle East's existing Israel-Jordan-Palestine water-energy cooperation model
+  water_context:
+    confidence_percent: 40
+    key_uncertainties:
+      - Political willingness to revisit conveyance cooperation after Jordan shelved the project in 2021
+      - Whether ICL Group would accept extraction limits given the economic importance of mineral exports
+      - Climate change compounding evaporation and reducing regional rainfall further
+      - Durability of cross-border cooperation given regional political volatility
+  energy_scenarios:
+    confidence_percent: 30
+    baseline_status_quo_case:
+      confidence_percent: 55
+      name: Status quo - unchecked extraction, tourism exposed to sinkhole risk
+      water_output_m3_day: 0
+      revenue_mix_percent:
+        mineral_extraction_revenue_only: 100
+      attributes:
+        water_security: very_low
+        tourism_resilience: low
+        sinkhole_risk: high
+    tourism_agriculture_levy_case:
+      confidence_percent: 35
+      name: Tourism conservation levy and agricultural efficiency transition
+      timeline: 2026-2031
+      water_output_m3_day: 15000
+      water_infrastructure:
+        resort_conservation_levy_hotels_participating: 24
+        palestinian_tourism_permits_status: pending review
+        agricultural_efficiency_hectares_upgraded: 8000
+      revenue_mix_percent:
+        mineral_extraction: 55
+        tourism_conservation_levy: 25
+        agricultural_water_savings_value: 20
+      attributes:
+        water_security: medium
+        tourism_resilience: medium
+        sinkhole_risk: medium
+    full_basin_stabilization_case:
+      confidence_percent: 15
+      name: Full basin stabilization - revived conveyance pilot plus tourism and agriculture integration
+      timeline_realistic: 2031-2035
+      water_output_m3_day: 274000
+      water_infrastructure:
+        pipeline_km: 180
+        conveyance_source: Red Sea
+        palestinian_tourism_jobs_unlocked: 2900
+        palestinian_tourism_revenue_usd_annual: 290000000
+      revenue_mix_percent:
+        mineral_extraction: 30
+        tourism_full_basin: 35
+        conveyance_desalination_sales: 25
+        agricultural_water_savings_value: 10
+      attributes:
+        water_security: high
+        tourism_resilience: high
+        sinkhole_risk: low
+abundance_engine_sections:
+  contributors_section:
+    confidence_percent: 40
+    title: Capital Participation Outlook
+    planning_share_defaults_percent:
+      government: 45
+      nonprofit: 20
+      corporate: 35
+    named_participants:
+      - name: ICL Group (Dead Sea Works)
+        role: Primary mineral extractor; potential extraction-reduction and conservation levy partner
+        country: Israel
+        confidence: high
+        funding_type: Corporate sustainability commitments; potential extraction fee reinvestment
+      - name: Israel Water Authority
+        role: National Water Carrier management; water allocation policy
+        country: Israel
+        confidence: high
+        funding_type: National water infrastructure budget
+      - name: Jordan Ministry of Water and Irrigation
+        role: Jordan Valley irrigation and water allocation
+        country: Jordan
+        confidence: high
+        funding_type: National water infrastructure budget; World Bank loans
+      - name: EcoPeace Middle East
+        role: Regional water-energy cooperation facilitation; Green Blue Deal advocacy
+        country: Regional (Israel/Jordan/Palestine)
+        confidence: medium
+        funding_type: International philanthropic and government grants
+      - name: Dead Sea hotel associations
+        role: Tourism conservation levy administration
+        country: Israel/Jordan
+        confidence: medium
+        funding_type: Voluntary resort conservation fees
+      - name: World Bank
+        role: Feasibility studies; potential Palestinian tourism development financing
+        country: International
+        confidence: medium
+        funding_type: Development loans and grants
+  benefits_section:
+    confidence_percent: 35
+    title: Corridor Benefits Calculator
+    parameters:
+      existing_israeli_tourism_revenue_usd_2012: 291000000
+      palestinian_potential_tourism_revenue_usd_annual: 290000000
+      palestinian_potential_tourism_jobs: 2900
+      sinkhole_avoided_resort_relocation_cost_usd_range: [10000000, 50000000]
+      agricultural_water_savings_m3_year_range: [5000000, 25000000]
+  deployment_section:
+    confidence_percent: 30
+    title: Local Deployment
+    parameters:
+      government_deployment_share_percent_range: [40, 65]
+      nonprofit_deployment_share_percent_range: [10, 25]
+      corporate_deployment_share_percent_range: [20, 40]
+    location:
+      region: Dead Sea Basin
+      countries: [Israel, Jordan, Palestine]
+      key_sites: [Ein Gedi, Ein Bokek, Sweimeh, Dead Sea Works southern basin]
+      primary_watershed: Jordan River terminal basin
+cost_ranges:
+  confidence_percent: 25
+  phase_1_assessment_and_stakeholder_alignment_usd: [2000000, 8000000]
+  phase_2_extraction_reduction_negotiation_usd: [5000000, 20000000]
+  phase_3_tourism_conservation_levy_program_usd: [3000000, 12000000]
+  phase_4_agricultural_efficiency_upgrades_usd: [40000000, 150000000]
+  phase_5_sinkhole_monitoring_and_mitigation_usd: [15000000, 60000000]
+  phase_6_conveyance_pilot_pipeline_usd: [2500000000, 10000000000]
+  total_scenario_range_usd: [2565000000, 10250000000]
+  concept_note: '$2.57B minimum for basin-stabilization measures without a conveyance pipeline (extraction negotiation, tourism levy, agricultural efficiency, sinkhole mitigation); up to $10.25B+ if a revived Red Sea-Dead Sea conveyance pilot is included, consistent with the World Bank-era cost range before the project was shelved in 2021.'
