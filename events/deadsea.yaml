@@ -17,6 +17,10 @@ phase_labels: [Assessment, Extraction Reduction, Sinkhole Mitigation, Freshwater
 phase_text: Water-Basin Rehabilitation Concept
 concept_note: 'Concept event based on the Dead Sea decline scenario: ICL Group, through its Dead Sea Works subsidiary, withdraws an estimated 160 million cubic meters of water per year from the Dead Sea for mineral extraction, contributing (alongside the Jordan River''s National Water Carrier diversion) to a decline of over 1 meter per year and a roughly 33% shrinkage in surface area since the 1960s. As water recedes, freshwater dissolving subsurface salt layers has created widespread sinkholes along the western shore, especially near Ein Gedi, closing many beach resorts. ICL states it is innovating toward more sustainable water management strategies, and this event tracks a concept path toward reduced extraction, sinkhole mitigation, and basin stabilization.'
 source_note: 'CNN: "In the lowest place on Earth, a sea is rapidly dying" (cnn.com/climate/dead-sea-shrinking-sinkholes); background from Wikipedia "Dead Sea" article.'
+preview_image_url: events/img/deadsea-preview-thumb.jpg
+preview_link_url: events/deadsea-transformation.html
+preview_label: View Transformation
+preview_sub: Drag to compare the 2026 decline scenario against the 2035 basin-stabilization concept
 initial_camera:
   position: [65000, 30000, 118000]
   target: [0, 0, 0]

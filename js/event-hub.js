@@ -380,6 +380,21 @@
     html += '</span>';
     html += '</div>';
 
+    // Preview card — only renders when the YAML opts in with both an image and a link
+    var previewImage = data.preview_image_url;
+    var previewUrl   = data.preview_link_url;
+    if (previewImage && previewUrl) {
+      var previewLabel = data.preview_label || 'Preview';
+      var previewSub   = data.preview_sub || '';
+      html += '<a class="hub-preview-card" href="' + escapeHtml(previewUrl) + '">';
+      html += '<img class="hub-preview-thumb" src="' + escapeHtml(previewImage) + '" alt="" loading="lazy" />';
+      html += '<span class="hub-preview-text"><span class="hub-preview-title">' + escapeHtml(previewLabel) + '</span>';
+      if (previewSub) html += '<span class="hub-preview-sub">' + escapeHtml(previewSub) + '</span>';
+      html += '</span>';
+      html += '<span class="material-icons hub-preview-arrow">arrow_forward</span>';
+      html += '</a>';
+    }
+
     // Summary cards
     var ae = getAe(data);
     var fullScenLabel = scenList.length ? scenList[scenList.length - 1].label : 'full buildout';

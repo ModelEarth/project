@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dead Sea Rebirth — Basin Transformation</title>
+<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+<style>
+:root {
+  --bg-1: #eef5f4;
+  --bg-2: #fcf7ef;
+  --ink-1: #132a2b;
+  --ink-2: #456061;
+  --panel: rgba(255, 255, 255, 0.84);
+  --line: rgba(19, 42, 43, 0.1);
+  --hero-1: #0d5c63;
+  --hero-2: #ea7b3c;
+  --accent-1: #0f7173;
+  --accent-2: #f2c14e;
+  --accent-3: #ef8354;
+  --card-shadow: 0 22px 50px rgba(16, 35, 39, 0.11);
+  --soft-shadow: 0 14px 28px rgba(16, 35, 39, 0.08);
+  --success: #0f9d58;
+  --warning: #b7791f;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-1: #0f1e1f; --bg-2: #17211f; --ink-1: #eaf3f1; --ink-2: #9fb7b4;
+    --panel: rgba(255, 255, 255, 0.06); --line: rgba(255, 255, 255, 0.12);
+    --hero-1: #5fd0c8; --hero-2: #f0a065; --accent-1: #5fd0c8; --accent-2: #f2c14e; --accent-3: #f0a065;
+    --card-shadow: 0 22px 50px rgba(0, 0, 0, 0.45); --soft-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+    --success: #3ddc84; --warning: #f2c14e;
+  }
+}
+:root[data-theme="dark"] {
+  --bg-1: #0f1e1f; --bg-2: #17211f; --ink-1: #eaf3f1; --ink-2: #9fb7b4;
+  --panel: rgba(255, 255, 255, 0.06); --line: rgba(255, 255, 255, 0.12);
+  --hero-1: #5fd0c8; --hero-2: #f0a065; --accent-1: #5fd0c8; --accent-2: #f2c14e; --accent-3: #f0a065;
+  --card-shadow: 0 22px 50px rgba(0, 0, 0, 0.45); --soft-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+  --success: #3ddc84; --warning: #f2c14e;
+}
+:root[data-theme="light"] {
+  --bg-1: #eef5f4; --bg-2: #fcf7ef; --ink-1: #132a2b; --ink-2: #456061;
+  --panel: rgba(255, 255, 255, 0.84); --line: rgba(19, 42, 43, 0.1);
+  --hero-1: #0d5c63; --hero-2: #ea7b3c; --accent-1: #0f7173; --accent-2: #f2c14e; --accent-3: #ef8354;
+  --card-shadow: 0 22px 50px rgba(16, 35, 39, 0.11); --soft-shadow: 0 14px 28px rgba(16, 35, 39, 0.08);
+  --success: #0f9d58; --warning: #b7791f;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink-1);
+  font-family: -apple-system, "SF Pro Display", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.92), transparent 32%),
+    radial-gradient(circle at top right, rgba(242, 193, 78, 0.18), transparent 26%),
+    linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 48%, var(--bg-1) 100%);
+  overflow-x: hidden;
+}
+.page { max-width: 1040px; margin: 0 auto; padding: 28px 20px 56px; }
+
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 18px;
+  font-size: 13px; font-weight: 600; color: var(--accent-1); text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
+
+.hub-identity-bar {
+  display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap;
+  gap: 8px 20px; margin-bottom: 18px;
+}
+.mission { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.mission h1 {
+  margin: 0; font-size: clamp(22px, 3.4vw, 30px); font-weight: 800; letter-spacing: -0.01em;
+  text-wrap: balance; color: var(--hero-1);
+}
+.mission .sub { font-size: 14px; font-style: italic; color: var(--ink-2); }
+
+.hub-confidence-badge {
+  background: rgba(183, 121, 31, 0.12); color: var(--warning); border-radius: 999px;
+  padding: 4px 12px; font-size: 0.75rem; font-weight: 700; white-space: nowrap;
+}
+
+.slider {
+  position: relative; width: 100%; aspect-ratio: 2000 / 1125; border-radius: 20px; overflow: hidden;
+  box-shadow: var(--card-shadow); cursor: ew-resize; touch-action: none; user-select: none;
+  border: 1px solid var(--line); background: var(--panel);
+}
+.slider img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; -webkit-user-drag: none; }
+.slider .after-wrap { position: absolute; inset: 0; overflow: hidden; clip-path: inset(0 0 0 var(--pos, 50%)); }
+
+.tag {
+  position: absolute; top: 16px; display: flex; flex-direction: column; gap: 2px; padding: 8px 12px;
+  border-radius: 10px; background: rgba(13, 30, 31, 0.6); backdrop-filter: blur(6px); color: #fff;
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.tag .yr { font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace; font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.72); letter-spacing: 0.03em; }
+.tag.before { left: 16px; }
+.tag.after { right: 16px; text-align: right; align-items: flex-end; }
+
+.handle { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 0; pointer-events: none; }
+.handle .line { position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: #fff; box-shadow: 0 0 0 1px rgba(13,30,31,0.25); }
+.handle .grip {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px;
+  border-radius: 999px; background: #fff; box-shadow: var(--card-shadow); display: flex; align-items: center;
+  justify-content: center; gap: 4px; pointer-events: none;
+}
+.grip svg { width: 12px; height: 12px; }
+
+.stats {
+  margin-top: 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;
+}
+.stat {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--soft-shadow);
+  padding: 16px 18px; display: flex; flex-direction: column; gap: 6px;
+}
+.stat .label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-2); }
+.stat .value { font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace; font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink-1); }
+.stat .value.hero { color: var(--hero-1); }
+.stat .value.accent { color: var(--accent-3); }
+.stat .hint { font-size: 12px; color: var(--ink-2); }
+
+.caption {
+  margin-top: 18px; font-size: 13px; line-height: 1.65; color: var(--ink-2); max-width: 68ch;
+}
+.caption a { color: var(--accent-1); font-weight: 600; }
+
+@media (max-width: 560px) {
+  .grip { width: 38px; height: 38px; }
+  .tag { font-size: 10px; padding: 6px 9px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back-link" href="../#event=deadsea">&larr; Back to Dead Sea Rebirth</a>
+
+  <div class="hub-identity-bar">
+    <div class="mission">
+      <h1>Dead Sea Rebirth</h1>
+      <span class="sub">Water-Basin Rehabilitation Concept · 2026&ndash;2035</span>
+    </div>
+    <span class="hub-confidence-badge">32% model confidence</span>
+  </div>
+
+  <div class="slider" id="slider">
+    <img src="img/deadsea-before.jpg" alt="Dead Sea shoreline in 2026, showing sinkholes, cracked salt flats, and an abandoned resort" />
+    <div class="after-wrap" id="afterWrap">
+      <img src="img/deadsea-after.jpg" alt="Dead Sea shoreline in 2035, showing a restored waterline, a desalination pipeline, and wellness terraces" />
+    </div>
+    <div class="tag before" id="tagBefore"><span>Status quo</span><span class="yr">2026 · 55% confidence</span></div>
+    <div class="tag after" id="tagAfter"><span>Full basin stabilization</span><span class="yr">2035 · 15% confidence</span></div>
+    <div class="handle" id="handle">
+      <div class="line"></div>
+      <div class="grip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#132a2b" stroke-width="2.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#132a2b" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <span class="label">Total cost range</span>
+      <span class="value">$2.56B&ndash;$10.3B</span>
+      <span class="hint">Concept to full basin stabilization</span>
+    </div>
+    <div class="stat">
+      <span class="label">Water output range</span>
+      <span class="value hero">0&ndash;274K m&sup3;/day</span>
+      <span class="hint">Status quo &rarr; full basin stabilization</span>
+    </div>
+    <div class="stat">
+      <span class="label">Tourism at stake</span>
+      <span class="value accent">$291M&ndash;$581M/yr</span>
+      <span class="hint">Israeli 2012 revenue + unrealized Palestinian potential</span>
+    </div>
+  </div>
+
+  <p class="caption">
+    Drag the divider to compare the Dead Sea's western shore near Ein Gedi under the status-quo decline scenario against the full basin-stabilization concept &mdash; a revived waterline, a desalination pipeline, and terraced wellness retreats. Generated from the scenario data in <a href="deadsea.yaml">deadsea.yaml</a>.
+  </p>
+</div>
+
+<script>
+(function () {
+  var slider = document.getElementById('slider');
+  var afterWrap = document.getElementById('afterWrap');
+  var handle = document.getElementById('handle');
+  var tagBefore = document.getElementById('tagBefore');
+  var tagAfter = document.getElementById('tagAfter');
+  var dragging = false;
+
+  function setPos(pct) {
+    pct = Math.max(0, Math.min(100, pct));
+    var val = pct + '%';
+    afterWrap.style.setProperty('--pos', val);
+    handle.style.setProperty('--pos', val);
+    tagBefore.style.opacity = pct < 10 ? 0 : 1;
+    tagAfter.style.opacity = pct > 90 ? 0 : 1;
+  }
+
+  function pctFromEvent(clientX) {
+    var rect = slider.getBoundingClientRect();
+    return ((clientX - rect.left) / rect.width) * 100;
+  }
+
+  function onDown(e) {
+    dragging = true;
+    var x = e.touches ? e.touches[0].clientX : e.clientX;
+    setPos(pctFromEvent(x));
+  }
+  function onMove(e) {
+    if (!dragging) return;
+    var x = e.touches ? e.touches[0].clientX : e.clientX;
+    setPos(pctFromEvent(x));
+    e.preventDefault();
+  }
+  function onUp() { dragging = false; }
+
+  slider.addEventListener('mousedown', onDown);
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onUp);
+  slider.addEventListener('touchstart', onDown, { passive: true });
+  window.addEventListener('touchmove', onMove, { passive: false });
+  window.addEventListener('touchend', onUp);
+
+  handle.setAttribute('tabindex', '0');
+  handle.style.pointerEvents = 'auto';
+  handle.setAttribute('role', 'slider');
+  handle.setAttribute('aria-label', 'Before/after comparison position');
+  handle.setAttribute('aria-valuemin', '0');
+  handle.setAttribute('aria-valuemax', '100');
+  handle.addEventListener('keydown', function (e) {
+    var current = parseFloat(getComputedStyle(afterWrap).getPropertyValue('--pos')) || 50;
+    if (e.key === 'ArrowLeft') { setPos(current - 4); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { setPos(current + 4); e.preventDefault(); }
+  });
+
+  setPos(50);
+})();
+</script>
+</body>
+</html>

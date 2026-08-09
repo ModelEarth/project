@@ -62,6 +62,60 @@
   white-space: nowrap;
 }
 
+/* ── Preview card (optional, opt-in via preview_image_url + preview_link_url) ── */
+.hub-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 24px 14px;
+  padding: 10px 16px 10px 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--soft-shadow);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.hub-preview-card:hover {
+  box-shadow: var(--card-shadow);
+  transform: translateY(-1px);
+}
+
+.hub-preview-thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+
+.hub-preview-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.hub-preview-title {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--hero-1);
+}
+
+.hub-preview-sub {
+  font-size: 0.78rem;
+  color: var(--ink-2);
+}
+
+.hub-preview-arrow {
+  margin-left: auto;
+  color: var(--accent-1);
+  font-size: 20px;
+  flex: 0 0 auto;
+}
+
 /* ── Summary cards (reuses existing .panel-summary-grid/.summary-card) ── */
 .hub-totals {
   padding: 12px 24px 4px;
