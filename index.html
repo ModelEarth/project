@@ -203,7 +203,7 @@
             border: 1px solid rgba(19, 42, 43, 0.08);
             box-shadow: 0 20px 36px rgba(9, 30, 32, 0.18);
             backdrop-filter: blur(18px);
-            z-index: 10001;
+            z-index: 10100;
             align-items: center;
             justify-content: space-between;
             gap: 8px;
@@ -6893,6 +6893,10 @@
             const isNarrow = layoutWidth <= MOBILE_LEFT_RAIL_BREAKPOINT;
             const isAutoCompact = layoutWidth <= AUTO_COMPACT_LEFT_RAIL_BREAKPOINT && layoutWidth > MOBILE_LEFT_RAIL_BREAKPOINT;
             document.body.classList.toggle('mobile-nav-mode', isNarrow);
+            const sideNavFooter = document.getElementById('side-nav-footer');
+            if (sideNavFooter) {
+                sideNavFooter.classList.toggle('side-nav-footer-bottom', isNarrow);
+            }
             if (rail) {
                 rail.classList.toggle('auto-compact', isAutoCompact && !isNarrow);
             }
@@ -7445,6 +7449,10 @@
                 });
                 mobileRailBarObserver.observe(mobileRailBar);
             }
+
+            waitForElm('#side-nav-footer').then(function() {
+                updateMobileNavMode();
+            });
 
             window.addEventListener('scroll', function() {
                 updateLeftRailActive();
