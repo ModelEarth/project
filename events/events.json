@@ -2,11 +2,6 @@
   "defaultEventId": "",
   "events": [
     {
-      "id": "lunar",
-      "label": "Lunar Base Nuclear",
-      "specFile": "lunar.yaml"
-    },
-    {
       "id": "vietnam-coast",
       "label": "Vietnam Coastal Desalination",
       "specFile": "vietnam-coast.yaml"
@@ -30,6 +25,11 @@
       "id": "deadsea",
       "label": "Dead Sea Rebirth",
       "specFile": "deadsea.yaml"
+    },
+    {
+      "id": "lunar",
+      "label": "Lunar Base Nuclear",
+      "specFile": "lunar.yaml"
     }
   ]
 }
