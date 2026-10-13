@@ -4249,7 +4249,7 @@
             <div class="panel-head">
                 <h2>Water Output Calculator</h2>
                 <p>
-                    This panel preserves the deeper reactor retrofit model. It is collapsed by default so the broader sponsor model stays on top, while a compact summary of water output and finance stays visible.
+                    Waste heat is the reactor's thermal power times the utilization factor. Multi-effect distillation (MED) turns that heat into fresh water: daily output equals the heat energy per day times the gain output ratio (GOR), divided by the latent heat of vaporization (2,326 kJ/kg), then scaled by plant availability. Annual revenue is yearly output times the water price. Project cost combines the plant purchase price, MED capital cost per m3/day of capacity times the retrofit multiplier, and tunnel boring cost per km. Payback is project cost divided by annual revenue, and NPV discounts that revenue over the analysis period. Values come from the DEEP Nuclear inputs above.
                 </p>
             </div>
 
@@ -4608,6 +4608,7 @@
         let benefitsFormDefaults = {};
         let fundingFormDefaults = {};
         let liveCorporateUpdateTimer = null;
+        let liveNuclearUpdateTimer = null;
         let studioToastTimer = null;
         let studioToastHideTimer = null;
         let suppressStudioToast = true;
@@ -5437,6 +5438,16 @@
                 saveCorporateCache: settings.saveCorporateCache !== false,
                 showToast: settings.showToast !== false
             });
+        }
+
+        function runNuclearUpdate() {
+            calculateNuclear();
+            renderOutputPanel();
+        }
+
+        function scheduleNuclearUpdate() {
+            window.clearTimeout(liveNuclearUpdateTimer);
+            liveNuclearUpdateTimer = window.setTimeout(runNuclearUpdate, 180);
         }
 
         function scheduleStudioScenarioUpdate(options) {
@@ -6666,8 +6677,8 @@
             const medSystemCapitalCost = dailyWaterProductionAdjusted * medCapitalCost;
             const totalRetrofitCost = medSystemCapitalCost * retrofitMultiplier;
             const totalTunnelLength = wasteTunnelLength + fuelTunnelLength;
-            const boringCost = totalTunnelLength * boringCostPerKm;
-            const totalProjectCost = plantPurchasePrice + totalRetrofitCost + boringCost;
+            const boringCost = totalTunnelLength * boringCostPerKm * 1000000;
+            const totalProjectCost = plantPurchasePrice * 1000000 + totalRetrofitCost + boringCost;
             const paybackPeriod = totalProjectCost / annualRevenue;
             const discountRateDecimal = discountRate / 100;
 
@@ -7696,11 +7707,13 @@
             const heroCapitalReturnToggle = document.getElementById('heroCapitalReturnToggle');
             const benefitsPanel = document.getElementById('benefits');
             const fundingPanel = document.getElementById('contributors');
+            const engineeringPanel = document.getElementById('engineering');
 
             if (corporateBtn) corporateBtn.addEventListener('click', clearStudioChanges);
             if (fundingBtn) fundingBtn.addEventListener('click', clearFundingChanges);
             if (nuclearBtn) nuclearBtn.addEventListener('click', function() {
-                calculateNuclear();
+                window.clearTimeout(liveNuclearUpdateTimer);
+                runNuclearUpdate();
                 const fb = document.getElementById('nuclearCalcFeedback');
                 if (fb && calculationResults) {
                     const r = calculationResults;
@@ -7809,6 +7822,16 @@
             if (fundingPanel) {
                 fundingPanel.addEventListener('input', handleLiveScenarioField);
                 fundingPanel.addEventListener('change', handleLiveScenarioField);
+            }
+
+            function handleLiveNuclearField(event) {
+                if (!event.target.closest('input[id], select[id]')) return;
+                scheduleNuclearUpdate();
+            }
+
+            if (engineeringPanel) {
+                engineeringPanel.addEventListener('input', handleLiveNuclearField);
+                engineeringPanel.addEventListener('change', handleLiveNuclearField);
             }
 
             if (energySimpleList) {
