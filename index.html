@@ -4852,7 +4852,8 @@
             }
 
             button.addEventListener('click', function() {
-                const newLook = document.body.classList.contains('dark') ? 'default' : 'dark';
+                // Use 'light' rather than 'default', since setSitelook treats 'default' as dark on DreamStudio sites.
+                const newLook = document.body.classList.contains('dark') ? 'light' : 'dark';
                 if (typeof Cookies !== 'undefined') {
                     Cookies.set('sitelook', newLook);
                 }
