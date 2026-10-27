@@ -21,6 +21,7 @@
   --good: #0ca30c;
   --radius: 12px;
   --gap: 16px;
+  --tab-hover: #000;
   color-scheme: light;
   background: transparent; /* the page's own background shows (view=center) */
   color: var(--ink);
@@ -44,6 +45,7 @@ body.dark .goals, :root[data-theme="dark"] .goals {
   --series-1: #3987e5;
   --series-2: #d95926;
   --series-3: #199e70;
+  --tab-hover: #fff;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -52,6 +54,7 @@ body.dark .goals, :root[data-theme="dark"] .goals {
     --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, 0.10);
     --accent: #3987e5; --accent-ink: #86b6ef; --accent-wash: rgba(57, 135, 229, 0.16);
     --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+    --tab-hover: #fff;
     color-scheme: dark;
   }
 }
@@ -143,22 +146,35 @@ body.standalone { margin: 0; background: #f9f9f7; }
 .goals-cite { color: var(--muted); font-size: 13px; }
 
 .goals-tabs {
-  display: flex; gap: 4px; overflow-x: auto; border-bottom: 1px solid var(--grid);
-  margin: 16px 0 0; scrollbar-width: none;
+  display: flex; gap: 4px; border-bottom: 1px solid var(--grid);
+  margin: 16px 0 0;
 }
+/* The left column: the tabs, cut off under the arrow when they don't fit. It
+   reaches 1px down over the bar's bottom line, for the selected tab's underline. */
+.goals-tabs-list { display: flex; gap: 4px; flex: 1 1 auto; min-width: 0; overflow: hidden; margin-bottom: -1px; }
 .goals-tabs button {
   font: inherit; font-size: 15px; white-space: nowrap; cursor: pointer; color: var(--ink-2);
   background: none; border: 0; border-bottom: 2px solid transparent; padding: 10px 12px; margin-bottom: -1px;
 }
+.goals-tabs-list button { flex: none; margin-bottom: 0; }
 .goals-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+.goals-tabs button[data-tab]:hover { color: var(--tab-hover); }
+/* Short tab titles while the tabs bar is under 800px wide: Industries and
+   Quality, without their .goals-tab-extra words. Under 500px also Services
+   and Plan, without their .goals-tab-extra-sm words. Under 600px, less space
+   between the tabs. */
+.goals-tabs { container-type: inline-size; }
+@container (max-width: 799px) { .goals-tab-extra { display: none; } }
+@container (max-width: 599px) { .goals-tabs button { padding-left: 7px; padding-right: 7px; } }
+@container (max-width: 499px) { .goals-tab-extra-sm { display: none; } }
 /* Top 10px of the tabs bar: drags #goalsMain down the window (goals.js), all
    but the top info line, which stays put. The strip itself isn't drawn. The
    page clips the dragged column at its bottom edge, so it slides out of view. */
 .goals-tabs { position: relative; }
 .goals-grip { position: absolute; top: 0; left: 0; right: 0; height: 10px; z-index: 1; cursor: ns-resize; touch-action: none; }
-/* Triangle after the Project Plan tab: points up while the column is down
+/* Triangle at the far right of the tabs bar: points up while the column is down
    (raise it), turned to point down once it's up (dock it). */
-.goals-tabs .goals-main-arrow { padding: 10px 14px; font-size: 9.6px; line-height: 1; color: var(--ink-2); border-bottom-color: transparent; opacity: 0.4; transition: opacity 0.15s; }
+.goals-tabs .goals-main-arrow { flex: none; padding: 10px 16px; font-size: 12px; line-height: 1; color: var(--ink-2); border-bottom-color: transparent; opacity: 0.4; transition: opacity 0.15s; }
 .goals-tabs .goals-main-arrow:hover, .goals-tabs .goals-main-arrow:focus-visible { color: var(--ink); opacity: 1; }
 /* Twice as wide as the ▲ character (scaleX), with room for that in the padding. */
 .goals-main-arrow > span { display: inline-block; transform: scaleX(2); transition: transform 0.25s ease; }
@@ -218,9 +234,29 @@ body.standalone { margin: 0; background: #f9f9f7; }
    goals-side-bottom (the Community Data cards) moves into #goalsBottom, across the
    bottom, at any width. Gaps, not margins, space the columns and figures. */
 .goals { display: flex; flex-direction: column; row-gap: var(--gap); }
-/* At least the window's height below the localsite header (--header-h, set
-   in goals.js), so the footer starts below the fold on every tab and view. */
-.goals { box-sizing: border-box; min-height: calc(100vh - var(--header-h, 0px)); }
+/* At least the window's height below the localsite header (--fullscreen-height,
+   shared with #fullscreen in localsite/css/base.css), so the footer starts below
+   the fold on every tab and view. Without the localsite header (standalone),
+   --header-h (set in goals.js) is where #fullscreen and #goalsPage start. */
+.goals { box-sizing: border-box; min-height: var(--fullscreen-height); }
+body.standalone { --fullscreen-height: calc(100vh - var(--header-h, 0px)); }
+/* #fullscreen: the window's height below the header, holding the photos, the
+   Earth map once .showEarth opens it (localsite's placeEarthDisplay()) and the
+   play button (base.css places both). #goalsPage is pulled up over it, so it
+   stays in the page's flow, above the localsite footer. While the map or
+   another layer covers the photos (goals-hero-covered, goals.js) they stop
+   changing. view=center shows it only while it's covered. */
+#fullscreen { position: relative; box-sizing: border-box; height: var(--fullscreen-height); }
+html.goals-view-hero #fullscreen ~ .goals,
+#fullscreen.goals-hero-covered ~ .goals { margin-top: calc(-1 * var(--fullscreen-height)); }
+html:not(.goals-view-hero) #fullscreen:not(.goals-hero-covered) { display: none; }
+/* The play button's look is in localsite/css/base.css, with its icon font, so
+   it's left out without localsite (standalone). */
+body.standalone #earthPlayPauseButton { display: none; }
+/* The page's empty space lets clicks through to #fullscreen beneath (the map),
+   while its columns and their contents take them. */
+.goals, .goals-row, #goalsMain { pointer-events: none; }
+.goals > :not(.goals-row), .goals-row > :not(#goalsMain), #goalsMain > * { pointer-events: auto; }
 .goals-side { display: grid; gap: var(--gap); align-content: start; }
 .goals-side > h3 { margin: 0; }
 /* A side column without its own boxes (the "Try a tool" console) gets the
@@ -352,6 +388,7 @@ html.goals-view-hero .goals-bg {
   opacity: 0; transition: opacity 1.6s ease; filter: var(--hero-img-filter, none);
 }
 .goals-bg img.on { opacity: var(--hero-img-opacity, 1); }
+.goals-bg.goals-bg-instant img { transition: none; } /* The first photo (goals.js) */
 /* The layer over the photo: a thin charcoal wash in light mode, a dark
    gradient (strongest behind the text on the left) in dark mode. */
 .goals-bg::after { content: ""; position: absolute; inset: 0; background: var(--hero-wash); mix-blend-mode: var(--hero-blend, normal); }
@@ -399,12 +436,12 @@ html.goals-view-hero body.dark .goals, html.goals-view-hero[data-theme="dark"] .
     color-scheme: dark;
   }
 }
-/* Fill the window below the localsite header (--header-h, set in goals.js)
+/* Fill the fullscreen area below the localsite header (--fullscreen-height)
    less the page's 24px top and 64px bottom padding, so on a tall window the
    spare space collects above the tabs. */
 html.goals-view-hero #goalsMain {
   display: flex; flex-direction: column;
-  min-height: calc(100vh - var(--header-h, 0px) - 88px);
+  min-height: calc(var(--fullscreen-height) - 88px);
 }
 html.goals-view-hero #goalsMain > :not([hidden]),
 html.goals-view-hero .goals-aside,
@@ -435,7 +472,7 @@ html.goals-view-hero #goalsMain > .goals-hero { --pad-top: 32px; --pad-x: 28px; 
 }
 @media (max-width: 900px) {
   html.goals-view-hero .goals { padding: 16px 16px 64px; }
-  html.goals-view-hero #goalsMain { min-height: calc(100vh - var(--header-h, 0px) - 80px); }
+  html.goals-view-hero #goalsMain { min-height: calc(var(--fullscreen-height) - 80px); }
   .goals-bg::after { background: var(--hero-wash-narrow); }
 }
 
@@ -443,14 +480,15 @@ html.goals-view-hero #goalsMain > .goals-hero { --pad-top: 32px; --pad-x: 28px; 
    (goals.js). It carries .showEarth, so a click opens the Earth display. */
 .goals-header-title {
   display: flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap;
-  font: 600 22px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: -0.01em;
+  font: 550 22px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: -0.01em;
 }
 .goals-header-title .material-icons { font-size: 34px; opacity: 0.7; }
 /* The header title stands in for localsite's site and location titles too.
    !important outranks the inline display localsite's show() sets. */
 html.goals-has-header-title #headerLocTitleHolder { display: none !important; }
 /* The earth.nullschool.net iframe that .showEarth opens (#mainEarthDisplay
-   #mainframe): 78vh, taller than the 65vh localsite's template gives iframes. */
+   #mainframe): 78vh, taller than the 65vh localsite's template gives iframes.
+   In #fullscreen, as on this page, base.css has it fill #fullscreen instead. */
 #mainEarthDisplay iframe { min-height: 78vh; }
 /* Scrolling over the Earth iframe moves the page until the globe is clicked
    (goals.js adds .goals-earth-active); then the globe takes the pointer. */

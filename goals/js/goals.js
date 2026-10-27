@@ -254,14 +254,18 @@ async function heroImages() {
 function showHero(i) {
   const img = heroList[i];
   if (!img?.url) return;
+  heroShown = i; // Now, so steps in a row go on from here before it loads
   const pre = new Image();
   pre.onload = () => {
     const layers = $("heroBg").querySelectorAll("img");
+    // The first photo shows at once, without the fade from the page's color.
+    const first = ![...layers].some((l) => l.classList.contains("on"));
     heroLayer = 1 - heroLayer;
     layers[heroLayer].src = img.url;
+    $("heroBg").classList.toggle("goals-bg-instant", first);
     layers[heroLayer].classList.add("on");
+    if (first) requestAnimationFrame(() => requestAnimationFrame(() => $("heroBg").classList.remove("goals-bg-instant")));
     layers[1 - heroLayer].classList.remove("on");
-    heroShown = i;
     const credit = $("heroCredit");
     credit.replaceChildren();
     if (img.credit) credit.append("Photo: ", img.link ? node("a", { href: img.link, target: "_blank", rel: "noopener", text: img.credit }) : img.credit, " / Unsplash");
@@ -274,13 +278,57 @@ function nextHero() {
   while (i === heroShown) i = Math.floor(Math.random() * heroList.length);
   showHero(i);
 }
-// The localsite header's height (how far #goalsPage starts below the top of
-// the page), as --header-h for the min-heights that keep the footer below the
-// fold. Rechecked when the page resizes, e.g. once the header loads.
+// #fullscreen holds the photos and, once localsite's .showEarth opens it, the
+// Earth map (#mainEarthDisplay) over them. While it or another layer covers
+// them, the photos stop changing, and the play button is the map's.
+function heroCovered() {
+  return [...$("fullscreen").children].some((el) => el.id !== "heroBg" && el.id !== "earthPlayPauseButton" && !el.hidden && el.style.display !== "none" && getComputedStyle(el).display !== "none");
+}
+function syncHero() {
+  const covered = heroCovered();
+  $("fullscreen").classList.toggle("goals-hero-covered", covered);
+  const run = heroView() && !covered && heroList.length > 1;
+  if (run && !heroTimer) heroTimer = setInterval(nextHero, HERO_MS);
+  else if (!run && heroTimer) { clearInterval(heroTimer); heroTimer = null; }
+  const btn = $("earthPlayPauseButton");
+  const playing = btn.querySelector(".play-pause-icon")?.textContent === "pause";
+  const label = !covered ? "Next photo" : playing ? "Pause map playback" : "Play map playback"; // localsite's labels for the map
+  if (btn.title !== label) { btn.title = label; btn.setAttribute("aria-label", label); }
+}
+// Over the photos, the play button shows the next one and turns on the left
+// and right arrow keys for stepping through them. Over the map, the click goes
+// on to localsite's play/pause for it (nouislider.min.js).
+let heroKeys = false;
+function stepHero(by) {
+  if (heroList.length < 2) return;
+  showHero((Math.max(0, heroShown) + by + heroList.length) % heroList.length);
+  clearInterval(heroTimer); // A full HERO_MS before the next change
+  heroTimer = null;
+  syncHero();
+}
+function heroButton(e) {
+  if (!e.target.closest?.("#earthPlayPauseButton") || !heroView() || heroCovered()) return;
+  if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") return;
+  e.preventDefault();
+  e.stopPropagation(); // Captured on #fullscreen, so localsite's listeners on the button don't run
+  heroKeys = true;
+  stepHero(1);
+}
+function heroArrowKeys(e) {
+  if (!heroKeys || (e.key !== "ArrowLeft" && e.key !== "ArrowRight") || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+  if (!heroView() || heroCovered() || e.target.closest?.('input, textarea, select, [contenteditable], [role="tablist"]')) return;
+  e.preventDefault();
+  stepHero(e.key === "ArrowRight" ? 1 : -1);
+}
+// How far #goalsPage (and #fullscreen, under it) starts below the top of the page, as --header-h for the
+// min-heights that keep the footer below the fold when the page runs without
+// the localsite header (standalone; otherwise --fullscreen-height in
+// localsite/css/base.css sets them). Rechecked when the page resizes.
 function fitPageHeight() {
   const g = $("goalsPage");
   const top = Math.max(0, Math.round(g.getBoundingClientRect().top + window.scrollY));
-  if (g.style.getPropertyValue("--header-h") !== `${top}px`) g.style.setProperty("--header-h", `${top}px`);
+  const root = document.documentElement;
+  if (root.style.getPropertyValue("--header-h") !== `${top}px`) root.style.setProperty("--header-h", `${top}px`);
 }
 
 async function applyView() {
@@ -290,12 +338,12 @@ async function applyView() {
   fitPageHeight();
   clearInterval(heroTimer);
   heroTimer = null;
-  if (!hero) return;
+  if (!hero) { syncHero(); return; }
   const list = await heroImages();
   if (list !== heroList) { heroList = list; heroShown = -1; }
   if (!heroList.length) { for (const l of $("heroBg").querySelectorAll("img")) l.classList.remove("on"); $("heroCredit").replaceChildren(); return; }
   if (heroShown < 0) showHero(Math.floor(Math.random() * heroList.length));
-  heroTimer = setInterval(nextHero, HERO_MS);
+  syncHero();
 }
 
 // Sample: files in data/toy (no network beyond this site). Live: the sources
@@ -494,8 +542,12 @@ const tabName = (t) => {
   t = TAB_ALIASES[t] || t;
   return t && document.querySelector(`.goals-tabs [data-tab="${t}"]`) ? t : "goals";
 };
-function markTab(name) {
-  for (const b of document.querySelectorAll(".goals-tabs button[data-tab]")) b.setAttribute("aria-selected", String(b.dataset.tab === name));
+// With no tab= in the hash, the goals panel shows but no tab is highlighted.
+function markButtons(selected) {
+  for (const b of document.querySelectorAll(".goals-tabs button[data-tab]")) b.setAttribute("aria-selected", String(b.dataset.tab === selected));
+}
+function markTab(name, selected = name) {
+  markButtons(selected);
   for (const p of document.querySelectorAll(".goals-panel")) p.hidden = p.dataset.panel !== name;
   $("goalsMain").dataset.tab = name;
   placeSides();
@@ -549,12 +601,12 @@ function initMainGrip() {
   const tabs = document.querySelector(".goals-tabs");
   const grip = node("div", { class: "goals-grip", "aria-hidden": "true", title: "Drag to move this column down. Double-click to bring it back." });
   tabs.prepend(grip);
-  // Triangle after the last tab: points up while the column is down and
+  // Triangle at the far right, after the tabs' column: points up while the column is down and
   // raises it, then points down (CSS turns it) and docks it again.
   const arrow = node("button", { type: "button", id: "goalsMainArrow", class: "goals-main-arrow" },
     node("span", { "aria-hidden": "true", text: "\u25B2" }));
   tabs.append(arrow);
-  arrow.addEventListener("click", () => setMainDrop(mainDrop ? 0 : dockDrop(), true));
+  arrow.addEventListener("click", () => { mainDocked = !mainDrop; setMainDrop(mainDrop ? 0 : dockDrop(), true); });
   grip.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
     e.preventDefault();
@@ -564,7 +616,7 @@ function initMainGrip() {
     let moved = false;
     const move = (ev) => {
       if (Math.abs(ev.clientY - startY) > 3) moved = true;
-      if (moved) setMainDrop(Math.min(max, start + ev.clientY - startY));
+      if (moved) { mainDocked = false; setMainDrop(Math.min(max, start + ev.clientY - startY)); }
     };
     const end = (ev) => {
       grip.removeEventListener("pointermove", move);
@@ -580,24 +632,31 @@ function initMainGrip() {
     grip.addEventListener("pointerup", end);
     grip.addEventListener("pointercancel", end);
   });
-  grip.addEventListener("dblclick", () => setMainDrop(0, true));
+  grip.addEventListener("dblclick", () => { mainDocked = false; setMainDrop(0, true); });
 }
 // With no tab= in the hash, the column starts down: its tabs MAIN_DOCK px
 // above the window's bottom, the photo above them. Any tab= brings it back to
 // its usual place. It's placed again when tab= changes, and on resize while
-// it's down with no tab=, so other hash changes (earth=, data=) keep a
-// manual drag or the arrow's choice.
-const MAIN_DOCK = 180;
+// it's docked with no tab=, so a manual drag or the arrow's raise stays put
+// through other hash changes (earth=, data=) and resizes.
+const MAIN_DOCK = 89;
 let dropTab = null; // The hash's tab= when the column was last placed
+let mainDocked = false; // At the docked place, not moved by a drag or the arrow
 function syncMainDrop(animate = false, refit = false) {
   const t = hashParams().tab || "";
-  if (t === dropTab && !(refit && !t && mainDrop)) return;
+  if (t === dropTab && !(refit && !t && mainDocked)) return;
   dropTab = t;
+  mainDocked = !t;
   setMainDrop(t ? 0 : dockDrop(), animate);
 }
-// The drop that puts the tabs MAIN_DOCK px above the window's bottom.
+// The drop that puts the tabs MAIN_DOCK px above the window's bottom. The
+// tabs' place without the drop is their place now less the translateY they
+// have now, which mid-slide isn't mainDrop yet.
 function dockDrop() {
-  const tabsTop = document.querySelector(".goals-tabs").getBoundingClientRect().top + window.scrollY - mainDrop;
+  const tabs = document.querySelector(".goals-tabs");
+  const transform = getComputedStyle(tabs).transform;
+  const shift = transform && transform !== "none" ? new DOMMatrixReadOnly(transform).m42 : 0;
+  const tabsTop = tabs.getBoundingClientRect().top + window.scrollY - shift;
   return window.innerHeight - MAIN_DOCK - tabsTop;
 }
 function alignAside() {
@@ -609,7 +668,7 @@ function alignAside() {
 }
 // hashTab is what goes in tab=: the tab's name by default, "" to leave it out.
 function showTab(name, hashTab = name) {
-  markTab(name);
+  markTab(name, hashTab ? name : "");
   setHash({ tab: hashTab });
   syncMainDrop(true);
   if (!drawn.has(name)) { drawn.add(name); ({ data: initSources, local: initCounty, quality: drawQuality, analytics: drawForecast, agents: initDevelopers, plan: initPlan }[name] || (() => {}))(); }
@@ -918,6 +977,7 @@ async function start() {
     if (lastView === null || (h.view || "") !== lastView) { lastView = h.view || ""; applyView(); }
     if ((h.data === "live" ? "live" : "sample") !== dataMode) setDataMode(h.data);
     if (tabName(h.tab) !== $("goalsMain").dataset.tab) showTab(tabName(h.tab), h.tab ? tabName(h.tab) : "");
+    else markButtons(h.tab ? tabName(h.tab) : ""); // tab=goals added or removed
     syncMainDrop(true);
   };
   if (hasLocalsiteHash()) document.addEventListener("hashChangeEvent", onHash);
@@ -926,9 +986,21 @@ async function start() {
   applyView();
   syncMainDrop(false, true); // Again, now the event's top info line is in
   const onResize = () => { fitPageHeight(); alignAside(); syncMainDrop(false, true); };
-  if (window.ResizeObserver) new ResizeObserver(onResize).observe(document.body);
-  else window.addEventListener("resize", onResize);
+  if (window.ResizeObserver) {
+    // #goalsMain and the localsite header too: a side tab (sidetab=) can shorten
+    // the header while the page's fullscreen height grows to match, leaving the
+    // body's size, but not the column's place, unchanged.
+    const ro = new ResizeObserver(onResize);
+    ro.observe(document.body);
+    ro.observe($("goalsMain"));
+    if (typeof window.onElmReady === "function") window.onElmReady("#main-header", (h) => ro.observe(h));
+  } else window.addEventListener("resize", onResize);
   WIDE.addEventListener?.("change", placeSides);
+  // The Earth map arriving in #fullscreen, or showing and hiding there, stops or restarts the photos.
+  new MutationObserver(syncHero).observe($("fullscreen"), { childList: true, subtree: true, attributes: true, attributeFilter: ["style", "hidden"] });
+  $("fullscreen").addEventListener("click", heroButton, true);
+  $("fullscreen").addEventListener("keydown", heroButton, true);
+  document.addEventListener("keydown", heroArrowKeys);
   initObjectives();
   // Goals while tab=goals is already set removes tab=, which drops the column to the bottom.
   for (const b of document.querySelectorAll(".goals-tabs button[data-tab]")) b.addEventListener("click", () => {

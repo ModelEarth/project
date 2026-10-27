@@ -28,13 +28,21 @@ document.addEventListener("DOMContentLoaded", function () {
 </head>
 
 <body>
-<!-- view=hero: rotating photos behind the page (events/<id>.yaml hero_images). -->
+<!-- #fullscreen (localsite/css/base.css): the window's height below the localsite header, with #goalsPage
+     pulled up over it. It holds the hero photos (view=hero: rotating photos behind the page, from
+     events/<id>.yaml hero_images), and localsite's .showEarth puts the Earth map (#mainEarthDisplay) in
+     it, over them. The play button at its lower right shows the next photo and turns on the arrow keys
+     for them, or plays the Earth map while that shows (goals.js). -->
+<div id="fullscreen">
 <div class="goals-bg" id="heroBg" aria-hidden="true"><img alt=""><img alt=""></div>
+<div id="earthPlayPauseButton" class="earthPlay playPauseButton" role="button" tabindex="0" title="Next photo" aria-label="Next photo"><i class="material-icons play-pause-icon" aria-hidden="true">play_arrow</i></div>
+</div>
 <p class="goals-credit" id="heroCredit"></p>
 <!-- #goalsMain holds the tabs and panels. On wide windows the active panel's
      side column (figures) moves into #goalsAside, to its right; one marked
-     goals-side-bottom (Community Data) moves into #goalsBottom, across the bottom (goals.js). -->
-<div class="goals" id="goalsPage">
+     goals-side-bottom (Community Data) moves into #goalsBottom, across the bottom (goals.js).
+     container: localsite/css/base.css's .container a turns off the link underline. -->
+<div class="goals container" id="goalsPage">
 <div class="goals-row">
 <div class="goals-col" id="goalsMain" data-tab="goals">
 
@@ -42,15 +50,20 @@ document.addEventListener("DOMContentLoaded", function () {
   <aside class="goals-topinfo" id="topinfoBar" role="note" hidden></aside>
 
   <!-- The Goals tab shows the hero (ask box) and its results; other tabs hide them. -->
-  <nav class="goals-tabs" role="tablist" aria-label="Sections">
-    <button role="tab" aria-selected="true" data-tab="goals">Goals</button>
-    <button role="tab" aria-selected="false" data-tab="data">Data Services</button>
-    <button role="tab" aria-selected="false" data-tab="local">Local Industries</button>
-    <button role="tab" aria-selected="false" data-tab="quality">Quality Control</button>
+  <!-- Below 800px wide, the tabs drop their .goals-tab-extra words (Industries, Quality), and below 500px their .goals-tab-extra-sm words (Services, Plan). -->
+  <!-- Two flex columns: the tabs, which slide under the up/down arrow (#goalsMainArrow,
+       added by goals.js) when they don't fit, and the arrow at the far right. -->
+  <nav class="goals-tabs">
+    <div class="goals-tabs-list" role="tablist" aria-label="Sections">
+    <button role="tab" aria-selected="false" data-tab="goals">Goals</button>
+    <button role="tab" aria-selected="false" data-tab="data"><span class="goals-tab-extra-sm">Data </span>Services</button>
+    <button role="tab" aria-selected="false" data-tab="local"><span class="goals-tab-extra">Local </span>Industries</button>
+    <button role="tab" aria-selected="false" data-tab="quality">Quality<span class="goals-tab-extra"> Control</span></button>
     <button role="tab" aria-selected="false" data-tab="analytics">Analytics</button>
     <!-- Agents is reached only by link (#tab=agents) or the Harmonized AI Data card. -->
     <button role="tab" aria-selected="false" data-tab="agents" hidden>Agents</button>
-    <button role="tab" aria-selected="false" data-tab="plan">Project Plan</button>
+    <button role="tab" aria-selected="false" data-tab="plan"><span class="goals-tab-extra-sm">Project </span>Plan</button>
+    </div>
   </nav>
 
   <header class="goals-hero">
