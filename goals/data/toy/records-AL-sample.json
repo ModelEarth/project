@@ -1,0 +1,1604 @@
+{
+ "schema": "../../schema/record.schema.json",
+ "generated_at": "2026-10-26T21:16:52Z",
+ "region": "AL",
+ "note": "Toy sample: up to 3 records per quality flag. Full files are written to data/records/ and not committed.",
+ "count": 20,
+ "records": [
+  {
+   "id": "org:ein:274825858",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Combat Veterans Motorcycle Association Chapter 28-2",
+   "region": "AL",
+   "postal_code": "35814",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.66,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Combat Veterans Motorcycle Association Chapter 28-2",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "274825858",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 5261",
+      "locality": "Huntsville",
+      "region": "AL",
+      "postal_code": "35814"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "Z99",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:631081998",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Founder Flight Scholarship Foundation",
+   "region": "AL",
+   "postal_code": "36111",
+   "county_fips": "01101",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "mailing_only",
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Founder Flight Scholarship Foundation",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "631081998",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 11485",
+      "locality": "Montgomery",
+      "region": "AL",
+      "postal_code": "36111"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "Y42",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01101",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:636063295",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion",
+   "region": "AL",
+   "postal_code": "36274",
+   "county_fips": "01111",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.66,
+   "flags": [
+    "zip_split",
+    "mailing_only",
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "636063295",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 329",
+      "locality": "Roanoke",
+      "region": "AL",
+      "postal_code": "36274"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "J40",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01111",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.827,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010960304",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Department Of Alabama Auxiliary To The Vfw Of The U S",
+   "region": "AL",
+   "postal_code": "36067",
+   "county_fips": "01001",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Department Of Alabama Auxiliary To The Vfw Of The U S",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "010960304",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "1007 South Memorial Drive",
+      "locality": "Prattville",
+      "region": "AL",
+      "postal_code": "36067"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01001",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:201360036",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion",
+   "region": "AL",
+   "postal_code": "35064",
+   "county_fips": "01073",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [
+    "ntee_missing",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "201360036",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "5021 Gary Ave",
+      "locality": "Fairfield",
+      "region": "AL",
+      "postal_code": "35064"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01073",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:201565682",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Sons Of Confederate Veterans Inc",
+   "region": "AL",
+   "postal_code": "35645",
+   "county_fips": "01077",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.32,
+   "flags": [
+    "name_only",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Sons Of Confederate Veterans Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "201565682",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "1017 Joan Ln",
+      "locality": "Killen",
+      "region": "AL",
+      "postal_code": "35645"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01077",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-07",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:113809550",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Lealon C Credille Vfw Post 6112",
+   "region": "AL",
+   "postal_code": "35582",
+   "county_fips": "01059",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "mailing_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Lealon C Credille Vfw Post 6112",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "113809550",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 1366",
+      "locality": "Red Bay",
+      "region": "AL",
+      "postal_code": "35582"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "04"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01059",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:030467630",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Jewish War Veterans Of The United States Of America Inc",
+   "region": "AL",
+   "postal_code": "35811",
+   "county_fips": "01089",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.32,
+   "flags": [
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Jewish War Veterans Of The United States Of America Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "030467630",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "111 Allenwood Dr",
+      "locality": "Huntsville",
+      "region": "AL",
+      "postal_code": "35811"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "04"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01089",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-08",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:043651772",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Sons Of Confederate Veterans Inc",
+   "region": "AL",
+   "postal_code": "35481",
+   "county_fips": "01107",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.32,
+   "flags": [
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Sons Of Confederate Veterans Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "043651772",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "2417 County Road 37",
+      "locality": "Reform",
+      "region": "AL",
+      "postal_code": "35481"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "A84",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01107",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-07",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:271164941",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Maxwell-Gunter Top Three Council",
+   "region": "AL",
+   "postal_code": "36114",
+   "county_fips": "01101",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "no_filing_period"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Maxwell-Gunter Top Three Council",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "271164941",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "490 E Moore Dr",
+      "locality": "Montgomery",
+      "region": "AL",
+      "postal_code": "36114"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01101",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:300159759",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Pdi Faith Based Initiative Veterans Repair Inc",
+   "region": "AL",
+   "postal_code": "36116",
+   "county_fips": "01101",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.24,
+   "flags": [
+    "no_filing_period",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Pdi Faith Based Initiative Veterans Repair Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "300159759",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "2525 E South Blvd",
+      "locality": "Montgomery",
+      "region": "AL",
+      "postal_code": "36116"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "X20",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01101",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:331416299",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Novo Warrior Foundation",
+   "region": "AL",
+   "postal_code": "35007",
+   "county_fips": "01117",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "no_filing_period"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Novo Warrior Foundation",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "331416299",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "116 Buckskin Trce",
+      "locality": "Alabaster",
+      "region": "AL",
+      "postal_code": "35007"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01117",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:113825988",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Department Of Alabama Auxiliary To The Vfw Of The U S",
+   "region": "AL",
+   "postal_code": "35453",
+   "county_fips": "01125",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Department Of Alabama Auxiliary To The Vfw Of The U S",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "113825988",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "7001 University Blvd E",
+      "locality": "Cottondale",
+      "region": "AL",
+      "postal_code": "35453"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01125",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:202825121",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion Auxiliary",
+   "region": "AL",
+   "postal_code": "36852",
+   "county_fips": "01017",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "zip_split",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion Auxiliary",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "202825121",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "256 Lee Road 2085",
+      "locality": "Cusseta",
+      "region": "AL",
+      "postal_code": "36852"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01017",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.605,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2023-09",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:813016268",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion Auxiliary",
+   "region": "AL",
+   "postal_code": "36477",
+   "county_fips": "01061",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_split",
+    "stale_filing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion Auxiliary",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "813016268",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "12 N Ripley St",
+      "locality": "Samson",
+      "region": "AL",
+      "postal_code": "36477"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01061",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.89,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2022-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:843511810",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Cvma Al 28-7",
+   "region": "AL",
+   "postal_code": "36067",
+   "county_fips": "01001",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "stale_filing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Cvma Al 28-7",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "843511810",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "109 Red Berry Ct",
+      "locality": "Prattville",
+      "region": "AL",
+      "postal_code": "36067"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01001",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2022-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:061716768",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Silver Caduceus Association Inc",
+   "region": "AL",
+   "postal_code": "35756",
+   "county_fips": "01083",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "zip_split"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Silver Caduceus Association Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "061716768",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "132 Parkland Hill Trce",
+      "locality": "Madison",
+      "region": "AL",
+      "postal_code": "35756"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01083",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.815,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:202652147",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Sons Of Confederate Veterans Inc",
+   "region": "AL",
+   "postal_code": "36504",
+   "county_fips": null,
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.16,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Sons Of Confederate Veterans Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "202652147",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 1122",
+      "locality": "Atmore",
+      "region": "AL",
+      "postal_code": "36504"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-07",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:237176697",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion",
+   "region": "AL",
+   "postal_code": "35807",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "237176697",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 1176",
+      "locality": "Huntsville",
+      "region": "AL",
+      "postal_code": "35807"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:061706292",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Department Of Alabama Auxiliary To The Vfw Of The U S",
+   "region": "AL",
+   "postal_code": "36912",
+   "county_fips": "01023",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Department Of Alabama Auxiliary To The Vfw Of The U S",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "061706292",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "10012 Crowell Drive",
+      "locality": "Lisman",
+      "region": "AL",
+      "postal_code": "36912"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "01023",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.94,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  }
+ ]
+}

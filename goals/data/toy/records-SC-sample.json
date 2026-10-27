@@ -1,0 +1,1444 @@
+{
+ "schema": "../../schema/record.schema.json",
+ "generated_at": "2026-10-26T21:16:52Z",
+ "region": "SC",
+ "note": "Toy sample: up to 3 records per quality flag. Full files are written to data/records/ and not committed.",
+ "count": 18,
+ "records": [
+  {
+   "id": "org:ein:412091097",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Greenville Chapter Military Officers Association Of America",
+   "region": "SC",
+   "postal_code": "29690",
+   "county_fips": "45045",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "mailing_only",
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Greenville Chapter Military Officers Association Of America",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "412091097",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 516",
+      "locality": "Travelers Rst",
+      "region": "SC",
+      "postal_code": "29690"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "B03",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45045",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:463277922",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Veterans Hall Of Heroes Inc",
+   "region": "SC",
+   "postal_code": "29648",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.66,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Veterans Hall Of Heroes Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "463277922",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 1024",
+      "locality": "Greenwood",
+      "region": "SC",
+      "postal_code": "29648"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "E12",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:570960064",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion Auxiliary Post 215",
+   "region": "SC",
+   "postal_code": "29203",
+   "county_fips": "45079",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion Auxiliary Post 215",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "570960064",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "2432 Chappelle St",
+      "locality": "Columbia",
+      "region": "SC",
+      "postal_code": "29203"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "P20",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45079",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2024-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:141286881",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Vfw Auxiliary Vfw Department Of S C",
+   "region": "SC",
+   "postal_code": "29486",
+   "county_fips": "45015",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Vfw Auxiliary Vfw Department Of S C",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "141286881",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "208 Seminole Dr",
+      "locality": "Summerville",
+      "region": "SC",
+      "postal_code": "29486"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45015",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:201135455",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Sons Of Confederate Veterans Inc",
+   "region": "SC",
+   "postal_code": "29033",
+   "county_fips": "45063",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.32,
+   "flags": [
+    "name_only",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Sons Of Confederate Veterans Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "201135455",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "1902 Wellington Rd",
+      "locality": "Cayce",
+      "region": "SC",
+      "postal_code": "29033"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45063",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2024-07",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:237031724",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Vfw Auxiliary Vfw Department Of S C",
+   "region": "SC",
+   "postal_code": "29456",
+   "county_fips": "45019",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "zip_split",
+    "ntee_missing",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Vfw Auxiliary Vfw Department Of S C",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "237031724",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "3253 Kendallock Cir",
+      "locality": "Ladson",
+      "region": "SC",
+      "postal_code": "29456"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45019",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.462,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010668781",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Cherokee County Veterans Day Organization",
+   "region": "SC",
+   "postal_code": "29342",
+   "county_fips": null,
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.16,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Cherokee County Veterans Day Organization",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "010668781",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 1522",
+      "locality": "Gaffney",
+      "region": "SC",
+      "postal_code": "29342"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "A80",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2024-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010966185",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Veterans On Deck",
+   "region": "SC",
+   "postal_code": "29414",
+   "county_fips": "45019",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.24,
+   "flags": [
+    "zip_split",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Veterans On Deck",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "010966185",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "331 Cabrill Dr",
+      "locality": "Charleston",
+      "region": "SC",
+      "postal_code": "29414"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "B90",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45019",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.82,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:237124474",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Air Force Sergeants Association",
+   "region": "SC",
+   "postal_code": "29414",
+   "county_fips": "45019",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_split",
+    "no_filing_period",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Air Force Sergeants Association",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "237124474",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "1500 Pasklawn Dr Apt 112",
+      "locality": "Charleston",
+      "region": "SC",
+      "postal_code": "29414"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45019",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.82,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:320848867",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Belton Veterans Park",
+   "region": "SC",
+   "postal_code": "29627",
+   "county_fips": "45007",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_split",
+    "no_filing_period"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Belton Veterans Park",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "320848867",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "207 Campbell St",
+      "locality": "Belton",
+      "region": "SC",
+      "postal_code": "29627"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45007",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.83,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:331586032",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Warrior Cove Fishing Inc",
+   "region": "SC",
+   "postal_code": "29072",
+   "county_fips": "45063",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "no_filing_period"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Warrior Cove Fishing Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "331586032",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "148 Greenside Dr",
+      "locality": "Lexington",
+      "region": "SC",
+      "postal_code": "29072"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45063",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:030543289",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion Auxiliary",
+   "region": "SC",
+   "postal_code": "29307",
+   "county_fips": "45083",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "zip_split",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion Auxiliary",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "030543289",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "123 Russell St",
+      "locality": "Spartanburg",
+      "region": "SC",
+      "postal_code": "29307"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45083",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.892,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:570315000",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Veterans Of Foreign Wars Post 3181 Florence Post",
+   "region": "SC",
+   "postal_code": "29506",
+   "county_fips": "45041",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "stale_filing",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Veterans Of Foreign Wars Post 3181 Florence Post",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "570315000",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "236 S Greer Rd",
+      "locality": "Florence",
+      "region": "SC",
+      "postal_code": "29506"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45041",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.981,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2021-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:570706577",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Veterans Of Foreign Wars Of The United States Dept Of So Carolina",
+   "region": "SC",
+   "postal_code": "29445",
+   "county_fips": "45015",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "mailing_only",
+    "stale_filing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Veterans Of Foreign Wars Of The United States Dept Of So Carolina",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "570706577",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 3",
+      "locality": "Goose Creek",
+      "region": "SC",
+      "postal_code": "29445"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45015",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2022-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:900391816",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Sons Of Confederate Veterans Inc",
+   "region": "SC",
+   "postal_code": "29536",
+   "county_fips": "45033",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "stale_filing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Sons Of Confederate Veterans Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "900391816",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "904 N 6Th Ave",
+      "locality": "Dillon",
+      "region": "SC",
+      "postal_code": "29536"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45033",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2022-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:043695936",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "George L Mabry American Legion Post 182",
+   "region": "SC",
+   "postal_code": "29045",
+   "county_fips": "45055",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_split",
+    "mailing_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "George L Mabry American Legion Post 182",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "043695936",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 815",
+      "locality": "Elgin",
+      "region": "SC",
+      "postal_code": "29045"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45055",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.647,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:201623318",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion Auxiliary Cq Williams Veterans Memorial Unit",
+   "region": "SC",
+   "postal_code": "29417",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion Auxiliary Cq Williams Veterans Memorial Unit",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "201623318",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 31476",
+      "locality": "Charleston",
+      "region": "SC",
+      "postal_code": "29417"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010849039",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "20Th Force Support Squadron Booster Club",
+   "region": "SC",
+   "postal_code": "29152",
+   "county_fips": "45085",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [],
+   "claims": [
+    {
+     "property": "name",
+     "value": "20Th Force Support Squadron Booster Club",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "010849039",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "504 Shaw Dr",
+      "locality": "Shaw Afb",
+      "region": "SC",
+      "postal_code": "29152"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "45085",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  }
+ ]
+}

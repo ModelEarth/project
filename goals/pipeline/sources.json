@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0",
+  "note": "Registry of external sources: repositories, files, REST APIs and MCP servers. Pipelines and the Worker read URLs from here (or from environment overrides), so swapping a source is a config change. Every harvested file is recorded in data/<scope>/manifest.json with its source_id, retrieval time and SHA-256.",
+  "sources": [
+    {
+      "source_id": "upstream-directory",
+      "title": "National veteran resource directory (REST API and MCP server)",
+      "publisher_from_response": "_meta.publisher.name",
+      "source_type": "nonprofit",
+      "kind": [
+        "mcp",
+        "rest",
+        "chat"
+      ],
+      "mcp_url": "https://warriorsfund.org/mcp",
+      "api_url": "https://warriorsfund.org",
+      "openapi": "https://warriorsfund.org/api/openapi.json",
+      "env_override": {
+        "mcp_url": "UPSTREAM_MCP_URL",
+        "api_url": "UPSTREAM_API_URL"
+      },
+      "license": "CC BY 4.0 (attribution required; the attribution text comes from each response's _meta block)",
+      "refresh": "live",
+      "used_for": "Directory search, crisis routing, benefits references, county resource counts (targets), and LLM chat with crisis detection",
+      "exclude_tools": [
+        "get_wounded_warriors_programs",
+        "lookup_wounded_warriors",
+        "donation_instructions_wounded_warriors",
+        "match_donor_intent",
+        "match_grant_intent",
+        "find_foundation_prospects",
+        "estimate_donor_impact",
+        "lookup_employer_match",
+        "get_legacy_giving",
+        "get_state_tax_credit",
+        "get_giving_events",
+        "get_donate_options",
+        "get_org_timeline",
+        "get_press_kit"
+      ],
+      "exclude_reason": "Fundraising and publisher-profile tools are specific to the upstream operator, not to veteran services",
+      "listed": false
+    },
+    {
+      "source_id": "community-industries",
+      "title": "County industry levels by NAICS (pre-processed County Business Patterns)",
+      "publisher": "community-data repository",
+      "source_type": "derived_federal",
+      "url_template": "https://raw.githubusercontent.com/ModelEarth/community-data/master/industries/naics/US/counties/{state}/US-{state}-census-naics{level}-counties-{year}.csv",
+      "columns": [
+        "Fips",
+        "Naics",
+        "Establishments",
+        "Employees",
+        "Payroll"
+      ],
+      "years": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ],
+      "levels": [
+        2,
+        4
+      ],
+      "license": "Derived from U.S. Census Bureau public-domain data",
+      "refresh": "annual",
+      "used_for": "Default industry features: employees, establishments and payroll per county and sector",
+      "notes": "Fixed upstream in October 2026: naics2 files now include sectors 31 (31-33), 44 (44-45) and 48 (48-49). The pipeline reads naics2 and cross-checks it against a naics4 rollup."
+    },
+    {
+      "source_id": "naics-hs-lookup",
+      "title": "Harmonized System to NAICS lookup",
+      "publisher": "profile repository (harmonized-system)",
+      "source_type": "derived",
+      "local_path": "/profile/harmonized-system/lookups/HS3-NAICS4-lookup.csv",
+      "url_template": "https://raw.githubusercontent.com/ModelEarth/profile/main/harmonized-system/lookups/HS3-NAICS4-lookup.csv",
+      "columns": [
+        "HS Code",
+        "HS Description",
+        "NAICS Code",
+        "NAICS Description"
+      ],
+      "license": "Derived from the Concordance project (insongkim/concordance)",
+      "used_for": "Linking county industries to traded products (HS 4-digit to NAICS 4-digit)"
+    },
+    {
+      "source_id": "irs-eo-bmf",
+      "title": "IRS Exempt Organizations Business Master File Extract",
+      "publisher": "U.S. Internal Revenue Service",
+      "source_type": "federal",
+      "url_template": "https://www.irs.gov/pub/irs-soi/eo_{state_lower}.csv",
+      "landing_page": "https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmf",
+      "license": "U.S. Government work, public domain",
+      "refresh": "monthly",
+      "used_for": "Veteran-serving organizations: NTEE codes W30 (military and veterans organizations) and IRC subsection 19 (posts of past or present members of the armed forces)"
+    },
+    {
+      "source_id": "census-cbp",
+      "title": "County Business Patterns, county file",
+      "publisher": "U.S. Census Bureau",
+      "source_type": "federal",
+      "url_template": "https://www2.census.gov/programs-surveys/cbp/datasets/{year}/cbp{yy}co.zip",
+      "landing_page": "https://www.census.gov/programs-surveys/cbp.html",
+      "license": "U.S. Government work, public domain",
+      "refresh": "annual",
+      "used_for": "Industry levels by county (NAICS): employees, establishments and annual payroll, with noise and suppression flags"
+    },
+    {
+      "source_id": "census-zcta-county",
+      "title": "2020 ZCTA to County Relationship File",
+      "publisher": "U.S. Census Bureau",
+      "source_type": "federal",
+      "url_template": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_county20_natl.txt",
+      "landing_page": "https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.html",
+      "license": "U.S. Government work, public domain",
+      "refresh": "decennial",
+      "used_for": "Assigning a ZIP code to the county holding the largest share of its land area, with that share kept as match confidence"
+    },
+    {
+      "source_id": "census-pep-county",
+      "title": "County Population Totals, Vintage 2024",
+      "publisher": "U.S. Census Bureau",
+      "source_type": "federal",
+      "url_template": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/counties/totals/co-est2024-alldata.csv",
+      "landing_page": "https://www.census.gov/programs-surveys/popest.html",
+      "license": "U.S. Government work, public domain",
+      "refresh": "annual",
+      "used_for": "Per-capita denominators",
+      "listed": false
+    },
+    {
+      "source_id": "census-acs-veterans",
+      "title": "American Community Survey 5-year, table B21001 (Sex by Age by Veteran Status)",
+      "publisher": "U.S. Census Bureau",
+      "source_type": "federal",
+      "url_template": "https://api.census.gov/data/{year}/acs/acs5?get=NAME,B21001_001E,B21001_002E&for=county:*&in=state:{state_fips}&key={CENSUS_API_KEY}",
+      "landing_page": "https://www.census.gov/data/developers/data-sets/acs-5year.html",
+      "license": "U.S. Government work, public domain",
+      "refresh": "annual",
+      "requires_key": "CENSUS_API_KEY",
+      "used_for": "Veteran population by county (optional; skipped when no key is set)"
+    }
+  ]
+}

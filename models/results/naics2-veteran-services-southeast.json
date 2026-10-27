@@ -1,0 +1,592 @@
+{
+  "folder": "naics2-veteran-services-southeast",
+  "baseline": {
+    "accuracy": 0.7463,
+    "balanced_accuracy": 0.5,
+    "majority_class": 0
+  },
+  "settings": {
+    "test_size": 0.25,
+    "random_state": 42,
+    "n_iter": 10
+  },
+  "no_smote": [
+    {
+      "model_type": "lr",
+      "accuracy": 0.7015,
+      "roc_auc": 0.6974,
+      "gmean": 0.3254,
+      "precision": 0.2857,
+      "recall": 0.1176,
+      "f1_score": 0.1667,
+      "balanced_accuracy": 0.5088,
+      "time": 0.01,
+      "params_used": {
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "C": 1.0,
+        "max_iter": 1000
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.75,
+          "recall": 0.9,
+          "f1-score": 0.8181818181818182,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.2857142857142857,
+          "recall": 0.11764705882352941,
+          "f1-score": 0.16666666666666666,
+          "support": 34.0
+        },
+        "accuracy": 0.7014925373134329,
+        "macro avg": {
+          "precision": 0.5178571428571428,
+          "recall": 0.5088235294117647,
+          "f1-score": 0.49242424242424243,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.6321961620469083,
+          "recall": 0.7014925373134329,
+          "f1-score": 0.6528720036182724,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.0088
+    },
+    {
+      "model_type": "rfc",
+      "accuracy": 0.7313,
+      "roc_auc": 0.6776,
+      "gmean": 0.4602,
+      "precision": 0.4444,
+      "recall": 0.2353,
+      "f1_score": 0.3077,
+      "balanced_accuracy": 0.5676,
+      "time": 0.1,
+      "params_used": {
+        "n_estimators": 100,
+        "max_depth": 8,
+        "criterion": "gini",
+        "max_features": "sqrt"
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.7758620689655172,
+          "recall": 0.9,
+          "f1-score": 0.8333333333333334,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.4444444444444444,
+          "recall": 0.23529411764705882,
+          "f1-score": 0.3076923076923077,
+          "support": 34.0
+        },
+        "accuracy": 0.7313432835820896,
+        "macro avg": {
+          "precision": 0.6101532567049808,
+          "recall": 0.5676470588235294,
+          "f1-score": 0.5705128205128205,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.6917710299079317,
+          "recall": 0.7313432835820896,
+          "f1-score": 0.6999617298124762,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.0676
+    },
+    {
+      "model_type": "xgboost",
+      "accuracy": 0.7313,
+      "roc_auc": 0.6691,
+      "gmean": 0.5509,
+      "precision": 0.4615,
+      "recall": 0.3529,
+      "f1_score": 0.4,
+      "balanced_accuracy": 0.6065,
+      "time": 1.69,
+      "params_used": {
+        "n_estimators": 70,
+        "learning_rate": 0.15935221800262123,
+        "max_depth": 5,
+        "subsample": 0.7866884014908136,
+        "colsample_bytree": 0.6907637396203536
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.7962962962962963,
+          "recall": 0.86,
+          "f1-score": 0.8269230769230769,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.46153846153846156,
+          "recall": 0.35294117647058826,
+          "f1-score": 0.4,
+          "support": 34.0
+        },
+        "accuracy": 0.7313432835820896,
+        "macro avg": {
+          "precision": 0.628917378917379,
+          "recall": 0.6064705882352941,
+          "f1-score": 0.6134615384615385,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.7113577412084875,
+          "recall": 0.7313432835820896,
+          "f1-score": 0.7185993111366247,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.1065
+    }
+  ],
+  "smote": [
+    {
+      "model_type": "lr",
+      "accuracy": 0.6791,
+      "roc_auc": 0.6906,
+      "gmean": 0.705,
+      "precision": 0.4262,
+      "recall": 0.7647,
+      "f1_score": 0.5474,
+      "balanced_accuracy": 0.7074,
+      "time": 0.06,
+      "params_used": {
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "C": 1.0,
+        "max_iter": 1000
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.8904109589041096,
+          "recall": 0.65,
+          "f1-score": 0.7514450867052023,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.4262295081967213,
+          "recall": 0.7647058823529411,
+          "f1-score": 0.5473684210526316,
+          "support": 34.0
+        },
+        "accuracy": 0.6791044776119403,
+        "macro avg": {
+          "precision": 0.6583202335504155,
+          "recall": 0.7073529411764705,
+          "f1-score": 0.649406753878917,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.7726335758888021,
+          "recall": 0.6791044776119403,
+          "f1-score": 0.699664440196341,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.2074
+    },
+    {
+      "model_type": "rfc",
+      "accuracy": 0.6716,
+      "roc_auc": 0.6662,
+      "gmean": 0.5752,
+      "precision": 0.375,
+      "recall": 0.4412,
+      "f1_score": 0.4054,
+      "balanced_accuracy": 0.5956,
+      "time": 0.17,
+      "params_used": {
+        "n_estimators": 100,
+        "max_depth": 8,
+        "criterion": "gini",
+        "max_features": "sqrt"
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.7978723404255319,
+          "recall": 0.75,
+          "f1-score": 0.7731958762886598,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.375,
+          "recall": 0.4411764705882353,
+          "f1-score": 0.40540540540540543,
+          "support": 34.0
+        },
+        "accuracy": 0.6716417910447762,
+        "macro avg": {
+          "precision": 0.586436170212766,
+          "recall": 0.5955882352941176,
+          "f1-score": 0.5893006408470326,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.6905763734518895,
+          "recall": 0.6716417910447762,
+          "f1-score": 0.6798759060645506,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.0956
+    },
+    {
+      "model_type": "xgboost",
+      "accuracy": 0.7164,
+      "roc_auc": 0.6768,
+      "gmean": 0.6285,
+      "precision": 0.4474,
+      "recall": 0.5,
+      "f1_score": 0.4722,
+      "balanced_accuracy": 0.645,
+      "time": 0.53,
+      "params_used": {
+        "n_estimators": 70,
+        "learning_rate": 0.09557332820015775,
+        "max_depth": 4,
+        "subsample": 0.7866884014908136,
+        "colsample_bytree": 0.6757885436337142
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.8229166666666666,
+          "recall": 0.79,
+          "f1-score": 0.8061224489795918,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.4473684210526316,
+          "recall": 0.5,
+          "f1-score": 0.4722222222222222,
+          "support": 34.0
+        },
+        "accuracy": 0.7164179104477612,
+        "macro avg": {
+          "precision": 0.6351425438596491,
+          "recall": 0.645,
+          "f1-score": 0.639172335600907,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.7276283058392249,
+          "recall": 0.7164179104477612,
+          "f1-score": 0.7214014959217518,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.145
+    }
+  ],
+  "feature_importance": {
+    "lr": [
+      {
+        "Feature": "Population",
+        "Importance": 1.906380374257418
+      },
+      {
+        "Feature": "Est-23-Construction",
+        "Importance": 1.6059039721718138
+      },
+      {
+        "Feature": "Emp-52-Finance and Insurance",
+        "Importance": 1.5621187479483418
+      },
+      {
+        "Feature": "Est-31-Manufacturing",
+        "Importance": 1.4161662724386346
+      },
+      {
+        "Feature": "Emp-61-Educational Services",
+        "Importance": 1.3910518011943271
+      },
+      {
+        "Feature": "Est-48-Transportation and Warehousing",
+        "Importance": 1.270743171744555
+      },
+      {
+        "Feature": "Pay-55-Management of Companies and Enterprises",
+        "Importance": 1.2649584954641808
+      },
+      {
+        "Feature": "Emp-56-Admin and Support and Waste Management",
+        "Importance": 1.1387166453140738
+      },
+      {
+        "Feature": "Emp-31-Manufacturing",
+        "Importance": 1.1262338658387003
+      },
+      {
+        "Feature": "Emp-48-Transportation and Warehousing",
+        "Importance": 1.0890158778871375
+      },
+      {
+        "Feature": "Est-55-Management of Companies and Enterprises",
+        "Importance": 1.0832835405401982
+      },
+      {
+        "Feature": "Emp-55-Management of Companies and Enterprises",
+        "Importance": 1.0594722056099162
+      },
+      {
+        "Feature": "Est-71-Arts, Entertainment, and Recreation",
+        "Importance": 1.006540761644063
+      },
+      {
+        "Feature": "Pay-21-Mining, Quarrying, Oil and Gas Extraction",
+        "Importance": 0.9036453654336091
+      },
+      {
+        "Feature": "Est-81-Other Services",
+        "Importance": 0.8813997471657583
+      },
+      {
+        "Feature": "Pay-99",
+        "Importance": 0.8633699563775517
+      },
+      {
+        "Feature": "Emp-62-Health Care and Social Assistance",
+        "Importance": 0.820406882897571
+      },
+      {
+        "Feature": "Pay-44-Retail Trade",
+        "Importance": 0.8066611763525728
+      },
+      {
+        "Feature": "Est-21-Mining, Quarrying, Oil and Gas Extraction",
+        "Importance": 0.7656878685516556
+      },
+      {
+        "Feature": "Pay-51-Information",
+        "Importance": 0.7329216230098795
+      }
+    ],
+    "rfc": [
+      {
+        "Feature": "Emp-11-Agriculture, Forestry, Fishing and Hunting",
+        "Importance": 0.05421418038347307
+      },
+      {
+        "Feature": "Population",
+        "Importance": 0.04821800618477789
+      },
+      {
+        "Feature": "Pay-11-Agriculture, Forestry, Fishing and Hunting",
+        "Importance": 0.0439688073017939
+      },
+      {
+        "Feature": "Est-23-Construction",
+        "Importance": 0.04143675833174492
+      },
+      {
+        "Feature": "Est-31-Manufacturing",
+        "Importance": 0.0391412056603287
+      },
+      {
+        "Feature": "Est-11-Agriculture, Forestry, Fishing and Hunting",
+        "Importance": 0.03826426149576456
+      },
+      {
+        "Feature": "Pay-81-Other Services",
+        "Importance": 0.03283215942556155
+      },
+      {
+        "Feature": "Emp-81-Other Services",
+        "Importance": 0.026730178239755133
+      },
+      {
+        "Feature": "Est-56-Admin and Support and Waste Management",
+        "Importance": 0.02554844544927721
+      },
+      {
+        "Feature": "Pay-48-Transportation and Warehousing",
+        "Importance": 0.021975576901789178
+      },
+      {
+        "Feature": "Emp-31-Manufacturing",
+        "Importance": 0.021918923581521605
+      },
+      {
+        "Feature": "Pay-71-Arts, Entertainment, and Recreation",
+        "Importance": 0.020779908234314828
+      },
+      {
+        "Feature": "Pay-62-Health Care and Social Assistance",
+        "Importance": 0.019953436841532793
+      },
+      {
+        "Feature": "Est-48-Transportation and Warehousing",
+        "Importance": 0.019487205694713582
+      },
+      {
+        "Feature": "Pay-31-Manufacturing",
+        "Importance": 0.01832663609569841
+      },
+      {
+        "Feature": "Est-21-Mining, Quarrying, Oil and Gas Extraction",
+        "Importance": 0.01814217379544617
+      },
+      {
+        "Feature": "Emp-62-Health Care and Social Assistance",
+        "Importance": 0.01810987178057496
+      },
+      {
+        "Feature": "Est-71-Arts, Entertainment, and Recreation",
+        "Importance": 0.017755804526347393
+      },
+      {
+        "Feature": "Est-54-Professional, Scientific, Technical Services",
+        "Importance": 0.01736027583377044
+      },
+      {
+        "Feature": "Emp-48-Transportation and Warehousing",
+        "Importance": 0.017181877415244826
+      }
+    ],
+    "xgboost": [
+      {
+        "Feature": "Population",
+        "Importance": 43.0
+      },
+      {
+        "Feature": "Est-23-Construction",
+        "Importance": 38.0
+      },
+      {
+        "Feature": "Pay-11-Agriculture, Forestry, Fishing and Hunting",
+        "Importance": 31.0
+      },
+      {
+        "Feature": "Est-31-Manufacturing",
+        "Importance": 30.0
+      },
+      {
+        "Feature": "Est-11-Agriculture, Forestry, Fishing and Hunting",
+        "Importance": 28.0
+      },
+      {
+        "Feature": "Emp-61-Educational Services",
+        "Importance": 26.0
+      },
+      {
+        "Feature": "Pay-31-Manufacturing",
+        "Importance": 22.0
+      },
+      {
+        "Feature": "Emp-11-Agriculture, Forestry, Fishing and Hunting",
+        "Importance": 21.0
+      },
+      {
+        "Feature": "Emp-31-Manufacturing",
+        "Importance": 20.0
+      },
+      {
+        "Feature": "Emp-62-Health Care and Social Assistance",
+        "Importance": 19.0
+      },
+      {
+        "Feature": "Pay-54-Professional, Scientific, Technical Services",
+        "Importance": 19.0
+      },
+      {
+        "Feature": "Est-48-Transportation and Warehousing",
+        "Importance": 19.0
+      },
+      {
+        "Feature": "Emp-48-Transportation and Warehousing",
+        "Importance": 19.0
+      },
+      {
+        "Feature": "Emp-81-Other Services",
+        "Importance": 17.0
+      },
+      {
+        "Feature": "Pay-61-Educational Services",
+        "Importance": 16.0
+      },
+      {
+        "Feature": "Pay-52-Finance and Insurance",
+        "Importance": 16.0
+      },
+      {
+        "Feature": "Pay-71-Arts, Entertainment, and Recreation",
+        "Importance": 15.0
+      },
+      {
+        "Feature": "Pay-23-Construction",
+        "Importance": 15.0
+      },
+      {
+        "Feature": "Est-21-Mining, Quarrying, Oil and Gas Extraction",
+        "Importance": 15.0
+      },
+      {
+        "Feature": "Pay-55-Management of Companies and Enterprises",
+        "Importance": 14.0
+      }
+    ]
+  },
+  "cv": {
+    "mode": "group",
+    "folds": 6,
+    "results": [
+      {
+        "model": "MajorityBaseline",
+        "roc_auc_mean": 0.5,
+        "roc_auc_std": 0.0,
+        "pr_auc_mean": 0.2358,
+        "pr_auc_std": 0.1491,
+        "balanced_accuracy_mean": 0.5,
+        "balanced_accuracy_std": 0.0,
+        "f1_macro_mean": 0.4291,
+        "f1_macro_std": 0.0478,
+        "lift_over_baseline": 0.0
+      },
+      {
+        "model": "lr",
+        "roc_auc_mean": 0.6028,
+        "roc_auc_std": 0.2518,
+        "pr_auc_mean": 0.3623,
+        "pr_auc_std": 0.2022,
+        "balanced_accuracy_mean": 0.6116,
+        "balanced_accuracy_std": 0.1654,
+        "f1_macro_mean": 0.5575,
+        "f1_macro_std": 0.108,
+        "lift_over_baseline": 0.1116
+      },
+      {
+        "model": "rfc",
+        "roc_auc_mean": 0.5868,
+        "roc_auc_std": 0.2056,
+        "pr_auc_mean": 0.3736,
+        "pr_auc_std": 0.1808,
+        "balanced_accuracy_mean": 0.5539,
+        "balanced_accuracy_std": 0.1259,
+        "f1_macro_mean": 0.5327,
+        "f1_macro_std": 0.0777,
+        "lift_over_baseline": 0.0539
+      },
+      {
+        "model": "xgboost",
+        "roc_auc_mean": 0.5693,
+        "roc_auc_std": 0.1995,
+        "pr_auc_mean": 0.3434,
+        "pr_auc_std": 0.1816,
+        "balanced_accuracy_mean": 0.5304,
+        "balanced_accuracy_std": 0.0879,
+        "f1_macro_mean": 0.5152,
+        "f1_macro_std": 0.0641,
+        "lift_over_baseline": 0.0304
+      }
+    ]
+  },
+  "parameters": "events/next.yaml#forecasts.services"
+}

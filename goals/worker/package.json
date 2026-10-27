@@ -1,0 +1,15 @@
+{
+  "name": "goals-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Project Goals MCP server and data API for Cloudflare Workers. No runtime dependencies.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "test": "node test/smoke.mjs",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.147.0"
+  }
+}

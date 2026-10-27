@@ -1,0 +1,19 @@
+entity_type,property,hsds_table,hsds_field,notes
+organization,name,organization,name,
+organization,tax_id,organization_identifier,identifier,identifier_type = EIN
+organization,url,organization,website,
+organization,description,organization,description,
+location,name,location,name,
+location,address.street,address,address_1,
+location,address.locality,address,city,
+location,address.region,address,state_province,
+location,address.postal_code,address,postal_code,
+location,county_fips,service_area,extent,extent_type = county FIPS; to confirm with Open Referral review
+offering,name,service,name,
+offering,description,service,description,
+offering,eligibility,service,eligibility_description,
+offering,category,taxonomy_term,code,Domain profile categories published as a taxonomy
+contact_point,phone,phone,number,
+claim,source_url,attribute/metadata,resource_id + source,HSDS metadata table records field changes; claims extend it with origin confidence and validity
+claim,retrieved_at,metadata,last_action_date,
+claim,review_state,metadata,action_type,

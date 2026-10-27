@@ -1,0 +1,40 @@
+# Project Goals on its own Worker. Inside a webroot that already runs a Worker
+# (e.g. CloudRoot), mount it instead: CloudRoot's worker/src/index.js routes
+# /api/goals/* to handleGoals.
+name = "goals"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+workers_dev = true
+
+# The project folder: goals/index.html at /goals/, goals/data/toy, goals/schema,
+# events/*.yaml and models/results. API routes under BASE_PATH run the Worker first.
+[assets]
+directory = "../.."
+binding = "ASSETS"
+run_worker_first = ["/api/goals", "/api/goals/*"]
+
+[vars]
+# Domain profile (src/profiles/<PROFILE>.js): categories, safety lines,
+# glossary and forms. Another service reuses this Worker with its own profile.
+PROFILE = "veterans"
+# Where the goals folder and model results sit under the asset root. In a
+# webroot (CloudRoot) these are /project/goals and /project/models.
+DATA_PREFIX = "/goals"
+MODELS_PREFIX = "/models"
+# Upstream directory (MCP and REST). Defaults are in pipeline/sources.json;
+# set these to point at another directory with the same tools.
+# UPSTREAM_MCP_URL = ""
+# UPSTREAM_API_URL = ""
+# Path the Worker answers under, the same as when mounted.
+BASE_PATH = "/api/goals"
+
+# Optional D1 database for review queues and corrections.
+# Without it, propose_correction returns the activity for the caller's CRM.
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "goals"
+# database_id = "<id from: wrangler d1 create goals>"
+# migrations_dir = "migrations"
+
+[dev]
+port = 3702

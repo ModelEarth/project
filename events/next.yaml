@@ -1,0 +1,137 @@
+# Next Mission: goal automation for veterans.
+# Opened with project/goals/#event=next. Not listed in events.json, so it
+# stays off the /project page's event list.
+id: next
+label: Next Mission
+kind: goals
+mission_name: Next Mission
+browser_title: Next Mission
+# Shown in place of the localsite header logo, after an earth icon. Clicking
+# it opens the Earth display, like the earth icon in Settings.
+headerTitle: Next Mission
+# Domain profile for the goals Worker (goals/worker/src/profiles/veterans.js).
+profile: veterans
+eyebrow: Goal automation for veterans
+lede: Set goals for your Next Mission. Ask in your own words.
+# Top info line shown on the goals page (here, crisis support). [label](href) makes a link
+# (tel:, sms: and https: only).
+topinfo_label: In crisis?
+topinfo_text: 'Veterans Crisis Line: dial [988](tel:988), then press 1 · text [838255](sms:838255) · [chat online](https://www.veteranscrisisline.net/get-help-now/chat/)'
+
+# Safety lines the goals Worker returns first whenever a request shows crisis
+# language (crisis_support, ask, route_query, MCP), and lists in llms.txt.
+# The veterans profile (goals/worker/src/profiles/veterans.js) reads them from
+# here. channel: phone, sms or web; value: the number or URL.
+safety_lines:
+  - name: Veterans Crisis Line
+    how: Dial 988, then press 1
+    channel: phone
+    value: "988"
+  - name: Veterans Crisis Line (text)
+    how: Text 838255
+    channel: sms
+    value: "838255"
+  - name: Veterans Crisis Line (chat)
+    how: Chat online
+    channel: web
+    value: https://www.veteranscrisisline.net/get-help-now/chat/
+  - name: Emergency
+    how: Call 911 if there is immediate danger
+    channel: phone
+    value: "911"
+
+# Hero backgrounds for view=hero (the default layout), one picked at random
+# and faded to the next every 15 seconds. Free under the Unsplash License
+# (https://unsplash.com/license); loaded from Unsplash's image CDN, with the
+# photographer credited on the page. Also the default set when no event is open.
+hero_images:
+  - url: https://images.unsplash.com/photo-1601579859386-2bb026c0a2e8?auto=format&fit=crop&w=1920&q=70
+    credit: "Eric Ward"
+    link: https://unsplash.com/photos/PozQpkkSt9I
+  - url: https://images.unsplash.com/photo-1682623763188-804d15be0267?auto=format&fit=crop&w=1920&q=70
+    credit: "Wesley Tingey"
+    link: https://unsplash.com/photos/xHBmKGVpSEY
+  - url: https://images.unsplash.com/photo-1761839259488-2bdeeae794f5?auto=format&fit=crop&w=1920&q=70
+    credit: "Land O'Lakes, Inc."
+    link: https://unsplash.com/photos/MjH55Ef3w_0
+  - url: https://images.unsplash.com/photo-1682623764799-f0a7bde392d7?auto=format&fit=crop&w=1920&q=70
+    credit: "Wesley Tingey"
+    link: https://unsplash.com/photos/ZB_3Bqk87hw
+  - url: https://images.unsplash.com/photo-1453683685760-b8db0bbb8dc2?auto=format&fit=crop&w=1920&q=70
+    credit: "Holly Mindrup"
+    link: https://unsplash.com/photos/j7RQSDAhpYI
+  - url: https://images.unsplash.com/photo-1761839258605-d1b118266ccc?auto=format&fit=crop&w=1920&q=70
+    credit: "Land O'Lakes, Inc."
+    link: https://unsplash.com/photos/ydAyN8eRIDw
+  - url: https://images.unsplash.com/photo-1629954844642-bd8bd3fca315?auto=format&fit=crop&w=1920&q=70
+    credit: "Tim Mossholder"
+    link: https://unsplash.com/photos/C9aoKixzhRQ
+  - url: https://images.unsplash.com/photo-1716837682689-e834ac498c15?auto=format&fit=crop&w=1920&q=70
+    credit: "David Valentine"
+    link: https://unsplash.com/photos/7CSwz5Mqgps
+
+# Data the goals page reads. Sample: files in goals/data/toy. Live: the
+# sources below, by id in goals/pipeline/sources.json.
+data:
+  sample_scope: AL-FL-GA-NC-SC-TN
+  live_sources: [community-industries, upstream-directory]
+  industry_year: 2023
+
+# RealityStream forecasts, run with:
+#   python models/run.py events/next.yaml               (all forecasts)
+#   python models/run.py events/next.yaml --forecast orgs
+# Each entry is a RealityStream parameters block. Relative paths resolve
+# against this file. Features are county industry levels for 2023 from the
+# community-data repository: employees (Emp-XX), establishments (Est-XX) and
+# annual payroll (Pay-XX) by 2-digit NAICS sector, plus population. Files
+# come from goals/pipeline/county_pipeline.py. Point features.path or
+# targets.path at any URL or file with a Fips column to forecast from another
+# source. Evaluation holds out whole states, so a model can't succeed by
+# memorizing one state's conventions.
+forecasts:
+  # Counties with a high density of veteran services: 1 when a county is in
+  # the top quartile of resources per 10,000 people in the upstream veteran
+  # resource directory (/api/coverage).
+  services:
+    folder: naics2-veteran-services-southeast
+    features:
+      data: industries
+      common: Fips
+      path: ../goals/data/AL-FL-GA-NC-SC-TN/county-features.csv
+    targets:
+      data: veteran-services
+      common: Fips
+      column: Target
+      path: ../goals/data/AL-FL-GA-NC-SC-TN/county-targets.csv
+    models: [lr, rfc, xgboost]
+    split:
+      test_size: 0.25
+      random_state: 42
+    search:
+      n_iter: 10
+    evaluation:
+      cv: group
+      folds: 6
+  # Counties with a high density of veteran-serving organizations: 1 when a
+  # county is in the top quartile of IRS-coded veteran organizations (NTEE
+  # W30 or subsection 19) per 10,000 people.
+  orgs:
+    folder: naics2-veteran-orgs-southeast
+    features:
+      data: industries
+      common: Fips
+      path: ../goals/data/AL-FL-GA-NC-SC-TN/county-features.csv
+    targets:
+      data: veteran-orgs
+      common: Fips
+      column: Target
+      path: ../goals/data/AL-FL-GA-NC-SC-TN/county-targets-orgs.csv
+    models: [lr, rfc, xgboost]
+    split:
+      test_size: 0.25
+      random_state: 42
+    search:
+      n_iter: 10
+    evaluation:
+      cv: group
+      folds: 6

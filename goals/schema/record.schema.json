@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/goals/schema/record.schema.json",
+  "title": "Goals record",
+  "description": "A record is an entity plus the dated, sourced claims made about it. Summary fields (name, category, confidence, ...) are a convenience view; the claims are the source of truth. Entity types map to common CRM tables (crosswalk-crm.csv) and to Open Referral HSDS (crosswalk-hsds.csv).",
+  "type": "object",
+  "required": ["id", "entity_type", "claims"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable identifier, '<entity>:<scheme>:<value>', e.g. org:ein:010552773. Never reused after retirement.",
+      "pattern": "^[a-z_]+:[a-z0-9_]+:[A-Za-z0-9_.-]+$"
+    },
+    "entity_type": {
+      "enum": ["organization", "location", "offering", "event", "contact_point", "benefit", "form"],
+      "description": "offering covers programs, services and resources."
+    },
+    "crm_table": {
+      "type": "string",
+      "description": "Table in a common CRM schema that holds this entity (accounts, contacts, events, products, documents, ...)."
+    },
+    "name": { "type": "string" },
+    "region": { "type": "string", "description": "Two-letter state or territory code." },
+    "postal_code": { "type": "string" },
+    "county_fips": { "type": ["string", "null"], "pattern": "^\\d{5}$" },
+    "category": { "type": "string", "description": "A category id from the domain profile, or 'unclassified'." },
+    "origin": { "$ref": "#/$defs/origin" },
+    "review_state": { "$ref": "#/$defs/review_state" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "flags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Quality flags raised by the pipeline (specs.md, Quality flags)."
+    },
+    "claims": { "type": "array", "items": { "$ref": "#/$defs/claim" } },
+    "retired": {
+      "type": "object",
+      "properties": {
+        "at": { "type": "string", "format": "date-time" },
+        "reason": { "type": "string" },
+        "replaced_by": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "origin": {
+      "enum": ["source_extracted", "derived", "rule_proposed", "ai_proposed", "human_verified", "curated"],
+      "description": "How a value entered the dataset. ai_proposed and rule_proposed values never serve as gold labels."
+    },
+    "review_state": {
+      "enum": ["candidate", "in_review", "verified", "disputed", "rejected", "retired"]
+    },
+    "claim": {
+      "type": "object",
+      "required": ["property", "value", "source_id", "retrieved_at", "origin", "review_state", "confidence"],
+      "properties": {
+        "claim_id": { "type": "string", "description": "Optional stable id, assigned when claims are stored individually (D1 table claims)." },
+        "property": { "type": "string", "description": "What is being claimed: name, address, category, county_fips, status, phone, url, hours, eligibility, ..." },
+        "value": { "description": "Any JSON value." },
+        "source_id": { "type": "string", "description": "Key into pipeline/sources.json, or a URL for a single page." },
+        "source_url": { "type": "string", "format": "uri" },
+        "retrieved_at": { "type": "string", "format": "date-time" },
+        "valid_from": { "type": "string", "format": "date" },
+        "valid_to": { "type": ["string", "null"], "format": "date" },
+        "origin": { "$ref": "#/$defs/origin" },
+        "review_state": { "$ref": "#/$defs/review_state" },
+        "reviewed_by": { "type": "string", "description": "Role or process id, never a veteran's identity." },
+        "reviewed_at": { "type": "string", "format": "date-time" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "method": { "type": "string" },
+        "evidence": { "type": "object" },
+        "contradicts": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "claim_ids this claim conflicts with. Conflicts are kept, never overwritten."
+        },
+        "supersedes": { "type": "string", "description": "claim_id of the earlier claim this one updates." }
+      }
+    }
+  }
+}

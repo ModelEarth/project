@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Project Goals</title>
+<meta name="description" content="Open data and agent tools for setting and reaching goals: services, benefits references, county context and data-quality signals, each result cited to its source.">
+<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Started from localsite/start/template/index.html: localsite header and
+     Markdown loading (the Plan tab loads PLAN.md with loadMarkdown). The page also works without localsite (standalone Worker).
+     #event=<id> loads ../events/<id>.yaml for the title and text (e.g. #event=next). -->
+<link type="text/css" rel="stylesheet" href="/localsite/css/base.css" id="/localsite/css/base.css" />
+<script type="text/javascript" src="/localsite/js/localsite.js?showheader=true"></script>
+<!-- Parses events/<id>.yaml for #event=<id>. -->
+<script type="text/javascript" src="/localsite/js/yaml.js"></script>
+<link type="text/css" rel="stylesheet" href="css/goals.css" />
+<script>
+// view=hero (default) or view=center, set before first paint to avoid a flash.
+document.documentElement.classList.toggle("goals-view-hero", !/(^|[#&])view=center(&|$)/.test(location.hash));
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  if (typeof loadMarkdown !== "function") document.body.classList.add("standalone");
+});
+</script>
+</head>
+
+<body>
+<!-- view=hero: rotating photos behind the page (events/<id>.yaml hero_images). -->
+<div class="goals-bg" id="heroBg" aria-hidden="true"><img alt=""><img alt=""></div>
+<p class="goals-credit" id="heroCredit"></p>
+<!-- #goalsMain holds the tabs and panels. On wide windows the active panel's
+     side column (figures) moves into #goalsAside, to its right; one marked
+     goals-side-bottom (Community Data) moves into #goalsBottom, across the bottom (goals.js). -->
+<div class="goals" id="goalsPage">
+<div class="goals-row">
+<div class="goals-col" id="goalsMain" data-tab="goals">
+
+  <!-- Filled from the event's topinfo_label and topinfo_text (events/next.yaml). -->
+  <aside class="goals-topinfo" id="topinfoBar" role="note" hidden></aside>
+
+  <!-- The Goals tab shows the hero (ask box) and its results; other tabs hide them. -->
+  <nav class="goals-tabs" role="tablist" aria-label="Sections">
+    <button role="tab" aria-selected="true" data-tab="goals">Goals</button>
+    <button role="tab" aria-selected="false" data-tab="data">Data Services</button>
+    <button role="tab" aria-selected="false" data-tab="local">Local Industries</button>
+    <button role="tab" aria-selected="false" data-tab="quality">Quality Control</button>
+    <button role="tab" aria-selected="false" data-tab="analytics">Analytics</button>
+    <!-- Agents is reached only by link (#tab=agents) or the Harmonized AI Data card. -->
+    <button role="tab" aria-selected="false" data-tab="agents" hidden>Agents</button>
+    <button role="tab" aria-selected="false" data-tab="plan">Project Plan</button>
+  </nav>
+
+  <header class="goals-hero">
+    <!-- Toy Data or Live Data, one setting (data= in the hash) shared by each panel that has both. -->
+    <label class="goals-source"><span class="goals-sr">Data source</span><select data-source><option value="sample">Toy Data</option><option value="live">Live Data</option></select></label>
+    <p class="goals-eyebrow" id="goalsEyebrow">Integrated App Development</p>
+    <h1 id="goalsTitle">Project Goals</h1>
+    <p class="goals-lede" id="goalsLede">Set your goals. Ask in your own words.</p>
+
+    <form id="askForm" class="goals-ask" autocomplete="off">
+      <label for="askText" class="goals-sr">Your question</label>
+      <textarea id="askText" rows="2" placeholder="e.g. Job training that uses my logistics experience near Atlanta" required></textarea>
+      <div class="goals-ask-row">
+        <label for="askZip" class="goals-sr">Postal code</label>
+        <input id="askZip" inputmode="numeric" pattern="\d{5}" maxlength="5" placeholder="ZIP">
+        <select id="askCategory" aria-label="Category">
+          <option value="">Any category</option>
+        </select>
+        <button type="submit" class="goals-btn">Ask</button>
+        <button type="button" id="searchBtn" class="goals-btn goals-btn-ghost">List services</button>
+      </div>
+    </form>
+    <div class="goals-chips" id="exampleChips" aria-label="Examples"></div>
+  </header>
+
+  <section id="results" class="goals-results" aria-live="polite" hidden>
+    <div id="safety" class="goals-safety" hidden></div>
+    <div id="answer" class="goals-answer"></div>
+    <div id="flagSummary" class="goals-flagsum"></div>
+    <div id="records" class="goals-cards"></div>
+    <p class="goals-cite" id="resultCites"></p>
+  </section>
+
+  <section class="goals-panel" data-panel="data" hidden>
+    <div class="goals-split">
+      <div class="goals-main">
+      <h2>Community Data Services</h2>
+      <!-- The first 3 sources, then "More Data Sources" to show the rest (goals.js). -->
+      <div class="goals-sources" id="sourcesList"></div>
+      </div>
+      <div class="goals-side goals-side-bottom">
+      <div class="goals-objectives" id="objectives"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="goals-panel" data-panel="local" hidden>
+    <div class="goals-split">
+      <label class="goals-source"><span class="goals-sr">Data source</span><select data-source><option value="sample">Toy Data</option><option value="live">Live Data</option></select></label>
+      <div class="goals-main">
+      <h2>Local Jobs Engine</h2>
+      <p class="goals-sub">Industry levels from County Business Patterns dataset</p>
+      <div class="goals-filters">
+        <label>State <select id="countyState"></select></label>
+        <label>County <select id="countyPick"></select></label>
+      </div>
+      <div class="goals-stats" id="countyStats"></div>
+      <figure class="goals-fig">
+        <figcaption>Two sources, two pictures: directory services vs IRS-coded veteran organizations, per 10,000 residents</figcaption>
+        <div id="agreeChart" class="goals-chart"></div>
+        <p class="goals-note" id="agreeNote"></p>
+      </figure>
+      </div>
+      <div class="goals-side">
+      <figure class="goals-fig">
+        <figcaption>Employees by industry sector</figcaption>
+        <div id="countyChart" class="goals-chart"></div>
+        <p class="goals-note" id="countySource"></p>
+      </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="goals-panel" data-panel="quality" hidden>
+    <div class="goals-split">
+      <label class="goals-source"><span class="goals-sr">Data source</span><select data-source><option value="sample">Toy Data</option><option value="live">Live Data</option></select></label>
+      <div class="goals-main">
+      <h2>Data Quality Control</h2>
+      <p class="goals-sub">Patterns that point to incorrect or missing data. Flags lower a record's confidence; none silently drop it. People review, then the record's state changes.</p>
+      <div class="goals-filters">
+        <label id="qualityScopeLabel">Scope <select id="qualityScope"><option value="GA">Georgia</option><option value="AL-FL-GA-NC-SC-TN">Six Southeast states</option></select></label>
+      </div>
+      <div class="goals-stats" id="qualityStats"></div>
+      <details class="goals-defs"><summary>What each flag means</summary><dl id="flagDefs"></dl></details>
+      </div>
+      <div class="goals-side">
+      <figure class="goals-fig">
+        <figcaption id="qualityCaption">Quality flags raised by the pipeline</figcaption>
+        <div id="qualityChart" class="goals-chart"></div>
+        <p class="goals-note" id="qualitySource"></p>
+      </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="goals-panel" data-panel="analytics" hidden>
+    <div class="goals-split">
+      <div class="goals-main">
+      <h2>Industry Data + Community Analytics</h2>
+      <p class="goals-sub">RealityStream models find location data patterns using a mix of industries: employees, establishments and payroll by NAICS sector.</p>
+      <div class="goals-filters">
+        <label>Target <select id="modelPick">
+          <option value="naics2-veteran-services-southeast">Directory services per 10k</option>
+          <option value="naics2-veteran-orgs-southeast">IRS-coded veteran organizations per 10k</option>
+        </select></label>
+      </div>
+      <figure class="goals-fig">
+        <figcaption>State-held-out cross-validation, ROC-AUC (dot = mean, line = ±1 SD; 0.5 = chance)</figcaption>
+        <div id="cvChart" class="goals-chart"></div>
+      </figure>
+      </div>
+      <div class="goals-side">
+      <figure class="goals-fig">
+        <figcaption>Feature importance (XGBoost, top 12)</figcaption>
+        <div id="importanceChart" class="goals-chart"></div>
+      </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="goals-panel" data-panel="agents" hidden>
+    <div class="goals-split">
+      <div class="goals-main">
+      <h2>Agent Orchestration</h2>
+      <p class="goals-sub">Project Goals is an MCP server. Generic tool and parameter names (postal_code, region, county_fips, category) map to common CRM tables, so the same tools serve other audiences through a profile.</p>
+      <div class="goals-code">
+        <p>Claude Code</p>
+        <pre><code id="connectCli"></code></pre>
+        <p>Clients that take a URL (Cursor, Claude Desktop custom connector, ...)</p>
+        <pre><code id="connectJson"></code></pre>
+        <p>Discovery: <a id="lnkOpenapi">OpenAPI</a> · <a id="lnkLlms">llms.txt</a> · <a id="lnkAgent">agent card</a> · <a id="lnkHealth">health</a></p>
+      </div>
+      </div>
+      <div class="goals-side goals-side-plain">
+      <h3>Try a tool</h3>
+      <div class="goals-console">
+        <div class="goals-filters">
+          <label>Tool <select id="toolPick"></select></label>
+          <button class="goals-btn" id="toolRun" type="button">Run</button>
+        </div>
+        <p class="goals-note" id="toolDesc"></p>
+        <label for="toolArgs" class="goals-sr">Arguments (JSON)</label>
+        <textarea id="toolArgs" rows="4" spellcheck="false"></textarea>
+        <pre class="goals-out" id="toolOut" tabindex="0"></pre>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="goals-panel" data-panel="plan" hidden>
+    <div class="content contentpadding large-list">
+      <div id="planDiv"></div>
+    </div>
+  </section>
+
+</div>
+<aside class="goals-aside" id="goalsAside" aria-label="Figures" hidden></aside>
+</div>
+<section class="goals-bottom" id="goalsBottom" aria-label="Tools" hidden></section>
+</div>
+
+<div id="goalsTip" class="goals-tip" role="tooltip" hidden></div>
+<script type="module" src="js/goals.js"></script>
+</body>
+</html>

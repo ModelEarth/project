@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-10-26T21:16:51Z",
+  "scope": "GA",
+  "states": [
+    "GA"
+  ],
+  "records": 1108,
+  "records_by_origin": {
+    "rule_proposed": 359,
+    "source_extracted": 749
+  },
+  "counties": 159,
+  "counties_observed": 158,
+  "counties_unknown": 1,
+  "industry_source": "community",
+  "industry_year": 2023,
+  "target": "directory services per 10k, top quartile",
+  "target_cutoff_services_per_10k": 7.672,
+  "target_cutoff_orgs_per_10k": 1.291,
+  "directory_resources": 5192,
+  "directory_attribution": "Wounded Warriors",
+  "flags": {
+    "rollup_shortfall": 776,
+    "name_only": 359,
+    "ntee_missing": 346,
+    "mailing_only": 309,
+    "zip_split": 289,
+    "industry_absent_sectors": 150,
+    "no_filing_period": 122,
+    "zip_unmapped": 121,
+    "duplicate_name_zip": 90,
+    "thin_records": 15,
+    "stale_filing": 6,
+    "code_mismatch": 2,
+    "no_records": 1
+  },
+  "records_flagged": 932,
+  "mean_confidence": 0.651
+}

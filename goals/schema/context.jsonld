@@ -1,0 +1,44 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "goals": "https://example.org/goals/vocab#",
+
+    "id": "@id",
+    "entity_type": "@type",
+    "organization": "schema:Organization",
+    "location": "schema:Place",
+    "offering": "schema:Service",
+    "event": "schema:Event",
+    "contact_point": "schema:ContactPoint",
+    "benefit": "goals:Benefit",
+    "form": "schema:DigitalDocument",
+
+    "name": "schema:name",
+    "postal_code": "schema:postalCode",
+    "region": "schema:addressRegion",
+    "county_fips": "goals:countyFips",
+    "category": "goals:category",
+    "confidence": { "@id": "goals:confidence", "@type": "xsd:decimal" },
+    "origin": "goals:origin",
+    "review_state": "goals:reviewState",
+    "flags": { "@id": "goals:qualityFlag", "@container": "@set" },
+
+    "claims": { "@id": "goals:claim", "@container": "@set" },
+    "property": "goals:property",
+    "value": { "@id": "goals:value", "@type": "@json" },
+    "source_id": { "@id": "prov:wasDerivedFrom", "@type": "@id" },
+    "source_url": { "@id": "prov:hadPrimarySource", "@type": "@id" },
+    "retrieved_at": { "@id": "prov:generatedAtTime", "@type": "xsd:dateTime" },
+    "valid_from": { "@id": "schema:validFrom", "@type": "xsd:date" },
+    "valid_to": { "@id": "schema:validThrough", "@type": "xsd:date" },
+    "reviewed_by": "prov:wasAttributedTo",
+    "method": "prov:wasGeneratedBy",
+    "contradicts": { "@id": "goals:contradicts", "@type": "@id" },
+    "supersedes": { "@id": "prov:wasRevisionOf", "@type": "@id" }
+  }
+}

@@ -1,0 +1,28 @@
+entity_type,property,crm_table,crm_field,notes
+organization,name,accounts,name,
+organization,tax_id,accounts,tax_id,Stored as an identifier; not a secret
+organization,address.street,accounts,address_street,
+organization,address.locality,accounts,address_city,
+organization,address.region,accounts,address_state,
+organization,address.postal_code,accounts,address_postalcode,
+organization,category,accounts,account_type,Category id from the domain profile
+organization,url,accounts,website,
+organization,phone,accounts,phone_office,
+location,name,accounts,name,Child account (parent_id = organization)
+location,address.*,accounts,address_*,
+offering,name,products,name,Programs services resources and benefits
+offering,description,products,description,
+offering,eligibility,products,eligibility,Custom field
+offering,category,products,category,
+event,name,events,name,
+event,start,events,date_start,
+event,end,events,date_end,
+contact_point,phone,accounts,phone_office,Public service lines only: never a person's private number
+form,form_id,documents,document_name,
+form,url,documents,doc_url,
+claim,*,activities,*,Each claim review is an activity (type review); its decision updates review_state
+claim,review_state,activities,status,candidate -> in_review -> verified/disputed/rejected
+correction,*,activities,*,Proposed corrections enter as activities (type correction) awaiting review
+campaign,*,campaigns,*,Outreach such as workshops and Advisory Council reviews
+participant,*,contacts,*,Advisory Council members and partners who opt in; never veterans who use the tools
+tag,flags,tags,name,Quality flags as tags; taggables links them to records

@@ -1,0 +1,592 @@
+{
+  "folder": "naics2-veteran-orgs-southeast",
+  "baseline": {
+    "accuracy": 0.7463,
+    "balanced_accuracy": 0.5,
+    "majority_class": 0
+  },
+  "settings": {
+    "test_size": 0.25,
+    "random_state": 42,
+    "n_iter": 10
+  },
+  "no_smote": [
+    {
+      "model_type": "lr",
+      "accuracy": 0.7463,
+      "roc_auc": 0.7112,
+      "gmean": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "balanced_accuracy": 0.5,
+      "time": 0.0,
+      "params_used": {
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "C": 1.0,
+        "max_iter": 1000
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.746268656716418,
+          "recall": 1.0,
+          "f1-score": 0.8547008547008547,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 34.0
+        },
+        "accuracy": 0.746268656716418,
+        "macro avg": {
+          "precision": 0.373134328358209,
+          "recall": 0.5,
+          "f1-score": 0.42735042735042733,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.5569169079973268,
+          "recall": 0.746268656716418,
+          "f1-score": 0.637836458731981,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.0
+    },
+    {
+      "model_type": "rfc",
+      "accuracy": 0.7164,
+      "roc_auc": 0.7097,
+      "gmean": 0.3985,
+      "precision": 0.375,
+      "recall": 0.1765,
+      "f1_score": 0.24,
+      "balanced_accuracy": 0.5382,
+      "time": 0.07,
+      "params_used": {
+        "n_estimators": 100,
+        "max_depth": 8,
+        "criterion": "gini",
+        "max_features": "sqrt"
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.7627118644067796,
+          "recall": 0.9,
+          "f1-score": 0.8256880733944955,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.375,
+          "recall": 0.17647058823529413,
+          "f1-score": 0.24,
+          "support": 34.0
+        },
+        "accuracy": 0.7164179104477612,
+        "macro avg": {
+          "precision": 0.5688559322033898,
+          "recall": 0.538235294117647,
+          "f1-score": 0.5328440366972478,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.6643372122438654,
+          "recall": 0.7164179104477612,
+          "f1-score": 0.6770806517869369,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.0382
+    },
+    {
+      "model_type": "xgboost",
+      "accuracy": 0.7761,
+      "roc_auc": 0.7353,
+      "gmean": 0.5485,
+      "precision": 0.6111,
+      "recall": 0.3235,
+      "f1_score": 0.4231,
+      "balanced_accuracy": 0.6268,
+      "time": 0.4,
+      "params_used": {
+        "n_estimators": 70,
+        "learning_rate": 0.09557332820015775,
+        "max_depth": 4,
+        "subsample": 0.7866884014908136,
+        "colsample_bytree": 0.6757885436337142
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.8017241379310345,
+          "recall": 0.93,
+          "f1-score": 0.8611111111111112,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.6111111111111112,
+          "recall": 0.3235294117647059,
+          "f1-score": 0.4230769230769231,
+          "support": 34.0
+        },
+        "accuracy": 0.7761194029850746,
+        "macro avg": {
+          "precision": 0.7064176245210728,
+          "recall": 0.626764705882353,
+          "f1-score": 0.6420940170940171,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.753359638588666,
+          "recall": 0.7761194029850746,
+          "f1-score": 0.7499681081770634,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.1268
+    }
+  ],
+  "smote": [
+    {
+      "model_type": "lr",
+      "accuracy": 0.5746,
+      "roc_auc": 0.7206,
+      "gmean": 0.6352,
+      "precision": 0.3544,
+      "recall": 0.8235,
+      "f1_score": 0.4956,
+      "balanced_accuracy": 0.6568,
+      "time": 0.01,
+      "params_used": {
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "C": 1.0,
+        "max_iter": 1000
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.8909090909090909,
+          "recall": 0.49,
+          "f1-score": 0.632258064516129,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.35443037974683544,
+          "recall": 0.8235294117647058,
+          "f1-score": 0.49557522123893805,
+          "support": 34.0
+        },
+        "accuracy": 0.5746268656716418,
+        "macro avg": {
+          "precision": 0.6226697353279631,
+          "recall": 0.6567647058823529,
+          "f1-score": 0.5639166428775335,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.754787626882847,
+          "recall": 0.5746268656716418,
+          "f1-score": 0.5975773430875879,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.1568
+    },
+    {
+      "model_type": "rfc",
+      "accuracy": 0.709,
+      "roc_auc": 0.7518,
+      "gmean": 0.6761,
+      "precision": 0.4468,
+      "recall": 0.6176,
+      "f1_score": 0.5185,
+      "balanced_accuracy": 0.6788,
+      "time": 0.12,
+      "params_used": {
+        "n_estimators": 100,
+        "max_depth": 8,
+        "criterion": "gini",
+        "max_features": "sqrt"
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.8505747126436781,
+          "recall": 0.74,
+          "f1-score": 0.7914438502673797,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.44680851063829785,
+          "recall": 0.6176470588235294,
+          "f1-score": 0.5185185185185185,
+          "support": 34.0
+        },
+        "accuracy": 0.7089552238805971,
+        "macro avg": {
+          "precision": 0.648691611640988,
+          "recall": 0.6788235294117647,
+          "f1-score": 0.6549811843929492,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.7481265718363428,
+          "recall": 0.7089552238805971,
+          "f1-score": 0.722194139226624,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.1788
+    },
+    {
+      "model_type": "xgboost",
+      "accuracy": 0.694,
+      "roc_auc": 0.7188,
+      "gmean": 0.5703,
+      "precision": 0.4,
+      "recall": 0.4118,
+      "f1_score": 0.4058,
+      "balanced_accuracy": 0.6009,
+      "time": 0.47,
+      "params_used": {
+        "n_estimators": 59,
+        "learning_rate": 0.13233437281532626,
+        "max_depth": 4,
+        "subsample": 0.9113533988295047,
+        "colsample_bytree": 0.7481838824139475
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.797979797979798,
+          "recall": 0.79,
+          "f1-score": 0.7939698492462312,
+          "support": 100.0
+        },
+        "1": {
+          "precision": 0.4,
+          "recall": 0.4117647058823529,
+          "f1-score": 0.4057971014492754,
+          "support": 34.0
+        },
+        "accuracy": 0.6940298507462687,
+        "macro avg": {
+          "precision": 0.598989898989899,
+          "recall": 0.6008823529411764,
+          "f1-score": 0.5998834753477533,
+          "support": 134.0
+        },
+        "weighted avg": {
+          "precision": 0.6969998492386553,
+          "recall": 0.6940298507462687,
+          "f1-score": 0.6954782565216304,
+          "support": 134.0
+        }
+      },
+      "lift_over_baseline": 0.1009
+    }
+  ],
+  "feature_importance": {
+    "lr": [
+      {
+        "Feature": "Pay-31-Manufacturing",
+        "Importance": 1.4565859033254616
+      },
+      {
+        "Feature": "Emp-52-Finance and Insurance",
+        "Importance": 1.1100484599858524
+      },
+      {
+        "Feature": "Emp-48-Transportation and Warehousing",
+        "Importance": 0.9377076214001395
+      },
+      {
+        "Feature": "Est-99",
+        "Importance": 0.8865514053940738
+      },
+      {
+        "Feature": "Est-31-Manufacturing",
+        "Importance": 0.8830074261117966
+      },
+      {
+        "Feature": "Pay-61-Educational Services",
+        "Importance": 0.7829897092100335
+      },
+      {
+        "Feature": "Emp-54-Professional, Scientific, Technical Services",
+        "Importance": 0.7207075467793758
+      },
+      {
+        "Feature": "Est-51-Information",
+        "Importance": 0.699312909392941
+      },
+      {
+        "Feature": "Pay-52-Finance and Insurance",
+        "Importance": 0.6678113935212626
+      },
+      {
+        "Feature": "Pay-48-Transportation and Warehousing",
+        "Importance": 0.6449243699568069
+      },
+      {
+        "Feature": "Est-52-Finance and Insurance",
+        "Importance": 0.6292272940174557
+      },
+      {
+        "Feature": "Emp-55-Management of Companies and Enterprises",
+        "Importance": 0.6006701691559914
+      },
+      {
+        "Feature": "Emp-51-Information",
+        "Importance": 0.5761877103979872
+      },
+      {
+        "Feature": "Pay-56-Admin and Support and Waste Management",
+        "Importance": 0.5625876859995601
+      },
+      {
+        "Feature": "Pay-53-Real Estate and Rental and Leasing",
+        "Importance": 0.551613822609528
+      },
+      {
+        "Feature": "Emp-61-Educational Services",
+        "Importance": 0.5349475841715707
+      },
+      {
+        "Feature": "Emp-56-Admin and Support and Waste Management",
+        "Importance": 0.5244415792460313
+      },
+      {
+        "Feature": "Est-71-Arts, Entertainment, and Recreation",
+        "Importance": 0.5155656460582989
+      },
+      {
+        "Feature": "Emp-81-Other Services",
+        "Importance": 0.5067862100396734
+      },
+      {
+        "Feature": "Pay-54-Professional, Scientific, Technical Services",
+        "Importance": 0.5047670721127877
+      }
+    ],
+    "rfc": [
+      {
+        "Feature": "Pay-56-Admin and Support and Waste Management",
+        "Importance": 0.05993900151976242
+      },
+      {
+        "Feature": "Emp-56-Admin and Support and Waste Management",
+        "Importance": 0.05178721343304704
+      },
+      {
+        "Feature": "Pay-31-Manufacturing",
+        "Importance": 0.030147889108965664
+      },
+      {
+        "Feature": "Pay-48-Transportation and Warehousing",
+        "Importance": 0.03013306622714512
+      },
+      {
+        "Feature": "Emp-48-Transportation and Warehousing",
+        "Importance": 0.028598916307590393
+      },
+      {
+        "Feature": "Est-31-Manufacturing",
+        "Importance": 0.02688927875051542
+      },
+      {
+        "Feature": "Est-48-Transportation and Warehousing",
+        "Importance": 0.026523809711601003
+      },
+      {
+        "Feature": "Emp-23-Construction",
+        "Importance": 0.025505488694066946
+      },
+      {
+        "Feature": "Emp-31-Manufacturing",
+        "Importance": 0.025330383836868687
+      },
+      {
+        "Feature": "Emp-42-Wholesale Trade",
+        "Importance": 0.022809612956740426
+      },
+      {
+        "Feature": "Emp-81-Other Services",
+        "Importance": 0.022680516070063748
+      },
+      {
+        "Feature": "Population",
+        "Importance": 0.021657661367652098
+      },
+      {
+        "Feature": "Pay-55-Management of Companies and Enterprises",
+        "Importance": 0.021125066093002326
+      },
+      {
+        "Feature": "Est-42-Wholesale Trade",
+        "Importance": 0.020660108771190844
+      },
+      {
+        "Feature": "Emp-62-Health Care and Social Assistance",
+        "Importance": 0.020451422502721906
+      },
+      {
+        "Feature": "Pay-81-Other Services",
+        "Importance": 0.01862357563905666
+      },
+      {
+        "Feature": "Est-52-Finance and Insurance",
+        "Importance": 0.01843172843402095
+      },
+      {
+        "Feature": "Pay-42-Wholesale Trade",
+        "Importance": 0.01830710750984644
+      },
+      {
+        "Feature": "Pay-23-Construction",
+        "Importance": 0.01791166040176196
+      },
+      {
+        "Feature": "Est-55-Management of Companies and Enterprises",
+        "Importance": 0.017108631868226726
+      }
+    ],
+    "xgboost": [
+      {
+        "Feature": "Pay-31-Manufacturing",
+        "Importance": 32.0
+      },
+      {
+        "Feature": "Est-53-Real Estate and Rental and Leasing",
+        "Importance": 21.0
+      },
+      {
+        "Feature": "Emp-81-Other Services",
+        "Importance": 20.0
+      },
+      {
+        "Feature": "Emp-72-Accommodation and Food Services",
+        "Importance": 19.0
+      },
+      {
+        "Feature": "Est-11-Agriculture, Forestry, Fishing and Hunting",
+        "Importance": 18.0
+      },
+      {
+        "Feature": "Pay-81-Other Services",
+        "Importance": 17.0
+      },
+      {
+        "Feature": "Est-51-Information",
+        "Importance": 17.0
+      },
+      {
+        "Feature": "Emp-48-Transportation and Warehousing",
+        "Importance": 17.0
+      },
+      {
+        "Feature": "Est-31-Manufacturing",
+        "Importance": 17.0
+      },
+      {
+        "Feature": "Population",
+        "Importance": 16.0
+      },
+      {
+        "Feature": "Est-22-Utilities",
+        "Importance": 16.0
+      },
+      {
+        "Feature": "Pay-23-Construction",
+        "Importance": 16.0
+      },
+      {
+        "Feature": "Emp-31-Manufacturing",
+        "Importance": 16.0
+      },
+      {
+        "Feature": "Emp-11-Agriculture, Forestry, Fishing and Hunting",
+        "Importance": 15.0
+      },
+      {
+        "Feature": "Est-44-Retail Trade",
+        "Importance": 15.0
+      },
+      {
+        "Feature": "Pay-48-Transportation and Warehousing",
+        "Importance": 15.0
+      },
+      {
+        "Feature": "Pay-22-Utilities",
+        "Importance": 14.0
+      },
+      {
+        "Feature": "Pay-56-Admin and Support and Waste Management",
+        "Importance": 13.0
+      },
+      {
+        "Feature": "Est-72-Accommodation and Food Services",
+        "Importance": 12.0
+      },
+      {
+        "Feature": "Pay-55-Management of Companies and Enterprises",
+        "Importance": 12.0
+      }
+    ]
+  },
+  "cv": {
+    "mode": "group",
+    "folds": 6,
+    "results": [
+      {
+        "model": "MajorityBaseline",
+        "roc_auc_mean": 0.5,
+        "roc_auc_std": 0.0,
+        "pr_auc_mean": 0.2478,
+        "pr_auc_std": 0.0483,
+        "balanced_accuracy_mean": 0.5,
+        "balanced_accuracy_std": 0.0,
+        "f1_macro_mean": 0.4289,
+        "f1_macro_std": 0.0156,
+        "lift_over_baseline": 0.0
+      },
+      {
+        "model": "lr",
+        "roc_auc_mean": 0.7066,
+        "roc_auc_std": 0.0511,
+        "pr_auc_mean": 0.3869,
+        "pr_auc_std": 0.0946,
+        "balanced_accuracy_mean": 0.6806,
+        "balanced_accuracy_std": 0.0562,
+        "f1_macro_mean": 0.598,
+        "f1_macro_std": 0.0922,
+        "lift_over_baseline": 0.1806
+      },
+      {
+        "model": "rfc",
+        "roc_auc_mean": 0.7075,
+        "roc_auc_std": 0.0288,
+        "pr_auc_mean": 0.4509,
+        "pr_auc_std": 0.0669,
+        "balanced_accuracy_mean": 0.6323,
+        "balanced_accuracy_std": 0.0295,
+        "f1_macro_mean": 0.6088,
+        "f1_macro_std": 0.0342,
+        "lift_over_baseline": 0.1323
+      },
+      {
+        "model": "xgboost",
+        "roc_auc_mean": 0.6706,
+        "roc_auc_std": 0.0505,
+        "pr_auc_mean": 0.4297,
+        "pr_auc_std": 0.0588,
+        "balanced_accuracy_mean": 0.5951,
+        "balanced_accuracy_std": 0.0262,
+        "f1_macro_mean": 0.5913,
+        "f1_macro_std": 0.0234,
+        "lift_over_baseline": 0.0951
+      }
+    ]
+  },
+  "parameters": "events/next.yaml#forecasts.orgs"
+}

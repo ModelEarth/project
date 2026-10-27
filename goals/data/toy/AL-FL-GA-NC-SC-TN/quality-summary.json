@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-10-26T21:16:52Z",
+  "scope": "AL-FL-GA-NC-SC-TN",
+  "states": [
+    "AL",
+    "FL",
+    "GA",
+    "NC",
+    "SC",
+    "TN"
+  ],
+  "records": 7082,
+  "records_by_origin": {
+    "source_extracted": 4868,
+    "rule_proposed": 2214
+  },
+  "counties": 534,
+  "counties_observed": 533,
+  "counties_unknown": 1,
+  "industry_source": "community",
+  "industry_year": 2023,
+  "target": "directory services per 10k, top quartile",
+  "target_cutoff_services_per_10k": 6.204,
+  "target_cutoff_orgs_per_10k": 1.428,
+  "directory_resources": 22762,
+  "directory_attribution": "Wounded Warriors",
+  "flags": {
+    "rollup_shortfall": 2407,
+    "name_only": 2214,
+    "ntee_missing": 2171,
+    "mailing_only": 1607,
+    "zip_split": 1212,
+    "zip_unmapped": 703,
+    "no_filing_period": 602,
+    "duplicate_name_zip": 515,
+    "industry_absent_sectors": 466,
+    "code_mismatch": 49,
+    "stale_filing": 34,
+    "thin_records": 18,
+    "no_records": 1
+  },
+  "records_flagged": 5619,
+  "mean_confidence": 0.671
+}

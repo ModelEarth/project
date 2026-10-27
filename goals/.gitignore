@@ -1,0 +1,8 @@
+pipeline/cache/
+__pycache__/
+worker/node_modules/
+worker/.wrangler/
+worker/.dev.vars
+# Full pipeline outputs live outside this repo; only toy samples are committed.
+data/*
+!data/toy/

@@ -1,0 +1,1427 @@
+{
+ "schema": "../../schema/record.schema.json",
+ "generated_at": "2026-10-26T21:16:52Z",
+ "region": "GA",
+ "note": "Toy sample: up to 3 records per quality flag. Full files are written to data/records/ and not committed.",
+ "count": 18,
+ "records": [
+  {
+   "id": "org:ein:463850468",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "165Th Aw Veterans Association Inc",
+   "region": "GA",
+   "postal_code": "31408",
+   "county_fips": "13051",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "165Th Aw Veterans Association Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "463850468",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "1401 Robert Miller Dr",
+      "locality": "Savannah",
+      "region": "GA",
+      "postal_code": "31408"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "Z99",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13051",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:800669918",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Visions Outreach",
+   "region": "GA",
+   "postal_code": "30321",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.66,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Visions Outreach",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "800669918",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 16908",
+      "locality": "Atlanta",
+      "region": "GA",
+      "postal_code": "30321"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "Y40",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2024-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:200301851",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Sons Of Confederate Veterans Inc",
+   "region": "GA",
+   "postal_code": "30014",
+   "county_fips": "13217",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.24,
+   "flags": [
+    "zip_split",
+    "name_only",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Sons Of Confederate Veterans Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "200301851",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "200 Dye Rd",
+      "locality": "Covington",
+      "region": "GA",
+      "postal_code": "30014"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13217",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.776,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-07",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:236390788",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Military Order Of The World Wars Inc",
+   "region": "GA",
+   "postal_code": "30813",
+   "county_fips": "13073",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [
+    "ntee_missing",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Military Order Of The World Wars Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "236390788",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "5161 Thoroughbred Way",
+      "locality": "Grovetown",
+      "region": "GA",
+      "postal_code": "30813"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13073",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.953,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:237054265",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Amvets",
+   "region": "GA",
+   "postal_code": "30621",
+   "county_fips": "13219",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "zip_split",
+    "ntee_missing",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Amvets",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "237054265",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "1080 Laurel Chase Run",
+      "locality": "Bishop",
+      "region": "GA",
+      "postal_code": "30621"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13219",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.646,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010552773",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Oconee Veterans Memorial Foundation Inc",
+   "region": "GA",
+   "postal_code": "30677",
+   "county_fips": "13219",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.16,
+   "flags": [
+    "zip_split",
+    "mailing_only",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Oconee Veterans Memorial Foundation Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "010552773",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 1836",
+      "locality": "Watkinsville",
+      "region": "GA",
+      "postal_code": "30677"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "A80",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13219",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.866,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:030584762",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion",
+   "region": "GA",
+   "postal_code": "30514",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "030584762",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 247",
+      "locality": "Blairsville",
+      "region": "GA",
+      "postal_code": "30514"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:030425433",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Sons Of Confederate Veterans Inc",
+   "region": "GA",
+   "postal_code": "30707",
+   "county_fips": "13295",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.32,
+   "flags": [
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Sons Of Confederate Veterans Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "030425433",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "1133 Brotherton Ln",
+      "locality": "Chickamauga",
+      "region": "GA",
+      "postal_code": "30707"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13295",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.96,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-07",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:050554653",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Jesus The Warrior King Ministries New & Restored Church Of Christ In",
+   "region": "GA",
+   "postal_code": "30083",
+   "county_fips": "13089",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.24,
+   "flags": [
+    "no_filing_period",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Jesus The Warrior King Ministries New & Restored Church Of Christ In",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "050554653",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "4611 Greer Cir Ste E",
+      "locality": "Stone Mtn",
+      "region": "GA",
+      "postal_code": "30083"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "X21",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13089",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:200186851",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "38Th Rescue Rangers",
+   "region": "GA",
+   "postal_code": "31699",
+   "county_fips": "13185",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "no_filing_period"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "38Th Rescue Rangers",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "200186851",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "7196 Savannah St",
+      "locality": "Moody Afb",
+      "region": "GA",
+      "postal_code": "31699"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13185",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:237300531",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Air Force Sergeants Association",
+   "region": "GA",
+   "postal_code": "31005",
+   "county_fips": "13153",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "no_filing_period",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Air Force Sergeants Association",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "237300531",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "116 Fortune Way",
+      "locality": "Bonaire",
+      "region": "GA",
+      "postal_code": "31005"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13153",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:030606479",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Vietnam Veterans Of America",
+   "region": "GA",
+   "postal_code": "31420",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Vietnam Veterans Of America",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "030606479",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 60358",
+      "locality": "Savannah",
+      "region": "GA",
+      "postal_code": "31420"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-02",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:260294286",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "South Georgia Veterans Activity Committee Inc",
+   "region": "GA",
+   "postal_code": "31776",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.66,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "stale_filing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "South Georgia Veterans Activity Committee Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "260294286",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 4131",
+      "locality": "Moultrie",
+      "region": "GA",
+      "postal_code": "31776"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2020-07",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:364753223",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Amvets",
+   "region": "GA",
+   "postal_code": "30622",
+   "county_fips": "13219",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_split",
+    "stale_filing",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Amvets",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "364753223",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "1100 Garnet Trl",
+      "locality": "Bogart",
+      "region": "GA",
+      "postal_code": "30622"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13219",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.68,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2021-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:571175774",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "North East Georgia Homeless Veterans Shelter Inc",
+   "region": "GA",
+   "postal_code": "30680",
+   "county_fips": "13013",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.24,
+   "flags": [
+    "stale_filing",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "North East Georgia Homeless Veterans Shelter Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "571175774",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "80 Mlk Jr Dr",
+      "locality": "Winder",
+      "region": "GA",
+      "postal_code": "30680"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "X20",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13013",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.946,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2022-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:030600480",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Friends Of The 1-507",
+   "region": "GA",
+   "postal_code": "31905",
+   "county_fips": "13053",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "zip_split"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Friends Of The 1-507",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "030600480",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "7481 Riordan St",
+      "locality": "Fort Benning",
+      "region": "GA",
+      "postal_code": "31905"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "07"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13053",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.81,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2024-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:113749809",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "South Georgia Chapter Military Officers Association Of America",
+   "region": "GA",
+   "postal_code": "31603",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "South Georgia Chapter Military Officers Association Of America",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "113749809",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 5941",
+      "locality": "Valdosta",
+      "region": "GA",
+      "postal_code": "31603"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-09",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010931153",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Dept Of Georgia Ladies Auxiliary The Vfw Of The United States",
+   "region": "GA",
+   "postal_code": "31312",
+   "county_fips": "13103",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Dept Of Georgia Ladies Auxiliary The Vfw Of The United States",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "010931153",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "110 Kensington Cir",
+      "locality": "Guyton",
+      "region": "GA",
+      "postal_code": "31312"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "13103",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  }
+ ]
+}

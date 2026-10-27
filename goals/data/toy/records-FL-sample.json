@@ -1,0 +1,1671 @@
+{
+ "schema": "../../schema/record.schema.json",
+ "generated_at": "2026-10-26T21:16:52Z",
+ "region": "FL",
+ "note": "Toy sample: up to 3 records per quality flag. Full files are written to data/records/ and not committed.",
+ "count": 21,
+ "records": [
+  {
+   "id": "org:ein:201296230",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Veterans Tribute And Museum Of Osceola County Inc",
+   "region": "FL",
+   "postal_code": "34746",
+   "county_fips": "12097",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Veterans Tribute And Museum Of Osceola County Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "201296230",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "5210 W Irlo Bronson Memorial Hwy",
+      "locality": "Kissimmee",
+      "region": "FL",
+      "postal_code": "34746"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "A80",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12097",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2024-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:203228333",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Bay County Veterans Council",
+   "region": "FL",
+   "postal_code": "32404",
+   "county_fips": "12005",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Bay County Veterans Council",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "203228333",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "4724 Firefly Ln",
+      "locality": "Panama City",
+      "region": "FL",
+      "postal_code": "32404"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "A80",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12005",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:237013119",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Veterans Of Foreign Wars Of The United States Dept Of Florida",
+   "region": "FL",
+   "postal_code": "33903",
+   "county_fips": "12071",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Veterans Of Foreign Wars Of The United States Dept Of Florida",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "237013119",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "996 Pondella Rd",
+      "locality": "N Ft Myers",
+      "region": "FL",
+      "postal_code": "33903"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "Y99",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12071",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010865529",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Marine Corps League",
+   "region": "FL",
+   "postal_code": "32726",
+   "county_fips": "12069",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.32,
+   "flags": [
+    "name_only",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Marine Corps League",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "010865529",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "530 Donnelly St",
+      "locality": "Eustis",
+      "region": "FL",
+      "postal_code": "32726"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "04"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12069",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:020545870",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Amvets",
+   "region": "FL",
+   "postal_code": "32696",
+   "county_fips": "12075",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "zip_split",
+    "ntee_missing",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Amvets",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "020545870",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "13751 Ne 52Nd Pl",
+      "locality": "Williston",
+      "region": "FL",
+      "postal_code": "32696"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12075",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.798,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-05",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:020796897",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Amvets",
+   "region": "FL",
+   "postal_code": "33527",
+   "county_fips": "12057",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [
+    "ntee_missing",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Amvets",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "020796897",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "221 S Dover Rd",
+      "locality": "Dover",
+      "region": "FL",
+      "postal_code": "33527"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12057",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-05",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:020690502",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Central Florida Veterans Memorial Park Foundation Inc",
+   "region": "FL",
+   "postal_code": "32793",
+   "county_fips": null,
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.16,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Central Florida Veterans Memorial Park Foundation Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "020690502",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 4303",
+      "locality": "Winter Park",
+      "region": "FL",
+      "postal_code": "32793"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "A54",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:020775646",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Marine Families Inc",
+   "region": "FL",
+   "postal_code": "33673",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Marine Families Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "020775646",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 7915",
+      "locality": "Tampa",
+      "region": "FL",
+      "postal_code": "33673"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:020775720",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Liberty Manor For Veterans Inc",
+   "region": "FL",
+   "postal_code": "33688",
+   "county_fips": null,
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.16,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Liberty Manor For Veterans Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "020775720",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 274081",
+      "locality": "Tampa",
+      "region": "FL",
+      "postal_code": "33688"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "L22",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010621613",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Veterans Division Nscc Inc",
+   "region": "FL",
+   "postal_code": "34987",
+   "county_fips": "12111",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.32,
+   "flags": [
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Veterans Division Nscc Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "010621613",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "10041 Sw Captiva Dr",
+      "locality": "Port St Lucie",
+      "region": "FL",
+      "postal_code": "34987"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "O50",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12111",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:043601331",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Warriors International Christian Center",
+   "region": "FL",
+   "postal_code": "33313",
+   "county_fips": "12011",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.24,
+   "flags": [
+    "no_filing_period",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Warriors International Christian Center",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "043601331",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "2118 Nw 55Th Way 6 208",
+      "locality": "Fort Lauderdale",
+      "region": "FL",
+      "postal_code": "33313"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "X20",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12011",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:237382635",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Air Force Sergeants Association",
+   "region": "FL",
+   "postal_code": "32404",
+   "county_fips": "12005",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "no_filing_period",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Air Force Sergeants Association",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "237382635",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "6112 Stephanie Dr",
+      "locality": "Panama City",
+      "region": "FL",
+      "postal_code": "32404"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12005",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:262096514",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "96 Lrs Logistics Association",
+   "region": "FL",
+   "postal_code": "32542",
+   "county_fips": "12091",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "no_filing_period"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "96 Lrs Logistics Association",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "262096514",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "108 E Eglin Blvd Bldg 600",
+      "locality": "Eglin Afb",
+      "region": "FL",
+      "postal_code": "32542"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12091",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010818219",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion Auxiliary",
+   "region": "FL",
+   "postal_code": "32340",
+   "county_fips": "12079",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion Auxiliary",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "010818219",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "4383 Ne Cherry Lake Cir",
+      "locality": "Madison",
+      "region": "FL",
+      "postal_code": "32340"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12079",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:061665426",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Amvets",
+   "region": "FL",
+   "postal_code": "34287",
+   "county_fips": "12115",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "stale_filing",
+    "ntee_missing",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Amvets",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "061665426",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "401 Ortiz Blvd",
+      "locality": "North Port",
+      "region": "FL",
+      "postal_code": "34287"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12115",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2021-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:275095813",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Amvets",
+   "region": "FL",
+   "postal_code": "32123",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_unmapped",
+    "stale_filing",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Amvets",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "275095813",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "1209S Ridgwood Ave",
+      "locality": "Edgwater",
+      "region": "FL",
+      "postal_code": "32123"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2021-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:311000955",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Disabled American Veterans",
+   "region": "FL",
+   "postal_code": "33321",
+   "county_fips": "12011",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "stale_filing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Disabled American Veterans",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "311000955",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "8297 Nw 70Th St",
+      "locality": "Tamarac",
+      "region": "FL",
+      "postal_code": "33321"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "04"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12011",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2022-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:134365122",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Amvets",
+   "region": "FL",
+   "postal_code": "32618",
+   "county_fips": "12001",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "zip_split",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Amvets",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "134365122",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "10050 Ne State Road 24",
+      "locality": "Archer",
+      "region": "FL",
+      "postal_code": "32618"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12001",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.808,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:200570721",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Sons Of Confederate Veterans Inc",
+   "region": "FL",
+   "postal_code": "32195",
+   "county_fips": "12083",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.24,
+   "flags": [
+    "zip_split",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Sons Of Confederate Veterans Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "200570721",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "15375 Se 156Th Place Rd",
+      "locality": "Weirsdale",
+      "region": "FL",
+      "postal_code": "32195"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12083",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.853,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-07",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:050606215",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion Auxiliary",
+   "region": "FL",
+   "postal_code": "32910",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion Auxiliary",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "050606215",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 100427",
+      "locality": "Palm Bay",
+      "region": "FL",
+      "postal_code": "32910"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010822286",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Florida Chapter Society-Association Of The 173Rd Airborne Brigade Inc",
+   "region": "FL",
+   "postal_code": "34655",
+   "county_fips": "12101",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Florida Chapter Society-Association Of The 173Rd Airborne Brigade Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "010822286",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "5640 Wellfield Rd",
+      "locality": "New Prt Rchy",
+      "region": "FL",
+      "postal_code": "34655"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "12101",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  }
+ ]
+}

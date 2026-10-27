@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/goals/schema/scene.schema.json",
+  "title": "Goals scene",
+  "description": "One chart or finding packaged so it can render as a web chart, a PDF figure or a video segment without rework. A scene holds its data reference, a Vega-Lite spec, narration text timed into captions, and citations.",
+  "type": "object",
+  "required": ["scene_id", "title", "chart", "narration", "citations"],
+  "properties": {
+    "scene_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "title": { "type": "string", "maxLength": 80 },
+    "subtitle": { "type": "string" },
+    "objective": { "enum": [1, 2, 3], "description": "Which of the three NSF objectives this scene supports." },
+    "data": {
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "description": "Relative path to a CSV or JSON file in this repo." },
+        "sha256": { "type": "string" },
+        "generated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "chart": { "type": "object", "description": "A Vega-Lite v5 spec. Its data.url resolves relative to the scene file." },
+    "narration": {
+      "type": "array",
+      "description": "Spoken lines in order. Each becomes a caption cue; start and end are seconds from the scene start.",
+      "items": {
+        "type": "object",
+        "required": ["text"],
+        "properties": {
+          "text": { "type": "string" },
+          "start": { "type": "number" },
+          "end": { "type": "number" },
+          "highlight": { "type": "string", "description": "Optional field value to emphasize while this line plays." }
+        }
+      }
+    },
+    "duration_seconds": { "type": "number" },
+    "aspect_ratios": {
+      "type": "array",
+      "items": { "enum": ["16:9", "9:16", "1:1", "4:5"] },
+      "description": "Layouts the chart should be rendered at (landscape video, vertical social, square, feed)."
+    },
+    "alt_text": { "type": "string", "description": "Text alternative for screen readers and PDF." },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_id"],
+        "properties": {
+          "source_id": { "type": "string" },
+          "title": { "type": "string" },
+          "url": { "type": "string" },
+          "retrieved_at": { "type": "string" }
+        }
+      }
+    },
+    "license": { "type": "string" }
+  }
+}

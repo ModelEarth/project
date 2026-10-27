@@ -1,0 +1,1605 @@
+{
+ "schema": "../../schema/record.schema.json",
+ "generated_at": "2026-10-26T21:16:52Z",
+ "region": "TN",
+ "note": "Toy sample: up to 3 records per quality flag. Full files are written to data/records/ and not committed.",
+ "count": 20,
+ "records": [
+  {
+   "id": "org:ein:205961340",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Music City Ngaus 2009 Inc",
+   "region": "TN",
+   "postal_code": "37204",
+   "county_fips": "47037",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Music City Ngaus 2009 Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "205961340",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "4332 Kenilwood Dr",
+      "locality": "Nashville",
+      "region": "TN",
+      "postal_code": "37204"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "Q43",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47037",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:331040828",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Upper Cumberland Chapter Moaa",
+   "region": "TN",
+   "postal_code": "38572",
+   "county_fips": "47035",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Upper Cumberland Chapter Moaa",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "331040828",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "804 Shadow Mountain Dr",
+      "locality": "Crossville",
+      "region": "TN",
+      "postal_code": "38572"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "Y42",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47035",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.913,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:342034121",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Bufford Clark Post 129 Of American Legion",
+   "region": "TN",
+   "postal_code": "38562",
+   "county_fips": "47087",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "mailing_only",
+    "code_mismatch"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Bufford Clark Post 129 Of American Legion",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "342034121",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 74",
+      "locality": "Gainesboro",
+      "region": "TN",
+      "postal_code": "38562"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "Y99",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47087",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:260808293",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Gold Star Wives Of America Inc",
+   "region": "TN",
+   "postal_code": "37042",
+   "county_fips": "47125",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.32,
+   "flags": [
+    "name_only",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Gold Star Wives Of America Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "260808293",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "151 Taft Dr",
+      "locality": "Clarksville",
+      "region": "TN",
+      "postal_code": "37042"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "04"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47125",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-03",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:263597215",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Veterans Of Foreign Wars Of The United States Dept Of Tennessee",
+   "region": "TN",
+   "postal_code": "38118",
+   "county_fips": "47157",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [
+    "ntee_missing",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Veterans Of Foreign Wars Of The United States Dept Of Tennessee",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "263597215",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "3709 E Raines Rd",
+      "locality": "Memphis",
+      "region": "TN",
+      "postal_code": "38118"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47157",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:301345186",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Marine Corps League",
+   "region": "TN",
+   "postal_code": "37363",
+   "county_fips": "47065",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.32,
+   "flags": [
+    "name_only",
+    "duplicate_name_zip"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Marine Corps League",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "301345186",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "7709 Heron Dr",
+      "locality": "Ooltewah",
+      "region": "TN",
+      "postal_code": "37363"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "04"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47065",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:030525707",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion",
+   "region": "TN",
+   "postal_code": "37885",
+   "county_fips": "47123",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "mailing_only",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "030525707",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 233",
+      "locality": "Vonore",
+      "region": "TN",
+      "postal_code": "37885"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47123",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.984,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:030533033",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion",
+   "region": "TN",
+   "postal_code": "37315",
+   "county_fips": "47065",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "mailing_only",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "030533033",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 257",
+      "locality": "Collegedale",
+      "region": "TN",
+      "postal_code": "37315"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47065",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010909953",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Disabled American Veterans Auxiliary Inc",
+   "region": "TN",
+   "postal_code": "37745",
+   "county_fips": "47059",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.32,
+   "flags": [
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Disabled American Veterans Auxiliary Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "010909953",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "180 Cumberland Dr",
+      "locality": "Greeneville",
+      "region": "TN",
+      "postal_code": "37745"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "04"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47059",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.966,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:205817837",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Sons Of Confederate Veterans Inc",
+   "region": "TN",
+   "postal_code": "37601",
+   "county_fips": "47179",
+   "category": "unclassified",
+   "origin": "rule_proposed",
+   "review_state": "candidate",
+   "confidence": 0.16,
+   "flags": [
+    "zip_split",
+    "no_filing_period",
+    "name_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Sons Of Confederate Veterans Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "tax_id",
+     "value": "205817837",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "394 Greenlee Rd",
+      "locality": "Johnson City",
+      "region": "TN",
+      "postal_code": "37601"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.4
+    },
+    {
+     "property": "category",
+     "value": "unclassified",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "rule_proposed",
+     "review_state": "candidate",
+     "confidence": 0.4,
+     "evidence": {
+      "ntee": "",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47179",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.526,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:331994458",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Recovery For Vets",
+   "region": "TN",
+   "postal_code": "37203",
+   "county_fips": "47037",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "no_filing_period"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Recovery For Vets",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "331994458",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "3306 Long Blvd Apt A1",
+      "locality": "Nashville",
+      "region": "TN",
+      "postal_code": "37203"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47037",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:332401156",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Veterans Excelling Together",
+   "region": "TN",
+   "postal_code": "37166",
+   "county_fips": "47041",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "no_filing_period"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Veterans Excelling Together",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "332401156",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "473 Cedar Ridge Ln",
+      "locality": "Smithville",
+      "region": "TN",
+      "postal_code": "37166"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47041",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.908,
+     "method": "largest land-area share of ZIP"
+    }
+   ]
+  },
+  {
+   "id": "org:ein:010909165",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Veterans Of Foreign Wars Of The 2598 James D Blankenship Aux",
+   "region": "TN",
+   "postal_code": "37312",
+   "county_fips": "47011",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Veterans Of Foreign Wars Of The 2598 James D Blankenship Aux",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "010909165",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "3370 Ocoee St N",
+      "locality": "Cleveland",
+      "region": "TN",
+      "postal_code": "37312"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47011",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:621346333",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion",
+   "region": "TN",
+   "postal_code": "38256",
+   "county_fips": "47079",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "stale_filing",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "621346333",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "4326 E Antioch Rd",
+      "locality": "Springville",
+      "region": "TN",
+      "postal_code": "38256"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47079",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 1.0,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2022-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:061837699",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion Auxiliary",
+   "region": "TN",
+   "postal_code": "37880",
+   "county_fips": "47121",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "zip_split",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion Auxiliary",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "061837699",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "290 Fitch Ln",
+      "locality": "Ten Mile",
+      "region": "TN",
+      "postal_code": "37880"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47121",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.573,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-09",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:134290407",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Vietnam Veterans Of America Inc",
+   "region": "TN",
+   "postal_code": "37379",
+   "county_fips": "47065",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.82,
+   "flags": [
+    "zip_split"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Vietnam Veterans Of America Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "134290407",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "9615 W Ridge Trail Rd",
+      "locality": "Soddy Daisy",
+      "region": "TN",
+      "postal_code": "37379"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30Z",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47065",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.878,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-03",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:201348703",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion Auxiliary",
+   "region": "TN",
+   "postal_code": "37864",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion Auxiliary",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "201348703",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 4242",
+      "locality": "Sevierville",
+      "region": "TN",
+      "postal_code": "37864"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:201599792",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "American Legion",
+   "region": "TN",
+   "postal_code": "38183",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only",
+    "ntee_missing"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "American Legion",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "201599792",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "Po Box 38244",
+      "locality": "Germantown",
+      "region": "TN",
+      "postal_code": "38183"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-12",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:205606254",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "La Societe Des 40 Hommes Et 8 Chevaux Voiture 735 Forty And Eigh",
+   "region": "TN",
+   "postal_code": "37320",
+   "county_fips": null,
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.74,
+   "flags": [
+    "zip_unmapped",
+    "mailing_only"
+   ],
+   "claims": [
+    {
+     "property": "name",
+     "value": "La Societe Des 40 Hommes Et 8 Chevaux Voiture 735 Forty And Eigh",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "205606254",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "P O Box 2477",
+      "locality": "Cleveland",
+      "region": "TN",
+      "postal_code": "37320"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.5
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "19"
+     }
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2025-06",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  },
+  {
+   "id": "org:ein:020615561",
+   "entity_type": "organization",
+   "crm_table": "accounts",
+   "name": "Sons Of Confederate Veterans Inc",
+   "region": "TN",
+   "postal_code": "38551",
+   "county_fips": "47027",
+   "category": "peer_support",
+   "origin": "source_extracted",
+   "review_state": "candidate",
+   "confidence": 0.9,
+   "flags": [],
+   "claims": [
+    {
+     "property": "name",
+     "value": "Sons Of Confederate Veterans Inc",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "tax_id",
+     "value": "020615561",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.99
+    },
+    {
+     "property": "address",
+     "value": {
+      "street": "1874 Moss Arcot Rd",
+      "locality": "Celina",
+      "region": "TN",
+      "postal_code": "38551"
+     },
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9
+    },
+    {
+     "property": "category",
+     "value": "peer_support",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.9,
+     "evidence": {
+      "ntee": "W30",
+      "subsection": "03"
+     }
+    },
+    {
+     "property": "county_fips",
+     "value": "47027",
+     "source_id": "census-zcta-county",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "derived",
+     "review_state": "candidate",
+     "confidence": 0.976,
+     "method": "largest land-area share of ZIP"
+    },
+    {
+     "property": "last_filing_period",
+     "value": "2026-07",
+     "source_id": "irs-eo-bmf",
+     "retrieved_at": "2026-10-26T21:16:52Z",
+     "origin": "source_extracted",
+     "review_state": "candidate",
+     "confidence": 0.95
+    }
+   ]
+  }
+ ]
+}
