@@ -253,6 +253,9 @@ html:not(.goals-view-hero) #fullscreen:not(.goals-hero-covered) { display: none;
 /* The play button's look is in localsite/css/base.css, with its icon font, so
    it's left out without localsite (standalone). */
 body.standalone #earthPlayPauseButton { display: none; }
+/* While the Earth map's controls are open (the tune button, localsite.js adds .earthControlsOpen), the
+   column is hidden so the map shows. Closing them brings it back. */
+html.earthControlsOpen #goalsMain { visibility: hidden; }
 /* The page's empty space lets clicks through to #fullscreen beneath (the map),
    while its columns and their contents take them. */
 .goals, .goals-row, #goalsMain { pointer-events: none; }
@@ -465,6 +468,10 @@ html.goals-view-hero #goalsMain > .goals-tabs { margin-top: auto; }
 html.goals-view-hero .goals-with-aside #goalsMain > .goals-tabs,
 html.goals-view-hero .goals-with-bottom #goalsMain > .goals-tabs { margin-top: 0; }
 html.goals-view-hero .goals-with-bottom #goalsMain { min-height: 0; }
+/* #goalsBottom sits 85px above the bottom of #goalsPage (which fills the window below
+   the header), or lower when the content above it is taller. */
+#goalsPage.goals-with-bottom { padding-bottom: 85px; }
+#goalsPage > #goalsBottom { margin-top: auto; }
 html.goals-view-hero #goalsMain > .goals-hero { --pad-top: 32px; --pad-x: 28px; padding: var(--pad-top) var(--pad-x); }
 @media (min-width: 901px) {
   html.goals-view-hero #goalsMain { flex: 0 0 min(780px, 50vw); }
@@ -490,31 +497,6 @@ html.goals-has-header-title #headerLocTitleHolder { display: none !important; }
    #mainframe): 78vh, taller than the 65vh localsite's template gives iframes.
    In #fullscreen, as on this page, base.css has it fill #fullscreen instead. */
 #mainEarthDisplay iframe { min-height: 78vh; }
-/* Scrolling over the Earth iframe moves the page until the globe is clicked
-   (goals.js adds .goals-earth-active); then the globe takes the pointer. */
-#globalMapHolder iframe { pointer-events: none; }
-#globalMapHolder:not(.goals-earth-active) { cursor: pointer; }
-#globalMapHolder.goals-earth-active iframe { pointer-events: auto; }
-/* Icon left of localsite's close-X (#earthClose: 32px circle, 20px from the
-   right, 22px down) that gives scrolling back to the page. */
-#goalsEarthScroll {
-  position: absolute; z-index: 101; right: 60px; top: 22px;
-  display: flex; align-items: center; justify-content: center;
-  width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
-  background-color: #555; color: #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-}
-#goalsEarthScroll:hover { background-color: #333; }
-#goalsEarthScroll[hidden] { display: none; }
-#goalsEarthScroll .material-icons { font-size: 22px; line-height: 1; display: block; }
-/* Countdown ring on the icon's edge: a grey arc grows clockwise from the top
-   over --earth-ms (goals.js EARTH_MS), closing the circle as scrolling returns. */
-.goals-earth-ring { position: absolute; inset: -2px; width: 36px; height: 36px; pointer-events: none; overflow: visible; }
-.goals-earth-ring circle {
-  fill: none; stroke: #808080; stroke-width: 2.5; stroke-linecap: round;
-  stroke-dasharray: 100 100; stroke-dashoffset: 100;
-}
-.goals-earth-run .goals-earth-ring circle { animation: goals-earth-ring var(--earth-ms, 8s) linear forwards; }
-@keyframes goals-earth-ring { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 .goals-header-title:hover .material-icons { opacity: 1; }
 .goals-header-title:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 6px; }
 

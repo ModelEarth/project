@@ -187,55 +187,10 @@ function renderHeaderTitle() {
     savedLogo = null;
   }
 }
-// The Earth iframe (earth.nullschool.net, in localsite's #globalMapHolder)
-// takes the mouse wheel for its globe, which stops the page scrolling. CSS has
-// it ignore the pointer until it's clicked, so scrolling over it moves the
-// page. A click (landing on the holder beneath) hands it the pointer. Page
-// scrolling comes back with the icon beside localsite's close-X
-// (#goalsEarthScroll), a click or tap elsewhere on the page, or on its own
-// EARTH_MS after the click. Clicks inside the globe go to nullschool's page,
-// another site, so they can't be seen here (a double-click included).
-const EARTH_ACTIVE = "goals-earth-active", EARTH_MS = 8000;
-let earthTimer = null;
-function setEarthActive(holder, on) {
-  holder.classList.toggle(EARTH_ACTIVE, on);
-  const btn = document.getElementById("goalsEarthScroll");
-  if (btn) {
-    btn.hidden = !on;
-    // Restart the countdown ring (CSS), which closes at the top as the time runs out.
-    btn.classList.remove("goals-earth-run");
-    if (on) { void btn.offsetWidth; btn.classList.add("goals-earth-run"); }
-  }
-  clearTimeout(earthTimer);
-  if (on) earthTimer = setTimeout(() => setEarthActive(holder, false), EARTH_MS);
-}
-if (typeof window.onElmReady === "function") {
-  window.onElmReady("#globalMapHolder", (holder) => {
-    holder.title = "Click to use the globe. Until then, scrolling moves the page.";
-    holder.addEventListener("click", () => setEarthActive(holder, true));
-    document.addEventListener("click", (e) => {
-      if (holder.classList.contains(EARTH_ACTIVE) && !holder.contains(e.target)) setEarthActive(holder, false);
-    });
-    // localsite creates #earthClose when the Earth display first opens.
-    window.onElmReady("#earthClose", (close) => {
-      if (document.getElementById("goalsEarthScroll")) return;
-      const btn = node("div", { id: "goalsEarthScroll", class: "earthCircleIcons", role: "button", tabindex: "0", title: "Scroll the page again", "aria-label": "Scroll the page again", style: `--earth-ms:${EARTH_MS}ms` },
-        node("i", { class: "material-icons", "aria-hidden": "true", text: "swap_vert" }));
-      // Countdown ring: one arc that starts at the top and runs clockwise,
-      // closing the circle when EARTH_MS has passed.
-      btn.insertAdjacentHTML("beforeend", `<svg class="goals-earth-ring" viewBox="0 0 40 40" aria-hidden="true">
-        <circle cx="20" cy="20" r="18" pathLength="100" transform="rotate(-90 20 20)"/></svg>`);
-      const active = holder.classList.contains(EARTH_ACTIVE);
-      btn.hidden = !active;
-      if (active) btn.classList.add("goals-earth-run");
-      btn.addEventListener("click", (e) => { e.stopPropagation(); setEarthActive(holder, false); });
-      close.after(btn);
-    });
-  });
-}
-// Enter or Space on the header title or the Earth scroll icon clicks it, as for a button.
+// Enter or Space on the header title clicks it, as for a button. (The Earth map's scroll cover is
+// localsite's, shared with other pages: initEarthScrollCover() in localsite.js.)
 document.addEventListener("keydown", (e) => {
-  const btn = e.target.closest?.(".goals-header-title, #goalsEarthScroll");
+  const btn = e.target.closest?.(".goals-header-title");
   if ((e.key === "Enter" || e.key === " ") && btn) { e.preventDefault(); btn.click(); }
 });
 
