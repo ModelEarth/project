@@ -402,6 +402,10 @@ html.goals-view-hero .goals-credit {
   color: var(--hero-credit); text-shadow: var(--hero-credit-shadow);
 }
 html.goals-view-hero .goals-credit a { color: inherit; }
+/* Hidden on narrow windows, where it would crowd the page. The credit is fixed to the window, and the body
+   around it is the window's width, so a media query measures it. (A container query would need
+   container-type on the body, which would pin the fixed photos and credit to it.) */
+@media (max-width: 600px) { html.goals-view-hero .goals-credit { display: none; } }
 
 /* Light hero: the usual light tokens with see-through surfaces. */
 html.goals-view-hero .goals {
