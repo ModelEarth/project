@@ -167,8 +167,8 @@ body.standalone { margin: 0; background: #f9f9f7; }
 @container (max-width: 799px) { .goals-tab-extra { display: none; } }
 @container (max-width: 599px) { .goals-tabs button { padding-left: 7px; padding-right: 7px; } }
 @container (max-width: 499px) { .goals-tab-extra-sm { display: none; } }
-/* Top 10px of the tabs bar: drags #goalsMain down the window (goals.js), all
-   but the top info line, which stays put. The strip itself isn't drawn. The
+/* Top 10px of the tabs bar: drags #goalsMain down the window (goals.js), or up
+   on the Goals tab (goals-main-raised), all but the top info line, which stays put. The strip itself isn't drawn. The
    page clips the dragged column at its bottom edge, so it slides out of view. */
 .goals-tabs { position: relative; }
 .goals-grip { position: absolute; top: 0; left: 0; right: 0; height: 10px; z-index: 1; cursor: ns-resize; touch-action: none; }
@@ -179,7 +179,8 @@ body.standalone { margin: 0; background: #f9f9f7; }
 /* Twice as wide as the ▲ character (scaleX), with room for that in the padding. */
 .goals-main-arrow > span { display: inline-block; transform: scaleX(2); transition: transform 0.25s ease; }
 .goals:not(.goals-main-dropped) .goals-main-arrow > span { transform: rotate(180deg) scaleX(2); }
-.goals-main-dropped #goalsMain > :not(.goals-topinfo) { transform: translateY(var(--main-drop, 0px)); }
+.goals-main-dropped #goalsMain > :not(.goals-topinfo),
+.goals-main-raised #goalsMain > :not(.goals-topinfo) { transform: translateY(var(--main-drop, 0px)); }
 #goalsMain.goals-main-settle > :not(.goals-topinfo) { transition: transform 0.25s ease; }
 .goals-main-dropped { overflow-y: clip; }
 /* While the column is down, the bottom holder (Data Services cards) hides too. */
@@ -234,28 +235,46 @@ body.standalone { margin: 0; background: #f9f9f7; }
    goals-side-bottom (the Community Data cards) moves into #goalsBottom, across the
    bottom, at any width. Gaps, not margins, space the columns and figures. */
 .goals { display: flex; flex-direction: column; row-gap: var(--gap); }
-/* At least the window's height below the localsite header (--fullscreen-height,
-   shared with #fullscreen in localsite/css/base.css), so the footer starts below
-   the fold on every tab and view. Without the localsite header (standalone),
-   --header-h (set in goals.js) is where #fullscreen and #goalsPage start. */
+/* At least the window's height below the localsite header (--fullscreen-height),
+   so the footer starts below the fold on every tab and view. --header-h (set in
+   goals.js) is where #goalsPage starts, below the header and the search filters.
+   It replaces localsite's --fullscreen-height (base.css), which measures where
+   #fullscreen starts, now the top of the window. */
+body { --fullscreen-height: calc(100vh - var(--header-h, var(--headerbar-offset, 0px))); }
 .goals { box-sizing: border-box; min-height: var(--fullscreen-height); }
-body.standalone { --fullscreen-height: calc(100vh - var(--header-h, 0px)); }
-/* #fullscreen: the window's height below the header, holding the photos, the
-   Earth map once .showEarth opens it (localsite's placeEarthDisplay()) and the
-   play button (base.css places both). #goalsPage is pulled up over it, so it
-   stays in the page's flow, above the localsite footer. While the map or
-   another layer covers the photos (goals-hero-covered, goals.js) they stop
-   changing. view=center shows it only while it's covered. */
-#fullscreen { position: relative; box-sizing: border-box; height: var(--fullscreen-height); }
-html.goals-view-hero #fullscreen ~ .goals,
-#fullscreen.goals-hero-covered ~ .goals { margin-top: calc(-1 * var(--fullscreen-height)); }
+/* #fullscreen: fixed over the whole window like the photos (.goals-bg), so it
+   stays in place as the page scrolls, behind the header and search filters.
+   It holds the photos, the Earth map once .showEarth opens it (localsite's
+   placeEarthDisplay()) and the play button (base.css places both). It has no
+   z-index of its own, so the photos stay beneath the page (z-index: -1) and the
+   map and button above it, as in the page's flow. The page's search filters
+   (#filterFieldsHolder, until they're fixed with their own z-index) are raised
+   above the map. While the map or another layer covers the photos
+   (goals-hero-covered, goals.js) they stop changing. view=center shows it only
+   while it's covered. */
+html #fullscreen { position: fixed; inset: 0; height: auto; box-sizing: border-box; }
+#filterFieldsHolder:not(.filterFieldsHolderFixed) { position: relative; z-index: 3; }
+/* While the map's date picker is open (localsite.js adds .earthDateOpen), #fullscreen is raised above
+   #goalsPage, so the expanded controls show over the page's column. The search filters stay above it. */
+html.earthDateOpen #fullscreen { z-index: 2; }
 html:not(.goals-view-hero) #fullscreen:not(.goals-hero-covered) { display: none; }
 /* The play button's look is in localsite/css/base.css, with its icon font, so
    it's left out without localsite (standalone). */
 body.standalone #earthPlayPauseButton { display: none; }
-/* While the Earth map's controls are open (the tune button, localsite.js adds .earthControlsOpen), the
-   column is hidden so the map shows. Closing them brings it back. */
-html.earthControlsOpen #goalsMain { visibility: hidden; }
+/* The localsite footer (#main-footer, position: relative) slides up over the
+   fixed #fullscreen at the page's bottom edge, where the page clips a lowered
+   column. It's raised above the map, the play button (z-index 102, base.css)
+   and the photo credit, so they're covered there too. */
+#main-footer { z-index: 103; }
+/* The Earth map filters (#mainEarthFilters) in #earthFilterCatch, after the tabs (goals.js). While they show
+   there, the tabs' content hides, with no tab highlighted. The catch has no box of its own around the filters'. */
+.goals-filters-caught #goalsMain > .goals-hero,
+.goals-filters-caught #goalsMain > .goals-results,
+.goals-filters-caught #goalsMain .goals-panel,
+.goals-filters-caught #goalsAside,
+.goals-filters-caught #goalsBottom { display: none; }
+html.goals-view-hero #goalsMain > #earthFilterCatch { padding: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+#earthFilterCatch > #mainEarthFilters { margin-top: 0; padding: 0 !important; } /* Over the inline padding for under the map */
 /* The page's empty space lets clicks through to #fullscreen beneath (the map),
    while its columns and their contents take them. */
 .goals, .goals-row, #goalsMain { pointer-events: none; }

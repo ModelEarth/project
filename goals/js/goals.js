@@ -275,10 +275,9 @@ function heroArrowKeys(e) {
   e.preventDefault();
   stepHero(e.key === "ArrowRight" ? 1 : -1);
 }
-// How far #goalsPage (and #fullscreen, under it) starts below the top of the page, as --header-h for the
-// min-heights that keep the footer below the fold when the page runs without
-// the localsite header (standalone; otherwise --fullscreen-height in
-// localsite/css/base.css sets them). Rechecked when the page resizes.
+// How far #goalsPage starts below the top of the page, as --header-h for
+// --fullscreen-height (goals.css), the min-heights that keep the footer below
+// the fold. Rechecked when the page resizes.
 function fitPageHeight() {
   const g = $("goalsPage");
   const top = Math.max(0, Math.round(g.getBoundingClientRect().top + window.scrollY));
@@ -497,9 +496,43 @@ const tabName = (t) => {
   t = TAB_ALIASES[t] || t;
   return t && document.querySelector(`.goals-tabs [data-tab="${t}"]`) ? t : "goals";
 };
-// With no tab= in the hash, the goals panel shows but no tab is highlighted.
+// With no tab= in the hash, the goals panel shows but no tab is highlighted. None is while
+// the Earth map filters show in #earthFilterCatch (initFilterCatch), and the selected one is
+// highlighted again once they close.
+let markedTab = "";
 function markButtons(selected) {
-  for (const b of document.querySelectorAll(".goals-tabs button[data-tab]")) b.setAttribute("aria-selected", String(b.dataset.tab === selected));
+  markedTab = selected;
+  const caught = $("goalsPage").classList.contains("goals-filters-caught");
+  for (const b of document.querySelectorAll(".goals-tabs button[data-tab]")) b.setAttribute("aria-selected", String(!caught && b.dataset.tab === selected));
+}
+
+// #earthFilterCatch, after the tabs, holds localsite's Earth map filters panel
+// (#mainEarthFilters), which earth-filters.js moves into it whenever it places the panel.
+// While the panel shows there, the column is the filters': no tab is highlighted and the
+// tabs' content hides (goals-filters-caught, goals.css). A tab closes the panel.
+function initFilterCatch() {
+  const filterCatch = node("div", { id: "earthFilterCatch", hidden: "" });
+  document.querySelector(".goals-tabs").after(filterCatch);
+  const sync = () => {
+    const panel = $("mainEarthFilters");
+    const shown = !!panel && panel.parentElement === filterCatch && !panel.classList.contains("ef-closed") && panel.style.display !== "none";
+    filterCatch.hidden = !shown;
+    if (shown !== $("goalsPage").classList.contains("goals-filters-caught")) {
+      $("goalsPage").classList.toggle("goals-filters-caught", shown);
+      markButtons(markedTab);
+    }
+  };
+  new MutationObserver(sync).observe(filterCatch, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "style"] });
+  window.mainEarthFilters?.applyMapPanelPlace?.(); // A panel placed before the catch was here
+  sync();
+}
+// The tune circle (localsite.js) closes the panel when it opened it, which also clears its
+// .earthControlsOpen. Otherwise the panel closes on its own.
+function closeEarthFilters() {
+  if ($("earthFilterCatch")?.hidden !== false) return;
+  const toggle = $("earthControlsToggle");
+  if (toggle?.getAttribute("aria-expanded") === "true") toggle.click();
+  else window.mainEarthFilters?.setMapPanelOpen?.(false);
 }
 function markTab(name, selected = name) {
   markButtons(selected);
@@ -533,35 +566,37 @@ function placeSides() {
   alignAside();
 }
 // The top 10px of the tabs bar (.goals-grip, unmarked) drags #goalsMain down the window,
-// as far as the tabs reaching its bottom edge, to see the photo behind. The
-// top info line stays in place (CSS moves the other children by --main-drop). A
-// double-click on the strip brings it back up. A click that doesn't move
-// passes to the tab beneath. Mouse and touch only: the column's content is
-// all reachable without moving it.
+// as far as the tabs reaching its bottom edge, to see the photo behind. On the
+// Goals tab it also drags up, through the spare space above the tabs on a tall
+// window (mainDropMin), a negative --main-drop. The top info line stays in place
+// (CSS moves the other children by --main-drop). A double-click on the strip
+// brings it back. A click that doesn't move passes to the tab beneath. Mouse
+// and touch only: the column's content is all reachable without moving it.
 let mainDrop = 0;
 function setMainDrop(px, animate = false) {
-  mainDrop = Math.max(0, Math.round(px));
+  mainDrop = Math.max(mainDropMin(), Math.round(px));
   const main = $("goalsMain");
   main.classList.toggle("goals-main-settle", animate);
   main.style.setProperty("--main-drop", `${mainDrop}px`);
   $("goalsPage").classList.toggle("goals-main-dropped", mainDrop > 0);
+  $("goalsPage").classList.toggle("goals-main-raised", mainDrop < 0);
   const arrow = $("goalsMainArrow");
   if (arrow) {
-    const label = mainDrop ? "Move this column up" : "Move this column down";
+    const label = mainDrop > 0 ? "Move this column up" : "Move this column down";
     arrow.title = label;
     arrow.setAttribute("aria-label", label);
   }
 }
 function initMainGrip() {
   const tabs = document.querySelector(".goals-tabs");
-  const grip = node("div", { class: "goals-grip", "aria-hidden": "true", title: "Drag to move this column down. Double-click to bring it back." });
+  const grip = node("div", { class: "goals-grip", "aria-hidden": "true", title: "Drag to move this column down, or up on the Goals tab. Double-click to bring it back." });
   tabs.prepend(grip);
   // Triangle at the far right, after the tabs' column: points up while the column is down and
   // raises it, then points down (CSS turns it) and docks it again.
   const arrow = node("button", { type: "button", id: "goalsMainArrow", class: "goals-main-arrow" },
     node("span", { "aria-hidden": "true", text: "\u25B2" }));
   tabs.append(arrow);
-  arrow.addEventListener("click", () => { mainDocked = !mainDrop; setMainDrop(mainDrop ? 0 : dockDrop(), true); });
+  arrow.addEventListener("click", () => { mainDocked = mainDrop <= 0; setMainDrop(mainDrop > 0 ? 0 : dockDrop(), true); });
   grip.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
     e.preventDefault();
@@ -608,11 +643,27 @@ function syncMainDrop(animate = false, refit = false) {
 // tabs' place without the drop is their place now less the translateY they
 // have now, which mid-slide isn't mainDrop yet.
 function dockDrop() {
+  const tabsTop = tabsPlace().top + window.scrollY;
+  return window.innerHeight - MAIN_DOCK - tabsTop;
+}
+// The tabs' rect in the window without the drop: their place now less the translateY they have now.
+function tabsPlace() {
   const tabs = document.querySelector(".goals-tabs");
   const transform = getComputedStyle(tabs).transform;
   const shift = transform && transform !== "none" ? new DOMMatrixReadOnly(transform).m42 : 0;
-  const tabsTop = tabs.getBoundingClientRect().top + window.scrollY - shift;
-  return window.innerHeight - MAIN_DOCK - tabsTop;
+  const rect = tabs.getBoundingClientRect();
+  return { top: rect.top - shift, bottom: rect.bottom - shift };
+}
+// How far up the column can go: on the Goals tab, the spare space above the tabs, up to the top info line
+// (and its margin) when it shows, or the column's top. Elsewhere, not above its place.
+function mainDropMin() {
+  const main = $("goalsMain");
+  if (main.dataset.tab !== "goals") return 0;
+  const topinfo = $("topinfoBar");
+  const limit = topinfo && !topinfo.hidden
+    ? topinfo.getBoundingClientRect().bottom + parseFloat(getComputedStyle(topinfo).marginBottom)
+    : main.getBoundingClientRect().top;
+  return Math.min(0, Math.round(limit - tabsPlace().top));
 }
 function alignAside() {
   const aside = $("goalsAside");
@@ -920,6 +971,7 @@ async function start() {
   setDataMode(hashParams().data, false);
   markTab(tabName(hashParams().tab)); // before the awaits below, so a #tab= link never flashes the hero
   initMainGrip();
+  initFilterCatch();
   syncMainDrop();
   for (const sel of document.querySelectorAll("select[data-source]")) {
     sel.addEventListener("change", () => { setHash({ data: sel.value === "live" ? "live" : "" }); setDataMode(sel.value); });
@@ -959,6 +1011,7 @@ async function start() {
   initObjectives();
   // Goals while tab=goals is already set removes tab=, which drops the column to the bottom.
   for (const b of document.querySelectorAll(".goals-tabs button[data-tab]")) b.addEventListener("click", () => {
+    closeEarthFilters();
     showTab(b.dataset.tab, b.dataset.tab === "goals" && hashParams().tab === "goals" ? "" : b.dataset.tab);
   });
   $("askForm").addEventListener("submit", ask);
