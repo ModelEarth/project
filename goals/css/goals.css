@@ -253,6 +253,9 @@ body { --fullscreen-height: calc(100vh - var(--header-h, var(--headerbar-offset,
    (goals-hero-covered, goals.js) they stop changing. view=center shows it only
    while it's covered. */
 html #fullscreen { position: fixed; inset: 0; height: auto; box-sizing: border-box; }
+/* The map's stack of circles in the upper right (zoom + and -, the close-X and the scroll circle, placed 22px down by
+   base.css) goes 22px below where #goalsPage starts (--header-h), since #fullscreen's top is behind the header. */
+html #fullscreen > #mainEarthDisplay .earth-zoom-controls { top: calc(var(--header-h, 0px) + 22px) !important; }
 #filterFieldsHolder:not(.filterFieldsHolderFixed) { position: relative; z-index: 3; }
 /* While the map's date picker is open (localsite.js adds .earthDateOpen), #fullscreen is raised above
    #goalsPage, so the expanded controls show over the page's column. The search filters stay above it. */
@@ -415,12 +418,20 @@ html.goals-view-hero .goals-bg {
    gradient (strongest behind the text on the left) in dark mode. */
 .goals-bg::after { content: ""; position: absolute; inset: 0; background: var(--hero-wash); mix-blend-mode: var(--hero-blend, normal); }
 @media (prefers-reduced-motion: reduce) { .goals-bg img { transition: none; } }
+/* No z-index, so it paints in page order: over #fullscreen (the photos), which comes before it, and behind
+   the page's panels in #goalsPage, which come after it. */
 html.goals-view-hero .goals-credit {
-  display: block; position: fixed; right: 12px; bottom: 8px; z-index: 1; margin: 0;
+  display: block; position: fixed; right: 12px; bottom: 8px; margin: 0;
   font: 12px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
   color: var(--hero-credit); text-shadow: var(--hero-credit-shadow);
 }
 html.goals-view-hero .goals-credit a { color: inherit; }
+/* Above the voice widget's controls (12px up and 38px tall, initFullscreenVoice() in localsite.js) when they show,
+   and hidden while they open anything above their row (captions, typing, settings, the play pill: data-open). */
+html.goals-view-hero body:has(.claude-voice-ui) .goals-credit { bottom: 80px; }
+html.goals-view-hero body:has(.claude-voice-ui[data-open]) .goals-credit { visibility: hidden; }
+/* The Earth map, or another layer over the photos (goals-hero-covered, goals.js), covers the credit too. */
+html.goals-view-hero #fullscreen.goals-hero-covered ~ .goals-credit { visibility: hidden; }
 /* Hidden on narrow windows, where it would crowd the page. The credit is fixed to the window, and the body
    around it is the window's width, so a media query measures it. (A container query would need
    container-type on the body, which would pin the fixed photos and credit to it.) */

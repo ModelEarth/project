@@ -235,9 +235,10 @@ function nextHero() {
 }
 // #fullscreen holds the photos and, once localsite's .showEarth opens it, the
 // Earth map (#mainEarthDisplay) over them. While it or another layer covers
-// them, the photos stop changing, and the play button is the map's.
+// them, the photos stop changing, and the play button is the map's. The voice
+// widget's canvas and words (claude-voice-*, engine/claude-voice.js) don't count.
 function heroCovered() {
-  return [...$("fullscreen").children].some((el) => el.id !== "heroBg" && el.id !== "earthPlayPauseButton" && !el.hidden && el.style.display !== "none" && getComputedStyle(el).display !== "none");
+  return [...$("fullscreen").children].some((el) => el.id !== "heroBg" && el.id !== "earthPlayPauseButton" && !/\bclaude-voice-/.test(el.getAttribute("class") || "") && !el.hidden && el.style.display !== "none" && getComputedStyle(el).display !== "none");
 }
 function syncHero() {
   const covered = heroCovered();
@@ -265,7 +266,7 @@ function heroButton(e) {
   if (!e.target.closest?.("#earthPlayPauseButton") || !heroView() || heroCovered()) return;
   if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") return;
   e.preventDefault();
-  e.stopPropagation(); // Captured on #fullscreen, so localsite's listeners on the button don't run
+  e.stopPropagation(); // Captured on document, so localsite's listeners on the button don't run
   heroKeys = true;
   stepHero(1);
 }
@@ -1005,8 +1006,9 @@ async function start() {
   WIDE.addEventListener?.("change", placeSides);
   // The Earth map arriving in #fullscreen, or showing and hiding there, stops or restarts the photos.
   new MutationObserver(syncHero).observe($("fullscreen"), { childList: true, subtree: true, attributes: true, attributeFilter: ["style", "hidden"] });
-  $("fullscreen").addEventListener("click", heroButton, true);
-  $("fullscreen").addEventListener("keydown", heroButton, true);
+  // On document rather than #fullscreen, since the voice widget moves the play button into its controls (localsite's initFullscreenVoice()).
+  document.addEventListener("click", heroButton, true);
+  document.addEventListener("keydown", heroButton, true);
   document.addEventListener("keydown", heroArrowKeys);
   initObjectives();
   // Goals while tab=goals is already set removes tab=, which drops the column to the bottom.
