@@ -551,3 +551,6 @@ html.goals-has-header-title #headerLocTitleHolder { display: none !important; }
 :root:not(.dark) body:not(.dark) #headerLocTitle { color: #fff; }
 :root:not(.dark) body:not(.dark) .headerbar a:link:hover,
 :root:not(.dark) body:not(.dark) .headerbar a:visited:hover { color: #b9cdf0; }
+/* The header's earth icon (header_icon: earth, localsite base.css), softer than the white title until hovered. */
+:root:not(.dark) body:not(.dark) #headerLogo .headerEarthIcon { color: #eee; opacity: .7; }
+:root:not(.dark) body:not(.dark) #headerLogo a:hover .headerEarthIcon { color: #fff; opacity: 1; }
