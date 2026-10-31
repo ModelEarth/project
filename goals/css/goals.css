@@ -276,6 +276,13 @@ body.standalone #earthPlayPauseButton { display: none; }
 .goals-filters-caught #goalsMain .goals-panel,
 .goals-filters-caught #goalsAside,
 .goals-filters-caught #goalsBottom { display: none; }
+/* The voice widget's keys panel (.claude-voice-keys, engine/claude-voice.js) goes after #earthFilterCatch while it's
+   open, and the tabs' content steps aside for it too. */
+#goalsMain:has(> .claude-voice-keys) > .goals-hero,
+#goalsMain:has(> .claude-voice-keys) > .goals-results,
+#goalsMain:has(> .claude-voice-keys) .goals-panel,
+.goals:has(.claude-voice-keys) #goalsAside,
+.goals:has(.claude-voice-keys) #goalsBottom { display: none; }
 html.goals-view-hero #goalsMain > #earthFilterCatch { padding: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
 #earthFilterCatch > #mainEarthFilters { margin-top: 0; padding: 0 !important; } /* Over the inline padding for under the map */
 /* The page's empty space lets clicks through to #fullscreen beneath (the map),

@@ -1014,6 +1014,7 @@ async function start() {
   // Goals while tab=goals is already set removes tab=, which drops the column to the bottom.
   for (const b of document.querySelectorAll(".goals-tabs button[data-tab]")) b.addEventListener("click", () => {
     closeEarthFilters();
+    document.querySelector(".claude-voice-keys-close")?.click(); // The voice widget's keys panel, after #earthFilterCatch (engine/claude-voice.js)
     showTab(b.dataset.tab, b.dataset.tab === "goals" && hashParams().tab === "goals" ? "" : b.dataset.tab);
   });
   $("askForm").addEventListener("submit", ask);
