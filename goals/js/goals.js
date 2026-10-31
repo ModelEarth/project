@@ -629,12 +629,14 @@ function initMainGrip() {
 // above the window's bottom, the photo above them. Any tab= brings it back to
 // its usual place. It's placed again when tab= changes, and on resize while
 // it's docked with no tab=, so a manual drag or the arrow's raise stays put
-// through other hash changes (earth=, data=) and resizes.
+// through other hash changes (earth=, data=) and resizes. The voice widget's keys
+// panel (engine/claude-voice.js, after #earthFilterCatch) brings it back too while it's
+// open, as from an #edit=keys link, so its fields show under the tabs.
 const MAIN_DOCK = 89;
 let dropTab = null; // The hash's tab= when the column was last placed
 let mainDocked = false; // At the docked place, not moved by a drag or the arrow
 function syncMainDrop(animate = false, refit = false) {
-  const t = hashParams().tab || "";
+  const t = hashParams().tab || ($("goalsMain").querySelector(":scope > .claude-voice-keys") ? "keys" : "");
   if (t === dropTab && !(refit && !t && mainDocked)) return;
   dropTab = t;
   mainDocked = !t;
@@ -974,6 +976,7 @@ async function start() {
   initMainGrip();
   initFilterCatch();
   syncMainDrop();
+  new MutationObserver(() => syncMainDrop(true)).observe($("goalsMain"), { childList: true }); // The keys panel opens or closes
   for (const sel of document.querySelectorAll("select[data-source]")) {
     sel.addEventListener("change", () => { setHash({ data: sel.value === "live" ? "live" : "" }); setDataMode(sel.value); });
   }
