@@ -696,21 +696,23 @@ function initObjectives() {
   }));
 }
 
-// Data Services tab: the first SOURCES_SHOWN sources from list_sources, then a
-// "More Data Sources" link that shows the rest (and reads "Less" while open).
+// Data Services tab: the first SOURCES_SHOWN sources in pipeline/sources.json, then a
+// "More Data Sources" link that shows the rest (and reads "Less" while open). Read
+// straight from the file, so it shows on any static server; as in list_sources,
+// sources marked "listed": false are left out.
 const SOURCES_SHOWN = 3;
 async function initSources() {
   const box = $("sourcesList");
   try {
-    const { sources } = await api("/tools/list_sources");
-    const items = sources.map((s, i) => {
+    const listed = (await sources()).filter((s) => s.listed !== false);
+    const items = listed.map((s, i) => {
       const li = node("li", {}, node("strong", { text: s.title }), ` — ${s.used_for}. ${s.license || ""}`);
       li.hidden = i >= SOURCES_SHOWN;
       return li;
     });
     const list = node("ul", { id: "sourcesItems" }, ...items);
     box.replaceChildren(list);
-    if (sources.length <= SOURCES_SHOWN) return;
+    if (listed.length <= SOURCES_SHOWN) return;
     const more = node("a", { href: "#", id: "sourcesLink", "aria-controls": "sourcesItems", "aria-expanded": "false", text: "More Data Sources" });
     more.addEventListener("click", (e) => {
       e.preventDefault();
