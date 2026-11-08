@@ -1,0 +1,30 @@
+
+# Hero backgrounds for view=hero (the default layout), one picked at random
+# and faded to the next every 15 seconds. Free under the Unsplash License
+# (https://unsplash.com/license); loaded from Unsplash's image CDN, with the
+# photographer credited on the page. Also the default set when no event is open.
+hero_images:
+  - url: https://images.unsplash.com/photo-1601579859386-2bb026c0a2e8?auto=format&fit=crop&w=1920&q=70
+    credit: "Eric Ward"
+    link: https://unsplash.com/photos/PozQpkkSt9I
+  - url: https://images.unsplash.com/photo-1682623763188-804d15be0267?auto=format&fit=crop&w=1920&q=70
+    credit: "Wesley Tingey"
+    link: https://unsplash.com/photos/xHBmKGVpSEY
+  - url: https://images.unsplash.com/photo-1761839259488-2bdeeae794f5?auto=format&fit=crop&w=1920&q=70
+    credit: "Land O'Lakes, Inc."
+    link: https://unsplash.com/photos/MjH55Ef3w_0
+  - url: https://images.unsplash.com/photo-1682623764799-f0a7bde392d7?auto=format&fit=crop&w=1920&q=70
+    credit: "Wesley Tingey"
+    link: https://unsplash.com/photos/ZB_3Bqk87hw
+  - url: https://images.unsplash.com/photo-1453683685760-b8db0bbb8dc2?auto=format&fit=crop&w=1920&q=70
+    credit: "Holly Mindrup"
+    link: https://unsplash.com/photos/j7RQSDAhpYI
+  - url: https://images.unsplash.com/photo-1761839258605-d1b118266ccc?auto=format&fit=crop&w=1920&q=70
+    credit: "Land O'Lakes, Inc."
+    link: https://unsplash.com/photos/ydAyN8eRIDw
+  - url: https://images.unsplash.com/photo-1629954844642-bd8bd3fca315?auto=format&fit=crop&w=1920&q=70
+    credit: "Tim Mossholder"
+    link: https://unsplash.com/photos/C9aoKixzhRQ
+  - url: https://images.unsplash.com/photo-1716837682689-e834ac498c15?auto=format&fit=crop&w=1920&q=70
+    credit: "David Valentine"
+    link: https://unsplash.com/photos/7CSwz5Mqgps
