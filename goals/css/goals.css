@@ -271,8 +271,8 @@ body.standalone { margin: 0; background: #f9f9f7; }
 /* Task-list boxes ("- [x]", localsite's loadMarkdown): as on GitHub, the box hangs to the
    left and wrapped lines line up with the text. Showdown's inline margin assumes a bullet
    indent, which these flush lists don't have. */
-#planDiv .task-list-item { padding-left: 1.5em; }
-#planDiv .task-list-item input { margin: 0 0.5em 0.2em -1.5em !important; }
+#planDiv .task-list-item { padding-left: 1.35em; }
+#planDiv .task-list-item input { margin: 0 0.5em 0.2em -1.35em !important; }
 .goals-panel h2 { margin: 0 0 4px; font-size: 26px; letter-spacing: -0.01em; }
 .goals-sub { margin: 0 0 20px; color: var(--ink-2); max-width: 75ch; }
 
