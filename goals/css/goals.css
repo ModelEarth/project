@@ -316,6 +316,8 @@ html.goals-view-hero #goalsAside > .goals-side-plain { margin: 16px 20px; }
 .goals-stats { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); margin-bottom: 16px; }
 /* 5 (or 9, 13...) stats would leave one alone on a row of 4: cap at 3 columns. */
 .goals-stats:has(> :last-child:nth-child(4n+5)) { grid-template-columns: repeat(auto-fill, minmax(max(140px, calc((100% - 24px) / 3)), 1fr)); }
+/* Exactly 4 stats: 2 columns of 2 rows. */
+.goals-stats:has(> :last-child:nth-child(4)) { grid-template-columns: repeat(auto-fill, minmax(max(140px, calc((100% - 12px) / 2)), 1fr)); }
 .goals-stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
 .goals-stat .v { font-size: 26px; font-weight: 650; line-height: 1.1; }
 .goals-stat .l { font-size: 13px; color: var(--ink-2); }
