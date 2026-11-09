@@ -822,7 +822,7 @@ async function drawCounty() {
     sectors.sort((a, b) => b.employees - a.employees);
     hbar($("countyChart"), sectors.filter((s) => s.employees > 0).slice(0, 12).map((s) => ({
       label: s.name, value: s.employees, note: `${nf.format(s.establishments)} establishments · $${nf.format(s.payroll)}K payroll`,
-    })));
+    })), { inside: true });
     sourceNote($("countySource"), note);
   } catch (err) {
     $("countyChart").textContent = `Industry data unavailable (${err.message}).`;

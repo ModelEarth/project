@@ -16,6 +16,10 @@
   --series-1: #2a78d6;
   --series-2: #eb6834;
   --series-3: #1baf7a;
+  /* hbar's inside option: a label over its bar and gray track. */
+  --bar-label: var(--ink);
+  --bar-fill: #a9cbf2;
+  --bar-track: #e2e1db;
   --warn: #fab219;
   --critical: #d03b3b;
   --good: #0ca30c;
@@ -45,6 +49,9 @@ body.dark .goals, :root[data-theme="dark"] .goals {
   --series-1: #3987e5;
   --series-2: #d95926;
   --series-3: #199e70;
+  --bar-label: #fff;
+  --bar-fill: var(--series-1);
+  --bar-track: #6e6e73;
   --tab-hover: #fff;
   color-scheme: dark;
 }
@@ -54,6 +61,7 @@ body.dark .goals, :root[data-theme="dark"] .goals {
     --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, 0.10);
     --accent: #3987e5; --accent-ink: #86b6ef; --accent-wash: rgba(57, 135, 229, 0.16);
     --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+    --bar-label: #fff; --bar-fill: var(--series-1); --bar-track: #6e6e73;
     --tab-hover: #fff;
     color-scheme: dark;
   }
@@ -62,7 +70,7 @@ body.standalone { margin: 0; background: #f9f9f7; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body.standalone { background: #0d0d0d; } }
 
 .goals * { box-sizing: border-box; }
-/* Links never break across lines ("Our Data Sources", source notes, citations). */
+/* Links never break across lines ("Our Data Sources", citations), except in source notes (.goals-note). */
 .goals a, .goals-credit a { white-space: nowrap; }
 .goals a { color: var(--accent-ink); }
 .goals-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -191,6 +199,10 @@ body.standalone { margin: 0; background: #f9f9f7; }
 #goalsMain:not([data-tab="goals"]) > .goals-results,
 #goalsMain:not([data-tab="goals"]) > .goals-topinfo { display: none; }
 .goals-panel { padding: 24px 0; }
+/* The plan (PLAN.md, loaded into #planDiv) gets the panels' padding alone, not
+   localsite's .contentpadding too, and its lists run flush left without bullets. */
+.goals-panel[data-panel="plan"] > .contentpadding { padding: 0; }
+#planDiv ul { list-style: none; padding-left: 0; margin-left: 0; }
 .goals-panel h2 { margin: 0 0 4px; font-size: 26px; letter-spacing: -0.01em; }
 .goals-sub { margin: 0 0 20px; color: var(--ink-2); max-width: 75ch; }
 
@@ -313,6 +325,11 @@ html.goals-view-hero #goalsAside > .goals-side-plain { margin: 16px 20px; }
 .goals-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
 .goals-chart text { fill: var(--ink-2); font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; }
 .goals-chart .val { fill: var(--ink); font-variant-numeric: tabular-nums; }
+/* A label over its bar, the bar and the gray track behind it (hbar's inside option):
+   dark text on light colors, or white on darker ones in dark mode. */
+.goals-chart text.in { fill: var(--bar-label); }
+.goals-chart .mark.mark-in { fill: var(--bar-fill); }
+.goals-chart .rest { fill: var(--bar-track); }
 .goals-chart .grid { stroke: var(--grid); stroke-width: 1; }
 .goals-chart .base { stroke: var(--axis); stroke-width: 1; }
 .goals-chart .mark { fill: var(--series-1); }
@@ -326,7 +343,9 @@ html.goals-view-hero #goalsAside > .goals-side-plain { margin: 16px 20px; }
 .goals-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; font-variant-numeric: tabular-nums; }
 .goals-table th, .goals-table td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--grid); }
 .goals-table td.n { text-align: right; }
-.goals-note { color: var(--ink-2); font-size: 14px; margin: 8px 0 0; }
+/* A "Source:" link (a long file path) wraps, over .goals a's nowrap, rather than widening its figure. */
+.goals-note { color: var(--ink-2); font-size: 14px; margin: 8px 0 0; overflow-wrap: anywhere; }
+.goals-note a { white-space: normal; }
 .goals-defs { margin-top: 16px; font-size: 14px; color: var(--ink-2); }
 .goals-defs dt { font-weight: 600; color: var(--ink); margin-top: 8px; }
 .goals-defs dd { margin: 0; }
@@ -516,6 +535,9 @@ html.goals-view-hero .goals-with-bottom #goalsMain { min-height: 0; }
 html.goals-view-hero #goalsMain > .goals-hero { --pad-top: 32px; --pad-x: 28px; padding: var(--pad-top) var(--pad-x); }
 @media (min-width: 901px) {
   html.goals-view-hero #goalsMain { flex: 0 0 min(780px, 50vw); }
+  /* The Goals, Data and Plan tabs have no aside: their column is as wide as two
+     of the three Community Data cards (.goals-objectives) across the bottom. */
+  html.goals-view-hero #goalsMain:is([data-tab="goals"], [data-tab="data"], [data-tab="plan"]) { flex-basis: calc((200% - var(--gap)) / 3); }
   html.goals-view-hero .goals-aside { flex: 1 1 0; max-width: 780px; }
 }
 @media (max-width: 900px) {

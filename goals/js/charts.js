@@ -89,13 +89,19 @@ function niceMax(v) {
 const ellipsize = (s, max) => (s.length > max ? s.slice(0, max - 1) + "…" : s);
 
 // Horizontal bars, one series. rows: [{ label, value, note? }]
-export function hbar(container, rows, { format = (v) => fmt.format(v), unit = "" } = {}) {
+// inside: the values go in a column on the left and the bars start right of
+// it, each label over its bar, so labels get the chart's full width.
+// A gray track the plot's full width sits behind each bar and the rest of its label.
+export function hbar(container, rows, { format = (v) => fmt.format(v), unit = "", inside = false } = {}) {
   container.replaceChildren();
   if (!rows.length) { container.textContent = "No data."; return; }
   const width = Math.max(320, container.clientWidth || 560);
+  const charW = 6.4;
   const maxChars = width < 480 ? 22 : 34;
-  const labelW = Math.min(width * 0.45, 8 + 6.4 * Math.max(...rows.map((r) => Math.min(maxChars, r.label.length))));
-  const valueW = 56, rowH = 26, barH = 16, top = 4;
+  const values = rows.map((r) => format(r.value) + unit);
+  const labelW = inside ? 10 + 7 * Math.max(...values.map((v) => v.length))
+    : Math.min(width * 0.45, 8 + charW * Math.max(...rows.map((r) => Math.min(maxChars, r.label.length))));
+  const valueW = inside ? 16 : 56, rowH = 26, barH = inside ? 20 : 16, top = 4;
   const plotW = width - labelW - valueW;
   const max = niceMax(Math.max(...rows.map((r) => r.value)));
   const height = top + rows.length * rowH + 22;
@@ -107,15 +113,23 @@ export function hbar(container, rows, { format = (v) => fmt.format(v), unit = ""
   }
   rows.forEach((r, i) => {
     const y = top + i * rowH + (rowH - barH) / 2;
+    const ty = y + barH / 2 + 4;
     const w = Math.max(0, (r.value / max) * plotW);
-    text(svg, labelW - 8, y + barH / 2 + 4, ellipsize(r.label, maxChars), { "text-anchor": "end" });
+    if (!inside) text(svg, labelW - 8, ty, ellipsize(r.label, maxChars), { "text-anchor": "end" });
     // 4px rounded data-end, square at the baseline.
     const rad = Math.min(4, w);
     const d = `M${labelW},${y}h${w - rad}a${rad},${rad} 0 0 1 ${rad},${rad}v${barH - 2 * rad}a${rad},${rad} 0 0 1 -${rad},${rad}h-${w - rad}z`;
     const hit = el("rect", { x: labelW, y: top + i * rowH, width: plotW, height: rowH, fill: "transparent" }, svg);
-    const bar = el("path", { d, class: "mark" }, svg);
-    text(svg, labelW + w + 6, y + barH / 2 + 4, format(r.value) + unit, { class: "val" });
-    hover(hit, format(r.value) + unit, r.label, r.note);
+    if (inside) el("rect", { x: labelW, y, width: plotW, height: barH, rx: 4, class: "rest" }, svg);
+    const bar = el("path", { d, class: inside ? "mark mark-in" : "mark" }, svg);
+    if (inside) {
+      const label = ellipsize(r.label, Math.floor((plotW - 12) / charW));
+      text(svg, labelW + 6, ty, label, { class: "in", "pointer-events": "none" });
+      text(svg, labelW - 8, ty, values[i], { class: "val", "text-anchor": "end" });
+    } else {
+      text(svg, labelW + w + 6, ty, values[i], { class: "val" });
+    }
+    hover(hit, values[i], r.label, r.note);
   });
   tableView(container, ["Item", "Value"], rows.map((r) => [r.label, r.value]));
 }

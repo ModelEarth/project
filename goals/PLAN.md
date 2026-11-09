@@ -26,9 +26,13 @@ a temporary placeholder), event settings in .yaml files.
 ## Findings so far (for the proposal and charts)
 
 - naics4 rollups fall short of naics2 establishment counts in 2,407 Southeast county-sector cells (withheld 4-digit cells), which is why naics2 is the source and naics4 only a check.
+
 - State-held-out CV (6 folds, one state each), 2023 industry features:
+
   - directory-services target: ROC-AUC lr 0.60 +/- 0.25, rfc 0.59 +/- 0.21, xgboost 0.57 +/- 0.20 (high variance: each state's directory is curated differently)
+
   - IRS-org target: lr 0.71 +/- 0.05, rfc 0.71 +/- 0.03, xgboost 0.67 +/- 0.05
+
 - Feature importance (XGBoost): for directory services, population, construction establishments and agriculture payroll lead; for IRS-coded organizations, manufacturing payroll (a sector the old files lacked), real estate establishments and Other Services employment lead.
 
 ## Next steps
