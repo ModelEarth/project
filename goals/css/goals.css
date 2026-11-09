@@ -16,9 +16,11 @@
   --series-1: #2a78d6;
   --series-2: #eb6834;
   --series-3: #1baf7a;
-  /* hbar's inside option: a label over its bar and gray track. */
+  /* hbar's inside option: a label over its bar and gray track. --bar-fill-alt is a burgundy
+     for a second chart that shouldn't read as the first (Quality). */
   --bar-label: var(--ink);
   --bar-fill: #a9cbf2;
+  --bar-fill-alt: #dcaab7;
   --bar-track: #e2e1db;
   --warn: #fab219;
   --critical: #d03b3b;
@@ -51,6 +53,7 @@ body.dark .goals, :root[data-theme="dark"] .goals {
   --series-3: #199e70;
   --bar-label: #fff;
   --bar-fill: var(--series-1);
+  --bar-fill-alt: #8f2442;
   --bar-track: #6e6e73;
   --tab-hover: #fff;
   color-scheme: dark;
@@ -61,7 +64,7 @@ body.dark .goals, :root[data-theme="dark"] .goals {
     --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, 0.10);
     --accent: #3987e5; --accent-ink: #86b6ef; --accent-wash: rgba(57, 135, 229, 0.16);
     --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
-    --bar-label: #fff; --bar-fill: var(--series-1); --bar-track: #6e6e73;
+    --bar-label: #fff; --bar-fill: var(--series-1); --bar-fill-alt: #8f2442; --bar-track: #6e6e73;
     --tab-hover: #fff;
     color-scheme: dark;
   }
@@ -128,11 +131,20 @@ body.standalone { margin: 0; background: #f9f9f7; }
 /* Services to search, under the lede: the 10 featured checkboxes, any others checked, then
    "More services", which opens the catalog by audience and category (goals.js). */
 .goals-picks { border: 0; margin: -8px 0 16px; padding: 0; min-width: 0; }
-.goals-picks-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; font-size: 15px; }
+/* Each checkbox takes an equal flex column (5 a row, fewer on phones), so the boxes line up. */
+.goals-picks-row { --pick-cols: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: 15px; }
+.goals-picks-row .goals-pick { flex: 0 0 calc((100% - (var(--pick-cols) - 1) * 12px) / var(--pick-cols)); min-width: 0; }
+@media (max-width: 640px) { .goals-picks-row { --pick-cols: 3; } }
+@media (max-width: 420px) { .goals-picks-row { --pick-cols: 2; } }
 .goals-picks-extras { display: contents; }
-.goals-pick { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; color: var(--ink-2); }
+/* The box sits beside the first line of its name. */
+.goals-pick { display: inline-flex; align-items: flex-start; gap: 6px; cursor: pointer; color: var(--ink-2); }
 .goals-pick:hover { color: var(--ink); }
-.goals-pick input { margin: 0; width: 16px; height: 16px; accent-color: var(--accent); cursor: inherit; }
+/* [type] outranks localsite's map-display.css, which scales every checkbox and adds a right margin. */
+.goals-pick input[type="checkbox"] {
+  flex: none; margin: calc((1lh - 16px) / 2) 0 0; padding: 0; width: 16px; height: 16px; transform: none;
+  accent-color: var(--accent); cursor: inherit;
+}
 .goals-pick-off { cursor: default; opacity: 0.62; }
 .goals-pick-off:hover { color: var(--ink-2); }
 .goals-state {
@@ -164,12 +176,13 @@ body.standalone { margin: 0; background: #f9f9f7; }
 .goals-catgroup h4 { margin: 0 0 4px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .goals-catgroup ul { list-style: none; margin: 0; padding: 0; }
 .goals-catgroup li { margin: 4px 0; font-size: 14px; }
-.goals-catalog-full .goals-catgroup li { margin: 0 0 8px; }
-/* On the Data tab, a service's summary and publisher go under its checkbox, lined up with its name. */
-.goals-catalog-full .goals-pick { display: flex; color: var(--ink); font-weight: 550; }
+/* On the Data tab, a service's summary and publisher hang under its name: the item is indented
+   by the box and its gap (16px + 6px), and the box is pulled back into that indent. */
+.goals-catalog-full .goals-catgroup li { margin: 0 0 8px; padding-left: 22px; }
+.goals-catalog-full .goals-pick { display: flex; margin-left: -22px; color: var(--ink); font-weight: 550; }
 .goals-svc-sum, .goals-svc-pub { font-size: 13px; color: var(--ink-2); }
-.goals-catalog-full .goals-svc-sum { display: block; padding-left: 22px; }
-.goals-catalog-full .goals-svc-pub { margin-left: 22px; white-space: normal; }
+.goals-catalog-full .goals-svc-sum { display: block; }
+.goals-catalog-full .goals-svc-pub { display: block; white-space: normal; }
 .goals-sources-head { margin: 28px 0 4px; font-size: 18px; }
 
 .goals-results { margin: 8px 0 32px; }
@@ -401,6 +414,7 @@ html.goals-view-hero #goalsAside > .goals-side-plain { margin: 16px 20px; }
    dark text on light colors, or white on darker ones in dark mode. */
 .goals-chart text.in { fill: var(--bar-label); }
 .goals-chart .mark.mark-in { fill: var(--bar-fill); }
+#qualityChart { --bar-fill: var(--bar-fill-alt); }
 .goals-chart .rest { fill: var(--bar-track); }
 .goals-chart .grid { stroke: var(--grid); stroke-width: 1; }
 .goals-chart .base { stroke: var(--axis); stroke-width: 1; }

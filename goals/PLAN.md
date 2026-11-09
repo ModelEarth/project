@@ -106,7 +106,7 @@ which now runs the same way (worker/src/nearby.js).
 
 - [x] Read corrected naics2 files from GitHub (2023 by default; naics4 rollup kept as a check). Census has not published 2024 County Business Patterns yet; rerun `pipeline/county_pipeline.py --refresh` and the models when it does.
 
-- [ ] Rerun the pipeline and models once Census publishes 2024 County Business Patterns
+- [ ] [Rerun the pipeline](https://github.com/ModelEarth/project/blob/main/goals/pipeline/county_pipeline.py) and [models](https://github.com/ModelEarth/project/blob/main/models/run.py) once Census publishes 2024 County Business Patterns: `python goals/pipeline/county_pipeline.py --states AL,FL,GA,NC,SC,TN --industry-year 2024 --refresh`, then `python models/run.py events/next.yaml`
 
 - [ ] Write specs.md for MCP
 
@@ -119,6 +119,8 @@ which now runs the same way (worker/src/nearby.js).
 - [ ] Rate-limit propose_correction and the ask route before announcing the endpoint.
 
 - [ ] Try per-capita and share-of-employment features so population stops dominating.
+
+- [ ] Compare emissions totals with [Drawdown Georgia](https://www.drawdownga.org/)'s [GHG Emissions Tracker](https://www.drawdownga.org/ghg-emissions-tracker/): metric tons CO2e for the state, all 159 counties and over 200 cities, monthly from 2005 and updated quarterly. Its statewide figures come from EIA, DOT and EPA data, spread to counties by population, employment, housing, vehicle miles, forest cover and farm data, so they are estimates, not local inventories. Match our Georgia totals (the GHG indicator in the [state models](https://github.com/ModelEarth/profile/tree/main/state)) to the tracker by year and sector (transportation, industry, buildings, agriculture, forest offsets), and note gaps. The tracker is a Power BI dashboard with no download, so record the figures used and the date they were read.
 
 ### Notes
 

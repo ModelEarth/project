@@ -1065,7 +1065,7 @@ async function drawQualityView() {
         { label: "Not checked in 90 days", value: v.stale_over_90d_pct },
         { label: "Has a website", value: c.with_website_pct },
         { label: "Has an email address", value: c.with_email_pct },
-      ].filter((r) => Number.isFinite(r.value)), { format: (x) => String(x), unit: "%" });
+      ].filter((r) => Number.isFinite(r.value)), { format: (x) => String(x), unit: "%", inside: true });
       $("flagDefs").replaceChildren(node("dt", { text: "Live metrics" }), node("dd", { text: q.methodology ? String(q.methodology).slice(0, 400) : "Reported by the directory API." }));
       sourceNote($("qualitySource"), [[`directory API, generated ${String(q.generated_at || "").slice(0, 10)}`, null]]);
       return;
@@ -1079,7 +1079,7 @@ async function drawQualityView() {
       stat(nf.format(q.directory_resources || 0), "directory services"),
       stat(String(q.counties_unknown), "counties with no records"),
     );
-    hbar($("qualityChart"), Object.entries(q.flags).map(([f, n]) => ({ label: flagText(f), value: n, note: f })));
+    hbar($("qualityChart"), Object.entries(q.flags).map(([f, n]) => ({ label: flagText(f), value: n, note: f })), { inside: true });
     const used = Object.keys(q.flags);
     $("flagDefs").replaceChildren(...used.flatMap((f) => [node("dt", { text: f }), node("dd", { text: flagText(f) })]));
     sourceNote($("qualitySource"), [[`data/toy/${$("qualityScope").value}/quality-summary.json, generated ${String(q.generated_at || "").slice(0, 10)}`, `data/toy/${$("qualityScope").value}/quality-summary.json`]]);
