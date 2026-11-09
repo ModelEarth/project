@@ -1,30 +1,49 @@
-
 # Hero backgrounds for view=hero (the default layout), one picked at random
-# and faded to the next every 15 seconds. Free under the Unsplash License
-# (https://unsplash.com/license); loaded from Unsplash's image CDN, with the
-# photographer credited on the page. Also the default set when no event is open.
+# and faded to the next every 15 seconds. Photos of Georgia Tech's Technology
+# Square in Midtown Atlanta from Wikimedia Commons, free under CC0 or Creative
+# Commons licenses that ask for the photographer and license to be credited,
+# which the page does from credit, source and license. Loaded at 1920px from
+# Wikimedia's image server. Also the default set when no event is open.
 hero_images:
-  - url: https://images.unsplash.com/photo-1601579859386-2bb026c0a2e8?auto=format&fit=crop&w=1920&q=70
-    credit: "Eric Ward"
-    link: https://unsplash.com/photos/PozQpkkSt9I
-  - url: https://images.unsplash.com/photo-1682623763188-804d15be0267?auto=format&fit=crop&w=1920&q=70
-    credit: "Wesley Tingey"
-    link: https://unsplash.com/photos/xHBmKGVpSEY
-  - url: https://images.unsplash.com/photo-1761839259488-2bdeeae794f5?auto=format&fit=crop&w=1920&q=70
-    credit: "Land O'Lakes, Inc."
-    link: https://unsplash.com/photos/MjH55Ef3w_0
-  - url: https://images.unsplash.com/photo-1682623764799-f0a7bde392d7?auto=format&fit=crop&w=1920&q=70
-    credit: "Wesley Tingey"
-    link: https://unsplash.com/photos/ZB_3Bqk87hw
-  - url: https://images.unsplash.com/photo-1453683685760-b8db0bbb8dc2?auto=format&fit=crop&w=1920&q=70
-    credit: "Holly Mindrup"
-    link: https://unsplash.com/photos/j7RQSDAhpYI
-  - url: https://images.unsplash.com/photo-1761839258605-d1b118266ccc?auto=format&fit=crop&w=1920&q=70
-    credit: "Land O'Lakes, Inc."
-    link: https://unsplash.com/photos/ydAyN8eRIDw
-  - url: https://images.unsplash.com/photo-1629954844642-bd8bd3fca315?auto=format&fit=crop&w=1920&q=70
-    credit: "Tim Mossholder"
-    link: https://unsplash.com/photos/C9aoKixzhRQ
-  - url: https://images.unsplash.com/photo-1716837682689-e834ac498c15?auto=format&fit=crop&w=1920&q=70
-    credit: "David Valentine"
-    link: https://unsplash.com/photos/7CSwz5Mqgps
+  # Coda, Tech Square's 21-story tower at 756 W Peachtree St
+  - url: https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/756_W_Peachtree_St_NW%2C_Atlanta%2C_GA_May_2021.jpg/1920px-756_W_Peachtree_St_NW%2C_Atlanta%2C_GA_May_2021.jpg
+    credit: "Thomson200"
+    link: https://commons.wikimedia.org/wiki/File:756_W_Peachtree_St_NW,_Atlanta,_GA_May_2021.jpg
+    source: "Wikimedia Commons"
+    license: "CC0"
+  # Coda over the Crum & Forster Building, from Spring St
+  - url: https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Coda_Building_and_Crum_%26_Forster.jpg/1920px-Coda_Building_and_Crum_%26_Forster.jpg
+    credit: "JJonahJackalope"
+    link: https://commons.wikimedia.org/wiki/File:Coda_Building_and_Crum_%26_Forster.jpg
+    source: "Wikimedia Commons"
+    license: "CC BY-SA 4.0"
+  # Scheller College of Business at Fifth and Spring Streets
+  - url: https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/College_of_Management_%28NW_corner%29_6256c.jpg/1920px-College_of_Management_%28NW_corner%29_6256c.jpg
+    credit: "James Emery"
+    link: https://commons.wikimedia.org/wiki/File:College_of_Management_(NW_corner)_6256c.jpg
+    source: "Wikimedia Commons"
+    license: "CC BY 2.0"
+  # The Fifth Street side of Tech Square
+  - url: https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Technology_Square_6260c.jpg/1920px-Technology_Square_6260c.jpg
+    credit: "James Emery"
+    link: https://commons.wikimedia.org/wiki/File:Technology_Square_6260c.jpg
+    source: "Wikimedia Commons"
+    license: "CC BY 2.0"
+  # Scheller College of Business courtyard
+  - url: https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Management_courtyard_%28first_Chihuly_installation%29_6241.jpg/1920px-Management_courtyard_%28first_Chihuly_installation%29_6241.jpg
+    credit: "James Emery"
+    link: https://commons.wikimedia.org/wiki/File:Management_courtyard_(first_Chihuly_installation)_6241.jpg
+    source: "Wikimedia Commons"
+    license: "CC BY 2.0"
+  # The Technology Square Research Building on Fifth St (1500px original)
+  - url: https://upload.wikimedia.org/wikipedia/commons/6/6a/Technology-Square-RB.jpg
+    credit: "MaxVeers"
+    link: https://commons.wikimedia.org/wiki/File:Technology-Square-RB.jpg
+    source: "Wikimedia Commons"
+    license: "CC BY-SA 3.0"
+  # The Fifth Street Bridge park, joining Tech Square to the main campus
+  - url: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/North_5th_Street_Bridge_Georgia_Tech.jpg/1920px-North_5th_Street_Bridge_Georgia_Tech.jpg
+    credit: "Disavian"
+    link: https://commons.wikimedia.org/wiki/File:North_5th_Street_Bridge_Georgia_Tech.jpg
+    source: "Wikimedia Commons"
+    license: "CC BY-SA 3.0"

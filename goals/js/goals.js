@@ -223,7 +223,7 @@ function showHero(i) {
     layers[1 - heroLayer].classList.remove("on");
     const credit = $("heroCredit");
     credit.replaceChildren();
-    if (img.credit) credit.append("Photo: ", img.link ? node("a", { href: img.link, target: "_blank", rel: "noopener", text: img.credit }) : img.credit, " / Unsplash");
+    if (img.credit) credit.append("Photo: ", img.link ? node("a", { href: img.link, target: "_blank", rel: "noopener", text: img.credit }) : img.credit, " / " + (img.source || "Unsplash") + (img.license ? ", " + img.license : ""));
   };
   pre.src = img.url;
 }
