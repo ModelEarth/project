@@ -1233,26 +1233,31 @@ async function start() {
   $("askZip").value = savedZip();
   $("askZip").addEventListener("input", () => saveZip($("askZip").value.trim()));
   $("searchBtn").addEventListener("click", listServices);
-  // An example checks just its services, then asks.
+  // An example checks just its services, then asks. One with no ZIP of its own
+  // uses the ZIP in the box, if any, and a label given as a function shows it.
   const examples = [
     ["Tech jobs in Atlanta", "Python developer jobs", "30308", ["hn-hiring", "jobicy-remote"]],
     ["Colleges near Tech Square", "Colleges and training programs", "30332", ["college-scorecard"]],
     ["Schools and field trips", "Schools, museums and nature near us", "30308", ["nces-public-schools", "osm-museums", "inaturalist-nearby"]],
     ["Coders to build with", "Python coders and makerspaces to collaborate with", "30308", ["github-developers", "osm-makerspaces"]],
-    ["Job training near 30260", "Job training that uses my logistics experience", "30260", [DIRECTORY, "veteran-job-centers"]],
+    [(zip) => (zip ? `Job training near ${zip}` : "Job training"), "Job training that uses my logistics experience", "", [DIRECTORY, "veteran-job-centers"]],
     ["Housing help", "I need help with housing", "30260", [DIRECTORY, "hud-housing-counselors"]],
     ["Get my DD-214", "How do I get a copy of my DD-214?", "", [DIRECTORY]],
   ];
+  const boxZip = () => (/^\d{5}$/.test($("askZip").value.trim()) ? $("askZip").value.trim() : "");
+  const relabel = [];
   $("exampleChips").replaceChildren(...examples.map(([label, text, zip, ids]) => {
-    const b = node("button", { type: "button", text: label });
+    const b = node("button", { type: "button", text: typeof label === "function" ? label(boxZip()) : label });
+    if (typeof label === "function") relabel.push(() => { b.textContent = label(boxZip()); });
     b.addEventListener("click", () => {
       if (catalog) setPicks(ids.filter((id) => catalog.byId[id]?.state === "live"));
       $("askText").value = text;
-      $("askZip").value = zip || savedZip();
+      if (zip) $("askZip").value = zip;
       ask();
     });
     return b;
   }));
+  $("askZip").addEventListener("input", () => relabel.forEach((f) => f()));
   initPicks();
   try {
     toolList = (await api("/tools")).tools;

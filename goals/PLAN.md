@@ -8,19 +8,34 @@ Related files: [worker/](worker/) (Cloudflare Worker and MCP server),
 (data harvest and harmonization), [../models/](../models/) (forecast runs,
 a temporary placeholder), event settings in .yaml files.
 
+Status: [x] done, [ ] to do, as GitHub task-list items, which AI agents and
+GitHub read as checkboxes. Questions stay [ ] until answered. Plain bullets
+are findings and notes, not tasks.
+
 ## Initial setup
 
 - [x] Cloudflare Worker with MCP server (JSON-RPC 2.0, Streamable HTTP), zero dependencies
+
 - [x] Generic tool and parameter names that map to CRM tables (accounts, contacts, events, activities, ...)
+
 - [x] Claim-level record schema (JSON Schema plus JSON-LD context) with provenance, origin tag, review state, validity interval
+
 - [x] Crosswalks: claim fields to CRM tables, to Open Referral HSDS, NAICS to HS
+
 - [x] Frontend (index.html, from localsite/start/template): ask, search, county explorer, data quality, model results, tool console
+
 - [x] Data toggle: Toy Data (data/toy) or Live Data (community-data on GitHub, the directory API and MCP), a dropdown at the upper right of each panel that has both
+
 - [x] Mount the Worker in CloudRoot's Worker at /api/goals/*
+
 - [x] Scene manifest standard (schema/scene.schema.json)
+
 - [ ] Scene files for the proposal charts (scenes/*.json)
+
 - [x] Upstream directory MCP + REST as the source for search, chat (ask) and county targets, behind generic tools
+
 - [ ] README.md proposal (multi-page, ready for PDF)
+
 - [ ] specs.md
 
 ## Location services (MCP)
@@ -32,32 +47,48 @@ MCP server's generic search_nearby tool, built from the veteran directory search
 which now runs the same way (worker/src/nearby.js).
 
 - [x] services.json catalog: audiences, categories, 10 featured services, default checked (the veteran directory), live / key / planned states
+
 - [x] One generic search for MCP tools, REST APIs and OpenStreetMap (Overpass), configured per service: place needed, variants, prelude, where, unique, relax, field mapping to claim-level records with quality flags
+
 - [x] ZIP or city resolved to a point once, through Zippopotam.us (GeoNames, CC BY 4.0)
+
 - [x] search_services (veteran directory) refactored onto the same path; record ids unchanged
+
 - [x] New MCP tools search_nearby and list_services, the goals://services resource, the nearby_scan prompt, route_query suggestions from each service's keywords, service counts in /health
+
 - [x] Goals tab: 10 checkboxes, checked extras, More services by audience and category; Ask and List services fill one section per checked service, each as it answers
+
 - [x] Data Services tab: the catalog with summaries and publishers; Agents tab: tools by purpose
+
 - [x] 25 live services: jobs (Hacker News hiring posts by city, remote jobs, job centers, employment offices), colleges (College Scorecard), public schools (NCES), makerspaces and libraries (OpenStreetMap), developers (GitHub), research institutions (OpenAlex), NSF awards, Wikipedia places, iNaturalist, museums, treatment (FindTreatment.gov), NPI clinics, HUD housing counselors, food banks, community centers, nonprofits (ProPublica), FEMA declarations, weather alerts, EV charging, veteran directory, job centers and claims representatives
 
 ### Recommendations
 
-- Jobs first: get free keys for USAJOBS (USAJOBS_API_KEY, USAJOBS_EMAIL; already wired, shows "needs key") and CareerOneStop (job listings, American Job Centers, training finder), then add them to worker/scripts/dev.mjs KEYS and deploy-worker.yml secrets. These give radius-based local jobs; the live job services today are city mentions (Hacker News), remote listings and job centers.
-- Run Overpass queries less often: the public servers take 20-40 seconds and often refuse. Options: a scheduled job that saves OpenStreetMap places per metro to data/ (like the county files), a hosted Overpass instance (OVERPASS_URL), or Cloudflare KV caching for a day.
-- Set DATA_GOV_API_KEY (College Scorecard and EV stations fall back to the shared DEMO_KEY, about 30 requests an hour) and GITHUB_TOKEN (10 searches a minute without it). OpenAlex now asks for OPENALEX_API_KEY for more than a small shared daily budget.
-- Teachers: add DonorsChoose classroom projects (by ZIP), NCES private schools and Head Start centers next; consider school district boundaries so results follow a school's attendance area rather than distance.
-- AI coders: pair GitHub developers with meetups and hackathons (Meetup needs OAuth; Devpost has no API) and with the repositories they work on, so collaboration starts from shared projects rather than profiles.
-- Students: link College Scorecard results to programs (CIP codes) and to the Local Industries tab, so a county's largest sectors suggest nearby training.
-- Add a service: one entry in services.json; only a new kind of upstream needs code. Run `node worker/test/smoke.mjs --only=<id>` to check it.
+- [ ] Jobs first: get free keys for USAJOBS (USAJOBS_API_KEY, USAJOBS_EMAIL; already wired, shows "needs key") and CareerOneStop (job listings, American Job Centers, training finder), then add them to worker/scripts/dev.mjs KEYS and deploy-worker.yml secrets. These give radius-based local jobs; the live job services today are city mentions (Hacker News), remote listings and job centers.
+
+- [ ] Run Overpass queries less often: the public servers take 20-40 seconds and often refuse. Options: a scheduled job that saves OpenStreetMap places per metro to data/ (like the county files), a hosted Overpass instance (OVERPASS_URL), or Cloudflare KV caching for a day.
+
+- [ ] Set DATA_GOV_API_KEY (College Scorecard and EV stations fall back to the shared DEMO_KEY, about 30 requests an hour) and GITHUB_TOKEN (10 searches a minute without it). OpenAlex now asks for OPENALEX_API_KEY for more than a small shared daily budget.
+
+- [ ] Teachers: add DonorsChoose classroom projects (by ZIP), NCES private schools and Head Start centers next; consider school district boundaries so results follow a school's attendance area rather than distance.
+
+- [ ] AI coders: pair GitHub developers with meetups and hackathons (Meetup needs OAuth; Devpost has no API) and with the repositories they work on, so collaboration starts from shared projects rather than profiles.
+
+- [ ] Students: link College Scorecard results to programs (CIP codes) and to the Local Industries tab, so a county's largest sectors suggest nearby training.
 
 ### Questions to resolve
 
-- Should the GitHub developer search stay? It lists people who publicly name a city. Their profiles shouldn't go into the CRM as contacts without their consent (crosswalk-crm.csv's participant row).
-- Which audience should the page default to, and which 10 services should be featured for it? Today: tech jobs, remote jobs, job centers, colleges, schools, libraries, makerspaces, developers, research institutions and housing counselors, with the veteran directory checked.
-- Should checked services be part of the link (a services= hash value), so a shared link opens with the same searches?
-- Toy Data applies only to the directory's list; should other services get sample files too, for offline demos and tests?
-- events/next.yaml lost its safety_lines, topinfo and lede in commit 5f6de02 ("Update"), so crisis responses fall back to the 911 line alone. Restore them from bb536b8?
-- Which planned services matter most to the proposal's partners (211, findhelp and VA Facilities need partner agreements or keys)?
+- [ ] Should the GitHub developer search stay? It lists people who publicly name a city. Their profiles shouldn't go into the CRM as contacts without their consent (crosswalk-crm.csv's participant row).
+
+- [ ] Which audience should the page default to, and which 10 services should be featured for it? Today: tech jobs, remote jobs, job centers, colleges, schools, libraries, makerspaces, developers, research institutions and housing counselors, with the veteran directory checked.
+
+- [ ] Should checked services be part of the link (a services= hash value), so a shared link opens with the same searches?
+
+- [ ] Toy Data applies only to the directory's list; should other services get sample files too, for offline demos and tests?
+
+- [ ] events/next.yaml lost its safety_lines, topinfo and lede in commit 5f6de02 ("Update"), so crisis responses fall back to the 911 line alone. Restore them from bb536b8?
+
+- [ ] Which planned services matter most to the proposal's partners (211, findhelp and VA Facilities need partner agreements or keys)?
 
 ## Findings so far (for the proposal and charts)
 
@@ -75,11 +106,24 @@ which now runs the same way (worker/src/nearby.js).
 
 - [x] Read corrected naics2 files from GitHub (2023 by default; naics4 rollup kept as a check). Census has not published 2024 County Business Patterns yet; rerun `pipeline/county_pipeline.py --refresh` and the models when it does.
 
+- [ ] Rerun the pipeline and models once Census publishes 2024 County Business Patterns
+
+- [ ] Write specs.md for MCP
+
+- [ ] Replace https://example.org/goals in schema $id and the JSON-LD vocab with the published domain.
+
+- [ ] Add a D1 database for the review queue (worker/migrations/0001_init.sql; wrangler.toml [[d1_databases]]), plus a reviewer view.
+
+- [ ] Confirm the HSDS crosswalk (schema/crosswalk-hsds.csv) with Open Referral, especially service_area for county FIPS.
+
+- [ ] Rate-limit propose_correction and the ask route before announcing the endpoint.
+
+- [ ] Try per-capita and share-of-employment features so population stops dominating.
+
+### Notes
+
 - CloudRoot's worker/src/index.js imports ../../project/goals/worker/src/index.js, so push the project submodule before (or with) the CloudRoot commit that points at it, or CI deploy fails.
-- Write specs.md for MCP
-- Replace https://example.org/goals in schema $id and the JSON-LD vocab with the published domain.
-- Add a D1 database for the review queue (worker/migrations/0001_init.sql; wrangler.toml [[d1_databases]]), plus a reviewer view.
-- Confirm the HSDS crosswalk (schema/crosswalk-hsds.csv) with Open Referral, especially service_area for county FIPS.
-- Rate-limit propose_correction and the ask route before announcing the endpoint.
-- Try per-capita and share-of-employment features so population stops dominating.
-- project/models is temporary. 
+
+- project/models is temporary.
+
+- Add a service: one entry in services.json; only a new kind of upstream needs code. Run `node worker/test/smoke.mjs --only=<id>` to check it.

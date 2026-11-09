@@ -268,6 +268,11 @@ body.standalone { margin: 0; background: #f9f9f7; }
    localsite's .contentpadding too, and its lists run flush left without bullets. */
 .goals-panel[data-panel="plan"] > .contentpadding { padding: 0; }
 #planDiv ul { list-style: none; padding-left: 0; margin-left: 0; }
+/* Task-list boxes ("- [x]", localsite's loadMarkdown): as on GitHub, the box hangs to the
+   left and wrapped lines line up with the text. Showdown's inline margin assumes a bullet
+   indent, which these flush lists don't have. */
+#planDiv .task-list-item { padding-left: 1.5em; }
+#planDiv .task-list-item input { margin: 0 0.5em 0.2em -1.5em !important; }
 .goals-panel h2 { margin: 0 0 4px; font-size: 26px; letter-spacing: -0.01em; }
 .goals-sub { margin: 0 0 20px; color: var(--ink-2); max-width: 75ch; }
 
