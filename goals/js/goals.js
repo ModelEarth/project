@@ -357,6 +357,132 @@ function saveZip(zip) {
   try { if (/^\d{5}$/.test(zip)) localStorage.setItem(ZIP_KEY, zip); else if (!zip) localStorage.removeItem(ZIP_KEY); } catch { /* storage blocked */ }
 }
 
+// --- Location services (pipeline/services.json) ------------------------------
+
+// The catalog with each service's state on the Worker (list_services: live,
+// needs_key or planned), or as the file has it when the API isn't reachable.
+// Checked services persist in this browser; a first visit checks the
+// catalog's default_selected. The directory (veteran-directory) answers Ask
+// and fills the cards; every other checked service gets its own section.
+const DIRECTORY = "veteran-directory";
+const PICKS_KEY = "goals.services", AUDIENCE_KEY = "goals.audience";
+let catalog = null;
+let picked = new Set();
+async function loadCatalog() {
+  try {
+    catalog = await api("/tools/list_services");
+  } catch (err) {
+    console.warn("[goals] list_services unavailable, reading pipeline/services.json:", err.message);
+    const file = await local("pipeline/services.json");
+    const state = { live: "live", key: "needs_key" };
+    catalog = { ...file, offline: true, services: file.services.map((s) => ({ ...s, state: state[s.status] || "planned", needs_env: s.requires_env })) };
+  }
+  catalog.byId = Object.fromEntries(catalog.services.map((s) => [s.id, s]));
+  return catalog;
+}
+function storedJson(key, fallback) {
+  try { const v = JSON.parse(localStorage.getItem(key) || "null"); return v ?? fallback; } catch { return fallback; }
+}
+function storeJson(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* storage blocked */ }
+}
+function setPicks(ids) {
+  picked = new Set(ids);
+  storeJson(PICKS_KEY, [...picked]);
+  syncPicks();
+}
+function setPicked(id, on) {
+  const next = new Set(picked);
+  if (on) next.add(id); else next.delete(id);
+  setPicks([...next]);
+}
+// Every checkbox for a service (the row, More services, the Data tab) follows
+// picked; the row's checked extras after the featured 10 are redrawn.
+function syncPicks() {
+  for (const box of document.querySelectorAll("input[data-service]")) box.checked = picked.has(box.dataset.service);
+  const extras = $("servicePickExtras");
+  if (extras) extras.replaceChildren(...[...picked].filter((id) => !catalog.featured.includes(id)).map((id) => catalog.byId[id]).filter(Boolean).map((s) => pickBox(s, true)));
+  // The category dropdown is the directory's.
+  $("askCategory").hidden = !picked.has(DIRECTORY);
+  const count = $("servicePickCount");
+  if (count) count.textContent = picked.size ? `${picked.size} checked` : "";
+}
+const STATE_TEXT = { needs_key: "needs key", planned: "planned" };
+function pickBox(s, short = false) {
+  const box = node("input", { type: "checkbox", "data-service": s.id });
+  box.checked = picked.has(s.id);
+  box.disabled = s.state !== "live";
+  box.addEventListener("change", () => setPicked(s.id, box.checked));
+  const tip = [s.summary, s.state === "needs_key" && s.needs_env?.length ? `Needs ${s.needs_env.join(" and ")} on the Worker.` : null, s.state === "planned" ? "Planned: not yet connected." : null].filter(Boolean).join(" ");
+  return node("label", { class: `goals-pick${s.state !== "live" ? " goals-pick-off" : ""}`, title: tip },
+    box, short ? s.short || s.title : s.title,
+    STATE_TEXT[s.state] ? node("span", { class: "goals-state", text: STATE_TEXT[s.state] }) : null);
+}
+
+async function initPicks() {
+  try { await loadCatalog(); } catch (err) { console.warn("[goals] services catalog unavailable:", err.message); return; }
+  const live = catalog.services.filter((s) => s.state === "live").map((s) => s.id);
+  picked = new Set(storedJson(PICKS_KEY, catalog.default_selected).filter((id) => live.includes(id)));
+  const more = node("button", { type: "button", class: "goals-more-link", "aria-expanded": "false", "aria-controls": "servicePickMore", text: `More services (${catalog.services.length - catalog.featured.length})` });
+  more.addEventListener("click", () => {
+    const open = more.getAttribute("aria-expanded") !== "true";
+    more.setAttribute("aria-expanded", String(open));
+    $("servicePickMore").hidden = !open;
+    if (open) renderCatalog($("servicePickMore"));
+  });
+  $("servicePickRow").replaceChildren(
+    ...catalog.featured.map((id) => catalog.byId[id]).filter(Boolean).map((s) => pickBox(s, true)),
+    node("span", { id: "servicePickExtras", class: "goals-picks-extras" }),
+    more,
+  );
+  $("servicePicks").hidden = false;
+  syncPicks();
+  if (drawn.has("data")) renderCatalog($("serviceCatalog"), { full: true });
+}
+
+// The catalog by category, filtered to one audience (kept in this browser). The
+// More services panel lists names; the Data tab (full) adds each service's
+// summary and publisher. A service shows once, under the first of its
+// categories that the audience has.
+function renderCatalog(box, { full = false } = {}) {
+  if (!catalog) { box.textContent = "The services catalog isn't loaded."; return; }
+  const aud = storedJson(AUDIENCE_KEY, "");
+  const filters = node("div", { class: "goals-audiences", role: "group", "aria-label": "Audience" },
+    ...[{ id: "", label: "All" }, ...catalog.audiences].map((a) => {
+      const b = node("button", { type: "button", "aria-pressed": String(a.id === aud), text: a.label });
+      b.addEventListener("click", () => {
+        storeJson(AUDIENCE_KEY, a.id);
+        for (const el of [$("servicePickMore"), $("serviceCatalog")]) if (el && !el.hidden && el.childNodes.length) renderCatalog(el, { full: el.id === "serviceCatalog" });
+      });
+      return b;
+    }));
+  const ORDER = { live: 0, needs_key: 1, planned: 2 };
+  const cats = catalog.categories.filter((c) => !aud || c.audiences.includes(aud));
+  const shown = new Set(cats.map((c) => c.id));
+  const home = (s) => s.categories.find((c) => shown.has(c));
+  const groups = cats.map((c) => {
+    const list = catalog.services.filter((s) => home(s) === c.id).sort((a, b) => ORDER[a.state] - ORDER[b.state]);
+    if (!list.length) return null;
+    return node("div", { class: "goals-catgroup" }, node("h4", { text: c.title }), node("ul", {}, ...list.map((s) => node("li", {},
+      pickBox(s),
+      full && s.summary ? node("span", { class: "goals-svc-sum", text: s.summary + ". " }) : null,
+      full && s.landing_page ? node("a", { href: s.landing_page, target: "_blank", rel: "noopener", class: "goals-svc-pub", text: s.publisher || "Source" }) : null,
+    ))));
+  });
+  const n = (st) => catalog.services.filter((s) => s.state === st && home(s)).length;
+  const head = node("p", { class: "goals-catalog-count" },
+    `${n("live")} live, ${n("needs_key")} needing a key, ${n("planned")} planned`, catalog.offline ? " (the API isn't reachable, so searches won't run)" : "", ". ",
+    full ? "" : node("span", { id: "servicePickCount" }));
+  const parts = [filters, head, node("div", { class: `goals-catalog-grid${full ? " goals-catalog-full" : ""}` }, ...groups.filter(Boolean))];
+  if (!full) {
+    const done = node("button", { type: "button", class: "goals-btn goals-btn-ghost", text: "Done" });
+    done.addEventListener("click", () => { const more = document.querySelector(".goals-more-link"); more?.click(); more?.focus(); });
+    parts.push(node("p", { class: "goals-picks-done" }, done));
+  }
+  box.replaceChildren(...parts);
+  syncPicks();
+}
+
 // --- Ask and search ----------------------------------------------------------
 
 function renderSafety(safety) {
@@ -386,17 +512,22 @@ function renderCitations(target, citations = []) {
 
 function card(r) {
   const meta = [r.address?.street, r.address?.locality, r.address?.region, r.address?.postal_code].filter(Boolean).join(", ");
+  const detail = [r.detail, r.date].filter(Boolean).join(" · ");
   const flags = node("div", { class: "goals-flags" });
   if (!r.flags.length) flags.append(node("span", { class: "goals-flag ok", text: "No flags" }));
   for (const f of r.flags) flags.append(node("span", { class: "goals-flag", title: flagText(f), text: f.replace(/_/g, " ") }));
   const links = node("div", { class: "goals-meta" });
   if (r.phone) links.append(node("a", { href: `tel:${r.phone.replace(/[^\d+]/g, "")}`, text: r.phone }));
-  if (r.url) { if (r.phone) links.append(" · "); links.append(node("a", { href: r.url, target: "_blank", rel: "noopener", text: "Website" })); }
+  // Places with an address or phone have a website; postings, profiles and articles open to their page.
+  const site = r.address?.street || r.phone ? "Website" : "Open";
+  if (r.url) { if (r.phone) links.append(" · "); links.append(node("a", { href: r.url, target: "_blank", rel: "noopener", text: site })); }
+  if (r.source_url) { if (links.childNodes.length) links.append(" · "); links.append(node("a", { href: r.source_url, target: "_blank", rel: "noopener", text: "Source record" })); }
   const report = node("button", { type: "button", text: "Report a problem" });
   report.addEventListener("click", () => openCorrection(r));
   return node("article", { class: "goals-card" },
     node("span", { class: "goals-cat", text: [r.category_label || r.category, r.distance_miles != null ? `${r.distance_miles} mi` : null].filter(Boolean).join(" · ") }),
     node("h3", { text: r.name }),
+    detail ? node("div", { class: "goals-meta goals-detail", text: detail }) : null,
     meta ? node("div", { class: "goals-meta", text: meta }) : null,
     links.childNodes.length ? links : null,
     flags,
@@ -404,6 +535,7 @@ function card(r) {
   );
 }
 
+// The directory's part of the results (the Ask answer and its cards).
 function renderResults(data) {
   $("results").hidden = false;
   renderSafety(data.safety);
@@ -415,42 +547,93 @@ function renderResults(data) {
     ? `${recs.length} results${data.total_available ? ` of ${nf.format(data.total_available)}` : ""}. ${flagged} carry quality flags; hover a flag for what it means. Confirm details with the provider.`
     : "No matching services. Try a nearby ZIP or broader words.";
   renderCitations($("resultCites"), data.citations);
-  $("results").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function busy(on) {
-  for (const b of document.querySelectorAll("#askForm button")) b.disabled = on;
-  if (on) { $("results").hidden = false; $("answer").textContent = "Working…"; $("records").replaceChildren(); $("flagSummary").textContent = ""; }
+// Clears the results for a new search: "Working…" where the directory's answer
+// goes when it's checked, and a section per other checked service.
+function beginResults(text, zip) {
+  for (const b of document.querySelectorAll("#askForm button")) b.disabled = true;
+  $("results").hidden = false;
+  renderSafety(null);
+  $("answer").textContent = picked.has(DIRECTORY) ? "Working…" : "";
+  $("records").replaceChildren();
+  $("flagSummary").textContent = "";
+  $("resultCites").replaceChildren();
+  const searches = serviceSearches(text, zip);
+  if (!picked.size) $("answer").textContent = "Check a service above to search.";
+  $("results").scrollIntoView({ behavior: "smooth", block: "start" });
+  return searches;
+}
+function endResults() {
+  for (const b of document.querySelectorAll("#askForm button")) b.disabled = false;
 }
 
 async function ask(evt) {
   evt?.preventDefault();
   const message = $("askText").value.trim();
   if (!message) return;
-  busy(true);
-  try {
-    renderResults(await api("/ask", { message, postal_code: $("askZip").value || undefined }));
-  } catch (err) {
-    $("answer").textContent = `Couldn't reach the service: ${err.message}`;
-  } finally { busy(false); }
+  const zip = $("askZip").value.trim();
+  const jobs = [beginResults(message, zip)];
+  if (picked.has(DIRECTORY)) {
+    jobs.push(api("/ask", { message, postal_code: zip || undefined }).then(renderResults).catch((err) => {
+      $("answer").textContent = `Couldn't reach the service: ${err.message}`;
+    }));
+  }
+  await Promise.allSettled(jobs);
+  endResults();
 }
 
 async function listServices() {
   const q = new URLSearchParams();
   const text = $("askText").value.trim();
+  const zip = $("askZip").value.trim();
   if (text) q.set("text", text);
-  if ($("askZip").value) q.set("postal_code", $("askZip").value);
+  if (zip) q.set("postal_code", zip);
   if ($("askCategory").value) q.set("category", $("askCategory").value);
-  if (!text && !$("askZip").value) { $("askZip").focus(); return; }
+  if (!text && !zip) { $("askZip").focus(); return; }
   q.set("limit", "12");
-  busy(true);
-  try {
-    const data = dataMode === "sample" ? await sampleSearch(text, $("askZip").value, $("askCategory").value) : await api(`/tools/search_services?${q}`);
-    data.answer = data.narration;
-    renderResults(data);
-  } catch (err) {
-    $("answer").textContent = `Couldn't reach the service: ${err.message}`;
-  } finally { busy(false); }
+  const jobs = [beginResults(text, zip)];
+  if (picked.has(DIRECTORY)) {
+    jobs.push((async () => {
+      const data = dataMode === "sample" ? await sampleSearch(text, zip, $("askCategory").value) : await api(`/tools/search_services?${q}`);
+      data.answer = data.narration;
+      renderResults(data);
+    })().catch((err) => { $("answer").textContent = `Couldn't reach the service: ${err.message}`; }));
+  }
+  await Promise.allSettled(jobs);
+  endResults();
+}
+
+// One section per checked service other than the directory, each filled from
+// search_nearby as it answers (OpenStreetMap ones can take half a minute).
+// Always live data: the Toy Data setting applies to the directory's list.
+const SERVICE_LIMIT = 6;
+async function serviceSearches(text, zip) {
+  const ids = [...picked].filter((id) => id !== DIRECTORY && catalog?.byId[id]?.state === "live");
+  const box = $("serviceResults");
+  box.replaceChildren();
+  await Promise.allSettled(ids.map(async (id) => {
+    const s = catalog.byId[id];
+    const note = node("p", { class: "goals-svc-note", text: "Searching…" });
+    const cards = node("div", { class: "goals-cards" });
+    const cite = node("p", { class: "goals-cite" });
+    const sec = node("section", { class: "goals-svc", "data-service": id }, node("h3", { text: s.title }), note, cards, cite);
+    box.append(sec);
+    const q = new URLSearchParams({ service: id, limit: String(SERVICE_LIMIT) });
+    if (text) q.set("text", text);
+    if (zip) q.set("postal_code", zip);
+    try {
+      const d = await api(`/tools/search_nearby?${q}`);
+      if (d.safety) renderSafety(d.safety);
+      const more = d.total_available > d.records.length ? ` ${nf.format(d.total_available)} in all.` : "";
+      note.textContent = d.records.length ? `${d.narration}${more}` : `Nothing found${d.place?.postal_code ? ` near ${d.place.postal_code}` : ""}. A record's absence isn't proof a service is missing.`;
+      cards.replaceChildren(...d.records.map(card));
+      renderCitations(cite, d.citations);
+    } catch (err) {
+      note.textContent = err.message;
+      sec.classList.add("goals-svc-err");
+    }
+  }));
 }
 
 // Sample search: the IRS-derived records in data/toy/records-<ST>-sample.json.
@@ -702,6 +885,7 @@ function initObjectives() {
 // sources marked "listed": false are left out.
 const SOURCES_SHOWN = 3;
 async function initSources() {
+  if (catalog) renderCatalog($("serviceCatalog"), { full: true }); // Else initPicks draws it once loaded
   const box = $("sourcesList");
   try {
     const listed = (await sources()).filter((s) => s.listed !== false);
@@ -925,6 +1109,13 @@ async function drawForecast() {
 // --- Developers -------------------------------------------------------------------------
 
 let toolList = [];
+const TOOL_GROUPS = [
+  ["Start and ask", ["route_query", "ask", "crisis_support"]],
+  ["Location services", ["list_services", "search_nearby", "search_services", "get_stats"]],
+  ["County data and models", ["get_coverage", "get_county_profile", "get_data_quality", "get_model_results"]],
+  ["Sources and standards", ["list_sources", "list_source_tools", "call_source_tool", "lookup_crosswalk"]],
+  ["Review", ["propose_correction"]],
+];
 async function initDevelopers() {
   const base = new URL(API || "/", location.origin).href.replace(/\/$/, "");
   $("connectCli").textContent = `claude mcp add --transport http goals ${base}/mcp`;
@@ -932,7 +1123,12 @@ async function initDevelopers() {
   for (const [id, p] of [["lnkOpenapi", "/openapi.json"], ["lnkLlms", "/llms.txt"], ["lnkAgent", "/agent.json"], ["lnkHealth", "/health"]]) $(id).href = API + p;
   const pick = $("toolPick");
   pick.replaceChildren(...toolList.map((t) => node("option", { value: t.name, text: t.name })));
-  const example = { search_services: { postal_code: "30260", limit: 5 }, get_county_profile: { county_fips: "13063" }, get_coverage: { region: "GA", limit: 10 }, lookup_crosswalk: { scheme: "naics-hs", code: "3361" }, lookup_form: { form_id: "21-526EZ" }, ask: { message: "How do I get my military records?" } };
+  const example = {
+    search_services: { postal_code: "30260", limit: 5 }, get_county_profile: { county_fips: "13063" }, get_coverage: { region: "GA", limit: 10 },
+    lookup_crosswalk: { scheme: "naics-hs", code: "3361" }, lookup_form: { form_id: "21-526EZ" }, ask: { message: "How do I get my military records?" },
+    route_query: { text: "Python jobs and a makerspace near 30308" }, list_services: { audience: "teachers" },
+    search_nearby: { service: "college-scorecard", postal_code: "30332", limit: 5 }, find_representative: { region: "GA", postal_code: "30260" },
+  };
   const sync = () => {
     const t = toolList.find((x) => x.name === pick.value);
     $("toolDesc").textContent = t?.description || "";
@@ -941,8 +1137,19 @@ async function initDevelopers() {
     $("toolArgs").setAttribute("aria-description", `Arguments: ${props.join(", ")}`);
   };
   pick.addEventListener("change", sync);
-  pick.value = "search_services";
+  pick.value = "search_nearby";
   sync();
+  // Tools by purpose: each name loads the tool into the console.
+  const groups = TOOL_GROUPS.map(([title, names]) => [title, names.filter((n) => toolList.some((t) => t.name === n))]);
+  const grouped = new Set(groups.flatMap(([, names]) => names));
+  groups.push(["Reference lookups (veteran directory)", toolList.map((t) => t.name).filter((n) => !grouped.has(n))]);
+  $("toolGroups").replaceChildren(...groups.filter(([, names]) => names.length).map(([title, names]) => node("div", { class: "goals-toolgroup" },
+    node("h4", { text: title }),
+    node("p", {}, ...names.flatMap((n, i) => {
+      const b = node("button", { type: "button", class: "goals-toolname", title: toolList.find((t) => t.name === n)?.description || "", text: n });
+      b.addEventListener("click", () => { pick.value = n; sync(); $("toolArgs").focus(); });
+      return i ? [" ", b] : [b];
+    })))));
   $("toolRun").addEventListener("click", async () => {
     $("toolOut").textContent = "Running…";
     try {
@@ -1026,17 +1233,27 @@ async function start() {
   $("askZip").value = savedZip();
   $("askZip").addEventListener("input", () => saveZip($("askZip").value.trim()));
   $("searchBtn").addEventListener("click", listServices);
+  // An example checks just its services, then asks.
   const examples = [
-    ["Job training near 30260", "Job training that uses my logistics experience", "30260"],
-    ["PTSD counseling in Georgia", "PTSD counseling", ""],
-    ["Housing help", "I need help with housing", "30260"],
-    ["Get my DD-214", "How do I get a copy of my DD-214?", ""],
+    ["Tech jobs in Atlanta", "Python developer jobs", "30308", ["hn-hiring", "jobicy-remote"]],
+    ["Colleges near Tech Square", "Colleges and training programs", "30332", ["college-scorecard"]],
+    ["Schools and field trips", "Schools, museums and nature near us", "30308", ["nces-public-schools", "osm-museums", "inaturalist-nearby"]],
+    ["Coders to build with", "Python coders and makerspaces to collaborate with", "30308", ["github-developers", "osm-makerspaces"]],
+    ["Job training near 30260", "Job training that uses my logistics experience", "30260", [DIRECTORY, "veteran-job-centers"]],
+    ["Housing help", "I need help with housing", "30260", [DIRECTORY, "hud-housing-counselors"]],
+    ["Get my DD-214", "How do I get a copy of my DD-214?", "", [DIRECTORY]],
   ];
-  $("exampleChips").replaceChildren(...examples.map(([label, text, zip]) => {
+  $("exampleChips").replaceChildren(...examples.map(([label, text, zip, ids]) => {
     const b = node("button", { type: "button", text: label });
-    b.addEventListener("click", () => { $("askText").value = text; $("askZip").value = zip || savedZip(); ask(); });
+    b.addEventListener("click", () => {
+      if (catalog) setPicks(ids.filter((id) => catalog.byId[id]?.state === "live"));
+      $("askText").value = text;
+      $("askZip").value = zip || savedZip();
+      ask();
+    });
     return b;
   }));
+  initPicks();
   try {
     toolList = (await api("/tools")).tools;
     const cats = toolList.find((t) => t.name === "search_services")?.inputSchema.properties.category.enum || [];

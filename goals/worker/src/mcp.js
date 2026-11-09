@@ -56,6 +56,7 @@ async function handleOne(msg, ctx) {
       return ok(id, {
         resources: [
           { uri: "goals://sources", name: "Sources", mimeType: "application/json", description: "Registry of external sources" },
+          { uri: "goals://services", name: "Location services", mimeType: "application/json", description: "Services search_nearby reaches, by audience and category, with each one's state" },
           { uri: "goals://schema/record", name: "Record schema", mimeType: "application/schema+json" },
           { uri: "goals://schema/scene", name: "Scene schema", mimeType: "application/schema+json" },
           { uri: "goals://profile", name: "Domain profile", mimeType: "application/json" },
@@ -65,6 +66,10 @@ async function handleOne(msg, ctx) {
       const uri = params.uri;
       let body;
       if (uri === "goals://sources") body = (await runTool(env, profile, tools, "list_sources", {})).sources;
+      else if (uri === "goals://services") {
+        const { tool, generated_at, narration, citations, ...view } = await runTool(env, profile, tools, "list_services", {});
+        body = view;
+      }
       else if (uri === "goals://profile") {
         const { safety, upstream, ...rest } = profile;
         body = { ...rest, safety: { message: safety.message, lines: safety.lines } };
@@ -79,13 +84,16 @@ async function handleOne(msg, ctx) {
         prompts: [
           { name: "find_help", title: "Find help near me", arguments: [{ name: "need", required: true }, { name: "postal_code", required: false }] },
           { name: "county_brief", title: "County brief", arguments: [{ name: "county_fips", required: true }] },
+          { name: "nearby_scan", title: "What's near me", arguments: [{ name: "postal_code", required: true }, { name: "audience", required: false }, { name: "interest", required: false }] },
         ],
       });
     case "prompts/get": {
       const a = params.arguments || {};
       const text = params.name === "county_brief"
         ? `Use get_county_profile and get_coverage for county ${a.county_fips}. Summarize industries, listed services and data-quality caveats in five sentences, citing sources.`
-        : `I'm looking for help with: ${a.need}${a.postal_code ? ` near ${a.postal_code}` : ""}. Use route_query, then search_services. Show safety lines first if present, cite sources, and note quality flags.`;
+        : params.name === "nearby_scan"
+          ? `Call list_services${a.audience ? ` with audience ${a.audience}` : ""}, choose up to five live services that fit${a.interest ? ` "${a.interest}"` : ""}, and call search_nearby for each near ${a.postal_code}${a.interest ? ` with text "${a.interest}"` : ""}. Group the results by category, give distances, cite each source and mention quality flags. Show safety lines first if present.`
+          : `I'm looking for help with: ${a.need}${a.postal_code ? ` near ${a.postal_code}` : ""}. Use route_query, then search_services. Show safety lines first if present, cite sources, and note quality flags.`;
       return ok(id, { messages: [{ role: "user", content: { type: "text", text } }] });
     }
     default:

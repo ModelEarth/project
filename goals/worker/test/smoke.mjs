@@ -94,6 +94,11 @@ await check("llms.txt and openapi", async () => {
   const b = await call("GET", "/openapi.json");
   assert(a.body.includes("/mcp") && b.body.openapi === "3.1.0", "bad discovery");
 });
+await check("list_services", async () => {
+  const r = await call("GET", "/tools/list_services?audience=teachers");
+  assert(r.body.services?.length && r.body.categories.every((c) => c.audiences.includes("teachers")), JSON.stringify(r.body).slice(0, 300));
+  return r.body.narration;
+});
 
 if (!offline) {
   await check("search_services by postal code", async () => {
@@ -131,6 +136,17 @@ if (!offline) {
     assert(r.body.result, JSON.stringify(r.body).slice(0, 300));
     return Object.keys(r.body.result).slice(0, 5).join(",");
   });
+  // Every live location service through search_nearby (--only=<id> for one).
+  const only = (process.argv.find((x) => x.startsWith("--only=")) || "").slice(7);
+  const list = (await call("GET", "/tools/list_services")).body.services.filter((s) => s.state === "live" && (!only || s.id === only));
+  for (const s of list) {
+    await check(`search_nearby ${s.id}`, async () => {
+      const r = await call("GET", `/tools/search_nearby?service=${s.id}&postal_code=30308&text=${encodeURIComponent("python jobs")}&limit=3`);
+      assert(Array.isArray(r.body.records), JSON.stringify(r.body).slice(0, 300));
+      const first = r.body.records[0];
+      return `${r.body.narration}${first ? ` First: ${first.name} (${first.category_label}${first.distance_miles != null ? `, ${first.distance_miles} mi` : ""})` : ""}`;
+    });
+  }
   await check("list_source_tools", async () => {
     const r = await call("GET", "/tools/list_source_tools?source_id=upstream-directory");
     return `${r.body.tools.length} upstream tools offered`;

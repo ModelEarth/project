@@ -59,6 +59,16 @@ export async function urlText(url) {
   return cached(`url:${url}`, async () => (await fetchOk(url, { cf: { cacheTtl: 3600 } })).text());
 }
 
+// JSON from a public API, cached by URL. Some APIs (GitHub, the Weather
+// Service, OpenStreetMap's Overpass) refuse requests without a User-Agent.
+const USER_AGENT = "project-goals/0.1 (+https://cloud.model.earth/project/goals/)";
+export async function jsonGet(url, headers = {}, { timeoutMs } = {}) {
+  return cached(`json:${url}`, async () => (await fetchOk(url, {
+    headers: { Accept: "application/json", "User-Agent": USER_AGENT, ...headers }, cf: { cacheTtl: 600 },
+    ...(timeoutMs ? { signal: AbortSignal.timeout(timeoutMs) } : {}),
+  })).json());
+}
+
 // Minimal RFC 4180 CSV parser: quoted fields, embedded commas and quotes.
 export function parseCsv(text) {
   const rows = [];

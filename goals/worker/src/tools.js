@@ -7,68 +7,32 @@
 // narration is one plain sentence suitable for captions or a voice-over.
 
 import { SOURCES, assetText, citation, mcpCall, mcpListTools, parseCsv, restGet, restPost, sourceSetting, upstreamAttribution, urlText } from "./sources.js";
+import { CATALOG, SERVICES, ToolError, catalogView, normalizeRecords, searchNearby, serviceCitation, servicesFor } from "./nearby.js";
 import { checkSafety, safetyBlock } from "./safety.js";
 import { NAICS2 } from "./naics.js";
 
+export { ToolError };
+
 const UP = "upstream-directory";
+const DIRECTORY = "veteran-directory"; // The upstream directory's entry in services.json
 const now = () => new Date().toISOString();
 
 // --- Normalizing upstream records into claim-level records -------------------
-
-const PLACEHOLDER_ZIP = /^(0{5}|9{5}|12345)$/;
-const slug = (s) => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
-
-function recordFlags(r, coordCounts) {
-  const flags = [];
-  if (!r.zip || PLACEHOLDER_ZIP.test(String(r.zip))) flags.push("placeholder_postal_code");
-  if (r.address && r.city && r.address.trim().toLowerCase() === r.city.trim().toLowerCase()) flags.push("address_is_locality");
-  if (!r.phone && !r.website) flags.push("no_contact");
-  if (r.lat != null && coordCounts.get(`${r.lat},${r.lng}`) > 1) flags.push("shared_coordinates");
-  if (r.completeness_score != null && r.completeness_score < 2) flags.push("thin_record");
-  return flags;
-}
 
 function categoryFor(profile, upstreamType) {
   for (const [id, c] of Object.entries(profile.categories)) if (c.upstream === upstreamType) return id;
   return "other";
 }
+// The profile's category for an upstream type, for services marked "category_map": "profile".
+const profileCategories = (profile) => (type) => {
+  const id = categoryFor(profile, type);
+  return { id, label: profile.categories[id]?.label };
+};
 
+// Directory resources into claim-level records, through the generic mapping
+// in nearby.js with the directory's fields from services.json.
 export function normalizeResources(profile, resources = [], retrievedAt = now()) {
-  const coordCounts = new Map();
-  for (const r of resources) if (r.lat != null) coordCounts.set(`${r.lat},${r.lng}`, (coordCounts.get(`${r.lat},${r.lng}`) || 0) + 1);
-  return resources.map((r) => {
-    const flags = recordFlags(r, coordCounts);
-    const claim = (property, value, extra = {}) =>
-      value == null || value === "" ? null : { property, value, source_id: UP, retrieved_at: retrievedAt, origin: "source_extracted", review_state: "candidate", confidence: null, ...extra };
-    const category = categoryFor(profile, r.resource_type);
-    return {
-      id: r.id != null ? `svc:${UP}:${r.id}` : `svc:${UP}:${slug(r.name)}-${r.zip || "nozip"}`,
-      entity_type: r.resource_type === "vso" ? "organization" : "offering",
-      crm_table: r.resource_type === "vso" ? "accounts" : "products",
-      name: r.name,
-      category,
-      category_label: profile.categories[category]?.label,
-      address: { street: r.address || null, locality: r.city || null, region: r.state || null, postal_code: r.zip || null },
-      phone: r.phone || null,
-      url: r.website || null,
-      services: Array.isArray(r.services) ? r.services : [],
-      distance_miles: r.distance != null ? Number(r.distance) : r.distance_miles ?? undefined,
-      relevance: r.veteran_relevance || undefined,
-      completeness_score: r.completeness_score ?? undefined,
-      notes: r.notes || undefined,
-      origin: "source_extracted",
-      review_state: "candidate",
-      flags,
-      claims: [
-        claim("name", r.name),
-        claim("address", { street: r.address, locality: r.city, region: r.state, postal_code: r.zip }),
-        claim("phone", r.phone),
-        claim("url", r.website),
-        claim("category", category, { evidence: { upstream_type: r.resource_type, upstream_subtype: r.resource_subtype } }),
-        r.lat != null ? claim("geo", { lat: r.lat, lng: r.lng }, { method: "upstream geocode" }) : null,
-      ].filter(Boolean),
-    };
-  });
+  return normalizeRecords(SERVICES[DIRECTORY], resources, { at: retrievedAt, categoryOf: profileCategories(profile) });
 }
 
 // Lines in upstream prose that promote the upstream publisher itself are
@@ -165,6 +129,9 @@ export function toolTable(profile) {
         if (/\bform\b|\b\d{2}-\d{3,4}/i.test(a.text)) suggestions.push({ tool: "lookup_form", arguments: { form_id: (a.text.match(/\b\d{2}-\d{3,4}[a-z]*\b/i) || [])[0] } });
         if (/eligib|qualif/i.test(a.text)) suggestions.push({ tool: "check_eligibility", arguments: {} });
         if (/county|industr|trend|forecast/i.test(a.text)) suggestions.push({ tool: "get_county_profile", arguments: {} });
+        for (const s of servicesFor(env, a.text).filter((x) => x.id !== DIRECTORY).slice(0, 4)) {
+          suggestions.push({ tool: "search_nearby", arguments: { service: s.id, text: a.text, ...(zip ? { postal_code: zip } : {}) }, note: s.title });
+        }
         return {
           narration: `Suggested ${suggestions[0].tool} for this request.`,
           suggestions,
@@ -191,20 +158,13 @@ export function toolTable(profile) {
         },
       },
       annotations: READ,
+      // The directory's entry in services.json (veteran-directory) says which
+      // upstream tool runs for text, a postal code or a city; search_nearby
+      // runs every other location service the same way.
       run: async (env, a, ctx) => {
+        if (!a.text && !a.postal_code && !a.city) throw new ToolError("Give text, postal_code or city.");
         const type = a.category ? profile.categories[a.category]?.upstream : undefined;
-        const limit = Math.min(Number(a.limit) || 10, 50);
-        let data;
-        if (a.text) {
-          data = await mcpCall(env, UP, "search_veteran_resources_by_text", { q: a.text, zip: a.postal_code, type, state: a.region, specialty: a.specialty, limit });
-        } else if (a.postal_code) {
-          data = await mcpCall(env, UP, "search_veteran_resources", { zip: a.postal_code, type: type || "all", specialty: a.specialty, radius: a.radius_miles || 50, limit });
-        } else if (a.city) {
-          data = await mcpCall(env, UP, "search_by_city", { city: a.city, state: a.region, type, radius: a.radius_miles || 50, limit });
-        } else {
-          throw new ToolError("Give text, postal_code or city.");
-        }
-        const records = normalizeResources(profile, data.resources || data.results || [], ctx.at);
+        const { data, records } = await searchNearby(env, SERVICES[DIRECTORY], a, { at: ctx.at, vars: { category_upstream: type }, categoryOf: profileCategories(profile) });
         const where = a.postal_code || [a.city, a.region].filter(Boolean).join(", ") || "the search area";
         return {
           narration: `${records.length} ${records.length === 1 ? "result" : "results"} near ${where}${records.some((r) => r.flags.length) ? `; ${records.filter((r) => r.flags.length).length} carry quality flags to check` : ""}.`,
@@ -447,6 +407,58 @@ export function toolTable(profile) {
       },
     },
 
+    search_nearby: {
+      title: "Search nearby",
+      description: "Search one location-based service from list_services (jobs, colleges, schools, makerspaces, developers, treatment, housing counselors, alerts, ...) near a postal code, a city and region, or a point. Returns the same claim-level records as search_services, with distance, source and quality flags.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          service: { type: "string", enum: Object.keys(SERVICES).filter((id) => SERVICES[id].status !== "planned"), description: "Service id from list_services" },
+          text: str("The person's words; keywords and a programming language are taken from them where a service uses them"),
+          postal_code: POSTAL,
+          city: str("City name (use with region)"),
+          region: REGION,
+          lat: num("Latitude, with lng, in place of a postal code"),
+          lng: num("Longitude"),
+          radius_miles: num("Search radius in miles (each service has its own default and cap)"),
+          limit: num("Max results (default 10, max 50)", { maximum: 50 }),
+        },
+        required: ["service"],
+      },
+      annotations: READ,
+      run: async (env, a, ctx) => {
+        const s = SERVICES[a.service];
+        if (!s) throw new ToolError(`Unknown service: ${a.service}. Call list_services for the ids.`);
+        const out = await searchNearby(env, s, a, { at: ctx.at, categoryOf: s.category_map === "profile" || SERVICES[s.extends]?.category_map === "profile" ? profileCategories(profile) : undefined });
+        const p = out.place;
+        // Services that need no place (remote jobs) aren't "near" anywhere.
+        const where = out.needs ? p.postal_code || [p.locality, p.region].filter(Boolean).join(", ") : "";
+        const n = out.records.length;
+        const flagged = out.records.filter((r) => r.flags.length).length;
+        return {
+          narration: `${n} ${n === 1 ? "result" : "results"} from ${s.title}${where ? ` near ${where}` : ""}${out.relaxed ? ` (none matched ${out.relaxed.join(" and ")}, so without it)` : ""}${flagged ? `; ${flagged} carry quality flags to check` : ""}.`,
+          service: { id: s.id, title: s.title, categories: s.categories },
+          place: { postal_code: p.postal_code, locality: p.locality, region: p.region, lat: p.lat, lng: p.lng, radius_miles: out.radius_miles },
+          total_available: out.total,
+          records: out.records,
+          flag_counts: flagSummary(out.records),
+          citations: [serviceCitation(s, out.data), ...(p.resolved_by ? [citation("zippopotam")] : [])],
+        };
+      },
+    },
+
+    list_services: {
+      title: "List location services",
+      description: "The location-based services search_nearby can reach, by audience (students, teachers, ai_coders, veterans, everyone) and category, with each one's state here: live, needs_key or planned.",
+      inputSchema: { type: "object", properties: { audience: { type: "string", enum: CATALOG.audiences.map((x) => x.id) }, category: str("Category id, e.g. jobs") } },
+      annotations: { ...READ, openWorldHint: false },
+      run: async (env, a) => {
+        const view = catalogView(env, a);
+        const live = view.services.filter((s) => s.state === "live").length;
+        return { narration: `${live} of ${view.services.length} services are live here.`, ...view, citations: [] };
+      },
+    },
+
     propose_correction: {
       title: "Propose a correction",
       description: "Report that a record is wrong or out of date. The correction enters a review queue as a candidate; it never changes data directly.",
@@ -515,8 +527,6 @@ export function toolTable(profile) {
   }
   return T;
 }
-
-export class ToolError extends Error {}
 
 // Runs a tool: safety check on text inputs first, then the handler, then the
 // envelope. Errors come back as results with isError, per MCP.

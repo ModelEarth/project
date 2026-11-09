@@ -143,8 +143,18 @@
       "license": "U.S. Government work, public domain",
       "refresh": "annual",
       "requires_key": "CENSUS_API_KEY",
-      "used_for": "Veteran population by county (optional; skipped when no key is set)",
-      "listed": false
+      "used_for": "Veteran population by county (optional; skipped when no key is set)"
+    },
+    {
+      "source_id": "zippopotam",
+      "title": "ZIP code and city places (Zippopotam.us)",
+      "publisher": "Zippopotam.us, from GeoNames",
+      "source_type": "open",
+      "url_template": "https://api.zippopotam.us/us/{postal_code}",
+      "landing_page": "https://www.zippopotam.us/",
+      "license": "GeoNames data, CC BY 4.0",
+      "refresh": "live",
+      "used_for": "Placing a ZIP code or city at a point, for the location-based services in services.json"
     }
   ]
 }

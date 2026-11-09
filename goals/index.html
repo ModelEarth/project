@@ -73,6 +73,15 @@ document.addEventListener("DOMContentLoaded", function () {
     <h1 id="goalsTitle">Project Goals</h1>
     <p class="goals-lede" id="goalsLede">Set your goals. Ask in your own words.</p>
 
+    <!-- Services Ask and List services search, from pipeline/services.json: its 10 featured ones as
+         checkboxes, then any others checked, then "More services" to choose from the rest by
+         audience and category (goals.js). Each searches through the MCP server's search_nearby. -->
+    <fieldset class="goals-picks" id="servicePicks" hidden>
+      <legend class="goals-sr">Services to search</legend>
+      <div class="goals-picks-row" id="servicePickRow"></div>
+      <div class="goals-picks-more" id="servicePickMore" hidden></div>
+    </fieldset>
+
     <form id="askForm" class="goals-ask" autocomplete="off">
       <label for="askText" class="goals-sr">Your question</label>
       <textarea id="askText" rows="2" placeholder="e.g. Job training that uses my logistics experience near Atlanta" required></textarea>
@@ -95,12 +104,18 @@ document.addEventListener("DOMContentLoaded", function () {
     <div id="flagSummary" class="goals-flagsum"></div>
     <div id="records" class="goals-cards"></div>
     <p class="goals-cite" id="resultCites"></p>
+    <!-- One section per other checked service, filled as each answers. -->
+    <div id="serviceResults" class="goals-svc-results"></div>
   </section>
 
   <section class="goals-panel" data-panel="data" hidden>
     <div class="goals-split">
       <div class="goals-main">
       <h2>Community Data Services</h2>
+      <p class="goals-sub">Location services for students, teachers, AI coders, veterans and everyone, by category. Checked ones are searched from the Goals tab; AI agents reach the same services through the MCP server's <a href="#tab=agents">search_nearby</a> tool.</p>
+      <!-- pipeline/services.json by audience and category, with each service's state on the Worker (goals.js). -->
+      <div class="goals-catalog" id="serviceCatalog"></div>
+      <h3 class="goals-sources-head">Data sources</h3>
       <!-- The first 3 sources, then "More Data Sources" to show the rest (goals.js). -->
       <div class="goals-sources" id="sourcesList"></div>
       </div>
@@ -188,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="goals-split">
       <div class="goals-main">
       <h2>Agent Orchestration</h2>
-      <p class="goals-sub">Project Goals is an MCP server. Generic tool and parameter names (postal_code, region, county_fips, category) map to common CRM tables, so the same tools serve other audiences through a profile.</p>
+      <p class="goals-sub">Project Goals is an MCP server. Generic tool and parameter names (postal_code, region, county_fips, category) map to common CRM tables, so the same tools serve other audiences through a profile. search_nearby reaches every location service in the catalog (jobs, colleges, schools, makerspaces, developers, health, housing, alerts) with one set of arguments.</p>
       <div class="goals-code">
         <p>Claude Code</p>
         <pre><code id="connectCli"></code></pre>
@@ -196,6 +211,9 @@ document.addEventListener("DOMContentLoaded", function () {
         <pre><code id="connectJson"></code></pre>
         <p>Discovery: <a id="lnkOpenapi">OpenAPI</a> · <a id="lnkLlms">llms.txt</a> · <a id="lnkAgent">agent card</a> · <a id="lnkHealth">health</a></p>
       </div>
+      <h3>Tools by purpose</h3>
+      <!-- Each tool name loads it into "Try a tool" (goals.js). -->
+      <div class="goals-toolgroups" id="toolGroups"></div>
       </div>
       <div class="goals-side goals-side-plain">
       <h3>Try a tool</h3>

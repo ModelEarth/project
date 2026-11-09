@@ -23,6 +23,42 @@ a temporary placeholder), event settings in .yaml files.
 - [ ] README.md proposal (multi-page, ready for PDF)
 - [ ] specs.md
 
+## Location services (MCP)
+
+The Goals tab's checkboxes, its "More services" panel and the Data Services tab all
+read [pipeline/services.json](pipeline/services.json): 51 services in 14 categories for
+students, teachers, AI coders, veterans and everyone. Each one searches through the
+MCP server's generic search_nearby tool, built from the veteran directory search,
+which now runs the same way (worker/src/nearby.js).
+
+- [x] services.json catalog: audiences, categories, 10 featured services, default checked (the veteran directory), live / key / planned states
+- [x] One generic search for MCP tools, REST APIs and OpenStreetMap (Overpass), configured per service: place needed, variants, prelude, where, unique, relax, field mapping to claim-level records with quality flags
+- [x] ZIP or city resolved to a point once, through Zippopotam.us (GeoNames, CC BY 4.0)
+- [x] search_services (veteran directory) refactored onto the same path; record ids unchanged
+- [x] New MCP tools search_nearby and list_services, the goals://services resource, the nearby_scan prompt, route_query suggestions from each service's keywords, service counts in /health
+- [x] Goals tab: 10 checkboxes, checked extras, More services by audience and category; Ask and List services fill one section per checked service, each as it answers
+- [x] Data Services tab: the catalog with summaries and publishers; Agents tab: tools by purpose
+- [x] 25 live services: jobs (Hacker News hiring posts by city, remote jobs, job centers, employment offices), colleges (College Scorecard), public schools (NCES), makerspaces and libraries (OpenStreetMap), developers (GitHub), research institutions (OpenAlex), NSF awards, Wikipedia places, iNaturalist, museums, treatment (FindTreatment.gov), NPI clinics, HUD housing counselors, food banks, community centers, nonprofits (ProPublica), FEMA declarations, weather alerts, EV charging, veteran directory, job centers and claims representatives
+
+### Recommendations
+
+- Jobs first: get free keys for USAJOBS (USAJOBS_API_KEY, USAJOBS_EMAIL; already wired, shows "needs key") and CareerOneStop (job listings, American Job Centers, training finder), then add them to worker/scripts/dev.mjs KEYS and deploy-worker.yml secrets. These give radius-based local jobs; the live job services today are city mentions (Hacker News), remote listings and job centers.
+- Run Overpass queries less often: the public servers take 20-40 seconds and often refuse. Options: a scheduled job that saves OpenStreetMap places per metro to data/ (like the county files), a hosted Overpass instance (OVERPASS_URL), or Cloudflare KV caching for a day.
+- Set DATA_GOV_API_KEY (College Scorecard and EV stations fall back to the shared DEMO_KEY, about 30 requests an hour) and GITHUB_TOKEN (10 searches a minute without it). OpenAlex now asks for OPENALEX_API_KEY for more than a small shared daily budget.
+- Teachers: add DonorsChoose classroom projects (by ZIP), NCES private schools and Head Start centers next; consider school district boundaries so results follow a school's attendance area rather than distance.
+- AI coders: pair GitHub developers with meetups and hackathons (Meetup needs OAuth; Devpost has no API) and with the repositories they work on, so collaboration starts from shared projects rather than profiles.
+- Students: link College Scorecard results to programs (CIP codes) and to the Local Industries tab, so a county's largest sectors suggest nearby training.
+- Add a service: one entry in services.json; only a new kind of upstream needs code. Run `node worker/test/smoke.mjs --only=<id>` to check it.
+
+### Questions to resolve
+
+- Should the GitHub developer search stay? It lists people who publicly name a city. Their profiles shouldn't go into the CRM as contacts without their consent (crosswalk-crm.csv's participant row).
+- Which audience should the page default to, and which 10 services should be featured for it? Today: tech jobs, remote jobs, job centers, colleges, schools, libraries, makerspaces, developers, research institutions and housing counselors, with the veteran directory checked.
+- Should checked services be part of the link (a services= hash value), so a shared link opens with the same searches?
+- Toy Data applies only to the directory's list; should other services get sample files too, for offline demos and tests?
+- events/next.yaml lost its safety_lines, topinfo and lede in commit 5f6de02 ("Update"), so crisis responses fall back to the 911 line alone. Restore them from bb536b8?
+- Which planned services matter most to the proposal's partners (211, findhelp and VA Facilities need partner agreements or keys)?
+
 ## Findings so far (for the proposal and charts)
 
 - naics4 rollups fall short of naics2 establishment counts in 2,407 Southeast county-sector cells (withheld 4-digit cells), which is why naics2 is the source and naics4 only a check.

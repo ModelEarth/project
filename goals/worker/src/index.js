@@ -22,6 +22,7 @@
 import { handleMcp } from "./mcp.js";
 import { runTool, toolTable, ToolError } from "./tools.js";
 import { SOURCES, assetText } from "./sources.js";
+import { CATALOG, serviceState } from "./nearby.js";
 import { loadProfileEvent } from "./event.js";
 import veterans from "./profiles/veterans.js";
 
@@ -98,6 +99,8 @@ OpenAPI: ${origin}${base}/openapi.json
 
 ## How to use
 - Start with route_query using the person's own words.
+- For jobs, colleges, schools, makerspaces, developers, health, housing and alerts near a
+  place, call list_services, then search_nearby with a service id and a postal_code.
 - If a response has a "safety" block, show its lines first.
 - Results are candidate records with sources, retrieval times and quality flags. Cite
   sources, mention flags that matter, and ask people to confirm details with providers.
@@ -157,7 +160,9 @@ export async function handleGoals(request, env, ctx, base = env.BASE_PATH || "")
       return json(await runTool(env, profile, tools, name, args, "rest"));
     }
     if (path === "/health") {
-      return json({ ok: true, version: VERSION, profile: profile.id, tools: Object.keys(tools).length, sources: Object.keys(SOURCES), review_queue: Boolean(env.DB) });
+      const services = {};
+      for (const s of CATALOG.services) { const st = serviceState(env, s).state; services[st] = (services[st] || 0) + 1; }
+      return json({ ok: true, version: VERSION, profile: profile.id, tools: Object.keys(tools).length, sources: Object.keys(SOURCES), services, review_queue: Boolean(env.DB) });
     }
     if (path === "/openapi.json") return json(openapi(origin, base, tools));
     if (path === "/llms.txt") return text(llmsTxt(origin, base, profile, tools));

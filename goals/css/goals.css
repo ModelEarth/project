@@ -125,6 +125,53 @@ body.standalone { margin: 0; background: #f9f9f7; }
 }
 .goals-chips button:hover { background: var(--accent-wash); color: var(--ink); }
 
+/* Services to search, under the lede: the 10 featured checkboxes, any others checked, then
+   "More services", which opens the catalog by audience and category (goals.js). */
+.goals-picks { border: 0; margin: -8px 0 16px; padding: 0; min-width: 0; }
+.goals-picks-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; font-size: 15px; }
+.goals-picks-extras { display: contents; }
+.goals-pick { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; color: var(--ink-2); }
+.goals-pick:hover { color: var(--ink); }
+.goals-pick input { margin: 0; width: 16px; height: 16px; accent-color: var(--accent); cursor: inherit; }
+.goals-pick-off { cursor: default; opacity: 0.62; }
+.goals-pick-off:hover { color: var(--ink-2); }
+.goals-state {
+  font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 999px; padding: 0 6px; line-height: 16px;
+}
+.goals-more-link {
+  font: inherit; font-size: 15px; background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px;
+}
+.goals-more-link[aria-expanded="true"] { font-weight: 600; }
+.goals-picks-more {
+  margin-top: 12px; padding: 12px 14px; max-height: 60vh; overflow: auto;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.goals-picks-done { margin: 12px 0 0; }
+.goals-audiences { display: flex; flex-wrap: wrap; gap: 6px; }
+.goals-audiences button {
+  font: inherit; font-size: 13px; cursor: pointer; color: var(--ink-2);
+  background: transparent; border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px;
+}
+.goals-audiences button:hover { background: var(--accent-wash); color: var(--ink); }
+.goals-audiences button[aria-pressed="true"] { background: var(--accent-wash); border-color: var(--accent); color: var(--ink); font-weight: 600; }
+.goals-catalog-count { margin: 8px 0 10px; font-size: 13px; color: var(--muted); }
+/* Columns rather than a grid, so short categories stack under long ones. */
+.goals-catalog-grid { columns: 220px; column-gap: 24px; }
+.goals-catalog-full { columns: 300px; }
+.goals-catgroup { break-inside: avoid; padding-bottom: 14px; }
+.goals-catgroup h4 { margin: 0 0 4px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.goals-catgroup ul { list-style: none; margin: 0; padding: 0; }
+.goals-catgroup li { margin: 4px 0; font-size: 14px; }
+.goals-catalog-full .goals-catgroup li { margin: 0 0 8px; }
+/* On the Data tab, a service's summary and publisher go under its checkbox, lined up with its name. */
+.goals-catalog-full .goals-pick { display: flex; color: var(--ink); font-weight: 550; }
+.goals-svc-sum, .goals-svc-pub { font-size: 13px; color: var(--ink-2); }
+.goals-catalog-full .goals-svc-sum { display: block; padding-left: 22px; }
+.goals-catalog-full .goals-svc-pub { margin-left: 22px; white-space: normal; }
+.goals-sources-head { margin: 28px 0 4px; font-size: 18px; }
+
 .goals-results { margin: 8px 0 32px; }
 .goals-safety {
   border-left: 4px solid var(--critical); background: var(--surface); border-radius: 8px;
@@ -152,6 +199,24 @@ body.standalone { margin: 0; background: #f9f9f7; }
 .goals-card .goals-actions { font-size: 13px; }
 .goals-card .goals-actions button { font: inherit; background: none; border: 0; color: var(--accent-ink); cursor: pointer; padding: 0; text-decoration: underline; }
 .goals-cite { color: var(--muted); font-size: 13px; }
+.goals-card .goals-detail { font-size: 13px; }
+/* A section per checked service after the directory's answer and cards. */
+.goals-svc-results { display: grid; gap: 24px; margin-top: 24px; }
+.goals-svc-results:empty { display: none; }
+.goals-svc h3 { margin: 0 0 2px; font-size: 19px; }
+.goals-svc-note { margin: 0 0 10px; font-size: 14px; color: var(--ink-2); }
+.goals-svc-err .goals-svc-note { border-left: 3px solid var(--warn); padding-left: 10px; }
+.goals-svc .goals-cite { margin: 8px 0 0; }
+
+/* Agents tab: tools by purpose, each name loading the tool into "Try a tool". */
+.goals-toolgroups { display: grid; gap: 12px 24px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.goals-toolgroup h4 { margin: 0 0 6px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.goals-toolgroup p { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.goals-toolname {
+  font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; cursor: pointer; color: var(--accent-ink);
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px;
+}
+.goals-toolname:hover { border-color: var(--accent); }
 
 .goals-tabs {
   display: flex; gap: 4px; border-bottom: 1px solid var(--grid);
