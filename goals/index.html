@@ -51,8 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   <!-- The Goals tab shows the hero (ask box) and its results; other tabs hide them. -->
   <!-- Below 800px wide, the tabs drop their .goals-tab-extra words (Industries, Quality), and below 500px their .goals-tab-extra-sm words (Services, Plan). -->
-  <!-- Two flex columns: the tabs, which slide under the up/down arrow (#goalsMainArrow,
-       added by goals.js) when they don't fit, and the arrow at the far right. -->
+  <!-- Two flex columns: the tabs and the up/down arrow at the far right (#goalsMainArrow,
+       added by goals.js). The tabs that don't fit hide behind "More", which opens a menu of every tab (initMoreTabs). -->
   <nav class="goals-tabs">
     <div class="goals-tabs-list" role="tablist" aria-label="Sections">
     <button role="tab" aria-selected="false" data-tab="goals">Goals</button>
@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <!-- Agents is reached only by link (#tab=agents) or the Harmonized AI Data card. -->
     <button role="tab" aria-selected="false" data-tab="agents" hidden>Agents</button>
     <button role="tab" aria-selected="false" data-tab="plan"><span class="goals-tab-extra-sm">Project </span>Plan</button>
+    <button type="button" class="goals-tabs-more" id="goalsMoreBtn" aria-haspopup="true" aria-expanded="false" aria-controls="goalsMoreMenu" hidden>More</button>
     </div>
   </nav>
 
@@ -241,6 +242,9 @@ document.addEventListener("DOMContentLoaded", function () {
 <aside class="goals-aside" id="goalsAside" aria-label="Figures" hidden></aside>
 </div>
 <section class="goals-bottom" id="goalsBottom" aria-label="Tools" hidden></section>
+<!-- Every tab, as a list covering the window below the header, from "More" (initMoreTabs). Fixed, so
+     out of the page's flow, and inside .goals for its colors. -->
+<div id="goalsMoreMenu" class="goals-more-menu" hidden></div>
 </div>
 
 <div id="goalsTip" class="goals-tip" role="tooltip" hidden></div>

@@ -688,6 +688,7 @@ function markButtons(selected) {
   markedTab = selected;
   const caught = $("goalsPage").classList.contains("goals-filters-caught");
   for (const b of document.querySelectorAll(".goals-tabs button[data-tab]")) b.setAttribute("aria-selected", String(!caught && b.dataset.tab === selected));
+  markMore();
 }
 
 // #earthFilterCatch, after the tabs, holds localsite's Earth map filters panel
@@ -807,6 +808,52 @@ function initMainGrip() {
     grip.addEventListener("pointercancel", end);
   });
   grip.addEventListener("dblclick", () => { mainDocked = false; setMainDrop(0, true); });
+}
+// When the tabs don't all fit, the last ones hide and "More" shows after the rest. It opens
+// every tab as a list covering the window below the header (where #goalsPage starts, or the
+// window's top once that's scrolled away). Choosing a tab clicks it; choosing the selected one,
+// or the close button, just closes the list.
+function markMore() {
+  const more = $("goalsMoreBtn");
+  if (more) more.classList.toggle("goals-more-current", !!document.querySelector(".goals-tabs-list > .goals-tab-over[aria-selected=\"true\"]"));
+}
+function initMoreTabs() {
+  const list = document.querySelector(".goals-tabs-list"), more = $("goalsMoreBtn"), menu = $("goalsMoreMenu");
+  if (!list || !more || !menu) return;
+  const tabs = [...list.querySelectorAll("button[data-tab]")];
+  const close = () => { menu.hidden = true; more.setAttribute("aria-expanded", "false"); };
+  const fit = () => {
+    close();
+    for (const b of tabs) b.classList.remove("goals-tab-over");
+    more.hidden = list.scrollWidth <= list.clientWidth;
+    for (const b of tabs.filter((b) => !b.hidden).reverse()) {
+      if (list.scrollWidth <= list.clientWidth) break;
+      b.classList.add("goals-tab-over");
+    }
+    more.textContent = tabs.some((b) => !b.hidden && !b.classList.contains("goals-tab-over")) ? "More" : "Menu"; // "Menu" when it's alone
+    markMore();
+  };
+  const open = () => {
+    const shut = node("button", { type: "button", class: "goals-more-close", "aria-label": "Close menu", text: "\u00D7" });
+    shut.addEventListener("click", () => { close(); more.focus(); });
+    menu.replaceChildren(node("div", { class: "goals-more-head" }, node("span", { text: "Sections" }), shut), ...tabs.filter((b) => !b.hidden).map((b) => {
+      const selected = b.getAttribute("aria-selected") === "true";
+      const item = node("button", { type: "button", class: "goals-more-item", text: b.textContent });
+      if (selected) item.setAttribute("aria-current", "true");
+      item.addEventListener("click", () => { close(); if (!selected) b.click(); });
+      return item;
+    }));
+    menu.style.top = `${Math.max(0, $("goalsPage").getBoundingClientRect().top)}px`;
+    menu.hidden = false;
+    more.setAttribute("aria-expanded", "true");
+    (menu.querySelector("[aria-current]") || shut).focus();
+  };
+  more.addEventListener("click", () => (menu.hidden ? open() : close()));
+  document.addEventListener("pointerdown", (e) => { if (!menu.hidden && !menu.contains(e.target) && !more.contains(e.target)) close(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !menu.hidden) { close(); more.focus(); } });
+  window.addEventListener("scroll", () => { if (!menu.hidden) close(); }, { passive: true });
+  new ResizeObserver(fit).observe(list);
+  document.fonts?.ready.then(fit);
 }
 // With no tab= in the hash, the column starts down: its tabs MAIN_DOCK px
 // above the window's bottom, the photo above them. Any tab= brings it back to
@@ -1183,6 +1230,7 @@ async function start() {
   setDataMode(hashParams().data, false);
   markTab(tabName(hashParams().tab)); // before the awaits below, so a #tab= link never flashes the hero
   initMainGrip();
+  initMoreTabs();
   initFilterCatch();
   syncMainDrop();
   new MutationObserver(() => syncMainDrop(true)).observe($("goalsMain"), { childList: true }); // The keys panel opens or closes

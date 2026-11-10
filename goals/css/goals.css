@@ -245,6 +245,27 @@ body.standalone { margin: 0; background: #f9f9f7; }
 .goals-tabs-list button { flex: none; margin-bottom: 0; }
 .goals-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
 .goals-tabs button[data-tab]:hover { color: var(--tab-hover); }
+/* "More", after the tabs that fit, opens every tab as a list covering the window below the
+   header (goals.js initMoreTabs). It's underlined while the selected tab is one it hides. */
+.goals-tabs-list > .goals-tab-over { display: none; }
+.goals-tabs .goals-tabs-more:hover { color: var(--tab-hover); }
+.goals-tabs .goals-tabs-more.goals-more-current { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+.goals-more-menu {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000; display: flex; flex-direction: column; overflow-y: auto;
+  border-top: 1px solid var(--grid);
+  /* --surface is see-through over the photo (goals-view-hero), so it's laid over the photo's solid page color. */
+  background: linear-gradient(var(--surface), var(--surface)), var(--hero-page, var(--surface));
+}
+.goals-more-menu[hidden] { display: none; }
+.goals-more-head { display: flex; align-items: center; justify-content: space-between; padding: 4px 4px 4px 16px; border-bottom: 1px solid var(--grid); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.goals-more-close { font: inherit; font-size: 24px; line-height: 1; cursor: pointer; color: var(--ink-2); background: none; border: 0; padding: 8px 12px; }
+.goals-more-close:hover, .goals-more-close:focus-visible { color: var(--ink); }
+.goals-more-item {
+  flex: none; font: inherit; font-size: 17px; text-align: left; cursor: pointer; color: var(--ink-2);
+  background: none; border: 0; border-bottom: 1px solid var(--grid); padding: 16px;
+}
+.goals-more-item:hover, .goals-more-item:focus-visible { color: var(--ink); background: var(--accent-wash); }
+.goals-more-item[aria-current="true"] { color: var(--ink); font-weight: 600; box-shadow: inset 3px 0 var(--accent); }
 /* Short tab titles while the tabs bar is under 800px wide: Industries and
    Quality, without their .goals-tab-extra words. Under 500px also Services
    and Plan, without their .goals-tab-extra-sm words. Under 600px, less space
