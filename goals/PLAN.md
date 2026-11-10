@@ -34,19 +34,16 @@ are findings and notes, not tasks.
 
 - [x] Upstream directory MCP + REST as the source for search, chat (ask) and county targets, behind generic tools
 
-- [ ] README.md proposal (multi-page, ready for PDF)
-
-- [ ] specs.md
+- [ ] AGENTS.md driven PDF output for flexible proposal generation. Sections of PDF updated rather than entire PDF.
 
 ## Location services (MCP)
 
 The Goals tab's checkboxes, its "More services" panel and the Data Services tab all
 read [pipeline/services.json](pipeline/services.json): 51 services in 14 categories for
 students, teachers, AI coders, veterans and everyone. Each one searches through the
-MCP server's generic search_nearby tool, built from the veteran directory search,
-which now runs the same way (worker/src/nearby.js).
+MCP server's generic search_nearby tool (worker/src/nearby.js).
 
-- [x] services.json catalog: audiences, categories, 10 featured services, default checked (the veteran directory), live / key / planned states
+- [x] services.json catalog: audiences, categories, 10 featured services, live / key / planned states
 
 - [x] One generic search for MCP tools, REST APIs and OpenStreetMap (Overpass), configured per service: place needed, variants, prelude, where, unique, relax, field mapping to claim-level records with quality flags
 
