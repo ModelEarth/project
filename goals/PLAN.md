@@ -105,8 +105,6 @@ MCP server's generic search_nearby tool (worker/src/nearby.js).
 
 - [ ] [Rerun the pipeline](https://github.com/ModelEarth/project/blob/main/goals/pipeline/county_pipeline.py) and [models](https://github.com/ModelEarth/project/blob/main/models/run.py) once Census publishes 2024 County Business Patterns: `python goals/pipeline/county_pipeline.py --states AL,FL,GA,NC,SC,TN --industry-year 2024 --refresh`, then `python models/run.py events/next.yaml`
 
-- [ ] Write specs.md for MCP
-
 - [ ] Replace https://example.org/goals in schema $id and the JSON-LD vocab with the published domain.
 
 - [ ] Add a D1 database for the review queue (worker/migrations/0001_init.sql; wrangler.toml [[d1_databases]]), plus a reviewer view.
