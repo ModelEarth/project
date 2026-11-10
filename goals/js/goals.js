@@ -1223,11 +1223,14 @@ async function start() {
   document.addEventListener("keydown", heroButton, true);
   document.addEventListener("keydown", heroArrowKeys);
   initObjectives();
-  // Goals while tab=goals is already set removes tab=, which drops the column to the bottom.
+  // The selected tab, clicked again, moves the column down to the bottom and stays selected; clicked
+  // while down, it moves the column up again. Both as the arrow does.
   for (const b of document.querySelectorAll(".goals-tabs button[data-tab]")) b.addEventListener("click", () => {
+    const selected = b.getAttribute("aria-selected") === "true";
     closeEarthFilters();
     document.querySelector(".claude-voice-keys-close")?.click(); // The voice widget's keys panel, after #earthFilterCatch (engine/claude-voice.js)
-    showTab(b.dataset.tab, b.dataset.tab === "goals" && hashParams().tab === "goals" ? "" : b.dataset.tab);
+    if (selected && $("goalsMainArrow")) $("goalsMainArrow").click();
+    else showTab(b.dataset.tab);
   });
   $("askForm").addEventListener("submit", ask);
   $("askZip").value = savedZip();

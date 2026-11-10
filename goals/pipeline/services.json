@@ -25,7 +25,7 @@
     { "id": "getting_around", "title": "Getting around", "audiences": ["everyone"] }
   ],
   "featured": ["hn-hiring", "jobicy-remote", "veteran-job-centers", "college-scorecard", "nces-public-schools", "osm-libraries", "osm-makerspaces", "github-developers", "openalex-institutions", "hud-housing-counselors"],
-  "default_selected": ["veteran-directory"],
+  "default_selected": [],
   "services": [
     {
       "id": "hn-hiring",
