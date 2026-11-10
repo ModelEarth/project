@@ -11,6 +11,10 @@ row per county FIPS). Any source can be swapped in sources.json.
     python pipeline/county_pipeline.py --states GA
     python pipeline/county_pipeline.py --states GA,AL,FL,NC,SC,TN
     python pipeline/county_pipeline.py --states GA --industry-source cbp --industry-year 2023
+    python pipeline/county_pipeline.py --states GA --industry-year latest --refresh
+
+The goals-data workflow (.github/workflows/goals-data.yml in the project
+repo) reruns it each quarter to refresh the pre-pulled copies in data/toy/.
 
 Outputs go to data/<scope>/ (scope is the joined state list, e.g. GA or
 AL-FL-GA-NC-SC-TN). data/ is not committed except data/toy/:
@@ -180,6 +184,21 @@ def load_cbp(states, year, level):
 def source_url(source_id, key, env_name=None):
     src = SOURCE[source_id]
     return os.environ.get(env_name) if env_name and os.environ.get(env_name) else src[key]
+
+
+def latest_industry_year(states):
+    """The newest year the community-data repository has naics2 files for, in every state."""
+    template = SOURCE["community-industries"]["url_template"]
+    for year in range(NOW.year - 1, 2016, -1):
+        try:
+            for st in states:
+                req = urllib.request.Request(template.format(state=st, level=2, year=year), method="HEAD",
+                                             headers={"User-Agent": "goals-pipeline/1.0"})
+                urllib.request.urlopen(req, timeout=60).close()
+        except urllib.error.HTTPError:
+            continue
+        return year
+    sys.exit("No community-data industry year found")
 
 
 def load_industry_community(states, year):
@@ -444,7 +463,8 @@ def main():
     ap.add_argument("--states", default="GA", help="Comma-separated state codes (default GA)")
     ap.add_argument("--industry-source", choices=("community", "cbp"), default="community",
                     help="community: pre-processed community-data files (default); cbp: Census County Business Patterns zip")
-    ap.add_argument("--industry-year", type=int, default=2023, help="County Business Patterns year (default 2023, the latest published)")
+    ap.add_argument("--industry-year", default="2023",
+                    help="County Business Patterns year (default 2023), or latest: the newest year community-data has for every state")
     ap.add_argument("--naics-level", type=int, choices=(2, 3), default=2, help="cbp only")
     ap.add_argument("--no-upstream", action="store_true", help="Skip the upstream directory API")
     ap.add_argument("--refresh", action="store_true", help="Download sources again instead of reusing pipeline/cache")
@@ -464,7 +484,7 @@ def main():
     print(f"Goals county pipeline: {scope}")
     zip_county = load_zip_county()
     pop, names = load_population(states)
-    year = args.industry_year
+    year = latest_industry_year(states) if args.industry_year == "latest" else int(args.industry_year)
     flags = []
     if args.industry_source == "community":
         cbp, findings = load_industry_community(states, year)

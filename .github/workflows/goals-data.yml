@@ -1,0 +1,40 @@
+# Refreshes the Goals page's pre-pulled data (goals/data/toy) with
+# goals/pipeline/county_pipeline.py. The directory API's county counts change
+# continually and the IRS files monthly; County Business Patterns and Census
+# population change once a year (--industry-year latest picks up a new County
+# Business Patterns year once community-data has it). Runs each quarter, or
+# from the Actions tab. CloudRoot serves the commit its project submodule
+# points at, so the refresh goes live with the next submodule update there.
+name: Refresh Goals data
+
+on:
+  schedule:
+    - cron: "17 6 2 1,4,7,10 *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run the county pipeline
+        working-directory: goals
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          python pipeline/county_pipeline.py --states AL,FL,GA,NC,SC,TN --industry-year latest --refresh
+          python pipeline/county_pipeline.py --states GA --industry-year latest
+      - name: Commit the refreshed files
+        run: |
+          git add goals/data/toy
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Goals: refresh pre-pulled data"
+          git push

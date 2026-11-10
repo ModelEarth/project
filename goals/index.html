@@ -68,8 +68,8 @@ document.addEventListener("DOMContentLoaded", function () {
   </nav>
 
   <header class="goals-hero">
-    <!-- Toy Data or Live Data, one setting (data= in the hash) shared by each panel that has both. -->
-    <label class="goals-source"><span class="goals-sr">Data source</span><select data-source><option value="sample">Toy Data</option><option value="live">Live Data</option></select></label>
+    <!-- Live Data (the default) or Toy Data (data=toy in the hash), one setting shared by each panel that has both. -->
+    <label class="goals-source"><span class="goals-sr">Data source</span><select data-source><option value="live">Live Data</option><option value="sample">Toy Data</option></select></label>
     <p class="goals-eyebrow" id="goalsEyebrow">Integrated App Development</p>
     <h1 id="goalsTitle">Project Goals</h1>
     <p class="goals-lede" id="goalsLede">Set your goals. Ask in your own words.</p>
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   <section class="goals-panel" data-panel="local" hidden>
     <div class="goals-split">
-      <label class="goals-source"><span class="goals-sr">Data source</span><select data-source><option value="sample">Toy Data</option><option value="live">Live Data</option></select></label>
+      <label class="goals-source"><span class="goals-sr">Data source</span><select data-source><option value="live">Live Data</option><option value="sample">Pre-pulled Data</option></select></label>
       <div class="goals-main">
       <h2>Local Jobs Engine</h2>
       <p class="goals-sub">Industry levels from County Business Patterns dataset</p>
@@ -141,6 +141,8 @@ document.addEventListener("DOMContentLoaded", function () {
         <figcaption>Two sources, two pictures: directory services vs IRS-coded veteran organizations, per 10,000 residents</figcaption>
         <div id="agreeChart" class="goals-chart"></div>
         <p class="goals-note" id="agreeNote"></p>
+        <!-- Live Data: a button for the directory API's current counts (goals.js drawAgreement). -->
+        <div class="goals-display" id="agreeLive"></div>
       </figure>
       </div>
       <div class="goals-side">
@@ -155,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   <section class="goals-panel" data-panel="quality" hidden>
     <div class="goals-split">
-      <label class="goals-source"><span class="goals-sr">Data source</span><select data-source><option value="sample">Toy Data</option><option value="live">Live Data</option></select></label>
+      <label class="goals-source"><span class="goals-sr">Data source</span><select data-source><option value="live">Live Data</option><option value="sample">Toy Data</option></select></label>
       <div class="goals-main">
       <h2>Data Quality Control</h2>
       <p class="goals-sub">Patterns that point to incorrect or missing data. Flags lower a record's confidence; none silently drop it. People review, then the record's state changes.</p>
@@ -163,9 +165,12 @@ document.addEventListener("DOMContentLoaded", function () {
         <label id="qualityScopeLabel">Scope <select id="qualityScope"><option value="GA">Georgia</option><option value="AL-FL-GA-NC-SC-TN">Six Southeast states</option></select></label>
       </div>
       <div class="goals-stats" id="qualityStats"></div>
-      <details class="goals-defs"><summary>What each flag means</summary><dl id="flagDefs"></dl></details>
+      <!-- Live Data: a button for the directory API's quality metrics. The chart's column and the
+           flag notes stay hidden until they have something to show (goals.js qualityShows). -->
+      <div class="goals-display" id="qualityLive"></div>
+      <details class="goals-defs" hidden><summary>What each flag means</summary><dl id="flagDefs"></dl></details>
       </div>
-      <div class="goals-side">
+      <div class="goals-side" id="qualitySide" hidden>
       <figure class="goals-fig">
         <figcaption id="qualityCaption">Quality flags raised by the pipeline</figcaption>
         <div id="qualityChart" class="goals-chart"></div>

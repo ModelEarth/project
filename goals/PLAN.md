@@ -26,6 +26,10 @@ are findings and notes, not tasks.
 
 - [x] Data toggle: Toy Data (data/toy) or Live Data (community-data on GitHub, the directory API and MCP), a dropdown at the upper right of each panel that has both
 
+- [x] Live Data by default (data=toy for Toy Data). Live views from an outside API or MCP wait for a "Display ..." button, listing the URLs it calls, unless the browser has the data from the last day. Local Industries shows its pre-pulled directory counts meanwhile, and calls its Toy Data "Pre-pulled Data", since data/toy holds a copy of what its Live Data shows
+
+- [x] Quarterly refresh of the pre-pulled data: .github/workflows/goals-data.yml in the project repo reruns pipeline/county_pipeline.py with --industry-year latest and commits data/toy. Update CloudRoot's project submodule afterward to publish it. The Census population file (co-est2024 in sources.json) still needs its vintage changed by hand each year
+
 - [x] Mount the Worker in CloudRoot's Worker at /api/goals/*
 
 - [x] Scene manifest standard (schema/scene.schema.json)

@@ -17,10 +17,12 @@
   --series-2: #eb6834;
   --series-3: #1baf7a;
   /* hbar's inside option: a label over its bar and gray track. --bar-fill-alt is a burgundy
-     for a second chart that shouldn't read as the first (Quality). */
+     for a second chart that shouldn't read as the first (Quality), and --bar-fill-green a
+     jade green for a third (Analytics), each as muted as the blue. */
   --bar-label: var(--ink);
   --bar-fill: #a9cbf2;
   --bar-fill-alt: #dcaab7;
+  --bar-fill-green: #a3d5b9;
   --bar-track: #e2e1db;
   --warn: #fab219;
   --critical: #d03b3b;
@@ -54,6 +56,7 @@ body.dark .goals, :root[data-theme="dark"] .goals {
   --bar-label: #fff;
   --bar-fill: var(--series-1);
   --bar-fill-alt: #8f2442;
+  --bar-fill-green: #2a8c61;
   --bar-track: #6e6e73;
   --tab-hover: #fff;
   color-scheme: dark;
@@ -64,7 +67,7 @@ body.dark .goals, :root[data-theme="dark"] .goals {
     --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, 0.10);
     --accent: #3987e5; --accent-ink: #86b6ef; --accent-wash: rgba(57, 135, 229, 0.16);
     --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
-    --bar-label: #fff; --bar-fill: var(--series-1); --bar-fill-alt: #8f2442; --bar-track: #6e6e73;
+    --bar-label: #fff; --bar-fill: var(--series-1); --bar-fill-alt: #8f2442; --bar-fill-green: #2a8c61; --bar-track: #6e6e73;
     --tab-hover: #fff;
     color-scheme: dark;
   }
@@ -168,6 +171,9 @@ body.standalone { margin: 0; background: #f9f9f7; }
 }
 .goals-audiences button:hover { background: var(--accent-wash); color: var(--ink); }
 .goals-audiences button[aria-pressed="true"] { background: var(--accent-wash); border-color: var(--accent); color: var(--ink); font-weight: 600; }
+/* The Data tab's audiences, then its Planned toggle at the far right. */
+.goals-catalog-bar { display: flex; gap: 6px; align-items: flex-start; }
+.goals-catalog-bar > .goals-audiences:last-child { margin-left: auto; flex: none; }
 .goals-catalog-count { margin: 8px 0 10px; font-size: 13px; color: var(--muted); }
 /* Columns rather than a grid, so short categories stack under long ones. */
 .goals-catalog-grid { columns: 220px; column-gap: 24px; }
@@ -328,10 +334,14 @@ body.standalone { margin: 0; background: #f9f9f7; }
 
 /* Toy Data / Live Data dropdown, in the upper right of each panel that has
    both sources. Positioned rather than floated, so the h2 and intro below
-   keep their full width and run under it. */
-.goals-hero, .goals-split { position: relative; }
+   keep their full width and run under it. When the panel is under 480px wide
+   it moves to the left, above the title, so it doesn't cover it. */
+.goals-hero, .goals-split { position: relative; container-type: inline-size; }
 .goals-source { position: absolute; top: 0; right: 0; z-index: 1; font-size: 14px; }
 .goals-hero > .goals-source { top: var(--pad-top); right: var(--pad-x); }
+@container (max-width: 479px) {
+  .goals-hero > .goals-source, .goals-split > .goals-source { position: relative; inset: auto; display: block; width: fit-content; margin-bottom: 4px; }
+}
 .goals-source select {
   appearance: none; -webkit-appearance: none; font: inherit; cursor: pointer;
   color: var(--ink); background: var(--surface); border: 1px solid var(--border);
@@ -345,6 +355,7 @@ body.standalone { margin: 0; background: #f9f9f7; }
 }
 .goals-filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px; font-size: 14px; color: var(--ink-2); }
 .goals-filters label { display: flex; gap: 6px; align-items: center; }
+.goals-filters label[hidden] { display: none; }
 /* Each panel (every tab but Goals) has a main column and a side column of
    figures. goals.js moves the active panel's side column into #goalsAside, to
    the right of #goalsMain, on windows wider than 900px. A side column marked
@@ -406,6 +417,7 @@ html.goals-view-hero #goalsMain > #earthFilterCatch { padding: 0; background: no
 .goals, .goals-row, #goalsMain { pointer-events: none; }
 .goals > :not(.goals-row), .goals-row > :not(#goalsMain), #goalsMain > * { pointer-events: auto; }
 .goals-side { display: grid; gap: var(--gap); align-content: start; }
+.goals-side[hidden] { display: none; }
 .goals-side > h3 { margin: 0; }
 /* A side column without its own boxes (the "Try a tool" console) gets the
    panel's spacing back in #goalsAside. */
@@ -422,6 +434,7 @@ html.goals-view-hero #goalsAside > .goals-side-plain { margin: 16px 20px; }
 .goals-stats:has(> :last-child:nth-child(4n+5)) { grid-template-columns: repeat(auto-fill, minmax(max(140px, calc((100% - 24px) / 3)), 1fr)); }
 /* Exactly 4 stats: 2 columns of 2 rows. */
 .goals-stats:has(> :last-child:nth-child(4)) { grid-template-columns: repeat(auto-fill, minmax(max(140px, calc((100% - 12px) / 2)), 1fr)); }
+.goals-stats:empty { display: none; }
 .goals-stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
 .goals-stat .v { font-size: 26px; font-weight: 650; line-height: 1.1; }
 .goals-stat .l { font-size: 13px; color: var(--ink-2); }
@@ -436,6 +449,7 @@ html.goals-view-hero #goalsAside > .goals-side-plain { margin: 16px 20px; }
 .goals-chart text.in { fill: var(--bar-label); }
 .goals-chart .mark.mark-in { fill: var(--bar-fill); }
 #qualityChart { --bar-fill: var(--bar-fill-alt); }
+#importanceChart { --bar-fill: var(--bar-fill-green); }
 .goals-chart .rest { fill: var(--bar-track); }
 .goals-chart .grid { stroke: var(--grid); stroke-width: 1; }
 .goals-chart .base { stroke: var(--axis); stroke-width: 1; }
@@ -453,7 +467,11 @@ html.goals-view-hero #goalsAside > .goals-side-plain { margin: 16px 20px; }
 /* A "Source:" link (a long file path) wraps, over .goals a's nowrap, rather than widening its figure. */
 .goals-note { color: var(--ink-2); font-size: 14px; margin: 8px 0 0; overflow-wrap: anywhere; }
 .goals-note a { white-space: normal; }
+/* A "Display ..." button for an outside API, and the URLs it calls. */
+.goals-display:not(:empty) { margin-top: 12px; }
+.goals-display-urls { font-size: 13px; color: var(--muted); }
 .goals-defs { margin-top: 16px; font-size: 14px; color: var(--ink-2); }
+.goals-defs summary { cursor: pointer; }
 .goals-defs dt { font-weight: 600; color: var(--ink); margin-top: 8px; }
 .goals-defs dd { margin: 0; }
 

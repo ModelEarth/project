@@ -1,8 +1,9 @@
 // Project Goals page (project/goals/index.html): ask and search through the MCP
 // server's REST routes, plus county, data-quality and forecast views. The data
-// toggle switches between the sample files in data/toy and the live sources
-// (community-data on GitHub, the directory API and MCP). #event=<id> loads
-// ../events/<id>.yaml for the title and text; #event=next is Next Mission.
+// toggle switches between the live sources (community-data on GitHub, the
+// directory API and MCP), the default, and the sample files in data/toy.
+// #event=<id> loads ../events/<id>.yaml for the title and text; #event=next
+// is Next Mission.
 
 import { hbar, dotWhisker, scatter, spearman } from "./charts.js";
 import { parseYamlLite } from "./yaml-lite.js";
@@ -301,9 +302,10 @@ async function applyView() {
   syncHero();
 }
 
-// Sample: files in data/toy (no network beyond this site). Live: the sources
-// in pipeline/sources.json, fetched from the browser (both allow any origin).
-let dataMode = "sample";
+// Sample: files in data/toy (no network beyond this site). Live (the default): the
+// sources in pipeline/sources.json, fetched from the browser (both allow any origin).
+let dataMode = "live";
+const modeOf = (v) => (v === "toy" || v === "sample" ? "sample" : "live"); // data=toy in the hash
 let sourceList = null;
 async function sources() {
   if (!sourceList) sourceList = (await local("pipeline/sources.json")).sources;
@@ -319,10 +321,46 @@ function cached(key, load) {
   if (!liveCache.has(key)) liveCache.set(key, load().catch((err) => { liveCache.delete(key); throw err; }));
   return liveCache.get(key);
 }
+// Live displays from an outside API (not this site's Worker, Data Commons or a .csv file)
+// wait for a "Display ..." button, unless the person chose that display already, picked
+// Live Data in its panel, or the browser has the data from the last day.
+const shown = new Set();
+const STORE = "goals.live.";
+function stored(key) {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE + key));
+    return s && Date.now() - s.t < 864e5 ? s.data : null;
+  } catch { return null; }
+}
+function store(key, data) {
+  try { localStorage.setItem(STORE + key, JSON.stringify({ t: Date.now(), data })); } catch { /* storage full or blocked */ }
+}
+const ready = (key, display) => shown.has(display) || liveCache.has(key) || stored(key) !== null;
+function outside(key, load) {
+  return cached(key, async () => {
+    const s = stored(key);
+    if (s !== null) return s;
+    const data = await load();
+    store(key, data);
+    return data;
+  });
+}
+function displayButton(target, display, label, urls, redraw) {
+  const b = node("button", { type: "button", class: "goals-btn", text: `Display ${label}` });
+  b.addEventListener("click", () => { shown.add(display); target.textContent = "Loading…"; redraw(); });
+  const calls = node("p", { class: "goals-note goals-display-urls" }, urls.length > 1 ? "Calls these outside APIs:" : "Calls this outside API:",
+    ...urls.flatMap((u) => [node("br"), node("a", { href: u, target: "_blank", rel: "noopener", text: u })]));
+  target.replaceChildren(b, calls);
+}
+// The display each panel's Live Data choice brings in.
+const PANEL_DISPLAY = { local: "coverage", quality: "quality" };
+
+const directoryBase = async () => (await source("upstream-directory")).api_url.replace(/\/$/, "");
+const coverageUrl = (base, state) => `${base}/api/coverage?level=county&state=${state}`;
 async function directoryCoverage(state) {
-  const base = (await source("upstream-directory")).api_url.replace(/\/$/, "");
-  return cached(`coverage-${state}`, async () => {
-    const res = await fetch(`${base}/api/coverage?level=county&state=${state}`);
+  const base = await directoryBase();
+  return outside(`coverage-${state}`, async () => {
+    const res = await fetch(coverageUrl(base, state));
     if (!res.ok) throw new Error(`Directory API ${res.status}`);
     return res.json();
   });
@@ -332,20 +370,39 @@ async function communityIndustries(state, year) {
   const url = tpl.replaceAll("{state}", state).replace("{level}", "2").replace("{year}", year);
   return cached(url, async () => ({ url, rows: await local(url) }));
 }
-const industryYear = () => Number(eventData?.data?.industry_year) || 2023;
+const industryYear = () => Number(eventData?.data?.industry_year) || prepulled.year || 2023;
 const sampleScope = () => eventData?.data?.sample_scope || "AL-FL-GA-NC-SC-TN";
 
 const MODE_NOTE = {
+  live: "Live Data: community-data on GitHub, fetched now, and outside APIs once you choose Display. Population and IRS counts come from the pipeline.",
   sample: "Toy Data: files in data/toy, made by pipeline/county_pipeline.py. Ask always uses the live directory.",
-  live: "Live Data: community-data on GitHub and the directory API, fetched now. Population and IRS counts come from the pipeline.",
+  prepulled: "Pre-pulled Data: copies in data/toy of the live industry levels and directory counts, refreshed by the goals-data workflow.",
 };
+// Local Industries' Toy Data is a copy of its Live Data, so it's called Pre-pulled Data there.
+const modeNote = (sel) => MODE_NOTE[dataMode === "sample" && sel.closest('[data-panel="local"]') ? "prepulled" : dataMode];
 function setDataMode(mode, redraw = true) {
-  dataMode = mode === "live" ? "live" : "sample";
-  for (const sel of document.querySelectorAll("select[data-source]")) { sel.value = dataMode; sel.title = MODE_NOTE[dataMode]; }
+  dataMode = modeOf(mode);
+  for (const sel of document.querySelectorAll("select[data-source]")) { sel.value = dataMode; sel.title = modeNote(sel); }
   if (!redraw) return;
   if (drawn.has("local")) { drawCounty(); drawAgreement(); }
   if (drawn.has("quality")) drawQualityView();
 }
+
+// Cities that searches placed ZIPs in (search_nearby's place), so example chips
+// can name a ZIP's city without looking it up.
+const CITY_KEY = "goals.zip_cities";
+const chipLabels = [];
+function zipCities() {
+  try { return JSON.parse(localStorage.getItem(CITY_KEY)) || {}; } catch { return {}; }
+}
+function saveCity(zip, city) {
+  const all = zipCities();
+  if (!/^\d{5}$/.test(zip || "") || !city || all[zip] === city) return;
+  all[zip] = city;
+  try { localStorage.setItem(CITY_KEY, JSON.stringify(all)); } catch { /* storage blocked */ }
+  chipLabels.forEach((f) => f());
+}
+const nearZip = (zip) => (zipCities()[zip] ? `in ${zipCities()[zip]}` : `near ${zip}`);
 
 // The last ZIP the person typed, restored on reload. Example chips fill their
 // own ZIP without replacing it.
@@ -365,7 +422,7 @@ function saveZip(zip) {
 // catalog's default_selected. The directory (veteran-directory) answers Ask
 // and fills the cards; every other checked service gets its own section.
 const DIRECTORY = "veteran-directory";
-const PICKS_KEY = "goals.services", AUDIENCE_KEY = "goals.audience";
+const PICKS_KEY = "goals.services", AUDIENCE_KEY = "goals.audience", PLANNED_KEY = "goals.show_planned";
 let catalog = null;
 let picked = new Set();
 async function loadCatalog() {
@@ -442,8 +499,9 @@ async function initPicks() {
 
 // The catalog by category, filtered to one audience (kept in this browser). The
 // More services panel lists names; the Data tab (full) adds each service's
-// summary and publisher. A service shows once, under the first of its
-// categories that the audience has.
+// summary and publisher, and hides planned services until its Planned button
+// shows them. A service shows once, under the first of its categories that the
+// audience has.
 function renderCatalog(box, { full = false } = {}) {
   if (!catalog) { box.textContent = "The services catalog isn't loaded."; return; }
   const aud = storedJson(AUDIENCE_KEY, "");
@@ -456,12 +514,19 @@ function renderCatalog(box, { full = false } = {}) {
       });
       return b;
     }));
+  const showPlanned = !full || storedJson(PLANNED_KEY, false);
+  let bar = filters;
+  if (full) {
+    const planned = node("button", { type: "button", "aria-pressed": String(showPlanned), title: "Planned services aren't connected yet", text: "Planned" });
+    planned.addEventListener("click", () => { storeJson(PLANNED_KEY, !showPlanned); renderCatalog(box, { full }); });
+    bar = node("div", { class: "goals-catalog-bar" }, filters, node("div", { class: "goals-audiences" }, planned));
+  }
   const ORDER = { live: 0, needs_key: 1, planned: 2 };
   const cats = catalog.categories.filter((c) => !aud || c.audiences.includes(aud));
   const shown = new Set(cats.map((c) => c.id));
   const home = (s) => s.categories.find((c) => shown.has(c));
   const groups = cats.map((c) => {
-    const list = catalog.services.filter((s) => home(s) === c.id).sort((a, b) => ORDER[a.state] - ORDER[b.state]);
+    const list = catalog.services.filter((s) => home(s) === c.id && (showPlanned || s.state !== "planned")).sort((a, b) => ORDER[a.state] - ORDER[b.state]);
     if (!list.length) return null;
     return node("div", { class: "goals-catgroup" }, node("h4", { text: c.title }), node("ul", {}, ...list.map((s) => node("li", {},
       pickBox(s),
@@ -473,7 +538,7 @@ function renderCatalog(box, { full = false } = {}) {
   const head = node("p", { class: "goals-catalog-count" },
     `${n("live")} live, ${n("needs_key")} needing a key, ${n("planned")} planned`, catalog.offline ? " (the API isn't reachable, so searches won't run)" : "", ". ",
     full ? "" : node("span", { id: "servicePickCount" }));
-  const parts = [filters, head, node("div", { class: `goals-catalog-grid${full ? " goals-catalog-full" : ""}` }, ...groups.filter(Boolean))];
+  const parts = [bar, head, node("div", { class: `goals-catalog-grid${full ? " goals-catalog-full" : ""}` }, ...groups.filter(Boolean))];
   if (!full) {
     const done = node("button", { type: "button", class: "goals-btn goals-btn-ghost", text: "Done" });
     done.addEventListener("click", () => { const more = document.querySelector(".goals-more-link"); more?.click(); more?.focus(); });
@@ -624,6 +689,7 @@ async function serviceSearches(text, zip) {
     if (zip) q.set("postal_code", zip);
     try {
       const d = await api(`/tools/search_nearby?${q}`);
+      saveCity(d.place?.postal_code, d.place?.locality);
       if (d.safety) renderSafety(d.safety);
       const more = d.total_available > d.records.length ? ` ${nf.format(d.total_available)} in all.` : "";
       note.textContent = d.records.length ? `${d.narration}${more}` : `Nothing found${d.place?.postal_code ? ` near ${d.place.postal_code}` : ""}. A record's absence isn't proof a service is missing.`;
@@ -739,7 +805,7 @@ function placeSides() {
   for (const side of document.querySelectorAll(".goals-side")) {
     if (!sideHome.has(side)) sideHome.set(side, side.parentElement);
     const home = sideHome.get(side);
-    const dest = home.closest(".goals-panel").dataset.panel !== tab ? home
+    const dest = side.hidden || home.closest(".goals-panel").dataset.panel !== tab ? home
       : side.classList.contains("goals-side-bottom") ? bottom
       : WIDE.matches ? aside : home;
     if (side.parentElement !== dest) dest.append(side);
@@ -960,10 +1026,17 @@ async function initSources() {
 
 let counties = [];
 let features = new Map();
+// When the pipeline pulled the copies in data/toy, and its industry year.
+const prepulled = { at: "", year: 0 };
+const prepulledDate = () => (prepulled.at ? new Date(prepulled.at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "by the pipeline");
+// The pre-pulled directory counts in the project repo on GitHub: [repo, link to the file].
+const savedCounts = () => ["ModelEarth/project", `https://github.com/ModelEarth/project/blob/main/goals/data/toy/${sampleScope()}/county-summary.csv`];
 async function initCounty() {
   try {
     counties = await local(`data/toy/${sampleScope()}/county-summary.csv`);
     for (const r of await local(`data/toy/${sampleScope()}/county-features.csv`)) features.set(r.Fips, r);
+    const q = await local(`data/toy/${sampleScope()}/quality-summary.json`).catch(() => ({}));
+    Object.assign(prepulled, { at: q.generated_at || "", year: Number(q.industry_year) || 0 });
   } catch (err) {
     $("countyStats").textContent = `County data unavailable (${err.message}).`;
     return;
@@ -1025,7 +1098,8 @@ async function drawCounty() {
   const row = counties.find((c) => c.Fips === fips) || {};
   const mode = dataMode;
   let services = row.Services || "0";
-  if (mode === "live") {
+  const liveCount = mode === "live" && ready(`coverage-${st}`, "coverage");
+  if (liveCount) {
     try {
       const cov = await directoryCoverage(st);
       const c = (cov.counties || []).find((x) => String(x.fips_full).padStart(5, "0") === fips);
@@ -1034,7 +1108,7 @@ async function drawCounty() {
   }
   $("countyStats").replaceChildren(
     stat(nf.format(+row.Population || 0), "residents (2024)"),
-    stat(services, mode === "live" ? "directory services (live)" : "directory services"),
+    stat(services, liveCount ? "directory services (live)" : "directory services (pre-pulled)"),
     stat(row.VeteranOrgs || "0", "IRS-coded veteran orgs"),
     stat(row.Coverage === "unknown" ? "Unknown" : "Observed", "coverage"),
   );
@@ -1044,11 +1118,12 @@ async function drawCounty() {
     if (mode === "live") {
       const live = await liveIndustries(st, fips);
       sectors = live.sectors;
-      note = [[`community-data, County Business Patterns ${industryYear()}`, live.url], ["directory API", null]];
+      note = [[`community-data, County Business Patterns ${industryYear()}`, live.url]];
     } else {
       sectors = sampleIndustries(fips);
       note = [[`data/toy/${sampleScope()}/county-features.csv (County Business Patterns ${industryYear()})`, `data/toy/${sampleScope()}/county-features.csv`]];
     }
+    note.push(liveCount ? ["directory API", null] : [`directory counts saved at ${savedCounts()[0]} on ${prepulledDate()}`, savedCounts()[1]]);
     if (mode !== dataMode) return;
     sectors.sort((a, b) => b.employees - a.employees);
     hbar($("countyChart"), sectors.filter((s) => s.employees > 0).slice(0, 12).map((s) => ({
@@ -1061,11 +1136,11 @@ async function drawCounty() {
 }
 async function drawAgreement() {
   const mode = dataMode;
+  const states = [...new Set(counties.map((c) => c.Region))];
   let live = null;
-  if (mode === "live") {
+  if (mode === "live" && states.every((s) => ready(`coverage-${s}`, "coverage"))) {
     live = new Map();
     try {
-      const states = [...new Set(counties.map((c) => c.Region))];
       for (const cov of await Promise.all(states.map(directoryCoverage))) {
         for (const c of cov.counties || []) live.set(String(c.fips_full).padStart(5, "0"), +c.resource_count || 0);
       }
@@ -1077,6 +1152,15 @@ async function drawAgreement() {
   scatter($("agreeChart"), pts, { xLabel: "Directory services per 10k", yLabel: "IRS veteran orgs per 10k", highlight: $("countyState").value });
   const rho = spearman(pts.map((p) => p.x), pts.map((p) => p.y));
   $("agreeNote").textContent = `Across ${pts.length} counties the two sources barely agree on where services are (Spearman ρ = ${rho.toFixed(2)}). ${$("countyState").value} is highlighted; square-root axes.`;
+  if (!live) {
+    const [repo, href] = savedCounts();
+    $("agreeNote").append(" Directory counts saved at ", node("a", { href, target: "_blank", rel: "noopener", text: repo }), ` on ${prepulledDate()}.`);
+  }
+  // Live Data shows the pre-pulled counts until the person asks for the directory API's current ones.
+  if (mode === "live" && !live) {
+    const base = await directoryBase();
+    if (mode === dataMode) displayButton($("agreeLive"), "coverage", "Live Directory Counts", states.map((s) => coverageUrl(base, s)), () => { drawCounty(); drawAgreement(); });
+  } else $("agreeLive").replaceChildren();
 }
 
 // --- Data quality -------------------------------------------------------------------
@@ -1085,14 +1169,28 @@ async function drawQuality() {
   $("qualityScope").addEventListener("change", drawQualityView);
   await drawQualityView();
 }
+// The chart's column shows only with a chart in it, and the flag notes only with notes in them.
+function qualityShows(chart) {
+  if (chart) $("qualityLive").replaceChildren();
+  $("qualitySide").hidden = !chart;
+  $("flagDefs").closest("details").hidden = !$("flagDefs").childNodes.length;
+  placeSides();
+}
 async function drawQualityView() {
   const live = dataMode === "live";
   $("qualityScopeLabel").hidden = live;
   $("qualityCaption").textContent = live ? "Directory records with each quality signal (share of all records, live)" : "Quality flags raised by the pipeline";
   try {
+    if (live && !ready("quality", "quality")) {
+      $("qualityStats").replaceChildren();
+      displayButton($("qualityLive"), "quality", "Directory Quality", [`${await directoryBase()}/api/data/quality`], drawQualityView);
+      $("flagDefs").replaceChildren();
+      qualityShows(false);
+      return;
+    }
     if (live) {
-      const base = (await source("upstream-directory")).api_url.replace(/\/$/, "");
-      const q = await cached("quality", async () => {
+      const base = await directoryBase();
+      const q = await outside("quality", async () => {
         const res = await fetch(`${base}/api/data/quality`);
         if (!res.ok) throw new Error(`Directory API ${res.status}`);
         return res.json();
@@ -1115,6 +1213,7 @@ async function drawQualityView() {
       ].filter((r) => Number.isFinite(r.value)), { format: (x) => String(x), unit: "%", inside: true });
       $("flagDefs").replaceChildren(node("dt", { text: "Live metrics" }), node("dd", { text: q.methodology ? String(q.methodology).slice(0, 400) : "Reported by the directory API." }));
       sourceNote($("qualitySource"), [[`directory API, generated ${String(q.generated_at || "").slice(0, 10)}`, null]]);
+      qualityShows(true);
       return;
     }
     const q = await local(`data/toy/${$("qualityScope").value}/quality-summary.json`);
@@ -1130,8 +1229,11 @@ async function drawQualityView() {
     const used = Object.keys(q.flags);
     $("flagDefs").replaceChildren(...used.flatMap((f) => [node("dt", { text: f }), node("dd", { text: flagText(f) })]));
     sourceNote($("qualitySource"), [[`data/toy/${$("qualityScope").value}/quality-summary.json, generated ${String(q.generated_at || "").slice(0, 10)}`, `data/toy/${$("qualityScope").value}/quality-summary.json`]]);
+    qualityShows(true);
   } catch (err) {
     $("qualityStats").textContent = `Quality summary unavailable (${err.message}).`;
+    $("qualityLive").replaceChildren();
+    qualityShows(false);
   }
 }
 
@@ -1142,7 +1244,7 @@ async function drawForecast() {
   const draw = async () => {
     try {
       const d = await local(`${MODELS}/${$("modelPick").value}.json`);
-      hbar($("importanceChart"), (d.feature_importance?.xgboost || []).slice(0, 12).map((f) => ({ label: f.Feature.replace(/^(Emp|Est|Pay)-(\d+)-/, (_, p, c) => `${{ Emp: "Employees", Est: "Establishments", Pay: "Payroll" }[p]} · ${c} `), value: f.Importance, note: "XGBoost split count" })), { format: (v) => String(v) });
+      hbar($("importanceChart"), (d.feature_importance?.xgboost || []).slice(0, 12).map((f) => ({ label: f.Feature.replace(/^(Emp|Est|Pay)-(\d+)-/, (_, p, c) => `${{ Emp: "Employees", Est: "Establishments", Pay: "Payroll" }[p]} · ${c} `), value: f.Importance, note: "XGBoost split count" })), { format: (v) => String(v), inside: true });
       const rows = (d.cv?.results || []).filter((r) => r.model !== "MajorityBaseline").map((r) => ({ label: MODEL_NAMES[r.model] || r.model, mean: r.roc_auc_mean, sd: r.roc_auc_std }));
       dotWhisker($("cvChart"), rows);
     } catch (err) {
@@ -1235,7 +1337,12 @@ async function start() {
   syncMainDrop();
   new MutationObserver(() => syncMainDrop(true)).observe($("goalsMain"), { childList: true }); // The keys panel opens or closes
   for (const sel of document.querySelectorAll("select[data-source]")) {
-    sel.addEventListener("change", () => { setHash({ data: sel.value === "live" ? "live" : "" }); setDataMode(sel.value); });
+    sel.addEventListener("change", () => {
+      const display = PANEL_DISPLAY[sel.closest("[data-panel]")?.dataset.panel];
+      if (sel.value === "live" && display) shown.add(display); // Choosing Live Data here is the click that displays it
+      setHash({ data: sel.value === "sample" ? "toy" : "" });
+      setDataMode(sel.value);
+    });
   }
   // Respond to hash edits: localsite's hashChangeEvent when loaded, else hashchange.
   let lastEvent = hashParams().event || "", lastView = hashParams().view || "";
@@ -1243,7 +1350,7 @@ async function start() {
     const h = hashParams();
     if ((h.event || "") !== lastEvent) { lastEvent = h.event || ""; await applyEvent(); lastView = null; }
     if (lastView === null || (h.view || "") !== lastView) { lastView = h.view || ""; applyView(); }
-    if ((h.data === "live" ? "live" : "sample") !== dataMode) setDataMode(h.data);
+    if (modeOf(h.data) !== dataMode) setDataMode(h.data);
     if (tabName(h.tab) !== $("goalsMain").dataset.tab) showTab(tabName(h.tab), h.tab ? tabName(h.tab) : "");
     else markButtons(h.tab ? tabName(h.tab) : ""); // tab=goals added or removed
     syncMainDrop(true);
@@ -1285,30 +1392,30 @@ async function start() {
   $("askZip").addEventListener("input", () => saveZip($("askZip").value.trim()));
   $("searchBtn").addEventListener("click", listServices);
   // An example checks just its services, then asks. One with no ZIP of its own
-  // uses the ZIP in the box, if any, and a label given as a function shows it.
+  // uses the ZIP in the box, if any, else its fallback ZIP, and a label given as
+  // a function shows that ZIP, or the city a search placed it in.
   const examples = [
-    ["Tech jobs in Atlanta", "Python developer jobs", "30308", ["hn-hiring", "jobicy-remote"]],
+    [(zip) => `Tech jobs ${nearZip(zip || "30308")}`, "Python developer jobs", "", ["hn-hiring", "jobicy-remote"], "30308"],
     ["Colleges near Tech Square", "Colleges and training programs", "30332", ["college-scorecard"]],
     ["Schools and field trips", "Schools, museums and nature near us", "30308", ["nces-public-schools", "osm-museums", "inaturalist-nearby"]],
     ["Coders to build with", "Python coders and makerspaces to collaborate with", "30308", ["github-developers", "osm-makerspaces"]],
-    [(zip) => (zip ? `Job training near ${zip}` : "Job training"), "Job training that uses my logistics experience", "", [DIRECTORY, "veteran-job-centers"]],
+    [(zip) => (zip ? `Job training ${nearZip(zip)}` : "Job training"), "Job training that uses my logistics experience", "", [DIRECTORY, "veteran-job-centers"]],
     ["Housing help", "I need help with housing", "30260", [DIRECTORY, "hud-housing-counselors"]],
     ["Get my DD-214", "How do I get a copy of my DD-214?", "", [DIRECTORY]],
   ];
   const boxZip = () => (/^\d{5}$/.test($("askZip").value.trim()) ? $("askZip").value.trim() : "");
-  const relabel = [];
-  $("exampleChips").replaceChildren(...examples.map(([label, text, zip, ids]) => {
+  $("exampleChips").replaceChildren(...examples.map(([label, text, zip, ids, fallback]) => {
     const b = node("button", { type: "button", text: typeof label === "function" ? label(boxZip()) : label });
-    if (typeof label === "function") relabel.push(() => { b.textContent = label(boxZip()); });
+    if (typeof label === "function") chipLabels.push(() => { b.textContent = label(boxZip()); });
     b.addEventListener("click", () => {
       if (catalog) setPicks(ids.filter((id) => catalog.byId[id]?.state === "live"));
       $("askText").value = text;
-      if (zip) $("askZip").value = zip;
+      if (zip || (fallback && !boxZip())) $("askZip").value = zip || fallback;
       ask();
     });
     return b;
   }));
-  $("askZip").addEventListener("input", () => relabel.forEach((f) => f()));
+  $("askZip").addEventListener("input", () => chipLabels.forEach((f) => f()));
   initPicks();
   try {
     toolList = (await api("/tools")).tools;
