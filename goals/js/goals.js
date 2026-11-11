@@ -491,36 +491,46 @@ async function initPicks() {
     ...catalog.featured.map((id) => catalog.byId[id]).filter(Boolean).map((s) => pickBox(s, true)),
     node("span", { id: "servicePickExtras", class: "goals-picks-extras" }),
     more,
+    node("div", { class: "goals-audiences goals-picks-planned" }, plannedButton()),
   );
   $("servicePicks").hidden = false;
   syncPicks();
   if (drawn.has("data")) renderCatalog($("serviceCatalog"), { full: true });
 }
 
+// Planned button, right of More services and on the Data tab: one setting, kept
+// in this browser and off by default, that shows planned services (not yet
+// connected) in both catalogs.
+function plannedButton() {
+  const b = node("button", { type: "button", class: "goals-planned", "aria-pressed": String(storedJson(PLANNED_KEY, false)), title: "Planned services aren't connected yet", text: "Planned" });
+  b.addEventListener("click", () => {
+    const on = !storedJson(PLANNED_KEY, false);
+    storeJson(PLANNED_KEY, on);
+    for (const x of document.querySelectorAll(".goals-planned")) x.setAttribute("aria-pressed", String(on));
+    redrawCatalogs();
+  });
+  return b;
+}
+// Redraws the More services panel and the Data tab's catalog, where drawn.
+function redrawCatalogs() {
+  for (const el of [$("servicePickMore"), $("serviceCatalog")]) if (el && !el.hidden && el.childNodes.length) renderCatalog(el, { full: el.id === "serviceCatalog" });
+}
+
 // The catalog by category, filtered to one audience (kept in this browser). The
 // More services panel lists names; the Data tab (full) adds each service's
-// summary and publisher, and hides planned services until its Planned button
-// shows them. A service shows once, under the first of its categories that the
-// audience has.
+// summary and publisher. Planned services show while Planned is on. A service
+// shows once, under the first of its categories that the audience has.
 function renderCatalog(box, { full = false } = {}) {
   if (!catalog) { box.textContent = "The services catalog isn't loaded."; return; }
   const aud = storedJson(AUDIENCE_KEY, "");
   const filters = node("div", { class: "goals-audiences", role: "group", "aria-label": "Audience" },
     ...[{ id: "", label: "All" }, ...catalog.audiences].map((a) => {
       const b = node("button", { type: "button", "aria-pressed": String(a.id === aud), text: a.label });
-      b.addEventListener("click", () => {
-        storeJson(AUDIENCE_KEY, a.id);
-        for (const el of [$("servicePickMore"), $("serviceCatalog")]) if (el && !el.hidden && el.childNodes.length) renderCatalog(el, { full: el.id === "serviceCatalog" });
-      });
+      b.addEventListener("click", () => { storeJson(AUDIENCE_KEY, a.id); redrawCatalogs(); });
       return b;
     }));
-  const showPlanned = !full || storedJson(PLANNED_KEY, false);
-  let bar = filters;
-  if (full) {
-    const planned = node("button", { type: "button", "aria-pressed": String(showPlanned), title: "Planned services aren't connected yet", text: "Planned" });
-    planned.addEventListener("click", () => { storeJson(PLANNED_KEY, !showPlanned); renderCatalog(box, { full }); });
-    bar = node("div", { class: "goals-catalog-bar" }, filters, node("div", { class: "goals-audiences" }, planned));
-  }
+  const showPlanned = storedJson(PLANNED_KEY, false);
+  const bar = full ? node("div", { class: "goals-catalog-bar" }, filters, node("div", { class: "goals-audiences" }, plannedButton())) : filters;
   const ORDER = { live: 0, needs_key: 1, planned: 2 };
   const cats = catalog.categories.filter((c) => !aud || c.audiences.includes(aud));
   const shown = new Set(cats.map((c) => c.id));

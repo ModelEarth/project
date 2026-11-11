@@ -159,6 +159,8 @@ body.standalone { margin: 0; background: #f9f9f7; }
   color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px;
 }
 .goals-more-link[aria-expanded="true"] { font-weight: 600; }
+/* The Planned toggle, at the far right of More services' line. */
+.goals-picks-planned { margin-left: auto; }
 .goals-picks-more {
   margin-top: 12px; padding: 12px 14px; max-height: 60vh; overflow: auto;
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
