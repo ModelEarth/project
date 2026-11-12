@@ -251,7 +251,7 @@ function syncHero() {
   else if (!run && heroTimer) { clearInterval(heroTimer); heroTimer = null; }
   const btn = $("earthPlayPauseButton");
   const playing = btn.querySelector(".play-pause-icon")?.textContent === "pause";
-  const label = !covered ? "Next photo" : playing ? "Pause map playback" : "Play map playback"; // localsite's labels for the map
+  const label = !covered ? "Play" : playing ? "Pause map playback" : "Play map playback"; // localsite's labels for the map
   if (btn.title !== label) { btn.title = label; btn.setAttribute("aria-label", label); }
 }
 // Over the photos, the play button shows the next one and turns on the left
