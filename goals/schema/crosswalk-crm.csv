@@ -25,4 +25,5 @@ claim,review_state,activities,status,candidate -> in_review -> verified/disputed
 correction,*,activities,*,Proposed corrections enter as activities (type correction) awaiting review
 campaign,*,campaigns,*,Outreach such as workshops and Advisory Council reviews
 participant,*,contacts,*,Advisory Council members and partners who opt in; never veterans who use the tools
+person,*,,,Public profiles found by a search (such as GitHub developers); shown to the visitor and never stored or synced as contacts
 tag,flags,tags,name,Quality flags as tags; taggables links them to records

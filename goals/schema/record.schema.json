@@ -12,12 +12,12 @@
       "pattern": "^[a-z_]+:[a-z0-9_]+:[A-Za-z0-9_.-]+$"
     },
     "entity_type": {
-      "enum": ["organization", "location", "offering", "event", "contact_point", "benefit", "form"],
-      "description": "offering covers programs, services and resources."
+      "enum": ["organization", "location", "offering", "event", "contact_point", "benefit", "form", "person"],
+      "description": "offering covers programs, services and resources. person is a public profile found by a search (such as a GitHub developer), shown to the visitor and never stored as a contact."
     },
     "crm_table": {
-      "type": "string",
-      "description": "Table in a common CRM schema that holds this entity (accounts, contacts, events, products, documents, ...)."
+      "type": ["string", "null"],
+      "description": "Table in a common CRM schema that holds this entity (accounts, contacts, events, products, documents, ...). Null for a person: public profiles don't go into the CRM."
     },
     "name": { "type": "string" },
     "region": { "type": "string", "description": "Two-letter state or territory code." },

@@ -263,6 +263,7 @@
       "status": "live",
       "kind": "rest",
       "publisher": "GitHub",
+      "entity_type": "person",
       "license": "Public profile data; each result links to the profile",
       "landing_page": "https://docs.github.com/en/rest/search/search#search-users",
       "keywords": ["developer", "coder", "programmer", "collaborat", "github", "open source"],

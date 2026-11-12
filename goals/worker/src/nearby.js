@@ -197,7 +197,8 @@ function miles(a, b) {
 
 const PLACEHOLDER_ZIP = /^(0{5}|9{5}|12345)$/;
 const slug = (s) => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
-const CRM_TABLE = { organization: "accounts", location: "accounts", offering: "products", event: "events" };
+// People (public profiles from a search) have no CRM table: they never go in as contacts.
+const CRM_TABLE = { organization: "accounts", location: "accounts", offering: "products", event: "events", person: null };
 
 // OpenStreetMap elements from Overpass: the same fields for every tag set.
 const OSM_FIELDS = {
@@ -273,7 +274,7 @@ export function normalizeRecords(service, items = [], { at = new Date().toISOStr
       id: r.rawId != null ? `svc:${scheme}:${String(r.rawId).replace(/[^A-Za-z0-9_.-]/g, "-")}` : `svc:${scheme}:${slug(r.name)}-${r.address.postal_code || "nozip"}`,
       service_id: service.id,
       entity_type: entityType,
-      crm_table: CRM_TABLE[entityType] || "accounts",
+      crm_table: entityType in CRM_TABLE ? CRM_TABLE[entityType] : "accounts",
       name: r.name,
       category: r.category,
       category_label: r.category_label,

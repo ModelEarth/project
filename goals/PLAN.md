@@ -79,8 +79,6 @@ MCP server's generic search_nearby tool (worker/src/nearby.js).
 
 ### Questions to resolve
 
-- [ ] Should the GitHub developer search stay? It lists people who publicly name a city. Their profiles shouldn't go into the CRM as contacts without their consent (crosswalk-crm.csv's participant row).
-
 - [ ] Which audience should the page default to, and which 10 services should be featured for it? Today: tech jobs, remote jobs, job centers, colleges, schools, libraries, makerspaces, developers, research institutions and housing counselors, with the veteran directory checked.
 
 - [ ] Should checked services be part of the link (a services= hash value), so a shared link opens with the same searches?
