@@ -76,7 +76,7 @@ function node(tag, attrs = {}, ...children) {
 
 // --- Hash, event and data mode ---------------------------------------------------
 
-// #event=next&tab=local&data=live&view=center. A bare #county (older links)
+// #event=next&tab=local&data=live&view=center&county=13063. A bare #county (older links)
 // is a tab. With localsite loaded, its getHash, goHashQuiet and hashChangeEvent
 // are used (localsite/AGENTS.md), so manual edits to the URL are picked up too.
 const hasLocalsiteHash = () => typeof getHash === "function";
@@ -785,12 +785,17 @@ function markButtons(selected) {
 // (#mainEarthFilters), which earth-filters.js moves into it whenever it places the panel.
 // While the panel shows there, the column is the filters': no tab is highlighted and the
 // tabs' content hides (goals-filters-caught, goals.css). A tab closes the panel.
+// The panel opens with the map (as from geoview=earth in the URL), but here it waits until it's
+// asked for, with the tune circle (localsite.js, which marks <html> earthControlsOpen) or by being
+// closed and opened again, so the tabs, their content and the voice widget stay over the map.
 function initFilterCatch() {
   const filterCatch = node("div", { id: "earthFilterCatch", hidden: "" });
   document.querySelector(".goals-tabs").after(filterCatch);
+  let asked = false;
   const sync = () => {
     const panel = $("mainEarthFilters");
-    const shown = !!panel && panel.parentElement === filterCatch && !panel.classList.contains("ef-closed") && panel.style.display !== "none";
+    if (document.documentElement.classList.contains("earthControlsOpen") || panel?.classList.contains("ef-closed")) asked = true;
+    const shown = asked && !!panel && panel.parentElement === filterCatch && !panel.classList.contains("ef-closed") && panel.style.display !== "none";
     filterCatch.hidden = !shown;
     if (shown !== $("goalsPage").classList.contains("goals-filters-caught")) {
       $("goalsPage").classList.toggle("goals-filters-caught", shown);
@@ -798,8 +803,41 @@ function initFilterCatch() {
     }
   };
   new MutationObserver(sync).observe(filterCatch, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "style"] });
+  new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
   window.mainEarthFilters?.applyMapPanelPlace?.(); // A panel placed before the catch was here
   sync();
+}
+// The voice widget's typing box and replies, and the Earth map's controls in its lower left (the
+// filters panel the tune circle opens and the date's picker, which mark <html> earthControlsOpen
+// and earthDateOpen, localsite.js) take turns: the widget's text opening closes the map's
+// controls, and the map's controls opening hides the widget's text (ClaudeVoice.hideText).
+// Notes, such as "I'm listening.", don't count as text.
+function initControlTurns() {
+  const html = document.documentElement;
+  const textOpen = (ui) => {
+    const root = ui.shadowRoot;
+    return !!root && (!!root.querySelector("form.on")
+      || [...root.querySelectorAll(".cap:not(.notice)")].some((c) => c.textContent.trim() && c.style.opacity !== "0" && c.getClientRects().length > 0));
+  };
+  const mapOpen = () => html.classList.contains("earthControlsOpen") || html.classList.contains("earthDateOpen");
+  let wasMap = mapOpen();
+  new MutationObserver(() => {
+    const now = mapOpen();
+    if (now && !wasMap && typeof window.ClaudeVoice?.hideText === "function") window.ClaudeVoice.hideText();
+    wasMap = now;
+  }).observe(html, { attributes: true, attributeFilter: ["class"] });
+  if (typeof window.onElmReady !== "function") return;
+  window.onElmReady(".claude-voice-ui", (ui) => {
+    let wasText = textOpen(ui);
+    new MutationObserver(() => {
+      const now = textOpen(ui);
+      if (now && !wasText) {
+        if (html.classList.contains("earthControlsOpen")) $("earthControlsToggle")?.click();
+        if (html.classList.contains("earthDateOpen")) $("slider-toggle-wrap")?.click();
+      }
+      wasText = now;
+    }).observe(ui.shadowRoot, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class", "style", "hidden"] });
+  });
 }
 // The tune circle (localsite.js) closes the panel when it opened it, which also clears its
 // .earthControlsOpen. Otherwise the panel closes on its own.
@@ -918,9 +956,13 @@ function initMainGrip() {
   const grip = node("div", { class: "goals-grip", "aria-hidden": "true", title: "Drag to move this column down, or up on the Goals tab. Double-click to bring it back." });
   tabs.prepend(grip);
   // Triangle at the far right, after the tabs' column: points up while the column is down and
-  // raises it, then points down (CSS turns it) and docks it again.
+  // raises it, then points down (CSS turns it) and docks it again. Drawn rather than the ▲
+  // character, which Safari's font sets off center.
+  const tri = document.createElementNS(SVG_NS, "svg");
+  tri.setAttribute("viewBox", "0 0 15 8");
+  tri.innerHTML = '<path d="M7.5 0L15 8H0z"/>';
   const arrow = node("button", { type: "button", id: "goalsMainArrow", class: "goals-main-arrow" },
-    node("span", { "aria-hidden": "true", text: "\u25B2" }));
+    node("span", { "aria-hidden": "true" }, tri));
   tabs.append(arrow);
   arrow.addEventListener("click", () => { mainDocked = mainDrop <= 0; setMainDrop(mainDrop > 0 ? 0 : dockDrop(), true); });
   grip.addEventListener("pointerdown", (e) => {
@@ -952,8 +994,9 @@ function initMainGrip() {
 }
 // When the tabs don't all fit, the last ones hide and "More" shows after the rest. It opens
 // every tab as a list covering the window below the header (where #goalsPage starts, or the
-// window's top once that's scrolled away). Choosing a tab clicks it; choosing the selected one,
-// or the close button, just closes the list.
+// window's top once that's scrolled away). Choosing a tab clicks it; choosing the selected one
+// closes the list, and raises the column when it's down. The close button just closes it.
+// In narrow windows, the menu button (vertical dots) at the lower left opens it too (syncPagesButton).
 function markMore() {
   const more = $("goalsMoreBtn");
   if (more) more.classList.toggle("goals-more-current", !!document.querySelector(".goals-tabs-list > .goals-tab-over[aria-selected=\"true\"]"));
@@ -962,7 +1005,12 @@ function initMoreTabs() {
   const list = document.querySelector(".goals-tabs-list"), more = $("goalsMoreBtn"), menu = $("goalsMoreMenu");
   if (!list || !more || !menu) return;
   const tabs = [...list.querySelectorAll("button[data-tab]")];
-  const close = () => { menu.hidden = true; more.setAttribute("aria-expanded", "false"); };
+  const pages = node("button", { type: "button", id: "goalsPagesBtn", class: "goals-pages-btn", title: "Sections", "aria-label": "Sections",
+    "aria-haspopup": "true", "aria-expanded": "false", "aria-controls": "goalsMoreMenu", hidden: "" },
+    svgIcon('<circle cx="8" cy="3.5" r="1.3"/><circle cx="8" cy="8" r="1.3"/><circle cx="8" cy="12.5" r="1.3"/>'));
+  $("goalsPage").append(pages);
+  let opener = more; // The button that opened the list, which gets the focus back
+  const close = () => { menu.hidden = true; more.setAttribute("aria-expanded", "false"); pages.setAttribute("aria-expanded", "false"); };
   const fit = () => {
     close();
     for (const b of tabs) b.classList.remove("goals-tab-over");
@@ -974,24 +1022,29 @@ function initMoreTabs() {
     more.textContent = tabs.some((b) => !b.hidden && !b.classList.contains("goals-tab-over")) ? "More" : "Menu"; // "Menu" when it's alone
     markMore();
   };
-  const open = () => {
+  const open = (btn) => {
+    opener = btn;
     const shut = node("button", { type: "button", class: "goals-more-close", "aria-label": "Close menu", text: "\u00D7" });
-    shut.addEventListener("click", () => { close(); more.focus(); });
+    shut.addEventListener("click", () => { close(); opener.focus(); });
     menu.replaceChildren(node("div", { class: "goals-more-head" }, node("span", { text: "Sections" }), shut), ...tabs.filter((b) => !b.hidden).map((b) => {
       const selected = b.getAttribute("aria-selected") === "true";
       const item = node("button", { type: "button", class: "goals-more-item", text: b.textContent });
       if (selected) item.setAttribute("aria-current", "true");
-      item.addEventListener("click", () => { close(); if (!selected) b.click(); });
+      item.addEventListener("click", () => {
+        close();
+        if (!selected) b.click();
+        else if ($("goalsPage").classList.contains("goals-main-dropped")) $("goalsMainArrow")?.click();
+      });
       return item;
     }));
     menu.style.top = `${Math.max(0, $("goalsPage").getBoundingClientRect().top)}px`;
     menu.hidden = false;
-    more.setAttribute("aria-expanded", "true");
+    btn.setAttribute("aria-expanded", "true");
     (menu.querySelector("[aria-current]") || shut).focus();
   };
-  more.addEventListener("click", () => (menu.hidden ? open() : close()));
-  document.addEventListener("pointerdown", (e) => { if (!menu.hidden && !menu.contains(e.target) && !more.contains(e.target)) close(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !menu.hidden) { close(); more.focus(); } });
+  for (const btn of [more, pages]) btn.addEventListener("click", () => (menu.hidden ? open(btn) : close()));
+  document.addEventListener("pointerdown", (e) => { if (!menu.hidden && ![menu, more, pages].some((el) => el.contains(e.target))) close(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !menu.hidden) { close(); opener.focus(); } });
   window.addEventListener("scroll", () => { if (!menu.hidden) close(); }, { passive: true });
   new ResizeObserver(fit).observe(list);
   document.fonts?.ready.then(fit);
@@ -1051,8 +1104,10 @@ function mainDropMin() {
 // it shows only the start of the next question ("What was your…"): Claude's follow-up question
 // once the reply has it, else the next one in the list. A tap stops the reply and asks that
 // question. Once the reply has been spoken, the circle comes back and shows the question in full.
+// Large words the circle crosses fade to ZONE_DIM, so its question stays readable.
 const ZONE_MS = 20000; // Each question stays this long
 const ZONE_SMALL = 0.4; // The circle's size while the large words show
+const ZONE_DIM = 0.15; // The opacity of large words under the circle
 const ZONE_CONTEXT = "I'm talking with you through the page's conversation circle, which asks brief, friendly questions for older adults, including people living with dementia. It's asking me the question that follows. When I answer, reply warmly in one or two short, simple sentences. Never correct me, quiz me or ask what I remember. Then ask one easy, open question about what I said. If I seem confused or upset, reassure me and gently change the subject.";
 const ZONE_HINTS = {
   idle: () => (canListen() ? "Tap the circle, then answer out loud" : typeof window.ClaudeVoice?.ask === "function" ? "Tap the circle, then type your answer below" : "Tap the circle to hear the question"),
@@ -1065,7 +1120,7 @@ const ZONE_HINTS = {
 const canListen = () => (typeof window.ClaudeVoice?.canListen === "boolean" ? window.ClaudeVoice.canListen : !navigator.brave && !!(window.SpeechRecognition || window.webkitSpeechRecognition));
 const calm = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 let zoneQuestions = [], zoneAt = 0, zoneTimer = null, zoneTalking = false;
-let zoneText = "", zoneAsked = "", zoneSmall = false, zoneSpot = null, wordsField = null;
+let zoneText = "", zoneAsked = "", zoneSmall = false, zoneSpot = null, wordsField = null, dimFrame = 0;
 function initAiZone() {
   const zone = node("button", { type: "button", class: "goals-ai-zone", "data-state": "idle", "data-words-avoid": "" },
     node("span", { class: "goals-ai-question" }), node("span", { class: "goals-ai-hint" }));
@@ -1075,6 +1130,7 @@ function initAiZone() {
   document.addEventListener("claude-voice:state", (e) => {
     const st = e.detail?.state;
     watchWords();
+    syncPagesButton(); // The widget's controls are in
     if (st !== "speaking") setZoneSmall(false); // The reply has been spoken, or cut short
     if (!zoneTalking) return;
     if (st === "off" || st === "error") { zoneTalking = false; setZoneState(st === "error" ? "error" : "idle"); syncZoneTimer(); }
@@ -1104,8 +1160,31 @@ function watchWords() {
   if (!field || field === wordsField) return;
   wordsField = field;
   new MutationObserver((list) => {
-    if (list.some((m) => [...m.addedNodes].some((n) => n.classList?.contains("w"))) && window.ClaudeVoice?.state === "speaking") setZoneSmall(true);
+    if (!list.some((m) => [...m.addedNodes].some((n) => n.classList?.contains("w")))) return;
+    if (window.ClaudeVoice?.state === "speaking") setZoneSmall(true);
+    if (!dimFrame) dimFrame = requestAnimationFrame(dimWords);
   }).observe(field, { childList: true });
+}
+// Large words that the circle (a true circle, not its box) crosses fade to ZONE_DIM, and come back
+// once it's clear of them. Checked each frame while any show, since the circle moves and grows and
+// the words drift. A filter, so the widget's own opacity and animations on the words are left alone.
+function dimWords() {
+  const words = [...(wordsField?.querySelectorAll(".w") || [])];
+  const zone = document.querySelector("#aiZone .goals-ai-zone");
+  let c = null;
+  if (zone && !$("aiZone").hidden) {
+    const z = zone.getBoundingClientRect();
+    c = { x: z.left + z.width / 2, y: z.top + z.height / 2, r: z.width / 2 };
+  }
+  for (const el of words) {
+    const r = el.getBoundingClientRect();
+    const hit = !!c && Math.hypot(c.x - Math.max(r.left, Math.min(c.x, r.right)), c.y - Math.max(r.top, Math.min(c.y, r.bottom))) < c.r;
+    if ((el.dataset.zoneDim === "1") === hit) continue;
+    el.dataset.zoneDim = hit ? "1" : "";
+    el.style.transition = "filter 0.3s ease";
+    el.style.filter = hit ? `opacity(${ZONE_DIM})` : "";
+  }
+  dimFrame = words.length ? requestAnimationFrame(dimWords) : 0;
 }
 // ai_zone_questions: a list of items with text (the light YAML parser reads lists of mappings).
 function setZoneQuestions(list) {
@@ -1210,12 +1289,13 @@ function askZone() {
     speechSynthesis.speak(new SpeechSynthesisUtterance(q));
   }
 }
-// Shows the zone while the tabs are at (or near) the window's bottom in the hero view, with the
-// photos uncovered and room for the circle. It's centered over the tabs (the left column), in the
+// Shows the zone while the tabs are at (or near) the window's bottom in the hero view, with room
+// for the circle, over the photos or the Earth map. It's centered over the tabs (the left column), in the
 // space between #goalsPage's top and the place the tabs are moving to, and no wider than they are.
 // goals-ai-ready marks the page while the zone can show, for the small matching circle around the
 // up/down arrow while the tabs are up (goals.css).
 function placeZone() {
+  syncPagesButton();
   const area = $("aiZone");
   if (!area) return;
   $("goalsPage").classList.toggle("goals-ai-ready", zoneQuestions.length > 0 && heroView());
@@ -1224,7 +1304,7 @@ function placeZone() {
   const top = Math.max(0, $("goalsPage").getBoundingClientRect().top) + 16;
   const size = Math.round(Math.min(tabsTop - top - 16, tabs.width, 440));
   const on = zoneQuestions.length > 0 && heroView() && mainDrop > 0 && tabsTop >= window.innerHeight - MAIN_DOCK - 40
-    && size >= 220 && !$("fullscreen").classList.contains("goals-hero-covered");
+    && size >= 220;
   if (on) {
     area.style.setProperty("--zone-top", `${Math.round(top)}px`);
     area.style.setProperty("--zone-left", `${Math.round(tabs.left)}px`);
@@ -1237,6 +1317,22 @@ function placeZone() {
   area.hidden = !on;
   if (!on) setZoneSmall(false);
   syncZoneTimer();
+}
+// In narrow windows, the tabs at the bottom would cover the voice widget's row of controls: while
+// the column is down and they would, the tabs hide and the menu button (vertical dots) at the lower left
+// (initMoreTabs) opens the list of tabs instead. The tabs keep their place, hidden, so the AI zone
+// above them stays put. Checked where they're going (tabsPlace), not where a move has them now.
+function syncPagesButton() {
+  const btn = $("goalsPagesBtn");
+  if (!btn) return;
+  const row = document.querySelector(".claude-voice-ui")?.shadowRoot?.querySelector(".row")?.getBoundingClientRect();
+  const tabs = document.querySelector(".goals-tabs").getBoundingClientRect(), top = tabsPlace().top + mainDrop;
+  const crowded = mainDrop > 0 && !!row && row.width > 0
+    && tabs.left < row.right && row.left < tabs.right && top < row.bottom && row.top < top + tabs.height;
+  $("goalsPage").classList.toggle("goals-tabs-paged", crowded);
+  btn.hidden = !crowded;
+  // Level with the voice controls, or 48px higher over the Earth map, above its controls in the lower left (#earthControls).
+  if (crowded) btn.style.bottom = `${Math.round(window.innerHeight - row.bottom) + ($("fullscreen").classList.contains("goals-hero-covered") ? 48 : 0)}px`;
 }
 // The questions change every ZONE_MS while the zone shows, the tab is in view and no conversation is on.
 function syncZoneTimer() {
@@ -1324,19 +1420,44 @@ async function initCounty() {
   }
   const states = [...new Set(counties.map((c) => c.Region))].sort();
   $("countyState").replaceChildren(...states.map((s) => node("option", { value: s, text: s })));
-  $("countyState").value = states.includes("GA") ? "GA" : states[0];
-  $("countyState").addEventListener("change", () => { fillCounties(); drawAgreement(); });
-  $("countyPick").addEventListener("change", drawCounty);
-  fillCounties();
+  // A choice of state or county is kept in this browser and in the hash (county=).
+  $("countyState").addEventListener("change", () => { fillCounties(); keepCounty(); drawAgreement(); });
+  $("countyPick").addEventListener("change", () => { keepCounty(); drawCounty(); });
+  const row = countyRow(hashParams().county) || countyRow(savedCounty()) || countyRow(DEFAULT_COUNTY);
+  $("countyState").value = row ? row.Region : states[0];
+  fillCounties(row?.Fips);
   drawAgreement();
 }
-function fillCounties() {
+// The county shown first: county= in the hash (its FIPS code), else the last one chosen in this
+// browser, else Clayton County, GA.
+const COUNTY_KEY = "goals.county", DEFAULT_COUNTY = "13063";
+const countyRow = (fips) => (/^\d{5}$/.test(fips || "") ? counties.find((c) => c.Fips === fips) : null);
+function savedCounty() {
+  try { return localStorage.getItem(COUNTY_KEY) || ""; } catch { return ""; }
+}
+function keepCounty() {
+  const fips = $("countyPick").value;
+  if (!fips) return;
+  try { localStorage.setItem(COUNTY_KEY, fips); } catch { /* storage blocked */ }
+  setHash({ county: fips });
+}
+// fips: the county to select, when it's in the state; else the state's first.
+function fillCounties(fips) {
   const st = $("countyState").value;
   const list = counties.filter((c) => c.Region === st).sort((a, b) => a.Name.localeCompare(b.Name));
   $("countyPick").replaceChildren(...list.map((c) => node("option", { value: c.Fips, text: c.Name })));
-  const clayton = list.find((c) => c.Fips === "13063");
-  $("countyPick").value = clayton ? clayton.Fips : list[0]?.Fips;
+  $("countyPick").value = list.some((c) => c.Fips === fips) ? fips : list[0]?.Fips;
   drawCounty();
+}
+// county= changed in the hash, such as by an edit to the URL: that county, once the county data is in.
+function showCountyFromHash(fips) {
+  const row = countyRow(fips);
+  if (!row || $("countyPick").value === row.Fips) return;
+  const stateChanged = $("countyState").value !== row.Region;
+  $("countyState").value = row.Region;
+  fillCounties(row.Fips);
+  try { localStorage.setItem(COUNTY_KEY, row.Fips); } catch { /* storage blocked */ }
+  if (stateChanged) drawAgreement();
 }
 function stat(value, label) { return node("div", { class: "goals-stat" }, node("div", { class: "v", text: value }), node("div", { class: "l", text: label })); }
 
@@ -1618,6 +1739,7 @@ async function start() {
   placeSides(); // Again, for closed side columns
   initAiZone();
   initFilterCatch();
+  initControlTurns();
   syncMainDrop();
   new MutationObserver(() => syncMainDrop(true)).observe($("goalsMain"), { childList: true }); // The keys panel opens or closes
   for (const sel of document.querySelectorAll("select[data-source]")) {
@@ -1637,6 +1759,7 @@ async function start() {
     if (modeOf(h.data) !== dataMode) setDataMode(h.data);
     if (tabName(h.tab) !== $("goalsMain").dataset.tab) showTab(tabName(h.tab), h.tab ? tabName(h.tab) : "");
     else markButtons(h.tab ? tabName(h.tab) : ""); // tab=goals added or removed
+    if (h.county) showCountyFromHash(h.county);
     syncMainDrop(true);
   };
   if (hasLocalsiteHash()) document.addEventListener("hashChangeEvent", onHash);

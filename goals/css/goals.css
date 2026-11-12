@@ -265,15 +265,32 @@ body.standalone { margin: 0; background: #f9f9f7; }
   background: linear-gradient(var(--surface), var(--surface)), var(--hero-page, var(--surface));
 }
 .goals-more-menu[hidden] { display: none; }
-.goals-more-head { display: flex; align-items: center; justify-content: space-between; padding: 4px 4px 4px 16px; border-bottom: 1px solid var(--grid); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.goals-more-head { display: flex; align-items: center; justify-content: space-between; padding: 4px 4px 4px 16px; margin-bottom: 8px; border-bottom: 1px solid var(--grid); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .goals-more-close { font: inherit; font-size: 24px; line-height: 1; cursor: pointer; color: var(--ink-2); background: none; border: 0; padding: 8px 12px; }
 .goals-more-close:hover, .goals-more-close:focus-visible { color: var(--ink); }
+/* Each tab a rounded tile, apart from the next; the selected one tinted and outlined in the accent. */
 .goals-more-item {
   flex: none; font: inherit; font-size: 17px; text-align: left; cursor: pointer; color: var(--ink-2);
-  background: none; border: 0; border-bottom: 1px solid var(--grid); padding: 16px;
+  margin: 0 12px 8px; padding: 15px 18px; border: 1px solid var(--border); border-radius: 14px;
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
-.goals-more-item:hover, .goals-more-item:focus-visible { color: var(--ink); background: var(--accent-wash); }
-.goals-more-item[aria-current="true"] { color: var(--ink); font-weight: 600; box-shadow: inset 3px 0 var(--accent); }
+.goals-more-item:hover, .goals-more-item:focus-visible { color: var(--ink); background: var(--accent-wash); border-color: var(--accent); }
+.goals-more-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.goals-more-item[aria-current="true"] { color: var(--ink); font-weight: 600; background: var(--accent-wash); border-color: var(--accent); }
+/* Narrow windows, column down (goals.js syncPagesButton): the tabs would cover the voice widget's
+   controls, so they hide and a menu button (vertical dots) at the lower left, in the controls' glass
+   style and size, opens the list instead. */
+.goals-tabs-paged #goalsMain > .goals-tabs { visibility: hidden; }
+.goals-pages-btn {
+  position: fixed; left: 10px; bottom: 16px; z-index: 3; display: grid; place-items: center; width: 38px; height: 38px; padding: 0;
+  cursor: pointer; color: #f4f6fb; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(10, 12, 20, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.goals-pages-btn:hover { background: rgba(10, 12, 20, 0.7); }
+.goals-pages-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.goals-pages-btn[hidden] { display: none; }
+.goals-pages-btn svg { width: 20px; height: 20px; fill: currentColor; } /* A vertical three-dot menu icon */
 /* Short tab titles while the tabs bar is under 800px wide: Quality,
    without its .goals-tab-extra word. Under 500px also Plan,
    without its .goals-tab-extra-sm word. Under 600px, less space
@@ -289,11 +306,12 @@ body.standalone { margin: 0; background: #f9f9f7; }
 .goals-grip { position: absolute; top: 0; left: 0; right: 0; height: 10px; z-index: 1; cursor: ns-resize; touch-action: none; }
 /* Triangle at the far right of the tabs bar: points up while the column is down
    (raise it), turned to point down once it's up (dock it). */
-.goals-tabs .goals-main-arrow { flex: none; padding: 10px 16px; font-size: 12px; line-height: 1; color: var(--ink-2); border-bottom-color: transparent; opacity: 0.4; transition: opacity 0.15s; }
+.goals-tabs .goals-main-arrow { flex: none; padding: 10px 13px; font-size: 12px; line-height: 1; color: var(--ink-2); border-bottom-color: transparent; opacity: 0.4; transition: opacity 0.15s; }
 .goals-tabs .goals-main-arrow:hover, .goals-tabs .goals-main-arrow:focus-visible { color: var(--ink); opacity: 1; }
-/* Twice as wide as the ▲ character (scaleX), with room for that in the padding. */
-.goals-main-arrow > span { display: inline-block; transform: scaleX(2); transition: transform 0.25s ease; }
-.goals:not(.goals-main-dropped) .goals-main-arrow > span { transform: rotate(180deg) scaleX(2); }
+/* A wide triangle (goals.js), centered in a box one line tall. */
+.goals-main-arrow > span { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 12px; vertical-align: middle; transition: transform 0.25s ease; }
+.goals-main-arrow svg { display: block; width: 15px; height: 8px; fill: currentColor; }
+.goals:not(.goals-main-dropped) .goals-main-arrow > span { transform: rotate(180deg); }
 .goals-main-dropped #goalsMain > :not(.goals-topinfo),
 .goals-main-raised #goalsMain > :not(.goals-topinfo) { transform: translateY(var(--main-drop, 0px)); }
 #goalsMain.goals-main-settle > :not(.goals-topinfo) { transition: transform 0.25s ease; }
@@ -701,20 +719,23 @@ html.goals-view-hero .goals-bg {
 .goals-ai-question { font-size: clamp(24px, calc(var(--zone-d, 400px) * 0.075), 34px); line-height: 1.22; font-weight: 600; letter-spacing: -0.005em; }
 .goals-ai-hint { font-size: clamp(17px, calc(var(--zone-d, 400px) * 0.042), 20px); line-height: 1.3; color: rgba(255, 255, 255, 0.9); }
 /* While the tabs are up and the AI zone can show (goals-ai-ready, goals.js placeZone), a small circle
-   like it rings the up/down arrow, which moves the column down to bring the zone into view. */
-.goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow { position: relative; opacity: 0.85; }
-.goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow::before,
-.goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow::after {
+   like it rings the up/down arrow, which moves the column down to bring the zone into view. The ring
+   is drawn on the triangle's own box, so the two share a center in every browser (Safari places a
+   button's positioned children differently). */
+.goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow { opacity: 0.85; }
+.goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow > span { position: relative; }
+.goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow > span::before,
+.goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow > span::after {
   content: ""; position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px 0 0 -20px;
   border-radius: 50%; pointer-events: none; box-sizing: border-box;
   border: 1.5px solid rgba(75, 150, 235, 0.85);
   box-shadow: 0 0 10px 1px rgba(90, 170, 255, 0.40), inset 0 0 8px rgba(90, 170, 255, 0.30);
   animation: goals-zone-swell 6s ease-in-out infinite;
 }
-.goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow::after { box-shadow: 0 0 6px rgba(90, 170, 255, 0.35); animation: goals-zone-ripple 6s ease-out infinite; }
+.goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow > span::after { box-shadow: 0 0 6px rgba(90, 170, 255, 0.35); animation: goals-zone-ripple 6s ease-out infinite; }
 @media (prefers-reduced-motion: reduce) {
-  .goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow::before { animation: none; }
-  .goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow::after { display: none; }
+  .goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow > span::before { animation: none; }
+  .goals-ai-ready:not(.goals-main-dropped) .goals-main-arrow > span::after { display: none; }
 }
 /* Balanced lines, so neither leaves a word alone on its last line. */
 .goals-ai-question, .goals-ai-hint { text-wrap: balance; }
