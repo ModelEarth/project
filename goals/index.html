@@ -50,14 +50,14 @@ document.addEventListener("DOMContentLoaded", function () {
   <aside class="goals-topinfo" id="topinfoBar" role="note" hidden></aside>
 
   <!-- The Goals tab shows the hero (ask box) and its results; other tabs hide them. -->
-  <!-- Below 800px wide, the tabs drop their .goals-tab-extra words (Industries, Quality), and below 500px their .goals-tab-extra-sm words (Services, Plan). -->
+  <!-- Below 800px wide, the tabs drop their .goals-tab-extra word (Quality), and below 500px their .goals-tab-extra-sm words (Plan). -->
   <!-- Two flex columns: the tabs and the up/down arrow at the far right (#goalsMainArrow,
        added by goals.js). The tabs that don't fit hide behind "More", which opens a menu of every tab (initMoreTabs). -->
   <nav class="goals-tabs">
     <div class="goals-tabs-list" role="tablist" aria-label="Sections">
     <button role="tab" aria-selected="false" data-tab="goals">Goals</button>
-    <button role="tab" aria-selected="false" data-tab="data"><span class="goals-tab-extra-sm">Data </span>Services</button>
-    <button role="tab" aria-selected="false" data-tab="local"><span class="goals-tab-extra">Local </span>Industries</button>
+    <button role="tab" aria-selected="false" data-tab="data">Nearby</button>
+    <button role="tab" aria-selected="false" data-tab="local">Industries</button>
     <button role="tab" aria-selected="false" data-tab="quality">Quality<span class="goals-tab-extra"> Control</span></button>
     <button role="tab" aria-selected="false" data-tab="analytics">Analytics</button>
     <!-- Agents is reached only by link (#tab=agents) or the Harmonized AI Data card. -->

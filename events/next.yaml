@@ -5,6 +5,25 @@
 # out: the photos alone.
 hero_atmosphere: true
 
+# The AI zone: while the tabs sit at the window's bottom, a large see-through
+# circle pulses slowly above them, showing these brief questions one at a time
+# in large type for seniors and people living with dementia to answer by
+# voice. A tap has the voice widget ask the shown question aloud and listen;
+# Claude answers warmly and asks a gentle follow-up (goals.js, AI zone). Open,
+# friendly questions with no wrong answer, rather than tests of memory. Left
+# out: no circle.
+ai_zone_questions:
+  - text: "How are you feeling today?"
+  - text: "What would you like to talk about?"
+  - text: "Where did you grow up?"
+  - text: "What's a song you love?"
+  - text: "What's your favorite meal?"
+  - text: "Who is someone special to you?"
+  - text: "What was your first job?"
+  - text: "What makes you smile?"
+  - text: "Do you have a favorite flower?"
+  - text: "Would you like to hear a story?"
+
 # Hero backgrounds for view=hero (the default layout), one picked at random
 # and faded to the next every 15 seconds. Photos of Georgia Tech's Technology
 # Square in Midtown Atlanta from Wikimedia Commons, free under CC0 or Creative

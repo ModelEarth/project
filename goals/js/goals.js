@@ -243,7 +243,9 @@ function heroCovered() {
 }
 function syncHero() {
   const covered = heroCovered();
+  const was = $("fullscreen").classList.contains("goals-hero-covered");
   $("fullscreen").classList.toggle("goals-hero-covered", covered);
+  if (covered !== was) placeZone();
   const run = heroView() && !covered && heroList.length > 1;
   if (run && !heroTimer) heroTimer = setInterval(nextHero, HERO_MS);
   else if (!run && heroTimer) { clearInterval(heroTimer); heroTimer = null; }
@@ -294,8 +296,9 @@ async function applyView() {
   fitPageHeight();
   clearInterval(heroTimer);
   heroTimer = null;
-  if (!hero) { syncHero(); return; }
+  if (!hero) { syncHero(); placeZone(); return; }
   const ev = await heroEvent();
+  setZoneQuestions(ev.ai_zone_questions);
   // hero_atmosphere: true adds the moving focus and color (.goals-focus, .goals-aurora, goals.css). The light YAML parser gives "true".
   $("heroBg").classList.toggle("goals-bg-atmosphere", ev.hero_atmosphere === true || ev.hero_atmosphere === "true");
   const list = ev.hero_images || [];
@@ -381,7 +384,7 @@ const MODE_NOTE = {
   sample: "Toy Data: files in data/toy, made by pipeline/county_pipeline.py. Ask always uses the live directory.",
   prepulled: "Pre-pulled Data: copies in data/toy of the live industry levels and directory counts, refreshed by the goals-data workflow.",
 };
-// Local Industries' Toy Data is a copy of its Live Data, so it's called Pre-pulled Data there.
+// Industries' Toy Data is a copy of its Live Data, so it's called Pre-pulled Data there.
 const modeNote = (sel) => MODE_NOTE[dataMode === "sample" && sel.closest('[data-panel="local"]') ? "prepulled" : dataMode];
 function setDataMode(mode, redraw = true) {
   dataMode = modeOf(mode);
@@ -425,7 +428,7 @@ function saveZip(zip) {
 // catalog's default_selected. The directory (veteran-directory) answers Ask
 // and fills the cards; every other checked service gets its own section.
 const DIRECTORY = "veteran-directory";
-const PICKS_KEY = "goals.services", AUDIENCE_KEY = "goals.audience", PLANNED_KEY = "goals.show_planned";
+const PICKS_KEY = "goals.services", AUDIENCE_KEY = "goals.audience", PLANNED_KEY = "goals.show_planned", DETAILS_KEY = "goals.show_details";
 let catalog = null;
 let picked = new Set();
 async function loadCatalog() {
@@ -514,6 +517,13 @@ function plannedButton() {
   });
   return b;
 }
+// Details button, left of Planned on the Data tab: kept in this browser and off
+// by default, it shows each service's summary and publisher under its checkbox.
+function detailsButton() {
+  const b = node("button", { type: "button", "aria-pressed": String(storedJson(DETAILS_KEY, false)), title: "Show each service's summary and publisher", text: "Details" });
+  b.addEventListener("click", () => { storeJson(DETAILS_KEY, !storedJson(DETAILS_KEY, false)); redrawCatalogs(); });
+  return b;
+}
 // Redraws the More services panel and the Data tab's catalog, where drawn.
 function redrawCatalogs() {
   for (const el of [$("servicePickMore"), $("serviceCatalog")]) if (el && !el.hidden && el.childNodes.length) renderCatalog(el, { full: el.id === "serviceCatalog" });
@@ -521,7 +531,7 @@ function redrawCatalogs() {
 
 // The catalog by category, filtered to one audience (kept in this browser). The
 // More services panel lists names; the Data tab (full) adds each service's
-// summary and publisher. Planned services show while Planned is on. A service
+// summary and publisher while Details is on. Planned services show while Planned is on. A service
 // shows once, under the first of its categories that the audience has.
 function renderCatalog(box, { full = false } = {}) {
   if (!catalog) { box.textContent = "The services catalog isn't loaded."; return; }
@@ -533,7 +543,8 @@ function renderCatalog(box, { full = false } = {}) {
       return b;
     }));
   const showPlanned = storedJson(PLANNED_KEY, false);
-  const bar = full ? node("div", { class: "goals-catalog-bar" }, filters, node("div", { class: "goals-audiences" }, plannedButton())) : filters;
+  const details = full && storedJson(DETAILS_KEY, false);
+  const bar = full ? node("div", { class: "goals-catalog-bar" }, filters, node("div", { class: "goals-audiences" }, detailsButton(), plannedButton())) : filters;
   const ORDER = { live: 0, needs_key: 1, planned: 2 };
   const cats = catalog.categories.filter((c) => !aud || c.audiences.includes(aud));
   const shown = new Set(cats.map((c) => c.id));
@@ -543,8 +554,8 @@ function renderCatalog(box, { full = false } = {}) {
     if (!list.length) return null;
     return node("div", { class: "goals-catgroup" }, node("h4", { text: c.title }), node("ul", {}, ...list.map((s) => node("li", {},
       pickBox(s),
-      full && s.summary ? node("span", { class: "goals-svc-sum", text: s.summary + ". " }) : null,
-      full && s.landing_page ? node("a", { href: s.landing_page, target: "_blank", rel: "noopener", class: "goals-svc-pub", text: s.publisher || "Source" }) : null,
+      details && s.summary ? node("span", { class: "goals-svc-sum", text: s.summary + ". " }) : null,
+      details && s.landing_page ? node("a", { href: s.landing_page, target: "_blank", rel: "noopener", class: "goals-svc-pub", text: s.publisher || "Source" }) : null,
     ))));
   });
   const n = (st) => catalog.services.filter((s) => s.state === st && home(s)).length;
@@ -754,7 +765,7 @@ async function openCorrection(r) {
 // which drops the column to the bottom (syncMainDrop). CSS hides the hero on
 // the other tabs.
 const drawn = new Set();
-const TAB_ALIASES = { developers: "agents", objectives: "data", services: "data", proposal: "plan", county: "local", jobs: "local", forecast: "analytics", trends: "analytics", reality: "analytics", analytis: "analytics" }; // older links
+const TAB_ALIASES = { developers: "agents", objectives: "data", services: "data", nearby: "data", proposal: "plan", county: "local", jobs: "local", forecast: "analytics", trends: "analytics", reality: "analytics", analytis: "analytics" }; // older links
 const tabName = (t) => {
   t = TAB_ALIASES[t] || t;
   return t && document.querySelector(`.goals-tabs [data-tab="${t}"]`) ? t : "goals";
@@ -809,16 +820,22 @@ function markTab(name, selected = name) {
 // #goalsAside, to the right of #goalsMain, lined up with the panel's top. One
 // marked goals-side-bottom moves into #goalsBottom, across the bottom, at any
 // width. Otherwise a side column stays at the end of its panel. Moving keeps
-// listeners and ids.
+// listeners and ids. A side column closed on a wide window (sideToggles) stays
+// home, hidden.
 const WIDE = window.matchMedia("(min-width: 901px)");
 const sideHome = new Map();
 function placeSides() {
   const aside = $("goalsAside"), bottom = $("goalsBottom");
   const tab = $("goalsMain").dataset.tab;
+  const shut = new Set([...storedJson(SHUT_KEY, []), ...shutNow]);
   for (const side of document.querySelectorAll(".goals-side")) {
     if (!sideHome.has(side)) sideHome.set(side, side.parentElement);
     const home = sideHome.get(side);
-    const dest = side.hidden || home.closest(".goals-panel").dataset.panel !== tab ? home
+    const closed = WIDE.matches && !side.classList.contains("goals-side-bottom") && shut.has(home.closest(".goals-panel").dataset.panel);
+    side.classList.toggle("goals-side-shut", closed);
+    const open = home.querySelector(":scope > .goals-side-open");
+    if (open) open.hidden = !closed || side.hidden;
+    const dest = side.hidden || closed || home.closest(".goals-panel").dataset.panel !== tab ? home
       : side.classList.contains("goals-side-bottom") ? bottom
       : WIDE.matches ? aside : home;
     if (side.parentElement !== dest) dest.append(side);
@@ -828,6 +845,50 @@ function placeSides() {
   $("goalsPage").classList.toggle("goals-with-aside", !aside.hidden);
   $("goalsPage").classList.toggle("goals-with-bottom", !bottom.hidden);
   alignAside();
+}
+// Each right panel (a tab's side column in #goalsAside) has a close X in a circle at its upper
+// right. Closed, which this browser remembers for each tab, it stays out of the way, and an icon
+// in a circle at the tab's upper right, right of its Live Data choice, brings it back.
+// While the voice widget shows a reply (it speaks with its captions at the window's lower right, over
+// the right panel), the open tab's right panel closes too, for this visit only, and its icon brings it back.
+const SHUT_KEY = "goals.closed_sides";
+const shutNow = new Set(); // Closed for a reply, not remembered
+const SVG_NS = "http://www.w3.org/2000/svg";
+// A 16 by 16 icon from SVG markup, drawn in the button's text color.
+function svgIcon(markup) {
+  const svg = document.createElementNS(SVG_NS, "svg");
+  svg.setAttribute("viewBox", "0 0 16 16");
+  svg.setAttribute("aria-hidden", "true");
+  svg.innerHTML = markup;
+  return svg;
+}
+function initSideToggles() {
+  for (const side of document.querySelectorAll(".goals-side:not(.goals-side-bottom)")) {
+    const home = sideHome.get(side) || side.parentElement;
+    const tab = home.closest(".goals-panel").dataset.panel;
+    const close = node("button", { type: "button", class: "goals-circle-btn goals-side-close", title: "Close this panel", "aria-label": "Close this panel" }, svgIcon('<path d="M4 4l8 8M12 4l-8 8"/>'));
+    // A window with a pane at its right, in thin lines.
+    const open = node("button", { type: "button", class: "goals-circle-btn goals-side-open", title: "Show the side panel", "aria-label": "Show the side panel", hidden: "" },
+      svgIcon('<rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M10 3v10"/>'));
+    close.addEventListener("click", () => setSideShut(tab, true, open));
+    open.addEventListener("click", () => setSideShut(tab, false, close));
+    side.prepend(close);
+    const source = home.querySelector(":scope > .goals-source");
+    if (source) source.after(open); else home.prepend(open);
+  }
+  // The voice widget's events don't bubble up from its target (#fullscreen), so they're heard capturing.
+  document.addEventListener("claude-voice:state", (e) => {
+    if (e.detail?.state !== "speaking" || $("goalsAside").hidden) return;
+    shutNow.add($("goalsMain").dataset.tab);
+    placeSides();
+  }, true);
+}
+function setSideShut(tab, shut, focus) {
+  const list = new Set(storedJson(SHUT_KEY, []));
+  if (shut) list.add(tab); else { list.delete(tab); shutNow.delete(tab); }
+  storeJson(SHUT_KEY, [...list]);
+  placeSides();
+  focus.focus();
 }
 // The top 10px of the tabs bar (.goals-grip, unmarked) drags #goalsMain down the window,
 // as far as the tabs reaching its bottom edge, to see the photo behind. On the
@@ -850,6 +911,7 @@ function setMainDrop(px, animate = false) {
     arrow.title = label;
     arrow.setAttribute("aria-label", label);
   }
+  placeZone();
 }
 function initMainGrip() {
   const tabs = document.querySelector(".goals-tabs");
@@ -977,6 +1039,212 @@ function mainDropMin() {
     : main.getBoundingClientRect().top;
   return Math.min(0, Math.round(limit - tabsPlace().top));
 }
+// --- AI zone --------------------------------------------------------------------
+// While the tabs sit at the window's bottom (the column moved down) in the hero view, a large
+// see-through circle fills the space above them: the AI zone. It pulses slowly and shows one
+// brief question at a time in large type, from the event's ai_zone_questions (events/next.yaml),
+// for seniors and people living with dementia to answer by voice. A tap or click on it has the
+// voice widget (engine/claude-voice.js) ask the question aloud and listen for the answer.
+// Without the voice widget, the browser just reads the question aloud.
+// When the widget's large words start (a reply being spoken), the circle shrinks to 40% and moves
+// to a clear part of the window, which the words then keep clear of (data-words-avoid). Meanwhile
+// it shows only the start of the next question ("What was your…"): Claude's follow-up question
+// once the reply has it, else the next one in the list. A tap stops the reply and asks that
+// question. Once the reply has been spoken, the circle comes back and shows the question in full.
+const ZONE_MS = 20000; // Each question stays this long
+const ZONE_SMALL = 0.4; // The circle's size while the large words show
+const ZONE_CONTEXT = "I'm talking with you through the page's conversation circle, which asks brief, friendly questions for older adults, including people living with dementia. It's asking me the question that follows. When I answer, reply warmly in one or two short, simple sentences. Never correct me, quiz me or ask what I remember. Then ask one easy, open question about what I said. If I seem confused or upset, reassure me and gently change the subject.";
+const ZONE_HINTS = {
+  idle: () => (canListen() ? "Tap the circle, then answer out loud" : typeof window.ClaudeVoice?.ask === "function" ? "Tap the circle, then type your answer below" : "Tap the circle to hear the question"),
+  listening: () => (canListen() ? "I'm listening…" : "Type to respond…"),
+  thinking: () => "One moment…",
+  speaking: () => "",
+  error: () => "Voice isn't available in this browser",
+};
+// The voice widget's answer when it's loaded. Brave has SpeechRecognition but turns off the service behind it.
+const canListen = () => (typeof window.ClaudeVoice?.canListen === "boolean" ? window.ClaudeVoice.canListen : !navigator.brave && !!(window.SpeechRecognition || window.webkitSpeechRecognition));
+const calm = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+let zoneQuestions = [], zoneAt = 0, zoneTimer = null, zoneTalking = false;
+let zoneText = "", zoneAsked = "", zoneSmall = false, zoneSpot = null, wordsField = null;
+function initAiZone() {
+  const zone = node("button", { type: "button", class: "goals-ai-zone", "data-state": "idle", "data-words-avoid": "" },
+    node("span", { class: "goals-ai-question" }), node("span", { class: "goals-ai-hint" }));
+  zone.addEventListener("click", askZone);
+  $("goalsPage").append(node("div", { class: "goals-ai-area", id: "aiZone", hidden: "" }, zone));
+  // The voice widget's events don't bubble up from its target (#fullscreen), so they're heard capturing.
+  document.addEventListener("claude-voice:state", (e) => {
+    const st = e.detail?.state;
+    watchWords();
+    if (st !== "speaking") setZoneSmall(false); // The reply has been spoken, or cut short
+    if (!zoneTalking) return;
+    if (st === "off" || st === "error") { zoneTalking = false; setZoneState(st === "error" ? "error" : "idle"); syncZoneTimer(); }
+    else if (ZONE_HINTS[st]) setZoneState(st);
+    // Without voice input, the cursor goes in the widget's typing box for the answer.
+    if (st === "listening" && !canListen() && typeof window.ClaudeVoice?.focusInput === "function") window.ClaudeVoice.focusInput();
+  }, true);
+  document.addEventListener("claude-voice:reply", (e) => {
+    if (!zoneTalking) return;
+    const q = (String(e.detail?.text || "").match(/[^.!?]*\?/g) || []).pop()?.trim();
+    if (q && q.length <= 140) showZoneText(q);
+  }, true);
+  document.addEventListener("claude-voice:end", () => {
+    if (!zoneTalking) return;
+    zoneTalking = false;
+    setZoneState("idle");
+    nextZoneQuestion();
+    syncZoneTimer();
+  }, true);
+  window.addEventListener("scroll", placeZone, { passive: true });
+  document.addEventListener("visibilitychange", syncZoneTimer);
+}
+// The large words (.w) arriving in the voice widget's word layer shrink the circle. The layer is
+// the widget's own, in #fullscreen, found once the widget's first event shows it's loaded.
+function watchWords() {
+  const field = document.querySelector("#fullscreen > .claude-voice-words")?.shadowRoot?.querySelector(".field");
+  if (!field || field === wordsField) return;
+  wordsField = field;
+  new MutationObserver((list) => {
+    if (list.some((m) => [...m.addedNodes].some((n) => n.classList?.contains("w"))) && window.ClaudeVoice?.state === "speaking") setZoneSmall(true);
+  }).observe(field, { childList: true });
+}
+// ai_zone_questions: a list of items with text (the light YAML parser reads lists of mappings).
+function setZoneQuestions(list) {
+  const qs = (Array.isArray(list) ? list : []).map((q) => String(typeof q === "string" ? q : q?.text || "").trim()).filter(Boolean);
+  if (qs.join("\n") === zoneQuestions.join("\n")) return placeZone();
+  zoneQuestions = qs;
+  zoneAt = Math.floor(Math.random() * qs.length);
+  if (qs.length && !zoneTalking) showZoneText(qs[zoneAt], true);
+  placeZone();
+}
+const zoneQuestion = () => zoneText || zoneQuestions[zoneAt] || "";
+function nextZoneQuestion() {
+  if (!zoneQuestions.length) return;
+  zoneAt = (zoneAt + 1) % zoneQuestions.length;
+  showZoneText(zoneQuestions[zoneAt]);
+}
+// The start of a question, for the small circle: its first three words (fewer for a short one) and "…".
+function zoneTeaser(text) {
+  const words = text.split(/\s+/);
+  return `${words.slice(0, Math.max(1, Math.min(3, words.length - 1))).join(" ")}…`;
+}
+function showZoneText(text, now = false) {
+  zoneText = text;
+  renderZoneText(now);
+}
+// Fades the question out and the new one in, or swaps it at once with reduced motion.
+function renderZoneText(now = false) {
+  const q = document.querySelector("#aiZone .goals-ai-question");
+  const text = zoneSmall ? zoneTeaser(zoneText) : zoneText;
+  if (!q || q.textContent === text) return;
+  if (now || calm() || $("aiZone").hidden || !q.animate) { q.textContent = text; return; }
+  q.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, easing: "ease-in" }).finished.then(() => {
+    q.textContent = zoneSmall ? zoneTeaser(zoneText) : zoneText; // As it is by now
+    q.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, easing: "ease-out" });
+  });
+}
+function setZoneState(state) {
+  const zone = document.querySelector("#aiZone .goals-ai-zone");
+  if (!zone) return;
+  zone.dataset.state = state;
+  zone.querySelector(".goals-ai-hint").textContent = ZONE_HINTS[state]();
+}
+// Small while a reply's large words show, at a clear spot (placeZoneSpot); back home at full size after.
+// Small during a conversation from the circle, it offers a new question rather than the one just asked.
+function setZoneSmall(on) {
+  const area = $("aiZone");
+  if (!area || on === zoneSmall || (on && area.hidden)) return;
+  zoneSmall = on;
+  if (on && zoneTalking && zoneText === zoneAsked && zoneQuestions.length > 1) {
+    zoneAt = (zoneAt + 1) % zoneQuestions.length;
+    zoneText = zoneQuestions[zoneAt];
+  }
+  zoneSpot = null;
+  if (on) placeZoneSpot();
+  area.querySelector(".goals-ai-zone").classList.toggle("goals-ai-small", on);
+  renderZoneText();
+}
+// Of spots across the space above the tabs, away from where the circle is now, the one covering the
+// least of the large words and the voice widget's controls and captions, picked at random among the
+// clearest. Kept as the small circle's center in the window, the way the circle is moved there.
+function placeZoneSpot() {
+  const area = $("aiZone"), r = area.getBoundingClientRect();
+  const d = parseFloat(area.style.getPropertyValue("--zone-d")) * ZONE_SMALL;
+  const home = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  const taken = [...(wordsField?.querySelectorAll(".w, .stmt") || [])].map((el) => ({ r: el.getBoundingClientRect(), weight: 1 }));
+  for (const el of document.querySelectorAll(".claude-voice-ui, .goals-credit")) taken.push({ r: el.getBoundingClientRect(), weight: 6 });
+  const cover = (c) => taken.reduce((sum, t) => {
+    const w = Math.min(c.x + d / 2, t.r.right) - Math.max(c.x - d / 2, t.r.left);
+    const h = Math.min(c.y + d / 2, t.r.bottom) - Math.max(c.y - d / 2, t.r.top);
+    return sum + (w > 0 && h > 0 ? w * h * t.weight : 0);
+  }, 0);
+  const x0 = 16 + d / 2, x1 = window.innerWidth - 16 - d / 2, y0 = r.top + d / 2, y1 = r.bottom - d / 2;
+  const spots = [];
+  for (let i = 0; i < 7; i++) for (let j = 0; j < 4; j++) {
+    const c = { x: x0 + (x1 - x0) * (i + Math.random() * 0.6 + 0.2) / 7, y: y0 + Math.max(0, y1 - y0) * (j + Math.random() * 0.6 + 0.2) / 4 };
+    if (Math.hypot(c.x - home.x, c.y - home.y) > d) spots.push({ ...c, cost: cover(c) });
+  }
+  if (!spots.length) return;
+  const least = Math.min(...spots.map((s) => s.cost));
+  const clear = spots.filter((s) => s.cost <= least * 1.1 + 1);
+  zoneSpot = clear[Math.floor(Math.random() * clear.length)];
+  moveZone();
+}
+function moveZone() {
+  const area = $("aiZone");
+  if (!zoneSpot) { area.style.removeProperty("--zone-dx"); area.style.removeProperty("--zone-dy"); return; }
+  const r = area.getBoundingClientRect();
+  area.style.setProperty("--zone-dx", `${Math.round(zoneSpot.x - r.left - r.width / 2)}px`);
+  area.style.setProperty("--zone-dy", `${Math.round(zoneSpot.y - r.top - r.height / 2)}px`);
+}
+function askZone() {
+  const q = zoneQuestion();
+  if (!q) return;
+  if (typeof window.ClaudeVoice?.ask === "function") {
+    zoneTalking = true;
+    zoneAsked = q;
+    syncZoneTimer();
+    setZoneSmall(false);
+    window.ClaudeVoice.ask(q, ZONE_CONTEXT); // Stops a reply under way
+  } else if (window.speechSynthesis) {
+    speechSynthesis.cancel();
+    speechSynthesis.speak(new SpeechSynthesisUtterance(q));
+  }
+}
+// Shows the zone while the tabs are at (or near) the window's bottom in the hero view, with the
+// photos uncovered and room for the circle. It's centered over the tabs (the left column), in the
+// space between #goalsPage's top and the place the tabs are moving to, and no wider than they are.
+// goals-ai-ready marks the page while the zone can show, for the small matching circle around the
+// up/down arrow while the tabs are up (goals.css).
+function placeZone() {
+  const area = $("aiZone");
+  if (!area) return;
+  $("goalsPage").classList.toggle("goals-ai-ready", zoneQuestions.length > 0 && heroView());
+  const tabsTop = tabsPlace().top + mainDrop;
+  const tabs = document.querySelector(".goals-tabs").getBoundingClientRect();
+  const top = Math.max(0, $("goalsPage").getBoundingClientRect().top) + 16;
+  const size = Math.round(Math.min(tabsTop - top - 16, tabs.width, 440));
+  const on = zoneQuestions.length > 0 && heroView() && mainDrop > 0 && tabsTop >= window.innerHeight - MAIN_DOCK - 40
+    && size >= 220 && !$("fullscreen").classList.contains("goals-hero-covered");
+  if (on) {
+    area.style.setProperty("--zone-top", `${Math.round(top)}px`);
+    area.style.setProperty("--zone-left", `${Math.round(tabs.left)}px`);
+    area.style.setProperty("--zone-w", `${Math.round(tabs.width)}px`);
+    area.style.setProperty("--zone-h", `${Math.round(tabsTop - top - 16)}px`);
+    area.style.setProperty("--zone-d", `${size}px`);
+    if (area.hidden) setZoneState(zoneTalking ? document.querySelector("#aiZone .goals-ai-zone").dataset.state : "idle");
+    moveZone();
+  }
+  area.hidden = !on;
+  if (!on) setZoneSmall(false);
+  syncZoneTimer();
+}
+// The questions change every ZONE_MS while the zone shows, the tab is in view and no conversation is on.
+function syncZoneTimer() {
+  const run = !!$("aiZone") && !$("aiZone").hidden && !zoneTalking && !document.hidden && zoneQuestions.length > 1;
+  if (run && !zoneTimer) zoneTimer = setInterval(nextZoneQuestion, ZONE_MS);
+  else if (!run && zoneTimer) { clearInterval(zoneTimer); zoneTimer = null; }
+}
+
 function alignAside() {
   const aside = $("goalsAside");
   if (aside.hidden) return;
@@ -1005,7 +1273,7 @@ function initObjectives() {
   }));
 }
 
-// Data Services tab: the first SOURCES_SHOWN sources in pipeline/sources.json, then a
+// Nearby tab: the first SOURCES_SHOWN sources in pipeline/sources.json, then a
 // "More Data Sources" link that shows the rest (and reads "Less" while open). Read
 // straight from the file, so it shows on any static server; as in list_sources,
 // sources marked "listed": false are left out.
@@ -1346,6 +1614,9 @@ async function start() {
   markTab(tabName(hashParams().tab)); // before the awaits below, so a #tab= link never flashes the hero
   initMainGrip();
   initMoreTabs();
+  initSideToggles();
+  placeSides(); // Again, for closed side columns
+  initAiZone();
   initFilterCatch();
   syncMainDrop();
   new MutationObserver(() => syncMainDrop(true)).observe($("goalsMain"), { childList: true }); // The keys panel opens or closes
@@ -1373,7 +1644,7 @@ async function start() {
   await applyEvent();
   applyView();
   syncMainDrop(false, true); // Again, now the event's top info line is in
-  const onResize = () => { fitPageHeight(); alignAside(); syncMainDrop(false, true); };
+  const onResize = () => { fitPageHeight(); alignAside(); syncMainDrop(false, true); placeZone(); };
   if (window.ResizeObserver) {
     // #goalsMain and the localsite header too: a side tab (sidetab=) can shorten
     // the header while the page's fullscreen height grows to match, leaving the
