@@ -535,6 +535,8 @@ html.goals-view-hero body.dark, html.goals-view-hero[data-theme="dark"] body {
   --hero-blend: normal;
   --hero-wash: linear-gradient(90deg, rgba(8, 10, 14, 0.88) 0%, rgba(8, 10, 14, 0.74) 42%, rgba(8, 10, 14, 0.28) 70%, rgba(8, 10, 14, 0.42) 100%);
   --hero-wash-narrow: rgba(8, 10, 14, 0.78);
+  --aurora-blend: screen;
+  --aurora-opacity: 0.85;
   --hero-box: rgba(10, 12, 16, 0.52);
   --hero-box-shadow: none;
   --hero-credit: rgba(255, 255, 255, 0.72);
@@ -549,6 +551,8 @@ html.goals-view-hero body.dark, html.goals-view-hero[data-theme="dark"] body {
     --hero-blend: normal;
     --hero-wash: linear-gradient(90deg, rgba(8, 10, 14, 0.88) 0%, rgba(8, 10, 14, 0.74) 42%, rgba(8, 10, 14, 0.28) 70%, rgba(8, 10, 14, 0.42) 100%);
     --hero-wash-narrow: rgba(8, 10, 14, 0.78);
+    --aurora-blend: screen;
+    --aurora-opacity: 0.85;
     --hero-box: rgba(10, 12, 16, 0.52);
     --hero-box-shadow: none;
     --hero-credit: rgba(255, 255, 255, 0.72);
@@ -571,6 +575,63 @@ html.goals-view-hero .goals-bg {
    gradient (strongest behind the text on the left) in dark mode. */
 .goals-bg::after { content: ""; position: absolute; inset: 0; background: var(--hero-wash); mix-blend-mode: var(--hero-blend, normal); }
 @media (prefers-reduced-motion: reduce) { .goals-bg img { transition: none; } }
+/* hero_atmosphere: true in the event's YAML (goals-bg-atmosphere, goals.js): three points of focus
+   oscillate over the photo, each on its own slow path (--f1x/--f1y ... on .goals-bg). Around each one
+   the photo is sharp and lit with a color that shifts slowly through teal, blue, violet, rose and mint
+   (--f1c ...); elsewhere it's softly blurred and dimmed (.goals-focus) and stays grey in light mode.
+   The color tints the greyscale photo in light mode and glows over it in dark mode. Both layers sit
+   under the wash, so the text side stays as readable. Paused while the Earth map covers them. */
+@property --f1x { syntax: "<percentage>"; inherits: true; initial-value: 72%; }
+@property --f1y { syntax: "<percentage>"; inherits: true; initial-value: 30%; }
+@property --f2x { syntax: "<percentage>"; inherits: true; initial-value: 58%; }
+@property --f2y { syntax: "<percentage>"; inherits: true; initial-value: 74%; }
+@property --f3x { syntax: "<percentage>"; inherits: true; initial-value: 22%; }
+@property --f3y { syntax: "<percentage>"; inherits: true; initial-value: 52%; }
+@property --f1c { syntax: "<color>"; inherits: true; initial-value: #2fbfc4; }
+@property --f2c { syntax: "<color>"; inherits: true; initial-value: #9a74ff; }
+@property --f3c { syntax: "<color>"; inherits: true; initial-value: #ff86b0; }
+.goals-focus, .goals-aurora { display: none; }
+.goals-bg-atmosphere {
+  animation: goals-focus-1 41s ease-in-out infinite alternate, goals-focus-2 53s ease-in-out -20s infinite alternate,
+    goals-focus-3 67s ease-in-out -35s infinite alternate, goals-focus-hues 72s linear infinite;
+}
+.goals-bg-atmosphere :is(.goals-focus, .goals-aurora) { display: block; position: absolute; inset: 0; pointer-events: none; }
+/* Clear inside each point's circle, veiled outside all three (the masks multiply). */
+.goals-bg-atmosphere .goals-focus {
+  -webkit-backdrop-filter: blur(3px) brightness(0.86);
+  backdrop-filter: blur(3px) brightness(0.86);
+  --hole: transparent 0%, transparent 35%, #000 100%;
+  -webkit-mask-image: radial-gradient(circle 26vmax at var(--f1x) var(--f1y), var(--hole)), radial-gradient(circle 22vmax at var(--f2x) var(--f2y), var(--hole)), radial-gradient(circle 18vmax at var(--f3x) var(--f3y), var(--hole));
+  mask-image: radial-gradient(circle 26vmax at var(--f1x) var(--f1y), var(--hole)), radial-gradient(circle 22vmax at var(--f2x) var(--f2y), var(--hole)), radial-gradient(circle 18vmax at var(--f3x) var(--f3y), var(--hole));
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+.goals-bg-atmosphere .goals-aurora {
+  mix-blend-mode: var(--aurora-blend, color); opacity: var(--aurora-opacity, 0.8);
+  background:
+    radial-gradient(circle 30vmax at var(--f1x) var(--f1y), var(--f1c), color-mix(in srgb, var(--f1c) 40%, transparent) 45%, transparent 100%),
+    radial-gradient(circle 26vmax at var(--f2x) var(--f2y), var(--f2c), color-mix(in srgb, var(--f2c) 40%, transparent) 45%, transparent 100%),
+    radial-gradient(circle 22vmax at var(--f3x) var(--f3y), var(--f3c), color-mix(in srgb, var(--f3c) 40%, transparent) 45%, transparent 100%);
+}
+/* Mostly over the right side, where the photo shows beside the panels. */
+@keyframes goals-focus-1 {
+  0% { --f1x: 72%; --f1y: 30%; } 30% { --f1x: 86%; --f1y: 52%; } 65% { --f1x: 64%; --f1y: 66%; } 100% { --f1x: 82%; --f1y: 18%; }
+}
+@keyframes goals-focus-2 {
+  0% { --f2x: 58%; --f2y: 74%; } 35% { --f2x: 76%; --f2y: 84%; } 70% { --f2x: 92%; --f2y: 62%; } 100% { --f2x: 66%; --f2y: 42%; }
+}
+@keyframes goals-focus-3 {
+  0% { --f3x: 22%; --f3y: 52%; } 40% { --f3x: 48%; --f3y: 20%; } 75% { --f3x: 38%; --f3y: 82%; } 100% { --f3x: 54%; --f3y: 56%; }
+}
+@keyframes goals-focus-hues {
+  0%, 100% { --f1c: #2fbfc4; --f2c: #9a74ff; --f3c: #ff86b0; }
+  20% { --f1c: #4f8dff; --f2c: #ff86b0; --f3c: #52d99a; }
+  40% { --f1c: #9a74ff; --f2c: #52d99a; --f3c: #2fbfc4; }
+  60% { --f1c: #ff86b0; --f2c: #2fbfc4; --f3c: #4f8dff; }
+  80% { --f1c: #52d99a; --f2c: #4f8dff; --f3c: #9a74ff; }
+}
+#fullscreen.goals-hero-covered .goals-bg-atmosphere { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .goals-bg-atmosphere { animation: none; } }
 /* No z-index, so it paints in page order: over #fullscreen (the photos), which comes before it, and behind
    the page's panels in #goalsPage, which come after it. */
 html.goals-view-hero .goals-credit {

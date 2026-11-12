@@ -200,11 +200,11 @@ document.addEventListener("keydown", (e) => {
 const HERO_MS = 15000;
 let heroList = [], heroTimer = null, heroShown = -1, heroLayer = 0, defaultHero = null;
 function heroView() { return hashParams().view !== "center"; }
-async function heroImages() {
-  if (eventData?.hero_images?.length) return eventData.hero_images;
-  if (hashParams().event) return [];
-  // No event open: the Next Mission set is the default.
-  if (!defaultHero) defaultHero = loadEvent("next").then((ev) => ev.hero_images || []).catch(() => []);
+// The event whose hero_images and hero_atmosphere apply: the open one, or with
+// no event open, Next Mission's (the default).
+async function heroEvent() {
+  if (hashParams().event) return eventData || {};
+  if (!defaultHero) defaultHero = loadEvent("next").catch(() => ({}));
   return defaultHero;
 }
 function showHero(i) {
@@ -295,7 +295,10 @@ async function applyView() {
   clearInterval(heroTimer);
   heroTimer = null;
   if (!hero) { syncHero(); return; }
-  const list = await heroImages();
+  const ev = await heroEvent();
+  // hero_atmosphere: true adds the moving focus and color (.goals-focus, .goals-aurora, goals.css). The light YAML parser gives "true".
+  $("heroBg").classList.toggle("goals-bg-atmosphere", ev.hero_atmosphere === true || ev.hero_atmosphere === "true");
+  const list = ev.hero_images || [];
   if (list !== heroList) { heroList = list; heroShown = -1; }
   if (!heroList.length) { for (const l of $("heroBg").querySelectorAll("img")) l.classList.remove("on"); $("heroCredit").replaceChildren(); return; }
   if (heroShown < 0) showHero(Math.floor(Math.random() * heroList.length));

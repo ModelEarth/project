@@ -1,3 +1,10 @@
+# true: three points of focus oscillate slowly over the hero photos, like an
+# AI interface's light. Around each the photo is sharp and lit with a color
+# that shifts through teal, blue, violet, rose and mint; elsewhere it's softly
+# blurred and dimmed (goals.css .goals-focus, .goals-aurora). false or left
+# out: the photos alone.
+hero_atmosphere: true
+
 # Hero backgrounds for view=hero (the default layout), one picked at random
 # and faded to the next every 15 seconds. Photos of Georgia Tech's Technology
 # Square in Midtown Atlanta from Wikimedia Commons, free under CC0 or Creative

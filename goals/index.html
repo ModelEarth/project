@@ -30,11 +30,11 @@ document.addEventListener("DOMContentLoaded", function () {
 <body>
 <!-- #fullscreen (localsite/css/base.css): the window's height below the localsite header, with #goalsPage
      pulled up over it. It holds the hero photos (view=hero: rotating photos behind the page, from
-     events/<id>.yaml hero_images), and localsite's .showEarth puts the Earth map (#mainEarthDisplay) in
+     events/<id>.yaml hero_images, with moving points of focus and color over them when its hero_atmosphere is true), and localsite's .showEarth puts the Earth map (#mainEarthDisplay) in
      it, over them. The play button at its lower right shows the next photo and turns on the arrow keys
      for them, or plays the Earth map while that shows (goals.js). -->
 <div id="fullscreen">
-<div class="goals-bg" id="heroBg" aria-hidden="true"><img alt=""><img alt=""></div>
+<div class="goals-bg" id="heroBg" aria-hidden="true"><img alt=""><img alt=""><div class="goals-focus"></div><div class="goals-aurora"></div></div>
 <div id="earthPlayPauseButton" class="earthPlay playPauseButton" role="button" tabindex="0" title="Next photo" aria-label="Next photo"><i class="material-icons play-pause-icon" aria-hidden="true">play_arrow</i></div>
 </div>
 <p class="goals-credit" id="heroCredit"></p>
