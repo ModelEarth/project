@@ -1158,13 +1158,13 @@ function initAiZone() {
 // Without the voice widget (no backend for the page's site), the circle can only read its question aloud, so
 // below its hint it links to the same page where Claude can answer: the local CloudRoot Worker on port 3701
 // when it's running (AGENTS.md), and neighborhood.org, or else neighborhood.org and cloud.model.earth.
-// Port 3701 is only checked from a local page, since a public page asking for a local port prompts the visitor.
+// Only on a local page: on public sites the hint shows alone.
 const ZONE_PORT = 3701;
+const zoneLocal = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.hostname.endsWith(".localhost");
 let zonePortUp = null;
 function zonePortCheck() {
   if (zonePortUp) return zonePortUp;
-  const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.hostname.endsWith(".localhost");
-  zonePortUp = !local || location.port === String(ZONE_PORT) ? Promise.resolve(false)
+  zonePortUp = location.port === String(ZONE_PORT) ? Promise.resolve(false)
     : fetch(`http://${location.hostname}:${ZONE_PORT}/`, { mode: "no-cors", cache: "no-store", signal: AbortSignal.timeout(2000) })
       .then(() => true, () => false);
   return zonePortUp;
@@ -1173,7 +1173,7 @@ function showZoneLinks() {
   const links = document.querySelector("#aiZone .goals-ai-links");
   if (!links) return;
   const zone = links.closest(".goals-ai-zone");
-  if (zone.dataset.state !== "idle" || typeof window.ClaudeVoice?.ask === "function") { links.replaceChildren(); return; }
+  if (!zoneLocal || zone.dataset.state !== "idle" || typeof window.ClaudeVoice?.ask === "function") { links.replaceChildren(); return; }
   const path = location.pathname + location.search + location.hash;
   // A tap on a link follows it, without the circle asking its question too.
   const link = (origin, label) => {
@@ -1184,7 +1184,7 @@ function showZoneLinks() {
   zonePortCheck().then((up) => {
     if (zone.dataset.state !== "idle" || typeof window.ClaudeVoice?.ask === "function") return;
     links.replaceChildren(...(up
-      ? ["Interact on ", link(`http://${location.hostname}:${ZONE_PORT}`, `port ${ZONE_PORT}`), " or at ", link("https://neighborhood.org", "Neighborhood.org")]
+      ? ["Interact on ", link(`http://${location.hostname}:${ZONE_PORT}`, String(ZONE_PORT)), " or ", link("https://neighborhood.org", "Neighborhood.org")]
       : ["Interact at ", link("https://neighborhood.org", "Neighborhood.org"), " or ", link("https://cloud.model.earth", "cloud.model.earth")]));
   });
 }
