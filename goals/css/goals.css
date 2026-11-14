@@ -712,7 +712,7 @@ html.goals-view-hero .goals-bg {
   transform: translate(var(--zone-dx, 0px), var(--zone-dy, 0px));
 }
 .goals-ai-small .goals-ai-question { font-size: 21px; }
-.goals-ai-small .goals-ai-hint { display: none; }
+.goals-ai-small .goals-ai-hint, .goals-ai-small .goals-ai-links { display: none; }
 @media (prefers-reduced-motion: reduce) { .goals-ai-zone { transition: none; } }
 @keyframes goals-zone-swell { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.035); opacity: 1; } }
 @keyframes goals-zone-ripple { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(1.16); opacity: 0; } }
@@ -739,7 +739,11 @@ html.goals-view-hero .goals-bg {
 }
 /* Balanced lines, so neither leaves a word alone on its last line. */
 .goals-ai-question, .goals-ai-hint { text-wrap: balance; }
-.goals-ai-hint:empty { display: none; }
+.goals-ai-hint:empty, .goals-ai-links:empty { display: none; }
+/* Links to the page where Claude can answer, below the hint when the voice widget isn't loaded (goals.js showZoneLinks). */
+.goals-ai-links { margin-top: -0.3em; font-size: 16px; line-height: 1.4; color: rgba(255, 255, 255, 0.85); text-wrap: balance; }
+.goals-ai-links a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+.goals-ai-links a:hover, .goals-ai-links a:focus-visible { color: rgba(170, 225, 255, 1); }
 @media (prefers-reduced-motion: reduce) { .goals-ai-zone::before, .goals-ai-zone::after { animation: none; } .goals-ai-zone::after { display: none; } }
 /* No z-index, so it paints in page order: over #fullscreen (the photos), which comes before it, and behind
    the page's panels in #goalsPage, which come after it. */

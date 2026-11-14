@@ -1123,7 +1123,7 @@ let zoneQuestions = [], zoneAt = 0, zoneTimer = null, zoneTalking = false;
 let zoneText = "", zoneAsked = "", zoneSmall = false, zoneSpot = null, wordsField = null, dimFrame = 0;
 function initAiZone() {
   const zone = node("button", { type: "button", class: "goals-ai-zone", "data-state": "idle", "data-words-avoid": "" },
-    node("span", { class: "goals-ai-question" }), node("span", { class: "goals-ai-hint" }));
+    node("span", { class: "goals-ai-question" }), node("span", { class: "goals-ai-hint" }), node("span", { class: "goals-ai-links" }));
   zone.addEventListener("click", askZone);
   $("goalsPage").append(node("div", { class: "goals-ai-area", id: "aiZone", hidden: "" }, zone));
   // The voice widget's events don't bubble up from its target (#fullscreen), so they're heard capturing.
@@ -1131,6 +1131,7 @@ function initAiZone() {
     const st = e.detail?.state;
     watchWords();
     syncPagesButton(); // The widget's controls are in
+    showZoneLinks(); // Not needed once the widget has loaded
     if (st !== "speaking") setZoneSmall(false); // The reply has been spoken, or cut short
     if (!zoneTalking) return;
     if (st === "off" || st === "error") { zoneTalking = false; setZoneState(st === "error" ? "error" : "idle"); syncZoneTimer(); }
@@ -1151,7 +1152,41 @@ function initAiZone() {
     syncZoneTimer();
   }, true);
   window.addEventListener("scroll", placeZone, { passive: true });
+  window.addEventListener("hashchange", showZoneLinks);
   document.addEventListener("visibilitychange", syncZoneTimer);
+}
+// Without the voice widget (no backend for the page's site), the circle can only read its question aloud, so
+// below its hint it links to the same page where Claude can answer: the local CloudRoot Worker on port 3701
+// when it's running (AGENTS.md), and neighborhood.org, or else neighborhood.org and cloud.model.earth.
+// Port 3701 is only checked from a local page, since a public page asking for a local port prompts the visitor.
+const ZONE_PORT = 3701;
+let zonePortUp = null;
+function zonePortCheck() {
+  if (zonePortUp) return zonePortUp;
+  const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.hostname.endsWith(".localhost");
+  zonePortUp = !local || location.port === String(ZONE_PORT) ? Promise.resolve(false)
+    : fetch(`http://${location.hostname}:${ZONE_PORT}/`, { mode: "no-cors", cache: "no-store", signal: AbortSignal.timeout(2000) })
+      .then(() => true, () => false);
+  return zonePortUp;
+}
+function showZoneLinks() {
+  const links = document.querySelector("#aiZone .goals-ai-links");
+  if (!links) return;
+  const zone = links.closest(".goals-ai-zone");
+  if (zone.dataset.state !== "idle" || typeof window.ClaudeVoice?.ask === "function") { links.replaceChildren(); return; }
+  const path = location.pathname + location.search + location.hash;
+  // A tap on a link follows it, without the circle asking its question too.
+  const link = (origin, label) => {
+    const a = node("a", { href: origin + path, text: label });
+    a.addEventListener("click", (e) => e.stopPropagation());
+    return a;
+  };
+  zonePortCheck().then((up) => {
+    if (zone.dataset.state !== "idle" || typeof window.ClaudeVoice?.ask === "function") return;
+    links.replaceChildren(...(up
+      ? ["Interact on ", link(`http://${location.hostname}:${ZONE_PORT}`, `port ${ZONE_PORT}`), " or at ", link("https://neighborhood.org", "Neighborhood.org")]
+      : ["Interact at ", link("https://neighborhood.org", "Neighborhood.org"), " or ", link("https://cloud.model.earth", "cloud.model.earth")]));
+  });
 }
 // The large words (.w) arriving in the voice widget's word layer shrink the circle. The layer is
 // the widget's own, in #fullscreen, found once the widget's first event shows it's loaded.
@@ -1226,6 +1261,7 @@ function setZoneState(state) {
   if (!zone) return;
   zone.dataset.state = state;
   zone.querySelector(".goals-ai-hint").textContent = ZONE_HINTS[state]();
+  showZoneLinks();
 }
 // Small while a reply's large words show, at a clear spot (placeZoneSpot); back home at full size after.
 // Small during a conversation from the circle, it offers a new question rather than the one just asked.
