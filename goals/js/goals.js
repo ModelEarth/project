@@ -1111,7 +1111,7 @@ const ZONE_SMALL = 0.4; // The circle's size while the large words show
 const ZONE_DIM = 0.15; // The opacity of large words under the circle
 const ZONE_CONTEXT = "I'm talking with you through the page's conversation circle, which asks brief, friendly questions for older adults, including people living with dementia. It's asking me the question that follows. When I answer, reply warmly in one or two short, simple sentences. Never correct me, quiz me or ask what I remember. Then ask one easy, open question about what I said. If I seem confused or upset, reassure me and gently change the subject.";
 const ZONE_HINTS = {
-  idle: () => (answerAloud() ? "Tap the circle, then answer out loud" : typeof window.ClaudeVoice?.ask === "function" ? "Tap the circle, then type your answer below" + (speechBrowsers() && `\n${speechBrowsers()}\nfor speech input`) : "Tap the circle to hear the question"),
+  idle: () => (answerAloud() ? "Tap the circle, then answer out loud" : typeof window.ClaudeVoice?.ask === "function" ? "Tap the circle, then type your answer below." + (speechBrowsers() && `\nFor speech input use\n${speechBrowsers()}.`) : "Tap the circle to hear the question"),
   listening: () => (answerAloud() ? "I'm listening…" : "Type to respond…"),
   thinking: () => "One moment…",
   speaking: () => "",
@@ -1126,10 +1126,10 @@ const CHROME_SPEECH = true;
 // Elsewhere, as on Linux without CHROME_SPEECH, no browser is suggested.
 function speechBrowsers() {
   const ua = navigator.userAgent, platform = navigator.userAgentData?.platform || navigator.platform || "";
-  if (/iPhone|iPad|iPod/.test(ua) || (/mac/i.test(platform) && navigator.maxTouchPoints > 1)) return "or switch to Safari";
-  if (/mac/i.test(platform)) return CHROME_SPEECH ? "or switch to Safari or Chrome" : "or switch to Safari";
-  if (/win/i.test(platform)) return CHROME_SPEECH ? "or switch to Edge or Chrome" : "or switch to Edge";
-  return CHROME_SPEECH && /android|linux|cros|chrome os/i.test(ua + platform) ? "or switch to Chrome" : "";
+  if (/iPhone|iPad|iPod/.test(ua) || (/mac/i.test(platform) && navigator.maxTouchPoints > 1)) return "Safari";
+  if (/mac/i.test(platform)) return CHROME_SPEECH ? "Safari or Chrome" : "Safari";
+  if (/win/i.test(platform)) return CHROME_SPEECH ? "Edge or Chrome" : "Edge";
+  return CHROME_SPEECH && /android|linux|cros|chrome os/i.test(ua + platform) ? "Chrome" : "";
 }
 // The voice widget's answer when it's loaded. Brave has SpeechRecognition but turns off the service behind it.
 const canListen = () => (typeof window.ClaudeVoice?.canListen === "boolean" ? window.ClaudeVoice.canListen : !navigator.brave && !!(window.SpeechRecognition || window.webkitSpeechRecognition));
