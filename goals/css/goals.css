@@ -717,7 +717,7 @@ html.goals-view-hero .goals-bg {
 @keyframes goals-zone-swell { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.035); opacity: 1; } }
 @keyframes goals-zone-ripple { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(1.16); opacity: 0; } }
 .goals-ai-question { font-size: clamp(24px, calc(var(--zone-d, 400px) * 0.075), 34px); line-height: 1.22; font-weight: 600; letter-spacing: -0.005em; }
-.goals-ai-hint { font-size: clamp(17px, calc(var(--zone-d, 400px) * 0.042), 20px); line-height: 1.3; color: rgba(255, 255, 255, 0.9); }
+.goals-ai-hint { font-size: clamp(17px, calc(var(--zone-d, 400px) * 0.042), 20px); line-height: 1.3; color: rgba(255, 255, 255, 0.9); white-space: pre-line; }
 /* While the tabs are up and the AI zone can show (goals-ai-ready, goals.js placeZone), a small circle
    like it rings the up/down arrow, which moves the column down to bring the zone into view. The ring
    is drawn on the triangle's own box, so the two share a center in every browser (Safari places a

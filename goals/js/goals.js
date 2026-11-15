@@ -252,7 +252,8 @@ function syncHero() {
   const btn = $("earthPlayPauseButton");
   const playing = btn.querySelector(".play-pause-icon")?.textContent === "pause";
   const label = !covered ? "Play" : playing ? "Pause map playback" : "Play map playback"; // localsite's labels for the map
-  if (btn.title !== label) { btn.title = label; btn.setAttribute("aria-label", label); }
+  // During a conversation the voice widget has the button for Claude ("Pause Claude", "Resume Claude"), and puts the page's label back after.
+  if (btn.title !== label && !/ Claude$/.test(btn.title)) { btn.title = label; btn.setAttribute("aria-label", label); }
 }
 // Over the photos, the play button shows the next one and turns on the left
 // and right arrow keys for stepping through them. Over the map, the click goes
@@ -1110,14 +1111,35 @@ const ZONE_SMALL = 0.4; // The circle's size while the large words show
 const ZONE_DIM = 0.15; // The opacity of large words under the circle
 const ZONE_CONTEXT = "I'm talking with you through the page's conversation circle, which asks brief, friendly questions for older adults, including people living with dementia. It's asking me the question that follows. When I answer, reply warmly in one or two short, simple sentences. Never correct me, quiz me or ask what I remember. Then ask one easy, open question about what I said. If I seem confused or upset, reassure me and gently change the subject.";
 const ZONE_HINTS = {
-  idle: () => (canListen() ? "Tap the circle, then answer out loud" : typeof window.ClaudeVoice?.ask === "function" ? "Tap the circle, then type your answer below" : "Tap the circle to hear the question"),
-  listening: () => (canListen() ? "I'm listening…" : "Type to respond…"),
+  idle: () => (answerAloud() ? "Tap the circle, then answer out loud" : typeof window.ClaudeVoice?.ask === "function" ? "Tap the circle, then type your answer below" + (speechBrowsers() && `\n${speechBrowsers()}\nfor speech input`) : "Tap the circle to hear the question"),
+  listening: () => (answerAloud() ? "I'm listening…" : "Type to respond…"),
   thinking: () => "One moment…",
   speaking: () => "",
   error: () => "Voice isn't available in this browser",
 };
+// Whether Chrome's speech input works. It does once the microphone is allowed (engine/claude-voice.js, by SR):
+// then Chrome is asked for a spoken answer and suggested to browsers without speech input. False treats Chrome
+// on Mac as typing only (a typed answer, with Safari suggested), though the widget still listens there.
+const CHROME_SPEECH = true;
+// A browser whose speech input works on this device, for when this one's doesn't (Firefox has none, and Brave
+// turns off the service behind it): Safari on Mac, iPhone and iPad, Edge on Windows, and Chrome with CHROME_SPEECH.
+// Elsewhere, as on Linux without CHROME_SPEECH, no browser is suggested.
+function speechBrowsers() {
+  const ua = navigator.userAgent, platform = navigator.userAgentData?.platform || navigator.platform || "";
+  if (/iPhone|iPad|iPod/.test(ua) || (/mac/i.test(platform) && navigator.maxTouchPoints > 1)) return "or switch to Safari";
+  if (/mac/i.test(platform)) return CHROME_SPEECH ? "or switch to Safari or Chrome" : "or switch to Safari";
+  if (/win/i.test(platform)) return CHROME_SPEECH ? "or switch to Edge or Chrome" : "or switch to Edge";
+  return CHROME_SPEECH && /android|linux|cros|chrome os/i.test(ua + platform) ? "or switch to Chrome" : "";
+}
 // The voice widget's answer when it's loaded. Brave has SpeechRecognition but turns off the service behind it.
 const canListen = () => (typeof window.ClaudeVoice?.canListen === "boolean" ? window.ClaudeVoice.canListen : !navigator.brave && !!(window.SpeechRecognition || window.webkitSpeechRecognition));
+// Whether the circle asks for a spoken answer: where the browser can listen, except Chrome on Mac without CHROME_SPEECH.
+const chromeMac = (() => {
+  const brands = navigator.userAgentData?.brands;
+  const chrome = brands ? brands.some((b) => b.brand === "Google Chrome") : /Chrome\//.test(navigator.userAgent) && !/Edg\/|OPR\/|Vivaldi/.test(navigator.userAgent);
+  return chrome && /mac/i.test(navigator.userAgentData?.platform || navigator.platform || "") && navigator.maxTouchPoints < 2;
+})();
+const answerAloud = () => canListen() && (CHROME_SPEECH || !chromeMac);
 const calm = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 let zoneQuestions = [], zoneAt = 0, zoneTimer = null, zoneTalking = false;
 let zoneText = "", zoneAsked = "", zoneSmall = false, zoneSpot = null, wordsField = null, dimFrame = 0;
@@ -1137,7 +1159,7 @@ function initAiZone() {
     if (st === "off" || st === "error") { zoneTalking = false; setZoneState(st === "error" ? "error" : "idle"); syncZoneTimer(); }
     else if (ZONE_HINTS[st]) setZoneState(st);
     // Without voice input, the cursor goes in the widget's typing box for the answer.
-    if (st === "listening" && !canListen() && typeof window.ClaudeVoice?.focusInput === "function") window.ClaudeVoice.focusInput();
+    if (st === "listening" && !answerAloud() && typeof window.ClaudeVoice?.focusInput === "function") window.ClaudeVoice.focusInput();
   }, true);
   document.addEventListener("claude-voice:reply", (e) => {
     if (!zoneTalking) return;
