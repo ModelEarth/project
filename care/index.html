@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>CareCraft</title>
+<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link type="text/css" rel="stylesheet" href="/localsite/css/base.css" id="/localsite/css/base.css" />
+<link type="text/css" rel="stylesheet" href="/engine/css/engine.css" />
+<link type="text/css" rel="stylesheet" href="/localsite/css/craft.css" />
+<script type="text/javascript" src="/engine/js/talk-circle.js"></script>
+<style>
+/* The title just below the talk circle and centered under it, without StudioCraft's hero spacing above it
+   (padding-top and the title's margins, localsite/css/craft.css). */
+.talk-circle-area > .talk-circle-hide { align-self: center; text-align: center; }
+.talk-circle-area > .talk-circle-hide .craft-hero { padding-top: 0; }
+.talk-circle-area > .talk-circle-hide .craft-title { margin: 18px 0 0 0; }
+</style>
+<script type="text/javascript" src="/localsite/js/localsite.js?showheader=true&showsearch=true"></script>
+<script>
+loadMarkdown("README.md", "readmeDiv", "_parent");
+</script>
+</head>
+
+<body>
+<!-- #fullscreen: fixed behind the header, search filters and page (engine/css/engine.css). Since it's here,
+     localsite.js adds the voice widget (engine/claude-voice.js, named by fullscreenVoice in support/site/config.yaml),
+     whose canvas and floating words fill it and whose controls sit in its lower right. -->
+<div id="fullscreen"></div>
+<!-- The first screen, over #fullscreen. -->
+<div class="over-fullscreen content contentpadding">
+  <!-- The talk circle (engine/js/talk-circle.js), centered in the first screen, with questions for seniors living
+       with dementia from talk-circle.yaml. The circle goes first in this div, with what's in it stacked below. -->
+  <div data-talk-circle="talk-circle.yaml">
+    <!-- The title below the circle, which stays the same distance from it, styled like StudioCraft's
+         (localsite/css/craft.css, from webroot/desktop). It sits on the voice widget's dark canvas in light mode too,
+         so .dark keeps craft.css's light text for it. It fades away while a conversation from the circle is on
+         (.talk-circle-hide, engine/css/engine.css). -->
+    <div class="dark talk-circle-hide">
+      <div class="craft craft-hero">
+        <h1 class="craft-title craft-title-shadow" id="careTitle"><span class="craft-title-bright">Care</span><em>Craft</em></h1>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+// SparrowCore in place of CareCraft while the modelsite is maestro, in the same two fonts. Checked now (the modelsite
+// cookie) and again when localsite settles the site (modelsiteChanged, from support/site/config.yaml).
+function careTitle() {
+  const maestro = typeof getModelsite === "function" && getModelsite() === "maestro";
+  const title = document.getElementById("careTitle");
+  title.querySelector(".craft-title-bright").textContent = maestro ? "Sparrow" : "Care";
+  title.querySelector("em").textContent = maestro ? "Core" : "Craft";
+}
+careTitle();
+document.addEventListener("modelsiteChanged", careTitle);
+</script>
+<!-- After the first screen: the README, scrolling up over #fullscreen. -->
+<div class="after-fullscreen content contentpadding large-list">
+  <div class="card" id="readmeDiv"></div>
+</div>
+</body>
+</html>

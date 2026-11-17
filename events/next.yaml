@@ -5,14 +5,15 @@
 # out: the photos alone.
 hero_atmosphere: true
 
-# The AI zone: while the tabs sit at the window's bottom, a large see-through
+# The talk circle (engine/js/talk-circle.js): while the tabs sit at the
+# window's bottom on project/goals, a large see-through
 # circle pulses slowly above them, showing these brief questions one at a time
 # in large type for seniors and people living with dementia to answer by
 # voice. A tap has the voice widget ask the shown question aloud and listen;
-# Claude answers warmly and asks a gentle follow-up (goals.js, AI zone). Open,
+# Claude answers warmly and asks a gentle follow-up (engine/js/talk-circle.js). Open,
 # friendly questions with no wrong answer, rather than tests of memory. Left
 # out: no circle.
-ai_zone_questions:
+talk_circle_questions:
   - text: "How are you feeling today?"
   - text: "What would you like to talk about?"
   - text: "Where did you grow up?"

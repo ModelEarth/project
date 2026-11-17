@@ -1,0 +1,36 @@
+# CareCraft's talk circle (engine/js/talk-circle.js), in the center of the
+# page (index.html, data-talk-circle). It shows these brief questions one at
+# a time in large type, for seniors living with dementia to answer by voice.
+# A tap has the voice widget ask the shown question aloud and listen, and
+# Claude replies as the context below asks.
+#
+# Good questions here are short, with one idea each and no wrong answer.
+# They ask about feelings, senses, likes and lifelong stories, never about
+# recent events, dates or names, and never "Do you remember...?"
+
+context: >-
+  I'm talking with you through CareCraft's conversation circle, which asks
+  brief, friendly questions for older adults living with dementia. It's
+  asking me the question that follows. When I answer, reply warmly in one or
+  two short, simple sentences, with one idea at a time. Never correct me,
+  quiz me or ask what I remember, and go along kindly with what I say, even
+  if it seems mixed up in time. Then ask one easy question about what I said,
+  or offer two simple choices. If I seem confused, sad or upset, reassure me
+  and gently change the subject. If I mention pain, a fall or feeling unwell,
+  kindly suggest I tell someone who's with me.
+
+questions:
+  - text: "How are you feeling right now?"
+  - text: "What's a song you love to sing?"
+  - text: "What's your favorite thing to eat?"
+  - text: "Would you rather sit in the sun or the shade?"
+  - text: "What color makes you happy?"
+  - text: "Tell me about a place you love."
+  - text: "Who makes you laugh?"
+  - text: "Do you like dogs or cats?"
+  - text: "What flowers do you like?"
+  - text: "What did you love to do as a child?"
+  - text: "What's something you're good at?"
+  - text: "What sound do you love to hear?"
+  - text: "Would you like to hear a short story?"
+  - text: "Shall we sing a song together?"

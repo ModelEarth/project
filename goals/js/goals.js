@@ -245,7 +245,7 @@ function syncHero() {
   const covered = heroCovered();
   const was = $("fullscreen").classList.contains("goals-hero-covered");
   $("fullscreen").classList.toggle("goals-hero-covered", covered);
-  if (covered !== was) placeZone();
+  if (covered !== was) placeTalkCircle();
   const run = heroView() && !covered && heroList.length > 1;
   if (run && !heroTimer) heroTimer = setInterval(nextHero, HERO_MS);
   else if (!run && heroTimer) { clearInterval(heroTimer); heroTimer = null; }
@@ -297,9 +297,9 @@ async function applyView() {
   fitPageHeight();
   clearInterval(heroTimer);
   heroTimer = null;
-  if (!hero) { syncHero(); placeZone(); return; }
+  if (!hero) { syncHero(); placeTalkCircle(); return; }
   const ev = await heroEvent();
-  setZoneQuestions(ev.ai_zone_questions);
+  window.TalkCircle?.setQuestions(ev.talk_circle_questions);
   // hero_atmosphere: true adds the moving focus and color (.goals-focus, .goals-aurora, goals.css). The light YAML parser gives "true".
   $("heroBg").classList.toggle("goals-bg-atmosphere", ev.hero_atmosphere === true || ev.hero_atmosphere === "true");
   const list = ev.hero_images || [];
@@ -950,7 +950,7 @@ function setMainDrop(px, animate = false) {
     arrow.title = label;
     arrow.setAttribute("aria-label", label);
   }
-  placeZone();
+  placeTalkCircle();
 }
 function initMainGrip() {
   const tabs = document.querySelector(".goals-tabs");
@@ -1093,292 +1093,44 @@ function mainDropMin() {
     : main.getBoundingClientRect().top;
   return Math.min(0, Math.round(limit - tabsPlace().top));
 }
-// --- AI zone --------------------------------------------------------------------
-// While the tabs sit at the window's bottom (the column moved down) in the hero view, a large
-// see-through circle fills the space above them: the AI zone. It pulses slowly and shows one
-// brief question at a time in large type, from the event's ai_zone_questions (events/next.yaml),
-// for seniors and people living with dementia to answer by voice. A tap or click on it has the
-// voice widget (engine/claude-voice.js) ask the question aloud and listen for the answer.
-// Without the voice widget, the browser just reads the question aloud.
-// When the widget's large words start (a reply being spoken), the circle shrinks to 40% and moves
-// to a clear part of the window, which the words then keep clear of (data-words-avoid). Meanwhile
-// it shows only the start of the next question ("What was your…"): Claude's follow-up question
-// once the reply has it, else the next one in the list. A tap stops the reply and asks that
-// question. Once the reply has been spoken, the circle comes back and shows the question in full.
-// Large words the circle crosses fade to ZONE_DIM, so its question stays readable.
-const ZONE_MS = 20000; // Each question stays this long
-const ZONE_SMALL = 0.4; // The circle's size while the large words show
-const ZONE_DIM = 0.15; // The opacity of large words under the circle
-const ZONE_CONTEXT = "I'm talking with you through the page's conversation circle, which asks brief, friendly questions for older adults, including people living with dementia. It's asking me the question that follows. When I answer, reply warmly in one or two short, simple sentences. Never correct me, quiz me or ask what I remember. Then ask one easy, open question about what I said. If I seem confused or upset, reassure me and gently change the subject.";
-const ZONE_HINTS = {
-  idle: () => (answerAloud() ? "Tap the circle, then answer out loud" : typeof window.ClaudeVoice?.ask === "function" ? "Tap the circle, then type your answer below." + (speechBrowsers() && `\nFor speech input use\n${speechBrowsers()}.`) : "Tap the circle to hear the question"),
-  listening: () => (answerAloud() ? "I'm listening…" : "Type to respond…"),
-  thinking: () => "One moment…",
-  speaking: () => "",
-  error: () => "Voice isn't available in this browser",
-};
-// Whether Chrome's speech input works. It does once the microphone is allowed (engine/claude-voice.js, by SR):
-// then Chrome is asked for a spoken answer and suggested to browsers without speech input. False treats Chrome
-// on Mac as typing only (a typed answer, with Safari suggested), though the widget still listens there.
-const CHROME_SPEECH = true;
-// A browser whose speech input works on this device, for when this one's doesn't (Firefox has none, and Brave
-// turns off the service behind it): Safari on Mac, iPhone and iPad, Edge on Windows, and Chrome with CHROME_SPEECH.
-// Elsewhere, as on Linux without CHROME_SPEECH, no browser is suggested.
-function speechBrowsers() {
-  const ua = navigator.userAgent, platform = navigator.userAgentData?.platform || navigator.platform || "";
-  if (/iPhone|iPad|iPod/.test(ua) || (/mac/i.test(platform) && navigator.maxTouchPoints > 1)) return "Safari";
-  if (/mac/i.test(platform)) return CHROME_SPEECH ? "Safari or Chrome" : "Safari";
-  if (/win/i.test(platform)) return CHROME_SPEECH ? "Edge or Chrome" : "Edge";
-  return CHROME_SPEECH && /android|linux|cros|chrome os/i.test(ua + platform) ? "Chrome" : "";
+// --- Talk circle ----------------------------------------------------------------
+// While the tabs sit at the window's bottom (the column moved down) in the hero view, the talk circle
+// (engine/js/talk-circle.js) fills the space above them: a large see-through circle with one brief question at a
+// time, from the event's talk_circle_questions (events/next.yaml), for seniors and people living with dementia to
+// answer by voice. Without engine/js/talk-circle.js (the standalone goals Worker), there's no circle.
+function initTalkCircle() {
+  if (!window.TalkCircle) return;
+  TalkCircle.init({ parent: $("goalsPage"), place: talkCirclePlace, avoid: ".claude-voice-ui, .goals-credit" });
+  document.addEventListener("claude-voice:state", syncPagesButton, true); // The widget's controls are in
 }
-// The voice widget's answer when it's loaded. Brave has SpeechRecognition but turns off the service behind it.
-const canListen = () => (typeof window.ClaudeVoice?.canListen === "boolean" ? window.ClaudeVoice.canListen : !navigator.brave && !!(window.SpeechRecognition || window.webkitSpeechRecognition));
-// Whether the circle asks for a spoken answer: where the browser can listen, except Chrome on Mac without CHROME_SPEECH.
-const chromeMac = (() => {
-  const brands = navigator.userAgentData?.brands;
-  const chrome = brands ? brands.some((b) => b.brand === "Google Chrome") : /Chrome\//.test(navigator.userAgent) && !/Edg\/|OPR\/|Vivaldi/.test(navigator.userAgent);
-  return chrome && /mac/i.test(navigator.userAgentData?.platform || navigator.platform || "") && navigator.maxTouchPoints < 2;
-})();
-const answerAloud = () => canListen() && (CHROME_SPEECH || !chromeMac);
-const calm = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-let zoneQuestions = [], zoneAt = 0, zoneTimer = null, zoneTalking = false;
-let zoneText = "", zoneAsked = "", zoneSmall = false, zoneSpot = null, wordsField = null, dimFrame = 0;
-function initAiZone() {
-  const zone = node("button", { type: "button", class: "goals-ai-zone", "data-state": "idle", "data-words-avoid": "" },
-    node("span", { class: "goals-ai-question" }), node("span", { class: "goals-ai-hint" }), node("span", { class: "goals-ai-links" }));
-  zone.addEventListener("click", askZone);
-  $("goalsPage").append(node("div", { class: "goals-ai-area", id: "aiZone", hidden: "" }, zone));
-  // The voice widget's events don't bubble up from its target (#fullscreen), so they're heard capturing.
-  document.addEventListener("claude-voice:state", (e) => {
-    const st = e.detail?.state;
-    watchWords();
-    syncPagesButton(); // The widget's controls are in
-    showZoneLinks(); // Not needed once the widget has loaded
-    if (st !== "speaking") setZoneSmall(false); // The reply has been spoken, or cut short
-    if (!zoneTalking) return;
-    if (st === "off" || st === "error") { zoneTalking = false; setZoneState(st === "error" ? "error" : "idle"); syncZoneTimer(); }
-    else if (ZONE_HINTS[st]) setZoneState(st);
-    // Without voice input, the cursor goes in the widget's typing box for the answer.
-    if (st === "listening" && !answerAloud() && typeof window.ClaudeVoice?.focusInput === "function") window.ClaudeVoice.focusInput();
-  }, true);
-  document.addEventListener("claude-voice:reply", (e) => {
-    if (!zoneTalking) return;
-    const q = (String(e.detail?.text || "").match(/[^.!?]*\?/g) || []).pop()?.trim();
-    if (q && q.length <= 140) showZoneText(q);
-  }, true);
-  document.addEventListener("claude-voice:end", () => {
-    if (!zoneTalking) return;
-    zoneTalking = false;
-    setZoneState("idle");
-    nextZoneQuestion();
-    syncZoneTimer();
-  }, true);
-  window.addEventListener("scroll", placeZone, { passive: true });
-  window.addEventListener("hashchange", showZoneLinks);
-  document.addEventListener("visibilitychange", syncZoneTimer);
-}
-// Without the voice widget (no backend for the page's site), the circle can only read its question aloud, so
-// below its hint it links to the same page where Claude can answer: the local CloudRoot Worker on port 3701
-// when it's running (AGENTS.md), and neighborhood.org, or else neighborhood.org and cloud.model.earth.
-// Only on a local page: on public sites the hint shows alone.
-const ZONE_PORT = 3701;
-const zoneLocal = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.hostname.endsWith(".localhost");
-let zonePortUp = null;
-function zonePortCheck() {
-  if (zonePortUp) return zonePortUp;
-  zonePortUp = location.port === String(ZONE_PORT) ? Promise.resolve(false)
-    : fetch(`http://${location.hostname}:${ZONE_PORT}/`, { mode: "no-cors", cache: "no-store", signal: AbortSignal.timeout(2000) })
-      .then(() => true, () => false);
-  return zonePortUp;
-}
-function showZoneLinks() {
-  const links = document.querySelector("#aiZone .goals-ai-links");
-  if (!links) return;
-  const zone = links.closest(".goals-ai-zone");
-  if (!zoneLocal || zone.dataset.state !== "idle" || typeof window.ClaudeVoice?.ask === "function") { links.replaceChildren(); return; }
-  const path = location.pathname + location.search + location.hash;
-  // A tap on a link follows it, without the circle asking its question too.
-  const link = (origin, label) => {
-    const a = node("a", { href: origin + path, text: label });
-    a.addEventListener("click", (e) => e.stopPropagation());
-    return a;
-  };
-  zonePortCheck().then((up) => {
-    if (zone.dataset.state !== "idle" || typeof window.ClaudeVoice?.ask === "function") return;
-    links.replaceChildren(...(up
-      ? ["Interact on ", link(`http://${location.hostname}:${ZONE_PORT}`, String(ZONE_PORT)), " or ", link("https://neighborhood.org", "Neighborhood.org")]
-      : ["Interact at ", link("https://neighborhood.org", "Neighborhood.org"), " or ", link("https://cloud.model.earth", "cloud.model.earth")]));
-  });
-}
-// The large words (.w) arriving in the voice widget's word layer shrink the circle. The layer is
-// the widget's own, in #fullscreen, found once the widget's first event shows it's loaded.
-function watchWords() {
-  const field = document.querySelector("#fullscreen > .claude-voice-words")?.shadowRoot?.querySelector(".field");
-  if (!field || field === wordsField) return;
-  wordsField = field;
-  new MutationObserver((list) => {
-    if (!list.some((m) => [...m.addedNodes].some((n) => n.classList?.contains("w")))) return;
-    if (window.ClaudeVoice?.state === "speaking") setZoneSmall(true);
-    if (!dimFrame) dimFrame = requestAnimationFrame(dimWords);
-  }).observe(field, { childList: true });
-}
-// Large words that the circle (a true circle, not its box) crosses fade to ZONE_DIM, and come back
-// once it's clear of them. Checked each frame while any show, since the circle moves and grows and
-// the words drift. A filter, so the widget's own opacity and animations on the words are left alone.
-function dimWords() {
-  const words = [...(wordsField?.querySelectorAll(".w") || [])];
-  const zone = document.querySelector("#aiZone .goals-ai-zone");
-  let c = null;
-  if (zone && !$("aiZone").hidden) {
-    const z = zone.getBoundingClientRect();
-    c = { x: z.left + z.width / 2, y: z.top + z.height / 2, r: z.width / 2 };
-  }
-  for (const el of words) {
-    const r = el.getBoundingClientRect();
-    const hit = !!c && Math.hypot(c.x - Math.max(r.left, Math.min(c.x, r.right)), c.y - Math.max(r.top, Math.min(c.y, r.bottom))) < c.r;
-    if ((el.dataset.zoneDim === "1") === hit) continue;
-    el.dataset.zoneDim = hit ? "1" : "";
-    el.style.transition = "filter 0.3s ease";
-    el.style.filter = hit ? `opacity(${ZONE_DIM})` : "";
-  }
-  dimFrame = words.length ? requestAnimationFrame(dimWords) : 0;
-}
-// ai_zone_questions: a list of items with text (the light YAML parser reads lists of mappings).
-function setZoneQuestions(list) {
-  const qs = (Array.isArray(list) ? list : []).map((q) => String(typeof q === "string" ? q : q?.text || "").trim()).filter(Boolean);
-  if (qs.join("\n") === zoneQuestions.join("\n")) return placeZone();
-  zoneQuestions = qs;
-  zoneAt = Math.floor(Math.random() * qs.length);
-  if (qs.length && !zoneTalking) showZoneText(qs[zoneAt], true);
-  placeZone();
-}
-const zoneQuestion = () => zoneText || zoneQuestions[zoneAt] || "";
-function nextZoneQuestion() {
-  if (!zoneQuestions.length) return;
-  zoneAt = (zoneAt + 1) % zoneQuestions.length;
-  showZoneText(zoneQuestions[zoneAt]);
-}
-// The start of a question, for the small circle: its first three words (fewer for a short one) and "…".
-function zoneTeaser(text) {
-  const words = text.split(/\s+/);
-  return `${words.slice(0, Math.max(1, Math.min(3, words.length - 1))).join(" ")}…`;
-}
-function showZoneText(text, now = false) {
-  zoneText = text;
-  renderZoneText(now);
-}
-// Fades the question out and the new one in, or swaps it at once with reduced motion.
-function renderZoneText(now = false) {
-  const q = document.querySelector("#aiZone .goals-ai-question");
-  const text = zoneSmall ? zoneTeaser(zoneText) : zoneText;
-  if (!q || q.textContent === text) return;
-  if (now || calm() || $("aiZone").hidden || !q.animate) { q.textContent = text; return; }
-  q.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, easing: "ease-in" }).finished.then(() => {
-    q.textContent = zoneSmall ? zoneTeaser(zoneText) : zoneText; // As it is by now
-    q.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, easing: "ease-out" });
-  });
-}
-function setZoneState(state) {
-  const zone = document.querySelector("#aiZone .goals-ai-zone");
-  if (!zone) return;
-  zone.dataset.state = state;
-  zone.querySelector(".goals-ai-hint").textContent = ZONE_HINTS[state]();
-  showZoneLinks();
-}
-// Small while a reply's large words show, at a clear spot (placeZoneSpot); back home at full size after.
-// Small during a conversation from the circle, it offers a new question rather than the one just asked.
-function setZoneSmall(on) {
-  const area = $("aiZone");
-  if (!area || on === zoneSmall || (on && area.hidden)) return;
-  zoneSmall = on;
-  if (on && zoneTalking && zoneText === zoneAsked && zoneQuestions.length > 1) {
-    zoneAt = (zoneAt + 1) % zoneQuestions.length;
-    zoneText = zoneQuestions[zoneAt];
-  }
-  zoneSpot = null;
-  if (on) placeZoneSpot();
-  area.querySelector(".goals-ai-zone").classList.toggle("goals-ai-small", on);
-  renderZoneText();
-}
-// Of spots across the space above the tabs, away from where the circle is now, the one covering the
-// least of the large words and the voice widget's controls and captions, picked at random among the
-// clearest. Kept as the small circle's center in the window, the way the circle is moved there.
-function placeZoneSpot() {
-  const area = $("aiZone"), r = area.getBoundingClientRect();
-  const d = parseFloat(area.style.getPropertyValue("--zone-d")) * ZONE_SMALL;
-  const home = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-  const taken = [...(wordsField?.querySelectorAll(".w, .stmt") || [])].map((el) => ({ r: el.getBoundingClientRect(), weight: 1 }));
-  for (const el of document.querySelectorAll(".claude-voice-ui, .goals-credit")) taken.push({ r: el.getBoundingClientRect(), weight: 6 });
-  const cover = (c) => taken.reduce((sum, t) => {
-    const w = Math.min(c.x + d / 2, t.r.right) - Math.max(c.x - d / 2, t.r.left);
-    const h = Math.min(c.y + d / 2, t.r.bottom) - Math.max(c.y - d / 2, t.r.top);
-    return sum + (w > 0 && h > 0 ? w * h * t.weight : 0);
-  }, 0);
-  const x0 = 16 + d / 2, x1 = window.innerWidth - 16 - d / 2, y0 = r.top + d / 2, y1 = r.bottom - d / 2;
-  const spots = [];
-  for (let i = 0; i < 7; i++) for (let j = 0; j < 4; j++) {
-    const c = { x: x0 + (x1 - x0) * (i + Math.random() * 0.6 + 0.2) / 7, y: y0 + Math.max(0, y1 - y0) * (j + Math.random() * 0.6 + 0.2) / 4 };
-    if (Math.hypot(c.x - home.x, c.y - home.y) > d) spots.push({ ...c, cost: cover(c) });
-  }
-  if (!spots.length) return;
-  const least = Math.min(...spots.map((s) => s.cost));
-  const clear = spots.filter((s) => s.cost <= least * 1.1 + 1);
-  zoneSpot = clear[Math.floor(Math.random() * clear.length)];
-  moveZone();
-}
-function moveZone() {
-  const area = $("aiZone");
-  if (!zoneSpot) { area.style.removeProperty("--zone-dx"); area.style.removeProperty("--zone-dy"); return; }
-  const r = area.getBoundingClientRect();
-  area.style.setProperty("--zone-dx", `${Math.round(zoneSpot.x - r.left - r.width / 2)}px`);
-  area.style.setProperty("--zone-dy", `${Math.round(zoneSpot.y - r.top - r.height / 2)}px`);
-}
-function askZone() {
-  const q = zoneQuestion();
-  if (!q) return;
-  if (typeof window.ClaudeVoice?.ask === "function") {
-    zoneTalking = true;
-    zoneAsked = q;
-    syncZoneTimer();
-    setZoneSmall(false);
-    window.ClaudeVoice.ask(q, ZONE_CONTEXT); // Stops a reply under way
-  } else if (window.speechSynthesis) {
-    speechSynthesis.cancel();
-    speechSynthesis.speak(new SpeechSynthesisUtterance(q));
-  }
-}
-// Shows the zone while the tabs are at (or near) the window's bottom in the hero view, with room
-// for the circle, over the photos or the Earth map. It's centered over the tabs (the left column), in the
-// space between #goalsPage's top and the place the tabs are moving to, and no wider than they are.
-// goals-ai-ready marks the page while the zone can show, for the small matching circle around the
+// The talk circle's place (TalkCircle.init in initTalkCircle): while the tabs are at (or near) the window's bottom in the
+// hero view, with room for the circle, over the photos or the Earth map. It's centered over the tabs (the left column),
+// in the space between #goalsPage's top and the place the tabs are moving to, and no wider than they are.
+// goals-talk-ready marks the page while the circle can show, for the small matching circle around the
 // up/down arrow while the tabs are up (goals.css).
-function placeZone() {
+function placeTalkCircle() {
+  if (window.TalkCircle) TalkCircle.place(); else syncPagesButton();
+}
+function talkCirclePlace(area) {
   syncPagesButton();
-  const area = $("aiZone");
-  if (!area) return;
-  $("goalsPage").classList.toggle("goals-ai-ready", zoneQuestions.length > 0 && heroView());
+  $("goalsPage").classList.toggle("goals-talk-ready", window.TalkCircle.count > 0 && heroView());
   const tabsTop = tabsPlace().top + mainDrop;
   const tabs = document.querySelector(".goals-tabs").getBoundingClientRect();
   const top = Math.max(0, $("goalsPage").getBoundingClientRect().top) + 16;
   const size = Math.round(Math.min(tabsTop - top - 16, tabs.width, 440));
-  const on = zoneQuestions.length > 0 && heroView() && mainDrop > 0 && tabsTop >= window.innerHeight - MAIN_DOCK - 40
-    && size >= 220;
+  const on = heroView() && mainDrop > 0 && tabsTop >= window.innerHeight - MAIN_DOCK - 40 && size >= 220;
   if (on) {
-    area.style.setProperty("--zone-top", `${Math.round(top)}px`);
-    area.style.setProperty("--zone-left", `${Math.round(tabs.left)}px`);
-    area.style.setProperty("--zone-w", `${Math.round(tabs.width)}px`);
-    area.style.setProperty("--zone-h", `${Math.round(tabsTop - top - 16)}px`);
-    area.style.setProperty("--zone-d", `${size}px`);
-    if (area.hidden) setZoneState(zoneTalking ? document.querySelector("#aiZone .goals-ai-zone").dataset.state : "idle");
-    moveZone();
+    area.style.setProperty("--talk-top", `${Math.round(top)}px`);
+    area.style.setProperty("--talk-left", `${Math.round(tabs.left)}px`);
+    area.style.setProperty("--talk-w", `${Math.round(tabs.width)}px`);
+    area.style.setProperty("--talk-h", `${Math.round(tabsTop - top - 16)}px`);
+    area.style.setProperty("--talk-d", `${size}px`);
   }
-  area.hidden = !on;
-  if (!on) setZoneSmall(false);
-  syncZoneTimer();
+  return on;
 }
 // In narrow windows, the tabs at the bottom would cover the voice widget's row of controls: while
 // the column is down and they would, the tabs hide and the menu button (vertical dots) at the lower left
-// (initMoreTabs) opens the list of tabs instead. The tabs keep their place, hidden, so the AI zone
+// (initMoreTabs) opens the list of tabs instead. The tabs keep their place, hidden, so the talk circle
 // above them stays put. Checked where they're going (tabsPlace), not where a move has them now.
 function syncPagesButton() {
   const btn = $("goalsPagesBtn");
@@ -1392,13 +1144,6 @@ function syncPagesButton() {
   // Level with the voice controls, or 48px higher over the Earth map, above its controls in the lower left (#earthControls).
   if (crowded) btn.style.bottom = `${Math.round(window.innerHeight - row.bottom) + ($("fullscreen").classList.contains("goals-hero-covered") ? 48 : 0)}px`;
 }
-// The questions change every ZONE_MS while the zone shows, the tab is in view and no conversation is on.
-function syncZoneTimer() {
-  const run = !!$("aiZone") && !$("aiZone").hidden && !zoneTalking && !document.hidden && zoneQuestions.length > 1;
-  if (run && !zoneTimer) zoneTimer = setInterval(nextZoneQuestion, ZONE_MS);
-  else if (!run && zoneTimer) { clearInterval(zoneTimer); zoneTimer = null; }
-}
-
 function alignAside() {
   const aside = $("goalsAside");
   if (aside.hidden) return;
@@ -1795,7 +1540,7 @@ async function start() {
   initMoreTabs();
   initSideToggles();
   placeSides(); // Again, for closed side columns
-  initAiZone();
+  initTalkCircle();
   initFilterCatch();
   initControlTurns();
   syncMainDrop();
@@ -1825,7 +1570,7 @@ async function start() {
   await applyEvent();
   applyView();
   syncMainDrop(false, true); // Again, now the event's top info line is in
-  const onResize = () => { fitPageHeight(); alignAside(); syncMainDrop(false, true); placeZone(); };
+  const onResize = () => { fitPageHeight(); alignAside(); syncMainDrop(false, true); placeTalkCircle(); };
   if (window.ResizeObserver) {
     // #goalsMain and the localsite header too: a side tab (sidetab=) can shorten
     // the header while the page's fullscreen height grows to match, leaving the
