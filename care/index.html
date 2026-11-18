@@ -18,7 +18,8 @@
 .talk-circle-area > .talk-circle-hide .craft-hero { padding-top: 0; }
 .talk-circle-area > .talk-circle-hide .craft-title { margin: 18px 0 0 0; }
 </style>
-<script type="text/javascript" src="/localsite/js/localsite.js?showheader=true&showsearch=true"></script>
+<!-- defaultlook=dark: dark mode unless the visitor has picked Light (localsite.js setSitelook) -->
+<script type="text/javascript" src="/localsite/js/localsite.js?showheader=true&showsearch=true&defaultlook=dark"></script>
 <script>
 loadMarkdown("README.md", "readmeDiv", "_parent");
 </script>
@@ -46,13 +47,12 @@ loadMarkdown("README.md", "readmeDiv", "_parent");
   </div>
 </div>
 <script>
-// SparrowCore in place of CareCraft while the modelsite is maestro, in the same two fonts. Checked now (the modelsite
-// cookie) and again when localsite settles the site (modelsiteChanged, from support/site/config.yaml).
+// SparrowCraft in place of CareCraft while the site is maestro: from the modelsite cookie, or from #site=maestro in the
+// URL for this page only. Checked now and again when localsite settles the site (modelsiteChanged, from
+// support/site/config.yaml, which drops a #site= it doesn't list) or the hash's site changes.
 function careTitle() {
   const maestro = typeof getModelsite === "function" && getModelsite() === "maestro";
-  const title = document.getElementById("careTitle");
-  title.querySelector(".craft-title-bright").textContent = maestro ? "Sparrow" : "Care";
-  title.querySelector("em").textContent = maestro ? "Core" : "Craft";
+  document.getElementById("careTitle").querySelector(".craft-title-bright").textContent = maestro ? "Sparrow" : "Care";
 }
 careTitle();
 document.addEventListener("modelsiteChanged", careTitle);
