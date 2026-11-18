@@ -12,7 +12,8 @@
      Markdown loading (the Plan tab loads PLAN.md with loadMarkdown). The page also works without localsite (standalone Worker).
      #event=<id> loads ../events/<id>.yaml for the title and text (e.g. #event=next). -->
 <link type="text/css" rel="stylesheet" href="/localsite/css/base.css" id="/localsite/css/base.css" />
-<script type="text/javascript" src="/localsite/js/localsite.js?showheader=true"></script>
+<!-- defaultlook=dark: dark mode unless the visitor has picked Light (localsite.js setSitelook) -->
+<script type="text/javascript" src="/localsite/js/localsite.js?showheader=true&defaultlook=dark"></script>
 <!-- Parses events/<id>.yaml for #event=<id>. -->
 <script type="text/javascript" src="/localsite/js/yaml.js"></script>
 <!-- The fixed #fullscreen layout and the talk circle, shared with other voice widget pages. -->
