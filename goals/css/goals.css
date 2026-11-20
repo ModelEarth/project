@@ -660,9 +660,12 @@ html.goals-view-hero .goals-bg {
 #fullscreen.goals-hero-covered .goals-bg-atmosphere { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { .goals-bg-atmosphere { animation: none; } }
 /* The talk circle (engine/js/talk-circle.js, styled in engine/css/engine.css): while the tabs sit at the window's
-   bottom, its area is fixed in the space above them, centered over them (the left column) and no wider (goals.js placeTalkCircle). */
+   bottom, its area is fixed in the space above them, centered over them (the left column) and no wider (goals.js placeTalkCircle).
+   Its empty space lets clicks through, as in engine.css, since .goals > :not(.goals-row) above would otherwise give it
+   pointer-events: auto. Hidden, it keeps its box, so when the tabs move up it would cover the tabs and form beneath it. */
 #goalsPage > .talk-circle-area {
   position: fixed; left: var(--talk-left, 0px); width: var(--talk-w, 100%); top: var(--talk-top, 0px); height: var(--talk-h, 0px); z-index: 1;
+  pointer-events: none;
 }
 /* While the tabs are up and the talk circle can show (goals-talk-ready, goals.js talkCirclePlace), a small circle
    like it rings the up/down arrow, which moves the column down to bring the circle into view. The ring

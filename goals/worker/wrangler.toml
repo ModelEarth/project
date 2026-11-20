@@ -1,8 +1,9 @@
 # Project Goals on its own Worker. Inside a webroot that already runs a Worker
 # (e.g. CloudRoot), mount it instead: CloudRoot's worker/src/index.js routes
-# /api/goals/* to handleGoals.
+# /api/goals/* to handleGoals, importing it from src/index.js. Standalone, the entry is
+# src/worker.js, which exports only the fetch handler (see the note there).
 name = "goals"
-main = "src/index.js"
+main = "src/worker.js"
 compatibility_date = "2025-01-01"
 workers_dev = true
 
