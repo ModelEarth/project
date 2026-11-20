@@ -412,13 +412,13 @@ body.standalone #earthPlayPauseButton { display: none; }
 .goals-filters-caught #goalsMain .goals-panel,
 .goals-filters-caught #goalsAside,
 .goals-filters-caught #goalsBottom { display: none; }
-/* The voice widget's keys panel (.claude-voice-keys, engine/claude-voice.js) goes after #earthFilterCatch while it's
+/* The voice widget's keys panel (.voice-chat-keys, engine/js/voice-chat.js) goes after #earthFilterCatch while it's
    open, and the tabs' content steps aside for it too. */
-#goalsMain:has(> .claude-voice-keys) > .goals-hero,
-#goalsMain:has(> .claude-voice-keys) > .goals-results,
-#goalsMain:has(> .claude-voice-keys) .goals-panel,
-.goals:has(.claude-voice-keys) #goalsAside,
-.goals:has(.claude-voice-keys) #goalsBottom { display: none; }
+#goalsMain:has(> .voice-chat-keys) > .goals-hero,
+#goalsMain:has(> .voice-chat-keys) > .goals-results,
+#goalsMain:has(> .voice-chat-keys) .goals-panel,
+.goals:has(.voice-chat-keys) #goalsAside,
+.goals:has(.voice-chat-keys) #goalsBottom { display: none; }
 html.goals-view-hero #goalsMain > #earthFilterCatch { padding: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
 #earthFilterCatch > #mainEarthFilters { margin-top: 0; padding: 0 !important; } /* Over the inline padding for under the map */
 /* The page's empty space lets clicks through to #fullscreen beneath (the map),
@@ -696,11 +696,11 @@ html.goals-view-hero .goals-credit {
 html.goals-view-hero .goals-credit a { color: inherit; }
 /* Above the voice widget's controls (12px up and 38px tall, initFullscreenVoice() in localsite.js) when they show,
    and hidden while they open anything above their row (captions, typing, settings, the play pill: data-open). */
-html.goals-view-hero body:has(.claude-voice-ui) .goals-credit { bottom: 80px; }
-html.goals-view-hero body:has(.claude-voice-ui[data-open]) .goals-credit { visibility: hidden; }
-/* The voice widget's floating words (.claude-voice-words, engine/claude-voice.js) fill #fullscreen, behind the
+html.goals-view-hero body:has(.voice-chat-ui) .goals-credit { bottom: 80px; }
+html.goals-view-hero body:has(.voice-chat-ui[data-open]) .goals-credit { visibility: hidden; }
+/* The voice widget's floating words (.voice-chat-words, engine/js/voice-chat.js) fill #fullscreen, behind the
    page, so they show only while the tabs are down (goals-main-dropped), not hidden behind the panels above. */
-body:has(#goalsPage:not(.goals-main-dropped)) #fullscreen > .claude-voice-words { visibility: hidden; }
+body:has(#goalsPage:not(.goals-main-dropped)) #fullscreen > .voice-chat-words { visibility: hidden; }
 /* The Earth map, or another layer over the photos (goals-hero-covered, goals.js), covers the credit too. */
 html.goals-view-hero #fullscreen.goals-hero-covered ~ .goals-credit { visibility: hidden; }
 /* Hidden on narrow windows, where it would crowd the page. The credit is fixed to the window, and the body

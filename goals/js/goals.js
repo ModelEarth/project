@@ -237,9 +237,9 @@ function nextHero() {
 // #fullscreen holds the photos and, once localsite's .showEarth opens it, the
 // Earth map (#mainEarthDisplay) over them. While it or another layer covers
 // them, the photos stop changing, and the play button is the map's. The voice
-// widget's canvas and words (claude-voice-*, engine/claude-voice.js) don't count.
+// widget's canvas and words (voice-chat-*, engine/js/voice-chat.js) don't count.
 function heroCovered() {
-  return [...$("fullscreen").children].some((el) => el.id !== "heroBg" && el.id !== "earthPlayPauseButton" && !/\bclaude-voice-/.test(el.getAttribute("class") || "") && !el.hidden && el.style.display !== "none" && getComputedStyle(el).display !== "none");
+  return [...$("fullscreen").children].some((el) => el.id !== "heroBg" && el.id !== "earthPlayPauseButton" && !/\bvoice-chat-/.test(el.getAttribute("class") || "") && !el.hidden && el.style.display !== "none" && getComputedStyle(el).display !== "none");
 }
 function syncHero() {
   const covered = heroCovered();
@@ -811,7 +811,7 @@ function initFilterCatch() {
 // The voice widget's typing box and replies, and the Earth map's controls in its lower left (the
 // filters panel the tune circle opens and the date's picker, which mark <html> earthControlsOpen
 // and earthDateOpen, localsite.js) take turns: the widget's text opening closes the map's
-// controls, and the map's controls opening hides the widget's text (ClaudeVoice.hideText).
+// controls, and the map's controls opening hides the widget's text (VoiceChat.hideText).
 // Notes, such as "I'm listening.", don't count as text.
 function initControlTurns() {
   const html = document.documentElement;
@@ -824,11 +824,11 @@ function initControlTurns() {
   let wasMap = mapOpen();
   new MutationObserver(() => {
     const now = mapOpen();
-    if (now && !wasMap && typeof window.ClaudeVoice?.hideText === "function") window.ClaudeVoice.hideText();
+    if (now && !wasMap && typeof window.VoiceChat?.hideText === "function") window.VoiceChat.hideText();
     wasMap = now;
   }).observe(html, { attributes: true, attributeFilter: ["class"] });
   if (typeof window.onElmReady !== "function") return;
-  window.onElmReady(".claude-voice-ui", (ui) => {
+  window.onElmReady(".voice-chat-ui", (ui) => {
     let wasText = textOpen(ui);
     new MutationObserver(() => {
       const now = textOpen(ui);
@@ -916,7 +916,7 @@ function initSideToggles() {
     if (source) source.after(open); else home.prepend(open);
   }
   // The voice widget's events don't bubble up from its target (#fullscreen), so they're heard capturing.
-  document.addEventListener("claude-voice:state", (e) => {
+  document.addEventListener("voice-chat:state", (e) => {
     if (e.detail?.state !== "speaking" || $("goalsAside").hidden) return;
     shutNow.add($("goalsMain").dataset.tab);
     placeSides();
@@ -1055,13 +1055,13 @@ function initMoreTabs() {
 // its usual place. It's placed again when tab= changes, and on resize while
 // it's docked with no tab=, so a manual drag or the arrow's raise stays put
 // through other hash changes (earth=, data=) and resizes. The voice widget's keys
-// panel (engine/claude-voice.js, after #earthFilterCatch) brings it back too while it's
+// panel (engine/js/voice-chat.js, after #earthFilterCatch) brings it back too while it's
 // open, as from an #edit=keys link, so its fields show under the tabs.
 const MAIN_DOCK = 89;
 let dropTab = null; // The hash's tab= when the column was last placed
 let mainDocked = false; // At the docked place, not moved by a drag or the arrow
 function syncMainDrop(animate = false, refit = false) {
-  const t = hashParams().tab || ($("goalsMain").querySelector(":scope > .claude-voice-keys") ? "keys" : "");
+  const t = hashParams().tab || ($("goalsMain").querySelector(":scope > .voice-chat-keys") ? "keys" : "");
   if (t === dropTab && !(refit && !t && mainDocked)) return;
   dropTab = t;
   mainDocked = !t;
@@ -1100,8 +1100,8 @@ function mainDropMin() {
 // answer by voice. Without engine/js/talk-circle.js (the standalone goals Worker), there's no circle.
 function initTalkCircle() {
   if (!window.TalkCircle) return;
-  TalkCircle.init({ parent: $("goalsPage"), place: talkCirclePlace, avoid: ".claude-voice-ui, .goals-credit" });
-  document.addEventListener("claude-voice:state", syncPagesButton, true); // The widget's controls are in
+  TalkCircle.init({ parent: $("goalsPage"), place: talkCirclePlace, avoid: ".voice-chat-ui, .goals-credit" });
+  document.addEventListener("voice-chat:state", syncPagesButton, true); // The widget's controls are in
 }
 // The talk circle's place (TalkCircle.init in initTalkCircle): while the tabs are at (or near) the window's bottom in the
 // hero view, with room for the circle, over the photos or the Earth map. It's centered over the tabs (the left column),
@@ -1135,7 +1135,7 @@ function talkCirclePlace(area) {
 function syncPagesButton() {
   const btn = $("goalsPagesBtn");
   if (!btn) return;
-  const row = document.querySelector(".claude-voice-ui")?.shadowRoot?.querySelector(".row")?.getBoundingClientRect();
+  const row = document.querySelector(".voice-chat-ui")?.shadowRoot?.querySelector(".row")?.getBoundingClientRect();
   const tabs = document.querySelector(".goals-tabs").getBoundingClientRect(), top = tabsPlace().top + mainDrop;
   const crowded = mainDrop > 0 && !!row && row.width > 0
     && tabs.left < row.right && row.left < tabs.right && top < row.bottom && row.top < top + tabs.height;
@@ -1593,7 +1593,7 @@ async function start() {
   for (const b of document.querySelectorAll(".goals-tabs button[data-tab]")) b.addEventListener("click", () => {
     const selected = b.getAttribute("aria-selected") === "true";
     closeEarthFilters();
-    document.querySelector(".claude-voice-keys-close")?.click(); // The voice widget's keys panel, after #earthFilterCatch (engine/claude-voice.js)
+    document.querySelector(".voice-chat-keys-close")?.click(); // The voice widget's keys panel, after #earthFilterCatch (engine/js/voice-chat.js)
     if (selected && $("goalsMainArrow")) $("goalsMainArrow").click();
     else showTab(b.dataset.tab);
   });
