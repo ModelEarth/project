@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link type="text/css" rel="stylesheet" href="/localsite/css/base.css" id="/localsite/css/base.css" />
-<link type="text/css" rel="stylesheet" href="/engine/css/engine.css" />
+<link type="text/css" rel="stylesheet" href="/engine/css/talk-circle.css" />
 <link type="text/css" rel="stylesheet" href="/localsite/css/craft.css" />
 <script type="text/javascript" src="/engine/js/talk-circle.js"></script>
 <style>
@@ -18,7 +18,7 @@
 .talk-circle-area > .talk-circle-hide .craft-hero { padding-top: 0; }
 .talk-circle-area > .talk-circle-hide .craft-title { margin: 18px 0 0 0; }
 /* The title takes clicks, so it can be selected and right-clicked to inspect, rather than passing them through
-   (with the rest of .talk-circle-area, engine.css) to #fullscreen beneath. */
+   (with the rest of .talk-circle-area, localsite/css/base.css) to #fullscreen beneath. */
 .talk-circle-area > .talk-circle-hide { pointer-events: auto; }
 </style>
 <!-- defaultlook=dark: dark mode unless the visitor has picked Light (localsite.js setSitelook) -->
@@ -29,10 +29,10 @@ loadMarkdown("README.md", "readmeDiv", "_parent");
 </head>
 
 <body>
-<!-- #fullscreen: fixed behind the header, search filters and page (engine/css/engine.css). Since it's here,
+<!-- #fullscreen.fullscreen-fixed: fixed behind the header, search filters and page (localsite/css/base.css). Since it's here,
      localsite.js adds the voice widget (engine/js/voice-chat.js, named by fullscreenVoice in support/site/config.yaml),
      whose canvas and floating words fill it and whose controls sit in its lower right. -->
-<div id="fullscreen"></div>
+<div id="fullscreen" class="fullscreen-fixed"></div>
 <!-- The first screen, over #fullscreen. -->
 <div class="over-fullscreen content contentpadding">
   <!-- The talk circle (engine/js/talk-circle.js), centered in the first screen, with questions for seniors living
@@ -41,7 +41,7 @@ loadMarkdown("README.md", "readmeDiv", "_parent");
     <!-- The title below the circle, which stays the same distance from it, styled like StudioCraft's
          (localsite/css/craft.css, from webroot/desktop). It sits on the voice widget's dark canvas in light mode too,
          so .dark keeps craft.css's light text for it. It fades away while a conversation from the circle is on
-         (.talk-circle-hide, engine/css/engine.css). -->
+         (.talk-circle-hide, engine/css/talk-circle.css). -->
     <div class="dark talk-circle-hide">
       <div class="craft craft-hero">
         <h1 class="craft-title craft-title-shadow" id="careTitle"><span class="craft-title-bright">Care</span><em>Craft</em></h1>

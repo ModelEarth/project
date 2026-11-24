@@ -390,8 +390,8 @@ body.standalone { margin: 0; background: #f9f9f7; }
 body { --fullscreen-height: calc(100vh - var(--header-h, var(--headerbar-offset, 0px))); }
 .goals { box-sizing: border-box; min-height: var(--fullscreen-height); }
 /* #fullscreen is fixed over the whole window, behind the header and the search
-   filters, which are raised above it (engine/css/engine.css). The Earth map's circles
-   start below where #goalsPage starts (--header-h, engine.css). The footer covers it
+   filters, which are raised above it (.fullscreen-fixed, localsite/css/base.css). The Earth map's circles
+   start below where #goalsPage starts (--header-h, base.css). The footer covers it
    at the page's bottom edge, along with a lowered column and the photo credit there.
    It holds the photos (.goals-bg), the Earth map once .showEarth opens it (localsite's
    placeEarthDisplay()) and the play button (base.css places both). The photos stay
@@ -659,9 +659,9 @@ html.goals-view-hero .goals-bg {
 }
 #fullscreen.goals-hero-covered .goals-bg-atmosphere { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { .goals-bg-atmosphere { animation: none; } }
-/* The talk circle (engine/js/talk-circle.js, styled in engine/css/engine.css): while the tabs sit at the window's
+/* The talk circle (engine/js/talk-circle.js, styled in engine/css/talk-circle.css): while the tabs sit at the window's
    bottom, its area is fixed in the space above them, centered over them (the left column) and no wider (goals.js placeTalkCircle).
-   Its empty space lets clicks through, as in engine.css, since .goals > :not(.goals-row) above would otherwise give it
+   Its empty space lets clicks through, as in talk-circle.css, since .goals > :not(.goals-row) above would otherwise give it
    pointer-events: auto. Hidden, it keeps its box, so when the tabs move up it would cover the tabs and form beneath it. */
 #goalsPage > .talk-circle-area {
   position: fixed; left: var(--talk-left, 0px); width: var(--talk-w, 100%); top: var(--talk-top, 0px); height: var(--talk-h, 0px); z-index: 1;
