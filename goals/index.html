@@ -23,6 +23,8 @@
 <script>
 // view=hero (default) or view=center, set before first paint to avoid a flash.
 document.documentElement.classList.toggle("goals-view-hero", !/(^|[#&])view=center(&|$)/.test(location.hash));
+// Without a tab= in the hash, the tabs start minimized (.mapoverlay, localsite's setMapOverlayHidden(), called in goals.js).
+document.documentElement.classList.toggle("mapoverlayHidden", !/(^|[#&])tab=/.test(location.hash));
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -45,9 +47,11 @@ document.addEventListener("DOMContentLoaded", function () {
 <!-- #goalsMain holds the tabs and panels. On wide windows the active panel's
      side column (figures) moves into #goalsAside, to its right; one marked
      goals-side-bottom (Community Data) moves into #goalsBottom, across the bottom (goals.js).
-     container: localsite/css/base.css's .container a turns off the link underline. -->
+     container: localsite/css/base.css's .container a turns off the link underline.
+     .goals-row is .mapoverlay: it closes while the Earth map is in use, with localsite's mini nav pill, right of the
+     map's controls bar, to bring it back (setMapOverlayHidden() in localsite.js). -->
 <div class="goals container" id="goalsPage">
-<div class="goals-row">
+<div class="goals-row mapoverlay">
 <div class="goals-col" id="goalsMain" data-tab="goals">
 
   <!-- Filled from the event's topinfo_label and topinfo_text (events/next.yaml). -->

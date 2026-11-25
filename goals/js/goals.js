@@ -282,11 +282,15 @@ function heroArrowKeys(e) {
 }
 // How far #goalsPage starts below the top of the page, as --header-h for
 // --fullscreen-height (goals.css), the min-heights that keep the footer below
-// the fold. Rechecked when the page resizes.
+// the fold. Rechecked when the page resizes. Not counting localsite's countries,
+// states or counties panel, while it pushes #fullscreen and the page down
+// (--fullscreen-pushed, .fullscreenPushed in localsite/css/base.css). Then
+// #fullscreen's top is measured, where the page is moved up to.
 function fitPageHeight() {
-  const g = $("goalsPage");
-  const top = Math.max(0, Math.round(g.getBoundingClientRect().top + window.scrollY));
   const root = document.documentElement;
+  const pushed = root.classList.contains("fullscreenPushed") ? parseFloat(root.style.getPropertyValue("--fullscreen-pushed")) || 0 : 0;
+  const g = pushed ? $("fullscreen") : $("goalsPage");
+  const top = Math.max(0, Math.round(g.getBoundingClientRect().top + window.scrollY - pushed));
   if (root.style.getPropertyValue("--header-h") !== `${top}px`) root.style.setProperty("--header-h", `${top}px`);
 }
 
@@ -783,7 +787,7 @@ function markButtons(selected) {
 }
 
 // #earthFilterCatch, after the tabs, holds localsite's Earth map filters panel
-// (#mainEarthFilters), which earth-filters.js moves into it whenever it places the panel.
+// (#beanPanel), which earth-filters.js moves into it whenever it places the panel.
 // While the panel shows there, the column is the filters': no tab is highlighted and the
 // tabs' content hides (goals-filters-caught, goals.css). A tab closes the panel.
 // The panel opens with the map (as from geoview=earth in the URL), but here it waits until it's
@@ -794,7 +798,7 @@ function initFilterCatch() {
   document.querySelector(".goals-tabs").after(filterCatch);
   let asked = false;
   const sync = () => {
-    const panel = $("mainEarthFilters");
+    const panel = $("beanPanel");
     if (document.documentElement.classList.contains("earthControlsOpen") || panel?.classList.contains("ef-closed")) asked = true;
     const shown = asked && !!panel && panel.parentElement === filterCatch && !panel.classList.contains("ef-closed") && panel.style.display !== "none";
     filterCatch.hidden = !shown;
@@ -964,7 +968,15 @@ function initMainGrip() {
   tri.innerHTML = '<path d="M7.5 0L15 8H0z"/>';
   const arrow = node("button", { type: "button", id: "goalsMainArrow", class: "goals-main-arrow" },
     node("span", { "aria-hidden": "true" }, tri));
-  tabs.append(arrow);
+  // Under the triangle, a back arrow that minimizes the tabs to localsite's mini nav pill (setMapOverlayHidden()).
+  const ctrls = node("div", { class: "goals-main-ctrls" }, arrow);
+  if (typeof window.setMapOverlayHidden === "function") {
+    const back = node("button", { type: "button", id: "goalsMinimize", class: "goals-main-min", title: "Minimize", "aria-label": "Minimize" },
+      node("span", { "aria-hidden": "true" }, tri.cloneNode(true))); // The same triangle, turned to point left (goals.css)
+    back.addEventListener("click", () => window.setMapOverlayHidden(true));
+    ctrls.append(back);
+  }
+  tabs.append(ctrls);
   arrow.addEventListener("click", () => { mainDocked = mainDrop <= 0; setMainDrop(mainDrop > 0 ? 0 : dockDrop(), true); });
   grip.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
@@ -1061,6 +1073,7 @@ const MAIN_DOCK = 89;
 let dropTab = null; // The hash's tab= when the column was last placed
 let mainDocked = false; // At the docked place, not moved by a drag or the arrow
 function syncMainDrop(animate = false, refit = false) {
+  if (overlayHidden()) return; // No tabs to place. Placed again as they come back (onResize).
   const t = hashParams().tab || ($("goalsMain").querySelector(":scope > .voice-chat-keys") ? "keys" : "");
   if (t === dropTab && !(refit && !t && mainDocked)) return;
   dropTab = t;
@@ -1114,6 +1127,7 @@ function placeTalkCircle() {
 function talkCirclePlace(area) {
   syncPagesButton();
   $("goalsPage").classList.toggle("goals-talk-ready", window.TalkCircle.count > 0 && heroView());
+  if (overlayHidden()) return talkCircleCentered(area);
   const tabsTop = tabsPlace().top + mainDrop;
   const tabs = document.querySelector(".goals-tabs").getBoundingClientRect();
   const top = Math.max(0, $("goalsPage").getBoundingClientRect().top) + 16;
@@ -1124,6 +1138,22 @@ function talkCirclePlace(area) {
     area.style.setProperty("--talk-left", `${Math.round(tabs.left)}px`);
     area.style.setProperty("--talk-w", `${Math.round(tabs.width)}px`);
     area.style.setProperty("--talk-h", `${Math.round(tabsTop - top - 16)}px`);
+    area.style.setProperty("--talk-d", `${size}px`);
+  }
+  return on;
+}
+// While the tabs are minimized (overlayHidden), the circle is centered in the window, above where the tabs dock.
+function talkCircleCentered(area) {
+  const top = Math.max(0, $("goalsPage").getBoundingClientRect().top) + 16;
+  const h = window.innerHeight - MAIN_DOCK - top;
+  const w = window.innerWidth - 32;
+  const size = Math.round(Math.min(h, w, 440));
+  const on = heroView() && size >= 220;
+  if (on) {
+    area.style.setProperty("--talk-top", `${Math.round(top)}px`);
+    area.style.setProperty("--talk-left", "16px");
+    area.style.setProperty("--talk-w", `${w}px`);
+    area.style.setProperty("--talk-h", `${Math.round(h)}px`);
     area.style.setProperty("--talk-d", `${size}px`);
   }
   return on;
@@ -1530,7 +1560,12 @@ function initPlan() {
 
 // --- Start ------------------------------------------------------------------------------
 
+// The tabs (.goals-row, a .mapoverlay) are minimized to localsite's mini nav pill: on load without a tab= (index.html),
+// and while the Earth map is in use (localsite.js setMapOverlayHidden()).
+const overlayHidden = () => document.documentElement.classList.contains("mapoverlayHidden");
 async function start() {
+  if (typeof window.setMapOverlayHidden === "function") window.setMapOverlayHidden(overlayHidden());
+  else document.documentElement.classList.remove("mapoverlayHidden"); // Without localsite (standalone), no pill
   DEFAULTS.title = $("goalsTitle").textContent;
   DEFAULTS.eyebrow = $("goalsEyebrow").textContent;
   DEFAULTS.lede = $("goalsLede").textContent;
@@ -1554,9 +1589,11 @@ async function start() {
     });
   }
   // Respond to hash edits: localsite's hashChangeEvent when loaded, else hashchange.
-  let lastEvent = hashParams().event || "", lastView = hashParams().view || "";
+  let lastEvent = hashParams().event || "", lastView = hashParams().view || "", lastTab = hashParams().tab || "";
   const onHash = async () => {
     const h = hashParams();
+    if (h.tab && overlayHidden() && h.tab !== lastTab) window.setMapOverlayHidden?.(false);
+    lastTab = h.tab || "";
     if ((h.event || "") !== lastEvent) { lastEvent = h.event || ""; await applyEvent(); lastView = null; }
     if (lastView === null || (h.view || "") !== lastView) { lastView = h.view || ""; applyView(); }
     if (modeOf(h.data) !== dataMode) setDataMode(h.data);
@@ -1574,11 +1611,17 @@ async function start() {
   if (window.ResizeObserver) {
     // #goalsMain and the localsite header too: a side tab (sidetab=) can shorten
     // the header while the page's fullscreen height grows to match, leaving the
-    // body's size, but not the column's place, unchanged.
+    // body's size, but not the column's place, unchanged. And localsite's #datascape
+    // above the page, where geoview's countries, states and counties panel opens,
+    // and #fullscreen, which that panel pushes down into the page's flow.
     const ro = new ResizeObserver(onResize);
     ro.observe(document.body);
     ro.observe($("goalsMain"));
-    if (typeof window.onElmReady === "function") window.onElmReady("#main-header", (h) => ro.observe(h));
+    ro.observe($("fullscreen"));
+    if (typeof window.onElmReady === "function") {
+      window.onElmReady("#main-header", (h) => ro.observe(h));
+      window.onElmReady("#datascape", (d) => ro.observe(d));
+    }
   } else window.addEventListener("resize", onResize);
   WIDE.addEventListener?.("change", placeSides);
   // The Earth map arriving in #fullscreen, or showing and hiding there, stops or restarts the photos.

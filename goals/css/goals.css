@@ -291,6 +291,8 @@ body.standalone { margin: 0; background: #f9f9f7; }
 .goals-pages-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .goals-pages-btn[hidden] { display: none; }
 .goals-pages-btn svg { width: 20px; height: 20px; fill: currentColor; } /* A vertical three-dot menu icon */
+/* The bean (localsite's #beanToggle, in the lower left too) goes to its right while it shows. */
+html:has(#goalsPage.goals-tabs-paged) #beanToggle { left: 56px; }
 /* Short tab titles while the tabs bar is under 800px wide: Quality,
    without its .goals-tab-extra word. Under 500px also Plan,
    without its .goals-tab-extra-sm word. Under 600px, less space
@@ -308,6 +310,15 @@ body.standalone { margin: 0; background: #f9f9f7; }
    (raise it), turned to point down once it's up (dock it). */
 .goals-tabs .goals-main-arrow { flex: none; padding: 10px 13px; font-size: 12px; line-height: 1; color: var(--ink-2); border-bottom-color: transparent; opacity: 0.4; transition: opacity 0.15s; }
 .goals-tabs .goals-main-arrow:hover, .goals-tabs .goals-main-arrow:focus-visible { color: var(--ink); opacity: 1; }
+/* The triangle a little above the middle of the bar, with the back arrow that minimizes the tabs under it (goals.js). */
+.goals-main-ctrls { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+/* While a tab's panel shows (any tab but Goals), the back arrow hides and the triangle is back in the middle of the bar. */
+.goals:has(.goals-panel:not([hidden])) .goals-main-min { display: none; }
+.goals:not(:has(.goals-panel:not([hidden]))) .goals-main-ctrls:has(> .goals-main-min) > .goals-main-arrow { padding-top: 0; padding-bottom: 0; }
+.goals-tabs .goals-main-min { flex: none; padding: 0 13px; line-height: 1; color: var(--ink-2); border-bottom-color: transparent; opacity: 0.4; transition: opacity 0.15s; }
+.goals-tabs .goals-main-min:hover, .goals-tabs .goals-main-min:focus-visible { color: var(--ink); opacity: 1; }
+.goals-main-min > span { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 12px; vertical-align: middle; transform: rotate(-90deg); }
+.goals-main-min svg { display: block; width: 15px; height: 8px; fill: currentColor; }
 /* A wide triangle (goals.js), centered in a box one line tall. */
 .goals-main-arrow > span { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 12px; vertical-align: middle; transition: transform 0.25s ease; }
 .goals-main-arrow svg { display: block; width: 15px; height: 8px; fill: currentColor; }
@@ -402,10 +413,13 @@ body { --fullscreen-height: calc(100vh - var(--header-h, var(--headerbar-offset,
    #goalsPage, so the expanded controls show over the page's column. The search filters stay above it. */
 html.earthDateOpen #fullscreen { z-index: 2; }
 html:not(.goals-view-hero) #fullscreen:not(.goals-hero-covered) { display: none; }
+/* While localsite's countries, states or counties panel pushes #fullscreen down (.fullscreenPushed, base.css),
+   the page moves up over it by its height. */
+html.fullscreenPushed #goalsPage { margin-top: calc(-1 * var(--fullscreen-pushed-h, 0px)); }
 /* The play button's look is in localsite/css/base.css, with its icon font, so
    it's left out without localsite (standalone). */
 body.standalone #earthPlayPauseButton { display: none; }
-/* The Earth map filters (#mainEarthFilters) in #earthFilterCatch, after the tabs (goals.js). While they show
+/* The Earth map filters (#beanPanel) in #earthFilterCatch, after the tabs (goals.js). While they show
    there, the tabs' content hides, with no tab highlighted. The catch has no box of its own around the filters'. */
 .goals-filters-caught #goalsMain > .goals-hero,
 .goals-filters-caught #goalsMain > .goals-results,
@@ -420,7 +434,7 @@ body.standalone #earthPlayPauseButton { display: none; }
 .goals:has(.voice-chat-keys) #goalsAside,
 .goals:has(.voice-chat-keys) #goalsBottom { display: none; }
 html.goals-view-hero #goalsMain > #earthFilterCatch { padding: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
-#earthFilterCatch > #mainEarthFilters { margin-top: 0; padding: 0 !important; } /* Over the inline padding for under the map */
+#earthFilterCatch > #beanPanel { margin-top: 0; padding: 0 !important; } /* Over the inline padding for under the map */
 /* The page's empty space lets clicks through to #fullscreen beneath (the map),
    while its columns and their contents take them. */
 .goals, .goals-row, #goalsMain { pointer-events: none; }
@@ -682,6 +696,9 @@ html.goals-view-hero .goals-bg {
   animation: talk-circle-swell 6s ease-in-out infinite;
 }
 .goals-talk-ready:not(.goals-main-dropped) .goals-main-arrow > span::after { box-shadow: 0 0 6px rgba(90, 170, 255, 0.35); animation: talk-circle-ripple 6s ease-out infinite; }
+/* Smaller with the back arrow under it, so it clears it. */
+.goals-talk-ready:not(.goals-main-dropped):not(:has(.goals-panel:not([hidden]))) .goals-main-ctrls:has(> .goals-main-min) .goals-main-arrow > span::before,
+.goals-talk-ready:not(.goals-main-dropped):not(:has(.goals-panel:not([hidden]))) .goals-main-ctrls:has(> .goals-main-min) .goals-main-arrow > span::after { width: 28px; height: 28px; margin: -14px 0 0 -14px; }
 @media (prefers-reduced-motion: reduce) {
   .goals-talk-ready:not(.goals-main-dropped) .goals-main-arrow > span::before { animation: none; }
   .goals-talk-ready:not(.goals-main-dropped) .goals-main-arrow > span::after { display: none; }
